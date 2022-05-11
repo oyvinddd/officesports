@@ -46,11 +46,12 @@ extension UITableView {
 
 extension UIStackView {
     
-    class func createStackView(_ backgroundColor: UIColor, axis: NSLayoutConstraint.Axis) -> UIStackView {
+    class func createStackView(_ backgroundColor: UIColor, axis: NSLayoutConstraint.Axis, spacing: CGFloat = 0) -> UIStackView {
         let stackView = UIStackView(frame: .zero)
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.distribution = .fillProportionally
+        stackView.distribution = .fillEqually
         stackView.backgroundColor = backgroundColor
+        stackView.spacing = spacing
         stackView.axis = axis
         return stackView
     }
@@ -86,6 +87,7 @@ extension UIImageView {
     
     class func createImageView(_ image: UIImage?) -> UIImageView {
         let imageView = UIImageView(image: image)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         return imageView
     }

@@ -10,7 +10,16 @@ import UIKit
 private let profileImageDimater: CGFloat = 128
 private let profileImageRadius: CGFloat = profileImageDimater / 2
 
+private let codeTransitionDuration: TimeInterval = 0.4
+
 final class ProfileView: UIView {
+    
+    private lazy var codeImageView: UIImageView = {
+        let image = CodeGen.generateQRCode(from: "Hello, world!")
+        let imageView = UIImageView.createImageView(image!)
+        imageView.alpha = 0
+        return imageView
+    }()
     
     private lazy var profileImageWrap: UIView = {
         let imageWrap = UIView.createView(.white)
@@ -31,7 +40,7 @@ final class ProfileView: UIView {
     }()
     
     private lazy var usernameLabel: UILabel = {
-        let label = UILabel.createLabel(.black, alignment: .center)
+        let label = UILabel.createLabel(UIColor.OfficeSports.text, alignment: .center)
         label.font = UIFont.boldSystemFont(ofSize: 32)
         return label
     }()
@@ -41,6 +50,8 @@ final class ProfileView: UIView {
         label.font = UIFont.systemFont(ofSize: 24)
         return label
     }()
+    
+    private var isDisplayingCode: Bool = false
     
     init(account: OSAccount) {
         super.init(frame: .zero)
@@ -54,7 +65,21 @@ final class ProfileView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func displayQrCode(seconds: Int) {
+        guard !isDisplayingCode else {
+            return
+        }
+        isDisplayingCode = true
+        UIView.animate(withDuration: codeTransitionDuration, delay: 0, options: [UIView.AnimationOptions.curveEaseOut]) { [weak self] in
+            self?.profileImageWrap.alpha = 0
+            self?.codeImageView.alpha = 1
+        } completion: { [weak self] _ in
+            self?.isDisplayingCode = false
+        }
+    }
+    
     private func setupChildViews() {
+        addSubview(codeImageView)
         addSubview(profileImageWrap)
         profileImageWrap.addSubview(profileImageBackground)
         addSubview(usernameLabel)
@@ -62,8 +87,12 @@ final class ProfileView: UIView {
         
         NSLayoutConstraint.pinToView(profileImageBackground, profileEmjoiLabel)
         NSLayoutConstraint.activate([
-            profileImageWrap.widthAnchor.constraint(equalToConstant: 128),
-            profileImageWrap.topAnchor.constraint(equalTo: topAnchor, constant: 32),
+            codeImageView.widthAnchor.constraint(equalToConstant: profileImageDimater),
+            codeImageView.heightAnchor.constraint(equalTo: codeImageView.widthAnchor),
+            codeImageView.centerXAnchor.constraint(equalTo: profileImageWrap.centerXAnchor),
+            codeImageView.centerYAnchor.constraint(equalTo: profileImageWrap.centerYAnchor),
+            profileImageWrap.widthAnchor.constraint(equalToConstant: profileImageDimater),
+            profileImageWrap.topAnchor.constraint(equalTo: topAnchor, constant: 16),
             profileImageWrap.heightAnchor.constraint(equalTo: profileImageWrap.widthAnchor),
             profileImageWrap.centerXAnchor.constraint(equalTo: centerXAnchor),
             profileImageBackground.leftAnchor.constraint(equalTo: profileImageWrap.leftAnchor, constant: 8),
@@ -72,7 +101,7 @@ final class ProfileView: UIView {
             profileImageBackground.bottomAnchor.constraint(equalTo: profileImageWrap.bottomAnchor, constant: -8),
             usernameLabel.leftAnchor.constraint(equalTo: leftAnchor),
             usernameLabel.rightAnchor.constraint(equalTo: rightAnchor),
-            usernameLabel.topAnchor.constraint(equalTo: profileImageWrap.bottomAnchor, constant: 16),
+            usernameLabel.topAnchor.constraint(equalTo: profileImageWrap.bottomAnchor, constant: 8),
             totalScoreLabel.leftAnchor.constraint(equalTo: leftAnchor),
             totalScoreLabel.rightAnchor.constraint(equalTo: rightAnchor),
             totalScoreLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 6),
@@ -83,6 +112,6 @@ final class ProfileView: UIView {
     private func configureUI(account: OSAccount) {
         profileEmjoiLabel.text = "😭"
         usernameLabel.text = account.username.lowercased()
-        totalScoreLabel.text = "\(account.totalScore) pts"
+        totalScoreLabel.text = "\(account.totalFoosballScore) pts"
     }
 }

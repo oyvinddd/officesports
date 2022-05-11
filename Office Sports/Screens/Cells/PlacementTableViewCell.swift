@@ -26,7 +26,9 @@ final class PlacementTableViewCell: UITableViewCell {
     }()
     
     private lazy var placementLabel: UILabel = {
-        return UILabel.createLabel(.black)
+        let label = UILabel.createLabel(UIColor.OfficeSports.text)
+        label.font = UIFont.boldSystemFont(ofSize: 18)
+        return label
     }()
     
     private lazy var usernameLabel: UILabel = {
@@ -53,7 +55,7 @@ final class PlacementTableViewCell: UITableViewCell {
     
     func setPlayerAndPlacement(_ player: OSPlayer, _ placement: Int) {
         profileEmojiLabel.text = "🤬"
-        usernameLabel.text = usernameText(player.username, placement)
+        usernameLabel.text = player.username.lowercased()
         scoreLabel.text = "\(player.foosballScore) pts"
         placementLabel.text = placementText(placement)
     }
@@ -106,22 +108,17 @@ final class PlacementTableViewCell: UITableViewCell {
         backgroundColor = .clear
         selectionStyle = .none
     }
-    
-    private func usernameText(_ username: String, _ placement: Int) -> String {
-        switch placement {
-        case 0: return "\(username) 🥇"
-        case 1: return "\(username) 🥈"
-        case 2: return "\(username) 🥉"
-        default: return username
-        }
-    }
-    
+
     private func placementText(_ placement: Int) -> String {
         switch placement {
-        case 0: return "\(placement + 1)st"
-        case 1: return "\(placement + 1)nd"
-        case 2: return "\(placement + 1)rd"
-        default: return "\(placement + 1)th"
+        case 0:
+            return "🥇"
+        case 1:
+            return "🥈"
+        case 2:
+            return "🥉"
+        default:
+            return "\(placement + 1)th"
         }
     }
 }

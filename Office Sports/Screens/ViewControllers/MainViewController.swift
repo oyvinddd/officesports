@@ -10,9 +10,7 @@ import UIKit
 final class MainViewController: UIViewController {
     
     private lazy var profileView: ProfileView = {
-        let profileView = ProfileView(account: OSAccount.current)
-        profileView.backgroundColor = .red
-        return profileView
+        return ProfileView(account: OSAccount.current)
     }()
     
     private lazy var scrollView: UIScrollView = {
@@ -24,7 +22,7 @@ final class MainViewController: UIViewController {
     }()
     
     private lazy var floatingMenu: FloatingMenu = {
-        return FloatingMenu()
+        return FloatingMenu(delegate: self)
     }()
     
     private lazy var foosballViewController: SportViewController = {
@@ -96,11 +94,38 @@ final class MainViewController: UIViewController {
     }
     
     private func configureTableViewInsets() {
-        let padding: CGFloat = 16
+        let padding: CGFloat = 32
         let profileMaxY = profileView.bounds.maxY + padding
         let menuMinY = floatingMenu.bounds.maxY + padding
         let contentInset = UIEdgeInsets(top: profileMaxY, left: 0, bottom: menuMinY, right: 0)
         foosballViewController.applyContentInsetToTableView(contentInset)
         tableTennisViewController.applyContentInsetToTableView(contentInset)
+    }
+}
+
+// MARK: - Floating Menu Delegate Conformance
+
+extension MainViewController: FloatingMenuDelegate {
+    
+    func settingsButtonTapped() {
+    }
+    
+    func displayCodeButtonTapped() {
+        profileView.displayQrCode(seconds: 0)
+    }
+    
+    func registerMatchButtonTapped() {
+    }
+    
+    func changeSportsButtonTapped() {
+        let foosballFrame = foosballViewController.view.frame
+        let tableTennisFrame = tableTennisViewController.view.frame
+        let xOffset = scrollView.contentOffset.x
+        
+        guard xOffset == 0 || xOffset == tableTennisFrame.minX else {
+            return
+        }
+        let frame = xOffset > 0 ? foosballFrame : tableTennisFrame
+        scrollView.scrollRectToVisible(frame, animated: true)
     }
 }

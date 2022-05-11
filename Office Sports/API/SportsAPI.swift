@@ -9,5 +9,7 @@ import Foundation
 
 final class SportsAPI {
     
-    
+    static func registerNickname(nickname: String) {
+        
+    }
 }

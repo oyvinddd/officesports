@@ -9,15 +9,17 @@ import Foundation
 
 struct OSAccount: Codable {
     
-    static let current = OSAccount(accountId: "123", username: "oyvindhauge", totalScore: 1800)
+    static let current = OSAccount(accountId: "id#123", username: "o_hauge", totalFoosballScore: 2100, totalTableTennisScore: 800)
     
     var accountId: String
     
     var username: String
     
-    var totalScore: Int
+    var totalFoosballScore: Int
+    
+    var totalTableTennisScore: Int
     
     var loggedIn: Bool {
-        return false
+        return true
     }
 }

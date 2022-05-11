@@ -22,7 +22,6 @@ final class ScannerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        //UITextField.createView(backgroundColor: .red)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -31,7 +30,7 @@ final class ScannerViewController: UIViewController {
     }
     
     private func setupAndStartCaptureSession() {
-        //DispatchQueue.global(qos: .userInitiated).async {
+        // DispatchQueue.global(qos: .userInitiated).async {
             
             // init capture session
             self.captureSession = AVCaptureSession()
@@ -56,7 +55,7 @@ final class ScannerViewController: UIViewController {
                 metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
                 metadataOutput.metadataObjectTypes = [.ean8, .ean13, .pdf417, .aztec]
             } else {
-                //failed()
+                // failed()
                 return
             }
             
@@ -68,7 +67,7 @@ final class ScannerViewController: UIViewController {
             
             // start the capture session (blocking)
             self.captureSession.startRunning()
-        //}
+        // }
     }
     
     private func createVideoInput() -> AVCaptureDeviceInput? {

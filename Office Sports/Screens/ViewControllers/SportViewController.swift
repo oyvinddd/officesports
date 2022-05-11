@@ -37,6 +37,10 @@ final class SportViewController: UIViewController {
     
     func applyContentInsetToTableView(_ contentInset: UIEdgeInsets) {
         tableView.contentInset = contentInset
+        // scroll table view all the way to the top, taking
+        // into consideration the custom content inset of the table view
+        let customOffset = CGPoint(x: 0, y: -tableView.contentInset.top)
+        tableView.setContentOffset(customOffset, animated: false)
     }
     
     private func setupChildViews() {
