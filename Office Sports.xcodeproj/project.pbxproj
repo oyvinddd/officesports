@@ -7,6 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8E70C112282ABA4E009A9452 /* NSLayoutConstraint+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C111282ABA4E009A9452 /* NSLayoutConstraint+Util.swift */; };
+		8E70C114282ABC56009A9452 /* SportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C113282ABC56009A9452 /* SportViewController.swift */; };
+		8E70C117282ABD3E009A9452 /* FloatingMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C116282ABD3E009A9452 /* FloatingMenu.swift */; };
+		8E70C119282ABD6F009A9452 /* UIKit+Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C118282ABD6F009A9452 /* UIKit+Factory.swift */; };
+		8E70C11C282AC3F2009A9452 /* ScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C11B282AC3F2009A9452 /* ScannerViewController.swift */; };
+		8E70C11F282AC499009A9452 /* OSMatchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C11E282AC499009A9452 /* OSMatchResult.swift */; };
+		8E70C121282AC510009A9452 /* OSPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C120282AC510009A9452 /* OSPlayer.swift */; };
+		8E70C124282AC949009A9452 /* PlacementTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C123282AC949009A9452 /* PlacementTableViewCell.swift */; };
+		8E70C126282ACCB5009A9452 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C125282ACCB5009A9452 /* ProfileView.swift */; };
+		8E70C129282ACE57009A9452 /* UIColor+App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C128282ACE57009A9452 /* UIColor+App.swift */; };
+		8E70C12B282ACEAF009A9452 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C12A282ACEAF009A9452 /* UIColor+Hex.swift */; };
+		8E70C12D282AD01A009A9452 /* UIView+Visuals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C12C282AD01A009A9452 /* UIView+Visuals.swift */; };
+		8E70C12F282AD0AE009A9452 /* UITableView+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C12E282AD0AE009A9452 /* UITableView+Util.swift */; };
+		8E70C132282AD1F0009A9452 /* ResultListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C131282AD1F0009A9452 /* ResultListViewModel.swift */; };
+		8E70C134282AD279009A9452 /* OSSport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C133282AD279009A9452 /* OSSport.swift */; };
+		8E70C136282ADF7A009A9452 /* OSAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C135282ADF7A009A9452 /* OSAccount.swift */; };
+		8E70C138282AEE2F009A9452 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C137282AEE2F009A9452 /* WelcomeViewController.swift */; };
+		8E70C13A282AEE7E009A9452 /* SportsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C139282AEE7E009A9452 /* SportsAPI.swift */; };
 		8EE61FEF282AB79C00C01289 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE61FEE282AB79C00C01289 /* AppDelegate.swift */; };
 		8EE61FF3282AB79C00C01289 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE61FF2282AB79C00C01289 /* MainViewController.swift */; };
 		8EE61FF8282AB79D00C01289 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EE61FF7282AB79D00C01289 /* Assets.xcassets */; };
@@ -14,6 +32,24 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8E70C111282ABA4E009A9452 /* NSLayoutConstraint+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Util.swift"; sourceTree = "<group>"; };
+		8E70C113282ABC56009A9452 /* SportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportViewController.swift; sourceTree = "<group>"; };
+		8E70C116282ABD3E009A9452 /* FloatingMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingMenu.swift; sourceTree = "<group>"; };
+		8E70C118282ABD6F009A9452 /* UIKit+Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIKit+Factory.swift"; sourceTree = "<group>"; };
+		8E70C11B282AC3F2009A9452 /* ScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerViewController.swift; sourceTree = "<group>"; };
+		8E70C11E282AC499009A9452 /* OSMatchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSMatchResult.swift; sourceTree = "<group>"; };
+		8E70C120282AC510009A9452 /* OSPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSPlayer.swift; sourceTree = "<group>"; };
+		8E70C123282AC949009A9452 /* PlacementTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacementTableViewCell.swift; sourceTree = "<group>"; };
+		8E70C125282ACCB5009A9452 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		8E70C128282ACE57009A9452 /* UIColor+App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+App.swift"; sourceTree = "<group>"; };
+		8E70C12A282ACEAF009A9452 /* UIColor+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
+		8E70C12C282AD01A009A9452 /* UIView+Visuals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Visuals.swift"; sourceTree = "<group>"; };
+		8E70C12E282AD0AE009A9452 /* UITableView+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Util.swift"; sourceTree = "<group>"; };
+		8E70C131282AD1F0009A9452 /* ResultListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultListViewModel.swift; sourceTree = "<group>"; };
+		8E70C133282AD279009A9452 /* OSSport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSSport.swift; sourceTree = "<group>"; };
+		8E70C135282ADF7A009A9452 /* OSAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSAccount.swift; sourceTree = "<group>"; };
+		8E70C137282AEE2F009A9452 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		8E70C139282AEE7E009A9452 /* SportsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportsAPI.swift; sourceTree = "<group>"; };
 		8EE61FEB282AB79C00C01289 /* Office Sports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Office Sports.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EE61FEE282AB79C00C01289 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8EE61FF2282AB79C00C01289 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -33,6 +69,74 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8E70C110282AB9BB009A9452 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8E70C111282ABA4E009A9452 /* NSLayoutConstraint+Util.swift */,
+				8E70C118282ABD6F009A9452 /* UIKit+Factory.swift */,
+				8E70C128282ACE57009A9452 /* UIColor+App.swift */,
+				8E70C12A282ACEAF009A9452 /* UIColor+Hex.swift */,
+				8E70C12C282AD01A009A9452 /* UIView+Visuals.swift */,
+				8E70C12E282AD0AE009A9452 /* UITableView+Util.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		8E70C115282ABCB9009A9452 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8E70C116282ABD3E009A9452 /* FloatingMenu.swift */,
+				8E70C125282ACCB5009A9452 /* ProfileView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8E70C11A282AC3DA009A9452 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				8EE61FF2282AB79C00C01289 /* MainViewController.swift */,
+				8E70C113282ABC56009A9452 /* SportViewController.swift */,
+				8E70C11B282AC3F2009A9452 /* ScannerViewController.swift */,
+				8E70C137282AEE2F009A9452 /* WelcomeViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		8E70C11D282AC424009A9452 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				8E70C11E282AC499009A9452 /* OSMatchResult.swift */,
+				8E70C120282AC510009A9452 /* OSPlayer.swift */,
+				8E70C133282AD279009A9452 /* OSSport.swift */,
+				8E70C135282ADF7A009A9452 /* OSAccount.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		8E70C122282AC92B009A9452 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				8E70C123282AC949009A9452 /* PlacementTableViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		8E70C127282ACD10009A9452 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				8E70C139282AEE7E009A9452 /* SportsAPI.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		8E70C130282AD1DE009A9452 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				8E70C131282AD1F0009A9452 /* ResultListViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		8EE61FE2282AB79C00C01289 = {
 			isa = PBXGroup;
 			children = (
@@ -52,6 +156,9 @@
 		8EE61FED282AB79C00C01289 /* Office Sports */ = {
 			isa = PBXGroup;
 			children = (
+				8E70C127282ACD10009A9452 /* API */,
+				8E70C11D282AC424009A9452 /* Entities */,
+				8E70C110282AB9BB009A9452 /* Extensions */,
 				8EE62002282AB7AA00C01289 /* Screens */,
 				8EE61FEE282AB79C00C01289 /* AppDelegate.swift */,
 				8EE61FF7282AB79D00C01289 /* Assets.xcassets */,
@@ -64,7 +171,10 @@
 		8EE62002282AB7AA00C01289 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				8EE61FF2282AB79C00C01289 /* MainViewController.swift */,
+				8E70C130282AD1DE009A9452 /* ViewModels */,
+				8E70C122282AC92B009A9452 /* Cells */,
+				8E70C11A282AC3DA009A9452 /* ViewControllers */,
+				8E70C115282ABCB9009A9452 /* Views */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -139,8 +249,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E70C134282AD279009A9452 /* OSSport.swift in Sources */,
+				8E70C11F282AC499009A9452 /* OSMatchResult.swift in Sources */,
+				8E70C11C282AC3F2009A9452 /* ScannerViewController.swift in Sources */,
+				8E70C121282AC510009A9452 /* OSPlayer.swift in Sources */,
+				8E70C117282ABD3E009A9452 /* FloatingMenu.swift in Sources */,
 				8EE61FF3282AB79C00C01289 /* MainViewController.swift in Sources */,
+				8E70C129282ACE57009A9452 /* UIColor+App.swift in Sources */,
 				8EE61FEF282AB79C00C01289 /* AppDelegate.swift in Sources */,
+				8E70C119282ABD6F009A9452 /* UIKit+Factory.swift in Sources */,
+				8E70C112282ABA4E009A9452 /* NSLayoutConstraint+Util.swift in Sources */,
+				8E70C12B282ACEAF009A9452 /* UIColor+Hex.swift in Sources */,
+				8E70C124282AC949009A9452 /* PlacementTableViewCell.swift in Sources */,
+				8E70C132282AD1F0009A9452 /* ResultListViewModel.swift in Sources */,
+				8E70C136282ADF7A009A9452 /* OSAccount.swift in Sources */,
+				8E70C126282ACCB5009A9452 /* ProfileView.swift in Sources */,
+				8E70C13A282AEE7E009A9452 /* SportsAPI.swift in Sources */,
+				8E70C12F282AD0AE009A9452 /* UITableView+Util.swift in Sources */,
+				8E70C12D282AD01A009A9452 /* UIView+Visuals.swift in Sources */,
+				8E70C114282ABC56009A9452 /* SportViewController.swift in Sources */,
+				8E70C138282AEE2F009A9452 /* WelcomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,6 +407,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2SMFLM66R9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Office Sports/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -306,6 +435,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2SMFLM66R9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Office Sports/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
