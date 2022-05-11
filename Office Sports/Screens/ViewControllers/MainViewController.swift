@@ -28,12 +28,12 @@ final class MainViewController: UIViewController {
     }()
     
     private lazy var foosballViewController: SportViewController = {
-        let viewModel = ResultListViewModel(sport: .foosball)
+        let viewModel = ScoreboardViewModel(sport: .foosball)
         return SportViewController(viewModel: viewModel)
     }()
     
     private lazy var tableTennisViewController: SportViewController = {
-        let viewModel = ResultListViewModel(sport: .tableTennis)
+        let viewModel = ScoreboardViewModel(sport: .tableTennis)
         return SportViewController(viewModel: viewModel)
     }()
 

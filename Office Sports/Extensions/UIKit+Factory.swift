@@ -68,3 +68,25 @@ extension UILabel {
         return label
     }
 }
+
+extension UIButton {
+    
+    class func createButton(_ backgroundColor: UIColor, _ color: UIColor, title: String) -> UIButton {
+        let button = UIButton(frame: .zero)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitleColor(color, for: .normal)
+        button.backgroundColor = backgroundColor
+        button.setTitle(title, for: .normal)
+        button.applyCornerRadius(8)
+        return button
+    }
+}
+
+extension UIImageView {
+    
+    class func createImageView(_ image: UIImage?) -> UIImageView {
+        let imageView = UIImageView(image: image)
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }
+}

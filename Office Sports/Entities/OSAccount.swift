@@ -16,4 +16,8 @@ struct OSAccount: Codable {
     var username: String
     
     var totalScore: Int
+    
+    var loggedIn: Bool {
+        return false
+    }
 }

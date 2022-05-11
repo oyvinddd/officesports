@@ -11,5 +11,7 @@ extension UIColor {
     
     enum OfficeSports {
         static let background = UIColor(hex: 0xE4E6EB)
+        static let text = UIColor(hex: 0x414755)
+        static let main = UIColor(hex: 0x656FED)
     }
 }

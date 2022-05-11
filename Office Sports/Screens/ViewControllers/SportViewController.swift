@@ -12,13 +12,15 @@ final class SportViewController: UIViewController {
     private lazy var tableView: UITableView = {
         let tableView = UITableView.createTableView(.clear)
         tableView.registerCell(PlacementTableViewCell.self)
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 60
         tableView.dataSource = self
         return tableView
     }()
     
-    private var viewModel: ResultListViewModel
+    private var viewModel: ScoreboardViewModel
     
-    init(viewModel: ResultListViewModel) {
+    init(viewModel: ScoreboardViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -56,7 +58,8 @@ extension SportViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(for: PlacementTableViewCell.self, for: indexPath)
-        cell.player = viewModel.results[indexPath.row]
+        cell.setPlayerAndPlacement(viewModel.results[indexPath.row], indexPath.row)
+        cell.applyCornerRadius(isFirstElement: indexPath.row == 0, isLastElement: indexPath.row == viewModel.results.count - 1)
         return cell
     }
 }

@@ -19,31 +19,23 @@ final class PlacementTableViewCell: UITableViewCell {
         return view
     }()
     
+    private lazy var profileEmojiLabel: UILabel = {
+        let label = UILabel.createLabel(.black, alignment: .center)
+        label.font = UIFont.systemFont(ofSize: 32)
+        return label
+    }()
+    
     private lazy var placementLabel: UILabel = {
         return UILabel.createLabel(.black)
     }()
     
     private lazy var usernameLabel: UILabel = {
-        return UILabel.createLabel(.black)
+        return UILabel.createLabel(UIColor.OfficeSports.text)
     }()
     
     private lazy var scoreLabel: UILabel = {
         return UILabel.createLabel(.black, alignment: .right)
     }()
-    
-    var player: OSPlayer? {
-        didSet {
-            guard let player = player else {
-                return
-            }
-            usernameLabel.text = player.username
-            scoreLabel.text = "\(player.foosballScore)"
-        }
-    }
-    
-    var placement: Int? {
-        0
-    }
     
     init() {
         super.init(style: .default, reuseIdentifier: String(describing: PlacementTableViewCell.self))
@@ -59,32 +51,77 @@ final class PlacementTableViewCell: UITableViewCell {
         super.init(coder: aDecoder)
     }
     
+    func setPlayerAndPlacement(_ player: OSPlayer, _ placement: Int) {
+        profileEmojiLabel.text = "🤬"
+        usernameLabel.text = usernameText(player.username, placement)
+        scoreLabel.text = "\(player.foosballScore) pts"
+        placementLabel.text = placementText(placement)
+    }
+    
+    func applyCornerRadius(isFirstElement: Bool, isLastElement: Bool) {
+        if isFirstElement {
+            contentWrap.layer.cornerRadius = 15
+            contentWrap.layer.maskedCorners = [
+                .layerMaxXMinYCorner,
+                .layerMinXMinYCorner
+            ]
+        } else if isLastElement {
+            contentWrap.layer.cornerRadius = 15
+            contentWrap.layer.maskedCorners = [
+                .layerMinXMaxYCorner,
+                .layerMaxXMaxYCorner
+            ]
+        }
+    }
+    
     private func setupChildViews() {
         contentView.addSubview(contentWrap)
-        contentWrap.addSubview(placementLabel)
+        contentWrap.addSubview(profileImageWrap)
         contentWrap.addSubview(usernameLabel)
         contentWrap.addSubview(scoreLabel)
+        contentWrap.addSubview(placementLabel)
         
+        NSLayoutConstraint.pinToView(profileImageWrap, profileEmojiLabel)
         NSLayoutConstraint.activate([
             contentWrap.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16),
             contentWrap.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16),
             contentWrap.topAnchor.constraint(equalTo: contentView.topAnchor),
             contentWrap.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            placementLabel.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 8),
-            placementLabel.topAnchor.constraint(equalTo: contentWrap.topAnchor, constant: 8),
-            placementLabel.bottomAnchor.constraint(equalTo: contentWrap.bottomAnchor, constant: -8),
-            usernameLabel.leftAnchor.constraint(equalTo: placementLabel.rightAnchor, constant: 8),
-            usernameLabel.topAnchor.constraint(equalTo: contentWrap.topAnchor, constant: 8),
-            usernameLabel.bottomAnchor.constraint(equalTo: contentWrap.bottomAnchor, constant: -8),
-            scoreLabel.leftAnchor.constraint(equalTo: usernameLabel.rightAnchor),
-            scoreLabel.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -8),
-            scoreLabel.topAnchor.constraint(equalTo: contentWrap.topAnchor, constant: 8),
-            scoreLabel.bottomAnchor.constraint(equalTo: contentWrap.bottomAnchor, constant: -8)
+            profileImageWrap.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
+            profileImageWrap.topAnchor.constraint(equalTo: contentWrap.topAnchor, constant: 16),
+            profileImageWrap.bottomAnchor.constraint(equalTo: contentWrap.bottomAnchor, constant: -16),
+            profileImageWrap.heightAnchor.constraint(equalToConstant: 50),
+            profileImageWrap.widthAnchor.constraint(equalTo: profileImageWrap.heightAnchor),
+            usernameLabel.leftAnchor.constraint(equalTo: profileImageWrap.rightAnchor, constant: 8),
+            usernameLabel.topAnchor.constraint(equalTo: profileImageWrap.topAnchor),
+            usernameLabel.bottomAnchor.constraint(greaterThanOrEqualTo: scoreLabel.topAnchor, constant: 8),
+            scoreLabel.leftAnchor.constraint(equalTo: profileImageWrap.rightAnchor, constant: 8),
+            scoreLabel.bottomAnchor.constraint(equalTo: profileImageWrap.bottomAnchor),
+            placementLabel.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
+            placementLabel.centerYAnchor.constraint(equalTo: contentWrap.centerYAnchor)
         ])
     }
     
     private func configureUI() {
         backgroundColor = .clear
         selectionStyle = .none
+    }
+    
+    private func usernameText(_ username: String, _ placement: Int) -> String {
+        switch placement {
+        case 0: return "\(username) 🥇"
+        case 1: return "\(username) 🥈"
+        case 2: return "\(username) 🥉"
+        default: return username
+        }
+    }
+    
+    private func placementText(_ placement: Int) -> String {
+        switch placement {
+        case 0: return "\(placement + 1)st"
+        case 1: return "\(placement + 1)nd"
+        case 2: return "\(placement + 1)rd"
+        default: return "\(placement + 1)th"
+        }
     }
 }

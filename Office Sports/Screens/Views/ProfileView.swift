@@ -7,8 +7,8 @@
 
 import UIKit
 
-fileprivate let profileImageDimater: CGFloat = 128
-fileprivate let profileImageRadius: CGFloat = profileImageDimater / 2
+private let profileImageDimater: CGFloat = 128
+private let profileImageRadius: CGFloat = profileImageDimater / 2
 
 final class ProfileView: UIView {
     
