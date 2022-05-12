@@ -8,13 +8,11 @@
 import UIKit
 
 final class SportViewController: UIViewController {
-
+    
     private lazy var tableView: UITableView = {
-        let tableView = UITableView.createTableView(.clear)
+        let tableView = UITableView.createTableView(.clear, dataSource: self)
+        tableView.registerCell(SportFilterTableViewCell.self)
         tableView.registerCell(PlacementTableViewCell.self)
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 60
-        tableView.dataSource = self
         return tableView
     }()
     
@@ -37,10 +35,14 @@ final class SportViewController: UIViewController {
     
     func applyContentInsetToTableView(_ contentInset: UIEdgeInsets) {
         tableView.contentInset = contentInset
+        scrollTableViewToTop(animated: false)
+    }
+    
+    func scrollTableViewToTop(animated: Bool) {
         // scroll table view all the way to the top, taking
         // into consideration the custom content inset of the table view
         let customOffset = CGPoint(x: 0, y: -tableView.contentInset.top)
-        tableView.setContentOffset(customOffset, animated: false)
+        tableView.setContentOffset(customOffset, animated: animated)
     }
     
     private func setupChildViews() {
@@ -56,14 +58,26 @@ final class SportViewController: UIViewController {
 
 extension SportViewController: UITableViewDataSource {
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.results.count
+        return section == 0 ? 1 : viewModel.leaderboard.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCell(for: SportFilterTableViewCell.self, for: indexPath)
+            cell.delegate = self
+            return cell
+        }
         let cell = tableView.dequeueReusableCell(for: PlacementTableViewCell.self, for: indexPath)
-        cell.setPlayerAndPlacement(viewModel.results[indexPath.row], indexPath.row)
-        cell.applyCornerRadius(isFirstElement: indexPath.row == 0, isLastElement: indexPath.row == viewModel.results.count - 1)
+        cell.setPlayerAndPlacement(viewModel.leaderboard[indexPath.row], indexPath.row)
+        
+        let isFirstElement = indexPath.row == 0
+        let isLastElement = indexPath.row == viewModel.leaderboard.count - 1
+        cell.applyCornerRadius(isFirstElement: isFirstElement, isLastElement: isLastElement)
         return cell
     }
 }
@@ -71,4 +85,15 @@ extension SportViewController: UITableViewDataSource {
 // MARK: - Table View Delegate
 
 extension SportViewController: UITableViewDelegate {
+}
+
+// MARK: - Sport Filter Delegate
+
+extension SportViewController: SportFilterDelegate {
+    
+    func leftButtonTapped() {
+    }
+    
+    func rightButtonTapped() {
+    }
 }

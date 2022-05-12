@@ -26,13 +26,13 @@ final class PlacementTableViewCell: UITableViewCell {
     }()
     
     private lazy var placementLabel: UILabel = {
-        let label = UILabel.createLabel(UIColor.OfficeSports.text)
+        let label = UILabel.createLabel(UIColor.OS.Text.normal)
         label.font = UIFont.boldSystemFont(ofSize: 18)
         return label
     }()
     
     private lazy var usernameLabel: UILabel = {
-        return UILabel.createLabel(UIColor.OfficeSports.text)
+        return UILabel.createLabel(UIColor.OS.Text.normal)
     }()
     
     private lazy var scoreLabel: UILabel = {

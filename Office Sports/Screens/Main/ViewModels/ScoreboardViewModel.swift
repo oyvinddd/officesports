@@ -9,7 +9,7 @@ import Foundation
 
 final class ScoreboardViewModel {
 
-    let results: [OSPlayer] = [
+    private let results: [OSPlayer] = [
         OSPlayer(userId: "123", username: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
         OSPlayer(userId: "123", username: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
         OSPlayer(userId: "123", username: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
@@ -25,6 +25,14 @@ final class ScoreboardViewModel {
         OSPlayer(userId: "123", username: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
         OSPlayer(userId: "123", username: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800)
     ]
+    
+    var leaderboard: [OSPlayer] {
+        return results
+    }
+    
+    var recentMatches: [OSPlayer] {
+        return results
+    }
     
     private var sport: OSSport
     

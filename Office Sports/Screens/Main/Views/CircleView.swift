@@ -19,7 +19,7 @@ final class CircleView: UIView {
     }()
     
     private lazy var textLabel: UILabel = {
-        let label = UILabel.createLabel(UIColor.OfficeSports.text, alignment: .center)
+        let label = UILabel.createLabel(UIColor.OS.Text.normal, alignment: .center)
         label.font = UIFont.boldSystemFont(ofSize: 50)
         return label
     }()

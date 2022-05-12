@@ -90,7 +90,7 @@ final class MainViewController: UIViewController {
     }
     
     private func configureUI() {
-        view.backgroundColor = UIColor.OfficeSports.background
+        view.backgroundColor = UIColor.OS.General.background
     }
     
     private func configureTableViewInsets() {
@@ -111,6 +111,7 @@ extension MainViewController: FloatingMenuDelegate {
     }
     
     func displayCodeButtonTapped() {
+        foosballViewController.scrollTableViewToTop(animated: true)
         profileView.displayQrCode(seconds: 0)
     }
     

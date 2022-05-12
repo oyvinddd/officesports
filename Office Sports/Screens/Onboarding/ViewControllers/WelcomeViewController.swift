@@ -29,7 +29,7 @@ final class WelcomeViewController: UIViewController {
     }()
     
     private lazy var signInButton: UIButton = {
-        let button = UIButton.createButton(.white, UIColor.OfficeSports.main, title: "Sign in with Google")
+        let button = UIButton.createButton(.white, UIColor.OS.General.main, title: "Sign in with Google")
         button.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         return button
@@ -67,7 +67,7 @@ final class WelcomeViewController: UIViewController {
     }
     
     private func configureUI() {
-        view.backgroundColor = UIColor.OfficeSports.main
+        view.backgroundColor = UIColor.OS.General.main
     }
     
     @objc private func signInButtonTapped(_ sender: UIButton) {

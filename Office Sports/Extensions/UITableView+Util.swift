@@ -20,7 +20,18 @@ extension UITableView {
         return cell
     }
     
+    public func dequeueReusableHeaderFooterView<T: UITableViewHeaderFooterView>(for type: T.Type) -> T {
+        guard let view = dequeueReusableHeaderFooterView(withIdentifier: reuseIndentifier(for: type)) as? T else {
+            fatalError("Failed to dequeue header/footer view.")
+        }
+        return view
+    }
+    
     public func registerCell<T: UITableViewCell>(_ type: T.Type) {
         register(type, forCellReuseIdentifier: reuseIndentifier(for: type))
+    }
+    
+    public func registerHeaderFooterView<T: UITableViewHeaderFooterView>(_ type: T.Type) {
+        register(type, forHeaderFooterViewReuseIdentifier: reuseIndentifier(for: type))
     }
 }

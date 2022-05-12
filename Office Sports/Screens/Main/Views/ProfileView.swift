@@ -10,7 +10,7 @@ import UIKit
 private let profileImageDimater: CGFloat = 128
 private let profileImageRadius: CGFloat = profileImageDimater / 2
 
-private let codeTransitionDuration: TimeInterval = 0.4  // seconds
+private let codeTransitionDuration: TimeInterval = 0.3  // seconds
 private let codeHideDelayDuration: TimeInterval = 3     // seconds
 
 final class ProfileView: UIView {
@@ -41,7 +41,7 @@ final class ProfileView: UIView {
     }()
     
     private lazy var usernameLabel: UILabel = {
-        let label = UILabel.createLabel(UIColor.OfficeSports.text, alignment: .center)
+        let label = UILabel.createLabel(UIColor.OS.Text.normal, alignment: .center)
         label.font = UIFont.boldSystemFont(ofSize: 32)
         return label
     }()

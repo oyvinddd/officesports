@@ -7,11 +7,21 @@
 
 import UIKit
 
+// swiftlint:disable type_name nesting
 extension UIColor {
     
-    enum OfficeSports {
-        static let background = UIColor(hex: 0xE4E6EB)
-        static let text = UIColor(hex: 0x414755)
-        static let main = UIColor(hex: 0x656FED)
+    enum OS {
+        
+        enum General {
+            static let background = UIColor(hex: 0xE4E6EB)
+            static let main = UIColor(hex: 0x656FED)
+        }
+        
+        enum Text {
+            
+            static let normal = UIColor(hex: 0x414755)
+            
+            static let disabled = UIColor(hex: 0x9FA1A4)
+        }
     }
 }
