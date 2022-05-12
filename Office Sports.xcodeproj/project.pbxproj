@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8E23086F282CFC6B00AF60EB /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E23086E282CFC6B00AF60EB /* SettingsViewController.swift */; };
 		8E230878282D191C00AF60EB /* SportFilterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E230877282D191C00AF60EB /* SportFilterTableViewCell.swift */; };
+		8E23087A282D50F300AF60EB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E230879282D50F300AF60EB /* GoogleService-Info.plist */; };
 		8E70C112282ABA4E009A9452 /* NSLayoutConstraint+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C111282ABA4E009A9452 /* NSLayoutConstraint+Util.swift */; };
 		8E70C114282ABC56009A9452 /* SportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C113282ABC56009A9452 /* SportViewController.swift */; };
 		8E70C117282ABD3E009A9452 /* FloatingMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C116282ABD3E009A9452 /* FloatingMenu.swift */; };
@@ -40,6 +41,7 @@
 /* Begin PBXFileReference section */
 		8E23086E282CFC6B00AF60EB /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		8E230877282D191C00AF60EB /* SportFilterTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportFilterTableViewCell.swift; sourceTree = "<group>"; };
+		8E230879282D50F300AF60EB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8E70C111282ABA4E009A9452 /* NSLayoutConstraint+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Util.swift"; sourceTree = "<group>"; };
 		8E70C113282ABC56009A9452 /* SportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportViewController.swift; sourceTree = "<group>"; };
 		8E70C116282ABD3E009A9452 /* FloatingMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingMenu.swift; sourceTree = "<group>"; };
@@ -136,6 +138,14 @@
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
+		8E23087B282D50FC00AF60EB /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8E230879282D50F300AF60EB /* GoogleService-Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		8E70C110282AB9BB009A9452 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -215,7 +225,7 @@
 			isa = PBXGroup;
 			children = (
 				8E70C13B282BAF51009A9452 /* README.md */,
-				8EE61FED282AB79C00C01289 /* Office Sports */,
+				8EE61FED282AB79C00C01289 /* OfficeSports */,
 				8EE61FEC282AB79C00C01289 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -228,9 +238,10 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		8EE61FED282AB79C00C01289 /* Office Sports */ = {
+		8EE61FED282AB79C00C01289 /* OfficeSports */ = {
 			isa = PBXGroup;
 			children = (
+				8E23087B282D50FC00AF60EB /* Resources */,
 				8E7D9A7D282BEF4F007BCDE0 /* Utils */,
 				8EAB6DA4282BE34B00FA1362 /* Coordinator */,
 				8E70C127282ACD10009A9452 /* API */,
@@ -242,7 +253,7 @@
 				8EE61FF9282AB79D00C01289 /* LaunchScreen.storyboard */,
 				8EE61FFC282AB79D00C01289 /* Info.plist */,
 			);
-			path = "Office Sports";
+			path = OfficeSports;
 			sourceTree = "<group>";
 		};
 		8EE62002282AB7AA00C01289 /* Screens */ = {
@@ -316,6 +327,7 @@
 			files = (
 				8EE61FFB282AB79D00C01289 /* LaunchScreen.storyboard in Resources */,
 				8EE61FF8282AB79D00C01289 /* Assets.xcassets in Resources */,
+				8E23087A282D50F300AF60EB /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -512,7 +524,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2SMFLM66R9;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Office Sports/Info.plist";
+				INFOPLIST_FILE = OfficeSports/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -541,7 +553,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2SMFLM66R9;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Office Sports/Info.plist";
+				INFOPLIST_FILE = OfficeSports/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
