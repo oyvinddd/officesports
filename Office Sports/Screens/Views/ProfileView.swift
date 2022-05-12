@@ -10,7 +10,8 @@ import UIKit
 private let profileImageDimater: CGFloat = 128
 private let profileImageRadius: CGFloat = profileImageDimater / 2
 
-private let codeTransitionDuration: TimeInterval = 0.4
+private let codeTransitionDuration: TimeInterval = 0.4  // seconds
+private let codeHideDelayDuration: TimeInterval = 3     // seconds
 
 final class ProfileView: UIView {
     
@@ -70,11 +71,17 @@ final class ProfileView: UIView {
             return
         }
         isDisplayingCode = true
-        UIView.animate(withDuration: codeTransitionDuration, delay: 0, options: [UIView.AnimationOptions.curveEaseOut]) { [weak self] in
+        // TODO: refactor this mess
+        UIView.animate(withDuration: codeTransitionDuration, delay: 0, options: [.curveEaseOut]) { [weak self] in
             self?.profileImageWrap.alpha = 0
             self?.codeImageView.alpha = 1
         } completion: { [weak self] _ in
-            self?.isDisplayingCode = false
+            UIView.animate(withDuration: codeTransitionDuration, delay: codeHideDelayDuration, options: [.curveEaseOut]) { [weak self] in
+                self?.profileImageWrap.alpha = 1
+                self?.codeImageView.alpha = 0
+            } completion: { [weak self] _ in
+                self?.isDisplayingCode = false
+            }
         }
     }
     

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8E23086F282CFC6B00AF60EB /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E23086E282CFC6B00AF60EB /* SettingsViewController.swift */; };
 		8E70C112282ABA4E009A9452 /* NSLayoutConstraint+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C111282ABA4E009A9452 /* NSLayoutConstraint+Util.swift */; };
 		8E70C114282ABC56009A9452 /* SportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C113282ABC56009A9452 /* SportViewController.swift */; };
 		8E70C117282ABD3E009A9452 /* FloatingMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C116282ABD3E009A9452 /* FloatingMenu.swift */; };
@@ -36,6 +37,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8E23086E282CFC6B00AF60EB /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		8E70C111282ABA4E009A9452 /* NSLayoutConstraint+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Util.swift"; sourceTree = "<group>"; };
 		8E70C113282ABC56009A9452 /* SportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportViewController.swift; sourceTree = "<group>"; };
 		8E70C116282ABD3E009A9452 /* FloatingMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingMenu.swift; sourceTree = "<group>"; };
@@ -78,6 +80,65 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8E23086A282CFC2B00AF60EB /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				8E23086B282CFC3200AF60EB /* ViewControllers */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		8E23086B282CFC3200AF60EB /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				8E23086E282CFC6B00AF60EB /* SettingsViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		8E23086C282CFC3A00AF60EB /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				8E23086D282CFC4200AF60EB /* ViewControllers */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		8E23086D282CFC4200AF60EB /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				8EC84E8D282BD5B10093C9A0 /* NicknameViewController.swift */,
+				8E70C137282AEE2F009A9452 /* WelcomeViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		8E230870282CFC7D00AF60EB /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				8E230872282CFCAE00AF60EB /* ViewModels */,
+				8E230871282CFC8500AF60EB /* ViewControllers */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		8E230871282CFC8500AF60EB /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				8E70C11B282AC3F2009A9452 /* ScannerViewController.swift */,
+				8E70C113282ABC56009A9452 /* SportViewController.swift */,
+				8EE61FF2282AB79C00C01289 /* MainViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		8E230872282CFCAE00AF60EB /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		8E70C110282AB9BB009A9452 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -104,11 +165,6 @@
 		8E70C11A282AC3DA009A9452 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				8EE61FF2282AB79C00C01289 /* MainViewController.swift */,
-				8E70C113282ABC56009A9452 /* SportViewController.swift */,
-				8E70C11B282AC3F2009A9452 /* ScannerViewController.swift */,
-				8E70C137282AEE2F009A9452 /* WelcomeViewController.swift */,
-				8EC84E8D282BD5B10093C9A0 /* NicknameViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -201,6 +257,9 @@
 		8EE62002282AB7AA00C01289 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				8E230870282CFC7D00AF60EB /* Main */,
+				8E23086C282CFC3A00AF60EB /* Onboarding */,
+				8E23086A282CFC2B00AF60EB /* Settings */,
 				8E70C130282AD1DE009A9452 /* ViewModels */,
 				8E70C122282AC92B009A9452 /* Cells */,
 				8E70C11A282AC3DA009A9452 /* ViewControllers */,
@@ -308,6 +367,7 @@
 				8E70C117282ABD3E009A9452 /* FloatingMenu.swift in Sources */,
 				8EE61FF3282AB79C00C01289 /* MainViewController.swift in Sources */,
 				8EC84E8E282BD5B10093C9A0 /* NicknameViewController.swift in Sources */,
+				8E23086F282CFC6B00AF60EB /* SettingsViewController.swift in Sources */,
 				8E70C129282ACE57009A9452 /* UIColor+App.swift in Sources */,
 				8EE61FEF282AB79C00C01289 /* AppDelegate.swift in Sources */,
 				8E70C119282ABD6F009A9452 /* UIKit+Factory.swift in Sources */,
