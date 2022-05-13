@@ -7,7 +7,7 @@
 
 import UIKit
 
-private let contentWrapRadius: CGFloat = (90 - 6 * 2) / 2
+private let contentWrapRadius: CGFloat = (100 - 6 * 2) / 2
 
 final class CircleView: UIView {
     

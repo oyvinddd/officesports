@@ -19,7 +19,9 @@ extension UIColor {
         
         enum Text {
             
-            static let normal = UIColor(hex: 0x414755)
+            static let normal = UIColor(hex: 0x545A66) // 414755
+            
+            static let subtitle = UIColor(hex: 0xC7C7C9)
             
             static let disabled = UIColor(hex: 0x9FA1A4)
         }

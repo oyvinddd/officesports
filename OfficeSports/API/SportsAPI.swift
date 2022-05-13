@@ -9,7 +9,15 @@ import Foundation
 
 final class SportsAPI {
     
-    static func registerNickname(nickname: String) {
-        
-    }
+    class func signIn() {}
+    
+    class func registerNickname(nickname: String) {}
+    
+    class func registerEmoji(emoji: String) {}
+    
+    class func getScoreboard() {}
+    
+    class func getMatchHistory() {}
+    
+    class func deleteAccount() {}
 }

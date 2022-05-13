@@ -6,10 +6,16 @@
 //
 
 import Foundation
+import FirebaseAuth
 
 struct OSAccount: Codable {
     
-    static let current = OSAccount(accountId: "id#123", username: "o_hauge", totalFoosballScore: 2100, totalTableTennisScore: 800)
+    static let current = OSAccount(
+        accountId: "id#123",
+        username: "o_hauge",
+        totalFoosballScore: 2100,
+        totalTableTennisScore: 800
+    )
     
     var accountId: String
     
@@ -20,6 +26,6 @@ struct OSAccount: Codable {
     var totalTableTennisScore: Int
     
     var loggedIn: Bool {
-        return true
+        return Auth.auth().currentUser != nil
     }
 }

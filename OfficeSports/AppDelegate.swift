@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseCore
+import GoogleSignIn
 
 @main class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -14,14 +15,13 @@ import FirebaseCore
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
-        initRootViewController()
+        
+        window = UIWindow(frame: UIScreen.main.bounds)
+        Coordinator.global.window = window
         return true
     }
     
-    private func initRootViewController() {
-        let viewController = OSAccount.current.loggedIn ? MainViewController() : WelcomeViewController()
-        window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = viewController
-        window?.makeKeyAndVisible()
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+        return GIDSignIn.sharedInstance.handle(url)
     }
 }

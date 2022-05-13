@@ -25,6 +25,7 @@ final class ProfileView: UIView {
     private lazy var profileImageWrap: UIView = {
         let imageWrap = UIView.createView(.white)
         imageWrap.applyCornerRadius(profileImageRadius)
+        imageWrap.applyMediumDropShadow(UIColor.OS.Text.normal)
         return imageWrap
     }()
     
@@ -43,6 +44,7 @@ final class ProfileView: UIView {
     private lazy var usernameLabel: UILabel = {
         let label = UILabel.createLabel(UIColor.OS.Text.normal, alignment: .center)
         label.font = UIFont.boldSystemFont(ofSize: 32)
+        label.numberOfLines = 1
         return label
     }()
     
@@ -59,7 +61,7 @@ final class ProfileView: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         configureUI(account: account)
         setupChildViews()
-        
+        backgroundColor = .red
     }
     
     required init?(coder: NSCoder) {
@@ -99,7 +101,7 @@ final class ProfileView: UIView {
             codeImageView.centerXAnchor.constraint(equalTo: profileImageWrap.centerXAnchor),
             codeImageView.centerYAnchor.constraint(equalTo: profileImageWrap.centerYAnchor),
             profileImageWrap.widthAnchor.constraint(equalToConstant: profileImageDimater),
-            profileImageWrap.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            profileImageWrap.topAnchor.constraint(equalTo: topAnchor, constant: 8),
             profileImageWrap.heightAnchor.constraint(equalTo: profileImageWrap.widthAnchor),
             profileImageWrap.centerXAnchor.constraint(equalTo: centerXAnchor),
             profileImageBackground.leftAnchor.constraint(equalTo: profileImageWrap.leftAnchor, constant: 8),
@@ -112,7 +114,7 @@ final class ProfileView: UIView {
             totalScoreLabel.leftAnchor.constraint(equalTo: leftAnchor),
             totalScoreLabel.rightAnchor.constraint(equalTo: rightAnchor),
             totalScoreLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 6),
-            totalScoreLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
+            totalScoreLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
         ])
     }
     

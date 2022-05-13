@@ -23,7 +23,15 @@ extension UIView {
     func applySmallDropShadow(_ color: UIColor) {
         layer.shadowColor = color.cgColor
         layer.masksToBounds = false
-        layer.shadowRadius = 5.0
+        layer.shadowRadius = 5
+        layer.shadowOpacity = 0.4
+        layer.shadowOffset = .zero
+    }
+    
+    func applyMediumDropShadow(_ color: UIColor) {
+        layer.shadowColor = color.cgColor
+        layer.masksToBounds = false
+        layer.shadowRadius = 10
         layer.shadowOpacity = 0.4
         layer.shadowOffset = .zero
     }

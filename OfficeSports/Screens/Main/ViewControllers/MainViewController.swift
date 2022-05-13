@@ -108,6 +108,8 @@ final class MainViewController: UIViewController {
 extension MainViewController: FloatingMenuDelegate {
     
     func settingsButtonTapped() {
+        let viewController = SettingsViewController()
+        present(viewController, animated: false)
     }
     
     func displayCodeButtonTapped() {

@@ -78,6 +78,7 @@ extension UIButton {
     class func createButton(_ backgroundColor: UIColor, _ color: UIColor, title: String) -> UIButton {
         let button = UIButton(frame: .zero)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         button.setTitleColor(color, for: .normal)
         button.backgroundColor = backgroundColor
         button.setTitle(title, for: .normal)
@@ -93,5 +94,15 @@ extension UIImageView {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         return imageView
+    }
+}
+
+extension UITextField {
+    
+    class func createTextField(_ backgroundColor: UIColor, placeholder: String? = nil) -> UITextField {
+        let textField = UITextField(frame: .zero)
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.backgroundColor = backgroundColor
+        return textField
     }
 }
