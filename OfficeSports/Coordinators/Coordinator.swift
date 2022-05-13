@@ -32,7 +32,7 @@ final class Coordinator {
         self.window = window
     }
     
-    func updateApplicationState(_ state: ApplicationState, animated: Bool) {
+    func updateApplicationState(_ state: ApplicationState, animated: Bool = true) {
         guard state != currentState else {
             return
         }

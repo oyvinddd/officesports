@@ -12,24 +12,18 @@ final class NicknameViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         let label = UILabel.createLabel(.white)
         label.font = UIFont.boldSystemFont(ofSize: 32)
+        label.text = "Choose your nickname"
         return label
     }()
     
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel.createLabel(.white)
+        label.text = "Choose a nickname that people can remember you by. You can also choose an emoji as a profile picture."
         return label
     }()
     
-    private lazy var nicknameField: UITextField = {
-        let textField = UITextField.createTextField(.black)
-        textField.applyCornerRadius(10)
-        return textField
-    }()
-    
-    private lazy var chooseButton: UIButton = {
-        let button = UIButton.createButton(.white, UIColor.OS.General.main, title: "Choose nickname")
-        button.addTarget(self, action: #selector(nicknameButtonTapped), for: .touchUpInside)
-        return button
+    private lazy var nicknameField: CompoundField = {
+        return CompoundField(.red)
     }()
     
     override func viewDidLoad() {
@@ -42,17 +36,18 @@ final class NicknameViewController: UIViewController {
         view.addSubview(titleLabel)
         view.addSubview(descriptionLabel)
         view.addSubview(nicknameField)
-        view.addSubview(chooseButton)
         
         NSLayoutConstraint.activate([
-            nicknameField.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 64),
-            nicknameField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -64),
+            titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
+            titleLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
+            descriptionLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
+            descriptionLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
+            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
+            descriptionLabel.bottomAnchor.constraint(equalTo: nicknameField.topAnchor, constant: -16),
+            nicknameField.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
+            nicknameField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
             nicknameField.heightAnchor.constraint(equalToConstant: 50),
-            nicknameField.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            chooseButton.leftAnchor.constraint(equalTo: nicknameField.leftAnchor),
-            chooseButton.rightAnchor.constraint(equalTo: nicknameField.rightAnchor),
-            chooseButton.topAnchor.constraint(equalTo: nicknameField.bottomAnchor, constant: 16),
-            chooseButton.heightAnchor.constraint(equalToConstant: 44)
+            nicknameField.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
     
@@ -60,7 +55,29 @@ final class NicknameViewController: UIViewController {
         view.backgroundColor = UIColor.OS.General.main
     }
     
+    private func checkNicknameValidity(_ nickname: String?) throws {
+        
+    }
+    
     @objc private func nicknameButtonTapped(_ sender: UIButton) {
         
+    }
+}
+
+// MARK: - Text Field Delegate
+
+extension NicknameViewController: CompoundFieldDelegate {
+    
+    func buttonTapped(_ text: String?) {
+        do {
+            try checkNicknameValidity(text)
+            
+            // TODO: update nickname in backend
+            
+            Coordinator.global.updateApplicationState(.authorized)
+        } catch let error {
+            print(error)
+            // show error to user
+        }
     }
 }
