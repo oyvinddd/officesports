@@ -6,8 +6,26 @@
 //
 
 import UIKit
+import AVFoundation
+
+private let scannerFadeDuration: TimeInterval = 0.2 // seconds
 
 final class MainViewController: UIViewController {
+    
+    private lazy var activateCameraDescription: UILabel = {
+        let label = UILabel.createLabel(.white, alignment: .left, text: "You need to activate the camera in order to register match scores.")
+        return label
+    }()
+    
+    private lazy var activateCameraButton: UIButton = {
+        let button = UIButton.createButton(.white, UIColor.OS.General.main, title: "Activate camera")
+        button.addTarget(self, action: #selector(activateCameraButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var contentWrap: UIView = {
+        return UIView.createView(UIColor.OS.General.background)
+    }()
     
     private lazy var profileView: ProfileView = {
         return ProfileView(account: OSAccount.current)
@@ -25,10 +43,6 @@ final class MainViewController: UIViewController {
         return FloatingMenu(delegate: self)
     }()
     
-    private lazy var scannerViewController: ScannerViewController = {
-        return ScannerViewController()
-    }()
-    
     private lazy var foosballViewController: SportViewController = {
         let viewModel = ScoreboardViewModel(sport: .foosball)
         return SportViewController(viewModel: viewModel)
@@ -38,6 +52,8 @@ final class MainViewController: UIViewController {
         let viewModel = ScoreboardViewModel(sport: .tableTennis)
         return SportViewController(viewModel: viewModel)
     }()
+    
+    private var isDisplayingScanner: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,17 +68,30 @@ final class MainViewController: UIViewController {
     }
     
     private func setupChildViews() {
-        view.addSubview(profileView)
-        NSLayoutConstraint.pinToView(view, scrollView)
+        view.addSubview(activateCameraDescription)
+        view.addSubview(activateCameraButton)
+        
+        NSLayoutConstraint.pinToView(view, contentWrap)
+        
+        contentWrap.addSubview(profileView)
+        
+        NSLayoutConstraint.pinToView(contentWrap, scrollView)
         
         scrollView.addSubview(stackView)
         
         view.addSubview(floatingMenu)
         
         NSLayoutConstraint.activate([
-            profileView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            profileView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            profileView.topAnchor.constraint(equalTo: view.topAnchor, constant: 64),
+            activateCameraDescription.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
+            activateCameraDescription.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
+            activateCameraDescription.bottomAnchor.constraint(equalTo: activateCameraButton.topAnchor, constant: -16),
+            activateCameraButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
+            activateCameraButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
+            activateCameraButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            activateCameraButton.heightAnchor.constraint(equalToConstant: 50),
+            profileView.leftAnchor.constraint(equalTo: contentWrap.leftAnchor),
+            profileView.rightAnchor.constraint(equalTo: contentWrap.rightAnchor),
+            profileView.topAnchor.constraint(equalTo: contentWrap.topAnchor, constant: 64),
             stackView.leftAnchor.constraint(equalTo: scrollView.leftAnchor),
             stackView.rightAnchor.constraint(equalTo: scrollView.rightAnchor),
             stackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
@@ -76,7 +105,7 @@ final class MainViewController: UIViewController {
     }
     
     private func setupChildViewControllers() {
-        scannerViewController.didMove(toParent: self)
+        
         foosballViewController.didMove(toParent: self)
         tableTennisViewController.didMove(toParent: self)
         
@@ -95,7 +124,7 @@ final class MainViewController: UIViewController {
     }
     
     private func configureUI() {
-        view.backgroundColor = UIColor.OS.General.background
+        view.backgroundColor = UIColor.OS.General.main
     }
     
     private func configureTableViewInsets() {
@@ -106,6 +135,28 @@ final class MainViewController: UIViewController {
         foosballViewController.applyContentInsetToTableView(contentInset)
         tableTennisViewController.applyContentInsetToTableView(contentInset)
     }
+    
+    @objc private func activateCameraButtonTapped(_ sender: UIButton) {
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        case .authorized:
+            setupCaptureSession()
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
+                if granted {
+                    self?.setupCaptureSession()
+                }
+            }
+        case .denied:
+            // user has previously denied access
+            return
+        case .restricted:
+            // user can't grant access due to restriction
+            return
+        default:
+            // ...
+            return
+        }
+    }
 }
 
 // MARK: - Floating Menu Delegate Conformance
@@ -113,8 +164,7 @@ final class MainViewController: UIViewController {
 extension MainViewController: FloatingMenuDelegate {
     
     func settingsButtonTapped() {
-        let viewController = SettingsViewController()
-        present(viewController, animated: false)
+        present(SettingsViewController(), animated: false)
     }
     
     func displayCodeButtonTapped() {
@@ -123,9 +173,18 @@ extension MainViewController: FloatingMenuDelegate {
     }
     
     func registerMatchButtonTapped() {
-        for con in profileView.constraints {
-            print(con.identifier)
+        guard !isDisplayingScanner else {
+            return
         }
+        isDisplayingScanner = true
+        UIView.animate(
+            withDuration: scannerFadeDuration,
+            delay: 0,
+            options: [.curveEaseInOut]) { [weak self] in
+                self?.contentWrap.alpha = 0
+            } completion: { [weak self] _ in
+                self?.isDisplayingScanner = false
+            }
     }
     
     func changeSportsButtonTapped() {
@@ -138,5 +197,14 @@ extension MainViewController: FloatingMenuDelegate {
         }
         let frame = xOffset > 0 ? foosballFrame : tableTennisFrame
         scrollView.scrollRectToVisible(frame, animated: true)
+    }
+}
+
+// MARK: - Scanner
+
+extension MainViewController {
+    
+    private func setupCaptureSession() {
+        
     }
 }

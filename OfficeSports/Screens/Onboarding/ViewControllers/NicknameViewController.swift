@@ -7,6 +7,22 @@
 
 import UIKit
 
+private let nicknameMinLength = 3
+private let nicknameMaxLength = 20
+
+private struct NicknameError: Error {
+    
+    static let missing = NicknameError(code: 0)
+    static let tooShort = NicknameError(code: 1)
+    static let tooLong = NicknameError(code: 2)
+    
+    var code: Int
+    
+    init(code: Int) {
+        self.code = code
+    }
+}
+
 final class NicknameViewController: UIViewController {
 
     private lazy var titleLabel: UILabel = {
@@ -23,8 +39,20 @@ final class NicknameViewController: UIViewController {
     }()
     
     private lazy var nicknameField: CompoundField = {
-        return CompoundField(.red)
+        return CompoundField(UIColor.OS.General.mainDark, delegate: self)
     }()
+    
+    private var viewModel: NicknameViewModel
+    
+    init(viewModel: NicknameViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+        viewModel.delegate = self
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,8 +88,20 @@ final class NicknameViewController: UIViewController {
         view.backgroundColor = UIColor.OS.General.main
     }
     
-    private func checkNicknameValidity(_ nickname: String?) throws {
+    private func processAndValidateNickname(_ nickname: String?) throws -> String {
+        guard let nickname = nickname else {
+            throw NicknameError.missing
+        }
+        let trimmedNickname = nickname.trimmingCharacters(in: .whitespacesAndNewlines)
+        let lowercasedNickname = trimmedNickname.lowercased()
         
+        if lowercasedNickname.count < nicknameMinLength {
+            throw NicknameError.tooShort
+        }
+        if lowercasedNickname.count > nicknameMaxLength {
+            throw NicknameError.tooLong
+        }
+        return lowercasedNickname
     }
 }
 
@@ -71,14 +111,27 @@ extension NicknameViewController: CompoundFieldDelegate {
     
     func buttonTapped(_ text: String?) {
         do {
-            try checkNicknameValidity(text)
-            
-            // TODO: update nickname in backend
-            
-            Coordinator.global.updateApplicationState(.authorized)
+            let nickname = try processAndValidateNickname(text)
+            viewModel.updateNickname(nickname)
         } catch let error {
             print(error)
             // show error to user
         }
+    }
+}
+
+// MARK: - Nickname View Model Delegate Conformance
+
+extension NicknameViewController: NicknameViewModelDelegate {
+    
+    func nicknameUpdatedSuccessfully() {
+        Coordinator.global.updateApplicationState(.authorized)
+    }
+    
+    func nicknameUpdateFailed(with error: Error) {
+        print(error.localizedDescription)
+    }
+    
+    func shouldToggleLoading(enabled: Bool) {
     }
 }

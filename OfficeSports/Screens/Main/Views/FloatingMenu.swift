@@ -66,9 +66,8 @@ final class FloatingMenu: UIView {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         self.delegate = delegate
-        backgroundColor = .blue
-        applyCornerRadius(8)
         setupChildViews()
+        configureUI()
     }
     
     required init?(coder: NSCoder) {
@@ -85,6 +84,12 @@ final class FloatingMenu: UIView {
         stackView.addArrangedSubview(mbRegisterMatch)
         stackView.addArrangedSubview(mbShowQrCode)
         stackView.addArrangedSubview(mbChangeSports)
+    }
+    
+    private func configureUI() {
+        backgroundColor = .white
+        applyMediumDropShadow(.black)
+        applyCornerRadius(8)
     }
     
     // MARK: - Button Handling
@@ -118,7 +123,8 @@ private final class MenuButton: UIButton {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = backgroundColor
-        self.setImage(image, for: .normal)
+        setImage(image, for: .normal)
+        tintColor = UIColor.OS.General.main
         applyCornerRadius(5)
     }
     

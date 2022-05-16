@@ -21,8 +21,12 @@ final class CompoundField: UIView {
     }()
     
     private lazy var button: UIButton = {
-        let button = UIButton.createButton(.white, UIColor.OS.General.main, title: "🥶")
+        let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .semibold, scale: .large)
+        let image = UIImage(systemName: "arrow.right", withConfiguration: config)
+        let button = UIButton.createButton(.white, UIColor.OS.General.main, title: nil)
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        button.setImage(image, for: .normal)
+        button.tintColor = UIColor.OS.General.main
         button.layer.cornerRadius = 0
         return button
     }()

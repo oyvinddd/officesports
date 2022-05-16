@@ -75,7 +75,7 @@ extension UILabel {
 
 extension UIButton {
     
-    class func createButton(_ backgroundColor: UIColor, _ color: UIColor, title: String) -> UIButton {
+    class func createButton(_ backgroundColor: UIColor, _ color: UIColor, title: String?) -> UIButton {
         let button = UIButton(frame: .zero)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
@@ -104,5 +104,14 @@ extension UITextField {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = backgroundColor
         return textField
+    }
+}
+
+extension UICollectionView {
+    
+    class func createCollectionView() -> UICollectionView {
+        let collectionView = UICollectionView(frame: .zero)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
     }
 }

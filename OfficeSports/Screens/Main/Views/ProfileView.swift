@@ -61,7 +61,7 @@ final class ProfileView: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         configureUI(account: account)
         setupChildViews()
-        backgroundColor = .red
+        //backgroundColor = .red
     }
     
     required init?(coder: NSCoder) {
@@ -119,8 +119,8 @@ final class ProfileView: UIView {
     }
     
     private func configureUI(account: OSAccount) {
-        profileEmjoiLabel.text = "😭"
-        usernameLabel.text = account.username.lowercased()
+        profileEmjoiLabel.text = account.emoji ?? "🧘🏻"
+        usernameLabel.text = account.nickname?.lowercased()
         totalScoreLabel.text = "\(account.totalFoosballScore) pts"
     }
 }

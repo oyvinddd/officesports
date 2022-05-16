@@ -41,6 +41,14 @@ final class SportFilterTableViewCell: UITableViewCell {
         return button
     }()
     
+    private lazy var separatorView: UIView = {
+        return UIView.createView(UIColor.OS.General.separator)
+    }()
+    
+    private lazy var feedbackGenerator: UIImpactFeedbackGenerator = {
+        return UIImpactFeedbackGenerator(style: .medium)
+    }()
+    
     weak var delegate: SportFilterDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -57,6 +65,7 @@ final class SportFilterTableViewCell: UITableViewCell {
         contentView.addSubview(contentWrap)
         contentWrap.addSubview(leftButton)
         contentWrap.addSubview(rightButton)
+        contentWrap.addSubview(separatorView)
         
         NSLayoutConstraint.activate([
             leftButton.leftAnchor.constraint(equalTo: contentWrap.leftAnchor),
@@ -72,7 +81,11 @@ final class SportFilterTableViewCell: UITableViewCell {
             contentWrap.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16),
             contentWrap.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16),
             contentWrap.topAnchor.constraint(equalTo: contentView.topAnchor),
-            contentWrap.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+            contentWrap.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            separatorView.centerXAnchor.constraint(equalTo: contentWrap.centerXAnchor),
+            separatorView.heightAnchor.constraint(equalTo: contentWrap.heightAnchor),
+            separatorView.centerYAnchor.constraint(equalTo: contentWrap.centerYAnchor),
+            separatorView.widthAnchor.constraint(equalToConstant: 1)
         ])
     }
     
@@ -84,12 +97,14 @@ final class SportFilterTableViewCell: UITableViewCell {
     @objc private func leftButtonTapped(_ sender: UIButton) {
         leftButton.setTitleColor(UIColor.OS.Text.normal, for: .normal)
         rightButton.setTitleColor(UIColor.OS.Text.disabled, for: .normal)
+        feedbackGenerator.impactOccurred()
         delegate?.leftButtonTapped()
     }
     
     @objc private func rightButtonTapped(_ sender: UIButton) {
         rightButton.setTitleColor(UIColor.OS.Text.normal, for: .normal)
         leftButton.setTitleColor(UIColor.OS.Text.disabled, for: .normal)
+        feedbackGenerator.impactOccurred()
         delegate?.rightButtonTapped()
     }
 }

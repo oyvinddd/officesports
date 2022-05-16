@@ -6,18 +6,49 @@
 //
 
 import Foundation
+import FirebaseCore
 
-final class SportsAPI {
+protocol SportsAPI {
     
-    class func signIn() {}
+    static func signIn()
     
-    class func registerNickname(nickname: String) {}
+    static func registerNickname(nickname: String)
     
-    class func registerEmoji(emoji: String) {}
+    static func registerEmoji(emoji: String)
     
-    class func getScoreboard() {}
+    static func getScoreboard()
     
-    class func getMatchHistory() {}
+    static func getMatchHistory()
     
-    class func deleteAccount() {}
+    static func deleteAccount()
+}
+
+// MARK: - Firebase Service implements the Sports API
+
+final class FirebaseService: SportsAPI {
+    
+    //private static var db: Firestore
+    
+    static func signIn() {
+        
+    }
+    
+    static func registerNickname(nickname: String) {
+    }
+    
+    static func registerEmoji(emoji: String) {
+        
+    }
+    
+    static func getScoreboard() {
+        
+    }
+    
+    static func getMatchHistory() {
+        
+    }
+    
+    static func deleteAccount() {
+        
+    }
 }

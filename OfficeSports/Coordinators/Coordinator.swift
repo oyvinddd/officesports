@@ -19,7 +19,7 @@ final class Coordinator {
         didSet { updateRootViewController(animated: false) }
     }
     
-    var currentState: ApplicationState = .authorized {
+    var currentState: ApplicationState = .missingNickname {
         didSet { updateRootViewController(animated: false) }
     }
     
@@ -75,12 +75,17 @@ final class Coordinator {
 
 extension Coordinator {
     
+    var api: SportsAPI {
+        return FirebaseService()
+    }
+    
     var welcomeViewController: WelcomeViewController {
         return WelcomeViewController(viewModel: AuthViewModel(delegate: nil))
     }
     
     var nicknameViewController: NicknameViewController {
-        return NicknameViewController()
+        let viewModel = NicknameViewModel(api: api, delegate: nil)
+        return NicknameViewController(viewModel: viewModel)
     }
     
     var mainViewController: MainViewController {

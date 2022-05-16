@@ -13,8 +13,14 @@ extension UIColor {
     enum OS {
         
         enum General {
+            
             static let background = UIColor(hex: 0xE4E6EB)
+            
             static let main = UIColor(hex: 0x656FED)
+            
+            static let mainDark = UIColor(hex: 0x7071C1)
+            
+            static let separator = UIColor(hex: 0xF1F0F2)
         }
         
         enum Text {

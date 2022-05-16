@@ -76,7 +76,7 @@ final class WelcomeViewController: UIViewController {
             signInButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 64),
             signInButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -64),
             signInButton.topAnchor.constraint(equalTo: tableTennisCircleView.bottomAnchor, constant: 64),
-            signInButton.heightAnchor.constraint(equalToConstant: 44)
+            signInButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     
