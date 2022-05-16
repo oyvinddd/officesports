@@ -60,6 +60,7 @@ final class PlacementTableViewCell: UITableViewCell {
     }
     
     func setPlayerAndPlacement(_ player: OSPlayer, _ placement: Int) {
+        profileImageWrap.backgroundColor = profileBackgroundColor(player.username)
         profileEmojiLabel.text = "🤬"
         usernameLabel.text = player.username.lowercased()
         scoreLabel.text = "\(player.foosballScore) pts"
@@ -141,5 +142,9 @@ final class PlacementTableViewCell: UITableViewCell {
         default:
             return placementFontNormal
         }
+    }
+    
+    private func profileBackgroundColor(_ nickname: String) -> UIColor {
+        return UIColor.OS.Profile.red
     }
 }

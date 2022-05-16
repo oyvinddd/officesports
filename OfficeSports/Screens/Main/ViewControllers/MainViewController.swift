@@ -25,6 +25,10 @@ final class MainViewController: UIViewController {
         return FloatingMenu(delegate: self)
     }()
     
+    private lazy var scannerViewController: ScannerViewController = {
+        return ScannerViewController()
+    }()
+    
     private lazy var foosballViewController: SportViewController = {
         let viewModel = ScoreboardViewModel(sport: .foosball)
         return SportViewController(viewModel: viewModel)
@@ -72,6 +76,7 @@ final class MainViewController: UIViewController {
     }
     
     private func setupChildViewControllers() {
+        scannerViewController.didMove(toParent: self)
         foosballViewController.didMove(toParent: self)
         tableTennisViewController.didMove(toParent: self)
         
@@ -118,6 +123,9 @@ extension MainViewController: FloatingMenuDelegate {
     }
     
     func registerMatchButtonTapped() {
+        for con in profileView.constraints {
+            print(con.identifier)
+        }
     }
     
     func changeSportsButtonTapped() {

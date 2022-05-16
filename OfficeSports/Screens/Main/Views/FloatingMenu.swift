@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AudioToolbox
 
 // MARK: - Floating Menu Delegate
 
@@ -27,27 +28,36 @@ final class FloatingMenu: UIView {
     }()
     
     private lazy var mbSettings: MenuButton = {
-        let button = MenuButton(.white, image: nil)
+        let config = UIImage.SymbolConfiguration(pointSize: 22, weight: .bold, scale: .large)
+        let button = MenuButton(.clear, image: UIImage(systemName: "gearshape", withConfiguration: buttonImageConfig))
         button.addTarget(self, action: #selector(settingsButtonTapped), for: .touchUpInside)
         return button
     }()
     
     private lazy var mbChangeSports: MenuButton = {
-        let button = MenuButton(.white, image: nil)
+        let button = MenuButton(.clear, image: UIImage(systemName: "arrow.left.arrow.right.square", withConfiguration: buttonImageConfig))
         button.addTarget(self, action: #selector(changeSportsButtonTapped), for: .touchUpInside)
         return button
     }()
     
     private lazy var mbRegisterMatch: MenuButton = {
-        let button = MenuButton(.white, image: nil)
+        let button = MenuButton(.clear, image: UIImage(systemName: "qrcode.viewfinder", withConfiguration: buttonImageConfig))
         button.addTarget(self, action: #selector(registerMatchButtonTapped), for: .touchUpInside)
         return button
     }()
     
     private lazy var mbShowQrCode: MenuButton = {
-        let button = MenuButton(.white, image: nil)
+        let button = MenuButton(.clear, image: UIImage(systemName: "qrcode", withConfiguration: buttonImageConfig))
         button.addTarget(self, action: #selector(displayCodeButtonTapped), for: .touchUpInside)
         return button
+    }()
+    
+    private lazy var buttonImageConfig: UIImage.Configuration = {
+        return UIImage.SymbolConfiguration(pointSize: 18, weight: .semibold, scale: .large)
+    }()
+    
+    private lazy var feedbackGenerator: UIImpactFeedbackGenerator = {
+        return UIImpactFeedbackGenerator(style: .medium)
     }()
     
     private weak var delegate: FloatingMenuDelegate?
@@ -57,7 +67,7 @@ final class FloatingMenu: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         self.delegate = delegate
         backgroundColor = .blue
-        applyCornerRadius(10)
+        applyCornerRadius(8)
         setupChildViews()
     }
     
@@ -80,18 +90,22 @@ final class FloatingMenu: UIView {
     // MARK: - Button Handling
     
     @objc private func settingsButtonTapped(_ sender: MenuButton) {
+        feedbackGenerator.impactOccurred()
         delegate?.settingsButtonTapped()
     }
     
     @objc private func changeSportsButtonTapped(_ sender: MenuButton) {
+        feedbackGenerator.impactOccurred()
         delegate?.changeSportsButtonTapped()
     }
     
     @objc private func registerMatchButtonTapped(_ sender: MenuButton) {
+        feedbackGenerator.impactOccurred()
         delegate?.registerMatchButtonTapped()
     }
     
     @objc private func displayCodeButtonTapped(_ sender: MenuButton) {
+        feedbackGenerator.impactOccurred()
         delegate?.displayCodeButtonTapped()
     }
 }
@@ -104,6 +118,7 @@ private final class MenuButton: UIButton {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = backgroundColor
+        self.setImage(image, for: .normal)
         applyCornerRadius(5)
     }
     

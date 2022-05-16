@@ -25,5 +25,12 @@ extension UIColor {
             
             static let disabled = UIColor(hex: 0x9FA1A4)
         }
+        
+        enum Profile {
+            
+            static let red = UIColor(hex: 0xD2574D)
+            
+            static let blue = UIColor(hex: 0x2E69B4)
+        }
     }
 }

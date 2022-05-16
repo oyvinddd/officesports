@@ -82,10 +82,14 @@ final class SportFilterTableViewCell: UITableViewCell {
     }
     
     @objc private func leftButtonTapped(_ sender: UIButton) {
+        leftButton.setTitleColor(UIColor.OS.Text.normal, for: .normal)
+        rightButton.setTitleColor(UIColor.OS.Text.disabled, for: .normal)
         delegate?.leftButtonTapped()
     }
     
     @objc private func rightButtonTapped(_ sender: UIButton) {
+        rightButton.setTitleColor(UIColor.OS.Text.normal, for: .normal)
+        leftButton.setTitleColor(UIColor.OS.Text.disabled, for: .normal)
         delegate?.rightButtonTapped()
     }
 }

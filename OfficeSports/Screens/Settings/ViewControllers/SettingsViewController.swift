@@ -33,23 +33,11 @@ final class SettingsViewController: UIViewController {
     }()
     
     private lazy var contentWrapView: UIView = {
-        let view = UIView(frame: .zero)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    private lazy var placeholderLabel: UILabel = {
-        let label = UILabel(frame: .zero)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.boldSystemFont(ofSize: 20)
-        label.textAlignment = .center
-        label.textColor = .lightGray
-        label.text = "No Content"
-        return label
+        return UIView.createView(.white)
     }()
     
     private lazy var signOutButton: UIButton = {
-        let button = UIButton.createButton(.black, .white, title: "Sign Out")
+        let button = UIButton.createButton(UIColor.OS.General.main, .white, title: "Sign Out")
         button.addTarget(self, action: #selector(signOutButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -62,6 +50,10 @@ final class SettingsViewController: UIViewController {
         let constraint = dialogView.topAnchor.constraint(equalTo: view.bottomAnchor)
         constraint.constant = dialogHideConstant
         return constraint
+    }()
+    
+    private lazy var viewModel: AuthViewModel = {
+        return AuthViewModel(delegate: self)
     }()
     
     private let dialogHideConstant: CGFloat = 0
@@ -94,29 +86,25 @@ final class SettingsViewController: UIViewController {
         view.addSubview(backgroundView)
         view.addSubview(dialogView)
         dialogView.addSubview(contentWrapView)
-        contentWrapView.addSubview(placeholderLabel)
+        contentWrapView.addSubview(signOutButton)
         
         NSLayoutConstraint.activate([
-            // background view (low opacity)
             backgroundView.leftAnchor.constraint(equalTo: view.leftAnchor),
             backgroundView.rightAnchor.constraint(equalTo: view.rightAnchor),
             backgroundView.topAnchor.constraint(equalTo: view.topAnchor),
             backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            // bottom dialog view (white)
             dialogView.leftAnchor.constraint(equalTo: view.leftAnchor),
             dialogView.rightAnchor.constraint(equalTo: view.rightAnchor),
             dialogBottomConstraint,
-            // content wrap view
             contentWrapView.leftAnchor.constraint(equalTo: dialogView.leftAnchor, constant: 8),
             contentWrapView.rightAnchor.constraint(equalTo: dialogView.rightAnchor, constant: -8),
             contentWrapView.topAnchor.constraint(equalTo: dialogView.topAnchor, constant: 8),
             contentWrapView.bottomAnchor.constraint(equalTo: dialogView.safeAreaLayoutGuide.bottomAnchor),
-            contentWrapView.heightAnchor.constraint(greaterThanOrEqualToConstant: kDialogMinHeight),
-            // no content label
-            placeholderLabel.leftAnchor.constraint(equalTo: contentWrapView.leftAnchor),
-            placeholderLabel.rightAnchor.constraint(equalTo: contentWrapView.rightAnchor),
-            placeholderLabel.topAnchor.constraint(equalTo: contentWrapView.topAnchor),
-            placeholderLabel.bottomAnchor.constraint(equalTo: contentWrapView.bottomAnchor)
+            signOutButton.leftAnchor.constraint(equalTo: contentWrapView.leftAnchor, constant: 16),
+            signOutButton.rightAnchor.constraint(equalTo: contentWrapView.rightAnchor, constant: -16),
+            signOutButton.topAnchor.constraint(equalTo: contentWrapView.topAnchor, constant: 16),
+            signOutButton.bottomAnchor.constraint(equalTo: contentWrapView.safeAreaLayoutGuide.bottomAnchor, constant: -32),
+            signOutButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     
@@ -155,6 +143,22 @@ final class SettingsViewController: UIViewController {
     }
     
     @objc private func signOutButtonTapped(_ sender: UIButton) {
-        
+        viewModel.signOut()
+    }
+}
+
+// MARK: - Auth View Model Delegate Conformance
+
+extension SettingsViewController: AuthViewModelDelegate {
+    
+    func signedOutSuccessfully() {
+        Coordinator.global.updateApplicationState(.unauthorized)
+    }
+    
+    func signOutFailed(with error: Error) {
+        print(error.localizedDescription)
+    }
+    
+    func shouldToggleLoading(enabled: Bool) {
     }
 }

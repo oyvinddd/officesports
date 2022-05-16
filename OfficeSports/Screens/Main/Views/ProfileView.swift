@@ -11,7 +11,7 @@ private let profileImageDimater: CGFloat = 128
 private let profileImageRadius: CGFloat = profileImageDimater / 2
 
 private let codeTransitionDuration: TimeInterval = 0.3  // seconds
-private let codeHideDelayDuration: TimeInterval = 3     // seconds
+private let codeHideDelayDuration: TimeInterval = 2     // seconds
 
 final class ProfileView: UIView {
     

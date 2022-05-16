@@ -92,12 +92,15 @@ final class WelcomeViewController: UIViewController {
 // MARK: - Auth View Model Delegate Conformance
 
 extension WelcomeViewController: AuthViewModelDelegate {
-    
+
     func signedInSuccessfully() {
         Coordinator.global.updateApplicationState(.missingNickname, animated: true)
     }
     
     func signInFailed(with error: Error) {
         // show error
+    }
+    
+    func shouldToggleLoading(enabled: Bool) {
     }
 }

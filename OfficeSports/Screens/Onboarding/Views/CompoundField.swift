@@ -16,7 +16,6 @@ final class CompoundField: UIView {
     
     private lazy var textField: UITextField = {
         let textField = UITextField.createTextField(.clear)
-        textField.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0)
         return textField
     }()
@@ -24,8 +23,16 @@ final class CompoundField: UIView {
     private lazy var button: UIButton = {
         let button = UIButton.createButton(.white, UIColor.OS.General.main, title: "🥶")
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        button.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner]
+        button.layer.cornerRadius = 0
         return button
+    }()
+    
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .medium)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.tintColor = .red
+        return activityIndicator
     }()
     
     weak var delegate: CompoundFieldDelegate?
@@ -36,15 +43,31 @@ final class CompoundField: UIView {
         textField.backgroundColor = backgroundColor
         self.delegate = delegate
         setupChildViews()
+        layer.cornerRadius = 8
+        layer.masksToBounds = true
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func becomeFirstResponder() -> Bool {
+        super.becomeFirstResponder()
+        return textField.becomeFirstResponder()
+    }
+    
+    func toggleLoadingIndicator(enabled: Bool) {
+        if enabled {
+            activityIndicator.startAnimating()
+        } else {
+            activityIndicator.stopAnimating()
+        }
+    }
+    
     private func setupChildViews() {
         addSubview(textField)
         addSubview(button)
+        button.addSubview(activityIndicator)
         
         NSLayoutConstraint.activate([
             textField.leftAnchor.constraint(equalTo: leftAnchor),
@@ -54,7 +77,11 @@ final class CompoundField: UIView {
             button.topAnchor.constraint(equalTo: topAnchor),
             button.bottomAnchor.constraint(equalTo: bottomAnchor),
             button.leftAnchor.constraint(equalTo: textField.rightAnchor),
-            button.widthAnchor.constraint(equalToConstant: 70)
+            button.widthAnchor.constraint(equalToConstant: 70),
+            activityIndicator.centerXAnchor.constraint(equalTo: button.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: button.centerYAnchor),
+            activityIndicator.widthAnchor.constraint(equalToConstant: 40),
+            activityIndicator.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
     

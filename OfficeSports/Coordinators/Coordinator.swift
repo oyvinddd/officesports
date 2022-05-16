@@ -19,7 +19,7 @@ final class Coordinator {
         didSet { updateRootViewController(animated: false) }
     }
     
-    var currentState: ApplicationState = .missingNickname {
+    var currentState: ApplicationState = .authorized {
         didSet { updateRootViewController(animated: false) }
     }
     
@@ -76,7 +76,7 @@ final class Coordinator {
 extension Coordinator {
     
     var welcomeViewController: WelcomeViewController {
-        return WelcomeViewController(viewModel: AuthViewModel())
+        return WelcomeViewController(viewModel: AuthViewModel(delegate: nil))
     }
     
     var nicknameViewController: NicknameViewController {

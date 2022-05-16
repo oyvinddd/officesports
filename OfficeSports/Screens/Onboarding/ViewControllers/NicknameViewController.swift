@@ -32,6 +32,11 @@ final class NicknameViewController: UIViewController {
         configureUI()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        _ = nicknameField.becomeFirstResponder()
+    }
+    
     private func setupChildViews() {
         view.addSubview(titleLabel)
         view.addSubview(descriptionLabel)
@@ -56,10 +61,6 @@ final class NicknameViewController: UIViewController {
     }
     
     private func checkNicknameValidity(_ nickname: String?) throws {
-        
-    }
-    
-    @objc private func nicknameButtonTapped(_ sender: UIButton) {
         
     }
 }

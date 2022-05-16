@@ -19,11 +19,17 @@ import GoogleSignIn
     @objc optional func signOutFailed(with error: Error)
     
     @objc optional func signedOutSuccessfully()
+    
+    func shouldToggleLoading(enabled: Bool)
 }
 
 final class AuthViewModel {
     
     weak var delegate: AuthViewModelDelegate?
+    
+    init(delegate: AuthViewModelDelegate?) {
+        self.delegate = delegate
+    }
     
     func signIn(from viewController: UIViewController) {
         

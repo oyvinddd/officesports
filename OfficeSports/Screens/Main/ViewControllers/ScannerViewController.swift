@@ -10,6 +10,10 @@ import AVFoundation
 
 final class ScannerViewController: UIViewController {
     
+    private lazy var cameraContainerView: UIView = {
+        return UIView.createView(.yellow)
+    }()
+    
     private var captureSession: AVCaptureSession!
     private var previewLayer: AVCaptureVideoPreviewLayer!
     
@@ -21,12 +25,24 @@ final class ScannerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .blue
+        setupChildViews()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        setupAndStartCaptureSession()
+        //setupAndStartCaptureSession()
+    }
+    
+    private func setupChildViews() {
+        view.addSubview(cameraContainerView)
+        
+        NSLayoutConstraint.activate([
+            cameraContainerView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            cameraContainerView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            cameraContainerView.topAnchor.constraint(equalTo: view.topAnchor),
+            cameraContainerView.heightAnchor.constraint(equalTo: cameraContainerView.widthAnchor)
+        ])
     }
     
     private func setupAndStartCaptureSession() {
