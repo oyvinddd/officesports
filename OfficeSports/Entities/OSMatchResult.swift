@@ -9,11 +9,15 @@ import Foundation
 
 struct OSMatchResult: Codable {
     
-    var timestamp: Date
+    var date: Date
     
     var winner: OSPlayer
     
     var loser: OSPlayer
+    
+    var loserDelta: Int
+    
+    var winnerDelta: Int
     
     var sport: OSSport
 }

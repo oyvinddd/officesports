@@ -10,20 +10,20 @@ import Foundation
 final class ScoreboardViewModel {
 
     private let results: [OSPlayer] = [
-        OSPlayer(userId: "123", username: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
-        OSPlayer(userId: "123", username: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
-        OSPlayer(userId: "123", username: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
-        OSPlayer(userId: "123", username: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
-        OSPlayer(userId: "123", username: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
-        OSPlayer(userId: "123", username: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
-        OSPlayer(userId: "123", username: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
-        OSPlayer(userId: "123", username: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
-        OSPlayer(userId: "123", username: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
-        OSPlayer(userId: "123", username: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
-        OSPlayer(userId: "123", username: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
-        OSPlayer(userId: "123", username: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
-        OSPlayer(userId: "123", username: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
-        OSPlayer(userId: "123", username: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800)
+        OSPlayer(userId: "123", nickname: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
+        OSPlayer(userId: "123", nickname: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
+        OSPlayer(userId: "123", nickname: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
+        OSPlayer(userId: "123", nickname: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
+        OSPlayer(userId: "123", nickname: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
+        OSPlayer(userId: "123", nickname: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
+        OSPlayer(userId: "123", nickname: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
+        OSPlayer(userId: "123", nickname: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
+        OSPlayer(userId: "123", nickname: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
+        OSPlayer(userId: "123", nickname: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
+        OSPlayer(userId: "123", nickname: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
+        OSPlayer(userId: "123", nickname: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
+        OSPlayer(userId: "123", nickname: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
+        OSPlayer(userId: "123", nickname: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800)
     ]
     
     var leaderboard: [OSPlayer] {

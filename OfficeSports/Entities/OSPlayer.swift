@@ -11,7 +11,7 @@ struct OSPlayer: Codable {
     
     var userId: String
     
-    var username: String
+    var nickname: String
     
     var foosballScore: Int
     
