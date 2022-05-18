@@ -17,6 +17,9 @@ final class CompoundField: UIView {
     private lazy var textField: UITextField = {
         let textField = UITextField.createTextField(.clear)
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0)
+        textField.font = UIFont.systemFont(ofSize: 18)
+        textField.textColor = UIColor.OS.Text.normal
+        textField.autocorrectionType = .no
         return textField
     }()
     

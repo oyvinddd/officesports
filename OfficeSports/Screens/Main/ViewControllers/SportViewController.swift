@@ -33,6 +33,12 @@ final class SportViewController: UIViewController {
         configureUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.fetchRecentMatches()
+        viewModel.fetchScoreboard()
+    }
+    
     func applyContentInsetToTableView(_ contentInset: UIEdgeInsets) {
         tableView.contentInset = contentInset
         scrollTableViewToTop(animated: false)
@@ -63,7 +69,7 @@ extension SportViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? 1 : viewModel.leaderboard.count
+        return section == 0 ? 1 : viewModel.scoreboard.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -73,10 +79,10 @@ extension SportViewController: UITableViewDataSource {
             return cell
         }
         let cell = tableView.dequeueReusableCell(for: PlacementTableViewCell.self, for: indexPath)
-        cell.setPlayerAndPlacement(viewModel.leaderboard[indexPath.row], indexPath.row)
+        cell.setPlayerAndPlacement(viewModel.scoreboard[indexPath.row], indexPath.row)
         
         let isFirstElement = indexPath.row == 0
-        let isLastElement = indexPath.row == viewModel.leaderboard.count - 1
+        let isLastElement = indexPath.row == viewModel.scoreboard.count - 1
         cell.applyCornerRadius(isFirstElement: isFirstElement, isLastElement: isLastElement)
         return cell
     }

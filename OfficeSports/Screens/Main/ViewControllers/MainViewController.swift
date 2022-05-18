@@ -44,12 +44,12 @@ final class MainViewController: UIViewController {
     }()
     
     private lazy var foosballViewController: SportViewController = {
-        let viewModel = ScoreboardViewModel(sport: .foosball)
+        let viewModel = ScoreboardViewModel(api: FirebaseSportsAPI(), sport: .foosball)
         return SportViewController(viewModel: viewModel)
     }()
     
     private lazy var tableTennisViewController: SportViewController = {
-        let viewModel = ScoreboardViewModel(sport: .tableTennis)
+        let viewModel = ScoreboardViewModel(api: FirebaseSportsAPI(), sport: .tableTennis)
         return SportViewController(viewModel: viewModel)
     }()
     

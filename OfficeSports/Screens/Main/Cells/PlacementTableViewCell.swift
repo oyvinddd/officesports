@@ -21,7 +21,7 @@ final class PlacementTableViewCell: UITableViewCell {
     
     private lazy var profileEmojiLabel: UILabel = {
         let label = UILabel.createLabel(.black, alignment: .center)
-        label.font = UIFont.systemFont(ofSize: 30)
+        label.font = UIFont.systemFont(ofSize: 28)
         return label
     }()
     

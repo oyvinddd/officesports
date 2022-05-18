@@ -6,40 +6,48 @@
 //
 
 import Foundation
+import FirebaseCore
 import FirebaseFirestore
+import FirebaseFirestoreSwift
 
 protocol SportsAPI {
     
-    static func signIn(result: @escaping ((Error?) -> Void))
+    func signIn(result: @escaping ((Error?) -> Void))
     
-    static func registerNicknameAndEmoji(_ nickname: String, _ emoji: String, result: @escaping ((Error?) -> Void))
+    func registerProfileDetails(_ details: OSProfileDetails, result: @escaping ((Error?) -> Void))
     
-    static func getScoreboard(sport: OSSport, result: @escaping (([OSPlayer], Error?) -> Void))
+    func registerMatch(winner: OSPlayer, loser: OSPlayer, result: @escaping ((Error?) -> Void))
     
-    static func getMatchHistory(sport: OSSport, result: @escaping (([OSMatchResult], Error?) -> Void))
+    func getScoreboard(sport: OSSport, result: @escaping (([OSPlayer], Error?) -> Void))
     
-    static func deleteAccount(result: @escaping ((Error?) -> Void))
+    func getMatchHistory(sport: OSSport, result: @escaping (([OSMatchResult], Error?) -> Void))
+    
+    func deleteAccount(result: @escaping ((Error?) -> Void))
 }
 
-// MARK: - Firebase Service implements the Sports API
+// MARK: - Firebase Sports API implements the Sports API protocol
 
+private let fbDetailsCollection = "profileDetails"
 private let fbScoreboardCollection = "scoreboard"
 private let fbMatchHistoryCollection = "matchHistory"
 
-final class FirebaseService: SportsAPI {
+final class FirebaseSportsAPI: SportsAPI {
     
-    private static var database = Firestore.firestore()
+    private let database = Firestore.firestore()
     
-    static func signIn(result: @escaping ((Error?) -> Void)) {
-        
+    func signIn(result: @escaping ((Error?) -> Void)) {
     }
     
-    static func registerNicknameAndEmoji(_ nickname: String, _ emoji: String, result: @escaping ((Error?) -> Void)) {
-        //var ref: DocumentReference? = nil
-        //ref = database
+    func registerProfileDetails(_ details: OSProfileDetails, result: @escaping ((Error?) -> Void)) {
+        do {
+            try database.collection(fbDetailsCollection).document("123").setData(from: details, merge: true)
+            result(nil)
+        } catch let error {
+            result(error)
+        }
     }
     
-    static func getScoreboard(sport: OSSport, result: @escaping (([OSPlayer], Error?) -> Void)) {
+    func getScoreboard(sport: OSSport, result: @escaping (([OSPlayer], Error?) -> Void)) {
         //database.collection(fbScoreboardCollection).getDocument(as: )
         /*
         database.collection(fbScoreboardCollection).getDocuments { (snapshot, error) in
@@ -54,7 +62,10 @@ final class FirebaseService: SportsAPI {
          */
     }
     
-    static func getMatchHistory(sport: OSSport, result: @escaping (([OSMatchResult], Error?) -> Void)) {
+    func registerMatch(winner: OSPlayer, loser: OSPlayer, result: @escaping ((Error?) -> Void)) {
+    }
+    
+    func getMatchHistory(sport: OSSport, result: @escaping (([OSMatchResult], Error?) -> Void)) {
         let query = database.collection(fbMatchHistoryCollection).whereField("sport", isEqualTo: sport.rawValue)
         query.getDocuments { (snapshot, error) in
             if let error = error {
@@ -65,7 +76,7 @@ final class FirebaseService: SportsAPI {
         }
     }
     
-    static func deleteAccount(result: @escaping ((Error?) -> Void)) {
+    func deleteAccount(result: @escaping ((Error?) -> Void)) {
         result(nil)
     }
 }

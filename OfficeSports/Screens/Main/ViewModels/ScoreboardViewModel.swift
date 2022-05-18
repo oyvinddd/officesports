@@ -7,36 +7,38 @@
 
 import Foundation
 
-final class ScoreboardViewModel {
+protocol ScoreboardViewModelDelegate: AnyObject {
+    func fetchedScoreboardSuccessfully(_ scoreboard: [OSPlayer])
+    
+    func didFetchScoreboard(with error: Error)
+}
 
-    private let results: [OSPlayer] = [
-        OSPlayer(userId: "123", nickname: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
-        OSPlayer(userId: "123", nickname: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
-        OSPlayer(userId: "123", nickname: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
-        OSPlayer(userId: "123", nickname: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
-        OSPlayer(userId: "123", nickname: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
-        OSPlayer(userId: "123", nickname: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
-        OSPlayer(userId: "123", nickname: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
-        OSPlayer(userId: "123", nickname: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
-        OSPlayer(userId: "123", nickname: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
-        OSPlayer(userId: "123", nickname: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
-        OSPlayer(userId: "123", nickname: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
-        OSPlayer(userId: "123", nickname: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
-        OSPlayer(userId: "123", nickname: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800),
-        OSPlayer(userId: "123", nickname: "oyvindhauge", foosballScore: 1800, tableTennisScore: 1800)
-    ]
+final class ScoreboardViewModel {
     
-    var leaderboard: [OSPlayer] {
-        return results
-    }
+    weak var delegate: ScoreboardViewModelDelegate?
     
-    var recentMatches: [OSPlayer] {
-        return results
-    }
+    var scoreboard: [OSPlayer] = []
+    var recentMatches: [OSMatchResult] = []
     
+    private var api: SportsAPI
     private var sport: OSSport
     
-    init(sport: OSSport) {
+    init(api: SportsAPI, sport: OSSport) {
+        self.api = api
         self.sport = sport
+    }
+    
+    func fetchScoreboard() {
+        api.getScoreboard(sport: sport) { [weak self] (players, error) in
+            if let error = error {
+                self?.delegate?.didFetchScoreboard(with: error)
+            } else {
+                self?.delegate?.fetchedScoreboardSuccessfully(players)
+            }
+        }
+    }
+    
+    func fetchRecentMatches() {
+        
     }
 }

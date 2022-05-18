@@ -82,7 +82,7 @@ final class Coordinator {
 extension Coordinator {
     
     var api: SportsAPI {
-        return FirebaseService()
+        return FirebaseSportsAPI()
     }
     
     var welcomeViewController: WelcomeViewController {

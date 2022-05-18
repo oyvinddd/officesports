@@ -11,7 +11,7 @@ private let nicknameMinLength = 3
 private let nicknameMaxLength = 20
 
 final class NicknameViewController: UIViewController {
-
+    
     private lazy var titleLabel: UILabel = {
         let label = UILabel.createLabel(.white)
         label.font = UIFont.boldSystemFont(ofSize: 32)
@@ -99,7 +99,7 @@ extension NicknameViewController: CompoundFieldDelegate {
     func buttonTapped(_ text: String?) {
         do {
             let nickname = try processAndValidateNickname(text)
-            viewModel.updateNickname(nickname)
+            viewModel.updateProfileDetails(nickname: nickname, emoji: "😙")
         } catch let error {
             Coordinator.global.displayMessage(error.localizedDescription, type: .failure)
         }
@@ -110,11 +110,11 @@ extension NicknameViewController: CompoundFieldDelegate {
 
 extension NicknameViewController: NicknameViewModelDelegate {
     
-    func nicknameUpdatedSuccessfully() {
+    func detailsUpdatedSuccessfully() {
         Coordinator.global.updateState(.authorized)
     }
     
-    func nicknameUpdateFailed(with error: Error) {
+    func detailsUpdateFailed(with error: Error) {
         Coordinator.global.displayMessage(error.localizedDescription, type: .failure)
     }
     
@@ -140,8 +140,6 @@ private enum NicknameError: LocalizedError {
             return "Nickname is too short"
         case .tooLong:
             return "Nickname is too long"
-        default:
-            return nil
         }
     }
 }
