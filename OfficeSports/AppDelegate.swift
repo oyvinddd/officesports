@@ -18,6 +18,7 @@ import GoogleSignIn
         
         window = UIWindow(frame: UIScreen.main.bounds)
         Coordinator.global.window = window
+        
         return true
     }
     

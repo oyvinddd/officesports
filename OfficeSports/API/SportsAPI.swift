@@ -6,15 +6,13 @@
 //
 
 import Foundation
-import FirebaseCore
+import FirebaseFirestore
 
 protocol SportsAPI {
     
     static func signIn()
     
-    static func registerNickname(nickname: String)
-    
-    static func registerEmoji(emoji: String)
+    static func registerNicknameAndEmoji(_ nickname: String, _ emoji: String)
     
     static func getScoreboard()
     
@@ -27,17 +25,16 @@ protocol SportsAPI {
 
 final class FirebaseService: SportsAPI {
     
-    //private static var db: Firestore
+    private static var database = Firestore.firestore()
     
     static func signIn() {
         
     }
     
-    static func registerNickname(nickname: String) {
-    }
-    
-    static func registerEmoji(emoji: String) {
+    static func registerNicknameAndEmoji(_ nickname: String, _ emoji: String) {
+        var ref: DocumentReference? = nil
         
+        ref = database
     }
     
     static func getScoreboard() {

@@ -10,19 +10,6 @@ import UIKit
 private let nicknameMinLength = 3
 private let nicknameMaxLength = 20
 
-private struct NicknameError: Error {
-    
-    static let missing = NicknameError(code: 0)
-    static let tooShort = NicknameError(code: 1)
-    static let tooLong = NicknameError(code: 2)
-    
-    var code: Int
-    
-    init(code: Int) {
-        self.code = code
-    }
-}
-
 final class NicknameViewController: UIViewController {
 
     private lazy var titleLabel: UILabel = {
@@ -114,8 +101,7 @@ extension NicknameViewController: CompoundFieldDelegate {
             let nickname = try processAndValidateNickname(text)
             viewModel.updateNickname(nickname)
         } catch let error {
-            print(error)
-            // show error to user
+            Coordinator.global.displayMessage(error.localizedDescription, type: .failure)
         }
     }
 }
@@ -125,13 +111,37 @@ extension NicknameViewController: CompoundFieldDelegate {
 extension NicknameViewController: NicknameViewModelDelegate {
     
     func nicknameUpdatedSuccessfully() {
-        Coordinator.global.updateApplicationState(.authorized)
+        Coordinator.global.updateState(.authorized)
     }
     
     func nicknameUpdateFailed(with error: Error) {
-        print(error.localizedDescription)
+        Coordinator.global.displayMessage(error.localizedDescription, type: .failure)
     }
     
     func shouldToggleLoading(enabled: Bool) {
+    }
+}
+
+// MARK: - Nickname Error
+
+private enum NicknameError: LocalizedError {
+    
+    case missing
+    
+    case tooShort
+    
+    case tooLong
+    
+    var errorDescription: String? {
+        switch self {
+        case .missing:
+            return "Nickname is missing"
+        case .tooShort:
+            return "Nickname is too short"
+        case .tooLong:
+            return "Nickname is too long"
+        default:
+            return nil
+        }
     }
 }

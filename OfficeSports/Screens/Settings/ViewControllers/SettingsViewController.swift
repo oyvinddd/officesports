@@ -152,7 +152,7 @@ final class SettingsViewController: UIViewController {
 extension SettingsViewController: AuthViewModelDelegate {
     
     func signedOutSuccessfully() {
-        Coordinator.global.updateApplicationState(.unauthorized)
+        Coordinator.global.updateState(.unauthorized)
     }
     
     func signOutFailed(with error: Error) {

@@ -15,6 +15,8 @@ final class Coordinator {
     
     static var global = Coordinator(window: nil, account: OSAccount.current)
     
+    var messageWindow = MessageWindow()
+    
     var window: UIWindow? {
         didSet { updateRootViewController(animated: false) }
     }
@@ -32,11 +34,15 @@ final class Coordinator {
         self.window = window
     }
     
-    func updateApplicationState(_ state: ApplicationState, animated: Bool = true) {
+    func updateState(_ state: ApplicationState, animated: Bool = true) {
         guard state != currentState else {
             return
         }
         currentState = state
+    }
+    
+    func displayMessage(_ message: String, type: MessageType) {
+        messageWindow.displayMessage(message, type: type)
     }
     
     private func updateRootViewController(animated: Bool) {

@@ -28,6 +28,6 @@ final class NicknameViewModel {
     }
     
     func updateNickname(_ nickname: String) {
-        
+        delegate?.shouldToggleLoading(enabled: true)
     }
 }

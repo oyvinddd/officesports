@@ -15,6 +15,9 @@
 		8E230884282D567D00AF60EB /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 8E230883282D567D00AF60EB /* GoogleSignIn */; };
 		8E230887282D575D00AF60EB /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E230886282D575D00AF60EB /* AuthViewModel.swift */; };
 		8E230889282D788D00AF60EB /* EmojiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E230888282D788D00AF60EB /* EmojiViewController.swift */; };
+		8E24F4592834A75900BC808B /* MessageWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E24F4582834A75900BC808B /* MessageWindow.swift */; };
+		8E6DF2992834CEB20009ACA1 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 8E6DF2982834CEB20009ACA1 /* FirebaseFirestore */; };
+		8E6DF29B2834CEB20009ACA1 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8E6DF29A2834CEB20009ACA1 /* FirebaseFirestoreSwift */; };
 		8E70C112282ABA4E009A9452 /* NSLayoutConstraint+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C111282ABA4E009A9452 /* NSLayoutConstraint+Util.swift */; };
 		8E70C114282ABC56009A9452 /* SportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C113282ABC56009A9452 /* SportViewController.swift */; };
 		8E70C117282ABD3E009A9452 /* FloatingMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C116282ABD3E009A9452 /* FloatingMenu.swift */; };
@@ -52,6 +55,7 @@
 		8E230880282D543300AF60EB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8E230886282D575D00AF60EB /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		8E230888282D788D00AF60EB /* EmojiViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiViewController.swift; sourceTree = "<group>"; };
+		8E24F4582834A75900BC808B /* MessageWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageWindow.swift; sourceTree = "<group>"; };
 		8E70C111282ABA4E009A9452 /* NSLayoutConstraint+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Util.swift"; sourceTree = "<group>"; };
 		8E70C113282ABC56009A9452 /* SportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportViewController.swift; sourceTree = "<group>"; };
 		8E70C116282ABD3E009A9452 /* FloatingMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingMenu.swift; sourceTree = "<group>"; };
@@ -92,6 +96,8 @@
 			files = (
 				8E23087E282D530300AF60EB /* FirebaseAuth in Frameworks */,
 				8E230884282D567D00AF60EB /* GoogleSignIn in Frameworks */,
+				8E6DF2992834CEB20009ACA1 /* FirebaseFirestore in Frameworks */,
+				8E6DF29B2834CEB20009ACA1 /* FirebaseFirestoreSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,6 +176,14 @@
 				8E176F6E28329E4A00377497 /* NicknameViewModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		8E24F4562834A6EB00BC808B /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				8E24F4582834A75900BC808B /* MessageWindow.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 		8E70C110282AB9BB009A9452 /* Extensions */ = {
@@ -294,6 +308,7 @@
 		8EE62002282AB7AA00C01289 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				8E24F4562834A6EB00BC808B /* Common */,
 				8E230870282CFC7D00AF60EB /* Main */,
 				8E23086C282CFC3A00AF60EB /* Onboarding */,
 				8E23086A282CFC2B00AF60EB /* Settings */,
@@ -321,6 +336,8 @@
 			packageProductDependencies = (
 				8E23087D282D530300AF60EB /* FirebaseAuth */,
 				8E230883282D567D00AF60EB /* GoogleSignIn */,
+				8E6DF2982834CEB20009ACA1 /* FirebaseFirestore */,
+				8E6DF29A2834CEB20009ACA1 /* FirebaseFirestoreSwift */,
 			);
 			productName = "Office Sports";
 			productReference = 8EE61FEB282AB79C00C01289 /* Office Sports.app */;
@@ -353,6 +370,7 @@
 			packageReferences = (
 				8E23087C282D530300AF60EB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				8E230882282D567D00AF60EB /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				8E6DF2972834CEB20009ACA1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 8EE61FEC282AB79C00C01289 /* Products */;
 			projectDirPath = "";
@@ -412,6 +430,7 @@
 				8EC84E8E282BD5B10093C9A0 /* NicknameViewController.swift in Sources */,
 				8E23086F282CFC6B00AF60EB /* SettingsViewController.swift in Sources */,
 				8E70C129282ACE57009A9452 /* UIColor+App.swift in Sources */,
+				8E24F4592834A75900BC808B /* MessageWindow.swift in Sources */,
 				8EE61FEF282AB79C00C01289 /* AppDelegate.swift in Sources */,
 				8E70C119282ABD6F009A9452 /* UIKit+Factory.swift in Sources */,
 				8E70C112282ABA4E009A9452 /* NSLayoutConstraint+Util.swift in Sources */,
@@ -661,6 +680,14 @@
 				minimumVersion = 6.0.0;
 			};
 		};
+		8E6DF2972834CEB20009ACA1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -673,6 +700,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8E230882282D567D00AF60EB /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignIn;
+		};
+		8E6DF2982834CEB20009ACA1 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8E23087C282D530300AF60EB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		8E6DF29A2834CEB20009ACA1 /* FirebaseFirestoreSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8E23087C282D530300AF60EB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestoreSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
