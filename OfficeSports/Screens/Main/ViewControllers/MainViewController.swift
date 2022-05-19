@@ -6,22 +6,10 @@
 //
 
 import UIKit
-import AVFoundation
 
 private let scannerFadeDuration: TimeInterval = 0.2 // seconds
 
 final class MainViewController: UIViewController {
-    
-    private lazy var activateCameraDescription: UILabel = {
-        let label = UILabel.createLabel(.white, alignment: .left, text: "You need to activate the camera in order to register match scores.")
-        return label
-    }()
-    
-    private lazy var activateCameraButton: UIButton = {
-        let button = UIButton.createButton(.white, UIColor.OS.General.main, title: "Activate camera")
-        button.addTarget(self, action: #selector(activateCameraButtonTapped), for: .touchUpInside)
-        return button
-    }()
     
     private lazy var contentWrap: UIView = {
         return UIView.createView(UIColor.OS.General.background)
@@ -43,6 +31,10 @@ final class MainViewController: UIViewController {
         return FloatingMenu(delegate: self)
     }()
     
+    private lazy var scannerViewController: ScannerViewController = {
+        return ScannerViewController()
+    }()
+    
     private lazy var invitesViewController: InvitesViewController = {
         let viewModel = InvitesViewModel(api: FirebaseSportsAPI())
         return InvitesViewController(viewModel: viewModel)
@@ -59,12 +51,11 @@ final class MainViewController: UIViewController {
     }()
     
     private var isDisplayingScanner: Bool = false
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupChildViews()
         setupChildViewControllers()
-        configureUI()
     }
     
     override func viewDidLayoutSubviews() {
@@ -73,8 +64,10 @@ final class MainViewController: UIViewController {
     }
     
     private func setupChildViews() {
-        view.addSubview(activateCameraDescription)
-        view.addSubview(activateCameraButton)
+        
+        let scannerView = scannerViewController.view!
+        
+        view.addSubview(scannerView)
         
         NSLayoutConstraint.pinToView(view, contentWrap)
         
@@ -87,13 +80,6 @@ final class MainViewController: UIViewController {
         view.addSubview(floatingMenu)
         
         NSLayoutConstraint.activate([
-            activateCameraDescription.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
-            activateCameraDescription.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
-            activateCameraDescription.bottomAnchor.constraint(equalTo: activateCameraButton.topAnchor, constant: -16),
-            activateCameraButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
-            activateCameraButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
-            activateCameraButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            activateCameraButton.heightAnchor.constraint(equalToConstant: 50),
             profileView.leftAnchor.constraint(equalTo: contentWrap.leftAnchor),
             profileView.rightAnchor.constraint(equalTo: contentWrap.rightAnchor),
             profileView.topAnchor.constraint(equalTo: contentWrap.topAnchor, constant: 64),
@@ -110,7 +96,7 @@ final class MainViewController: UIViewController {
     }
     
     private func setupChildViewControllers() {
-        
+        scannerViewController.didMove(toParent: self)
         invitesViewController.didMove(toParent: self)
         foosballViewController.didMove(toParent: self)
         tableTennisViewController.didMove(toParent: self)
@@ -133,10 +119,6 @@ final class MainViewController: UIViewController {
         ])
     }
     
-    private func configureUI() {
-        view.backgroundColor = UIColor.OS.General.main
-    }
-    
     private func configureTableViewInsets() {
         let padding: CGFloat = 32
         let profileMaxY = profileView.bounds.maxY + padding
@@ -144,28 +126,6 @@ final class MainViewController: UIViewController {
         let contentInset = UIEdgeInsets(top: profileMaxY, left: 0, bottom: menuMinY, right: 0)
         foosballViewController.applyContentInsetToTableView(contentInset)
         tableTennisViewController.applyContentInsetToTableView(contentInset)
-    }
-    
-    @objc private func activateCameraButtonTapped(_ sender: UIButton) {
-        switch AVCaptureDevice.authorizationStatus(for: .video) {
-        case .authorized:
-            setupCaptureSession()
-        case .notDetermined:
-            AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
-                if granted {
-                    self?.setupCaptureSession()
-                }
-            }
-        case .denied:
-            // user has previously denied access
-            return
-        case .restricted:
-            // user can't grant access due to restriction
-            return
-        default:
-            // ...
-            return
-        }
     }
 }
 
@@ -212,14 +172,5 @@ extension MainViewController: FloatingMenuDelegate {
         }
         let frame = xOffset > 0 ? foosballFrame : tableTennisFrame
         scrollView.scrollRectToVisible(frame, animated: true)
-    }
-}
-
-// MARK: - Scanner
-
-extension MainViewController {
-    
-    private func setupCaptureSession() {
-        
     }
 }

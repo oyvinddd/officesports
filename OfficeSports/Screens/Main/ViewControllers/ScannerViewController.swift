@@ -10,23 +10,24 @@ import AVFoundation
 
 final class ScannerViewController: UIViewController {
     
-    private lazy var cameraContainerView: UIView = {
-        return UIView.createView(.yellow)
+    private lazy var activateCameraDescription: UILabel = {
+        let label = UILabel.createLabel(.white, alignment: .left, text: "You need to activate the camera in order to register match scores.")
+        return label
+    }()
+    
+    private lazy var activateCameraButton: UIButton = {
+        let button = UIButton.createButton(.white, UIColor.OS.General.main, title: "Activate camera")
+        button.addTarget(self, action: #selector(activateCameraButtonTapped), for: .touchUpInside)
+        return button
     }()
     
     private var captureSession: AVCaptureSession!
     private var previewLayer: AVCaptureVideoPreviewLayer!
     
-    /*
-    private lazy var viewModel: ScannerViewModel = {
-        return ScannerViewModel(delegate: self)
-    }()
-     */
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .blue
         setupChildViews()
+        view.backgroundColor = UIColor.OS.General.main
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -35,54 +36,58 @@ final class ScannerViewController: UIViewController {
     }
     
     private func setupChildViews() {
-        view.addSubview(cameraContainerView)
+        view.addSubview(activateCameraDescription)
+        view.addSubview(activateCameraButton)
         
         NSLayoutConstraint.activate([
-            cameraContainerView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            cameraContainerView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            cameraContainerView.topAnchor.constraint(equalTo: view.topAnchor),
-            cameraContainerView.heightAnchor.constraint(equalTo: cameraContainerView.widthAnchor)
+            activateCameraDescription.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
+            activateCameraDescription.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
+            activateCameraDescription.bottomAnchor.constraint(equalTo: activateCameraButton.topAnchor, constant: -16),
+            activateCameraButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
+            activateCameraButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
+            activateCameraButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            activateCameraButton.heightAnchor.constraint(equalToConstant: 50),
         ])
     }
     
     private func setupAndStartCaptureSession() {
         // DispatchQueue.global(qos: .userInitiated).async {
+        
+        // init capture session
+        self.captureSession = AVCaptureSession()
+        
+        // configuration
+        self.captureSession.beginConfiguration()
+        self.captureSession.commitConfiguration()
+        
+        let videoInput = self.createVideoInput()
+        
+        if self.captureSession.canAddInput(videoInput!) {
+            self.captureSession.addInput(videoInput!)
+        } else {
+            return
+        }
+        
+        let metadataOutput = AVCaptureMetadataOutput()
+        
+        if self.captureSession.canAddOutput(metadataOutput) {
+            self.captureSession.addOutput(metadataOutput)
             
-            // init capture session
-            self.captureSession = AVCaptureSession()
-            
-            // configuration
-            self.captureSession.beginConfiguration()
-            self.captureSession.commitConfiguration()
-            
-            let videoInput = self.createVideoInput()
-            
-            if self.captureSession.canAddInput(videoInput!) {
-                self.captureSession.addInput(videoInput!)
-            } else {
-                return
-            }
-            
-            let metadataOutput = AVCaptureMetadataOutput()
-
-            if self.captureSession.canAddOutput(metadataOutput) {
-                self.captureSession.addOutput(metadataOutput)
-
-                metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-                metadataOutput.metadataObjectTypes = [.ean8, .ean13, .pdf417, .aztec]
-            } else {
-                // failed()
-                return
-            }
-            
-            // init the camera view in the UI
-            previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-            previewLayer.frame = view.layer.bounds
-            previewLayer.videoGravity = .resizeAspectFill
-            self.view.layer.addSublayer(previewLayer)
-            
-            // start the capture session (blocking)
-            self.captureSession.startRunning()
+            metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
+            metadataOutput.metadataObjectTypes = [.ean8, .ean13, .pdf417, .aztec]
+        } else {
+            // failed()
+            return
+        }
+        
+        // init the camera view in the UI
+        previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+        previewLayer.frame = view.layer.bounds
+        previewLayer.videoGravity = .resizeAspectFill
+        self.view.layer.addSublayer(previewLayer)
+        
+        // start the capture session (blocking)
+        self.captureSession.startRunning()
         // }
     }
     
@@ -99,6 +104,28 @@ final class ScannerViewController: UIViewController {
         }
         return videoInput
     }
+    
+    @objc private func activateCameraButtonTapped(_ sender: UIButton) {
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        case .authorized:
+            setupAndStartCaptureSession()
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
+                if granted {
+                    self?.setupAndStartCaptureSession()
+                }
+            }
+        case .denied:
+            // user has previously denied access
+            return
+        case .restricted:
+            // user can't grant access due to restriction
+            return
+        default:
+            // ...
+            return
+        }
+    }
 }
 
 extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
@@ -108,27 +135,13 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
         if captureSession.isRunning {
             captureSession.stopRunning()
         }
-
+        
         if let metadataObject = metadataObjects.first {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
             guard let stringValue = readableObject.stringValue else { return }
             
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
             print("Barcode found: \(stringValue)")
-         }
+        }
     }
 }
-
-// MARK: - Scanner View Model Delegate
-/*
-extension ScannerViewController: ScannerViewModelDelegate {
-    
-    func validationSucceeded(ticket: TPTicket) {
-        
-    }
-    
-    func validationFailed(error: Error) {
-        
-    }
-}
-*/
