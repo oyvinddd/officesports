@@ -28,7 +28,7 @@ final class MainViewController: UIViewController {
     }()
     
     private lazy var profileView: ProfileView = {
-        return ProfileView(account: OSAccount.current)
+        return ProfileView(account: OSAccount.current, delegate: self)
     }()
     
     private lazy var scrollView: UIScrollView = {
@@ -41,6 +41,11 @@ final class MainViewController: UIViewController {
     
     private lazy var floatingMenu: FloatingMenu = {
         return FloatingMenu(delegate: self)
+    }()
+    
+    private lazy var invitesViewController: InvitesViewController = {
+        let viewModel = InvitesViewModel(api: FirebaseSportsAPI())
+        return InvitesViewController(viewModel: viewModel)
     }()
     
     private lazy var foosballViewController: SportViewController = {
@@ -106,16 +111,21 @@ final class MainViewController: UIViewController {
     
     private func setupChildViewControllers() {
         
+        invitesViewController.didMove(toParent: self)
         foosballViewController.didMove(toParent: self)
         tableTennisViewController.didMove(toParent: self)
         
+        let invitesView = invitesViewController.view!
         let foosballView = foosballViewController.view!
         let tableTennisView = tableTennisViewController.view!
         
+        stackView.addArrangedSubview(invitesView)
         stackView.addArrangedSubview(foosballView)
         stackView.addArrangedSubview(tableTennisView)
         
         NSLayoutConstraint.activate([
+            invitesView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            invitesView.heightAnchor.constraint(equalTo: view.heightAnchor),
             foosballView.widthAnchor.constraint(equalTo: view.widthAnchor),
             foosballView.heightAnchor.constraint(equalTo: view.heightAnchor),
             tableTennisView.widthAnchor.constraint(equalTo: view.widthAnchor),
@@ -159,13 +169,18 @@ final class MainViewController: UIViewController {
     }
 }
 
-// MARK: - Floating Menu Delegate Conformance
+// MARK: - Profile view delegate conformance
 
-extension MainViewController: FloatingMenuDelegate {
+extension MainViewController: ProfileViewDelegate {
     
     func settingsButtonTapped() {
         present(SettingsViewController(), animated: false)
     }
+}
+
+// MARK: - Floating Menu Delegate Conformance
+
+extension MainViewController: FloatingMenuDelegate {
     
     func displayCodeButtonTapped() {
         foosballViewController.scrollTableViewToTop(animated: true)

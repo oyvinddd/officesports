@@ -12,8 +12,6 @@ import AudioToolbox
 
 protocol FloatingMenuDelegate: AnyObject {
     
-    func settingsButtonTapped()
-    
     func displayCodeButtonTapped()
     
     func registerMatchButtonTapped()
@@ -96,7 +94,7 @@ final class FloatingMenu: UIView {
     
     @objc private func settingsButtonTapped(_ sender: MenuButton) {
         feedbackGenerator.impactOccurred()
-        delegate?.settingsButtonTapped()
+        //delegate?.settingsButtonTapped()
     }
     
     @objc private func changeSportsButtonTapped(_ sender: MenuButton) {

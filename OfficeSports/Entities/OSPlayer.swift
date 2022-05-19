@@ -13,6 +13,8 @@ struct OSPlayer: Codable {
     
     var nickname: String
     
+    var emoji: String
+    
     var foosballScore: Int
     
     var tableTennisScore: Int

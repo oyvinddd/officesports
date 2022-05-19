@@ -99,10 +99,11 @@ extension UIImageView {
 
 extension UITextField {
     
-    class func createTextField(_ backgroundColor: UIColor, placeholder: String? = nil) -> UITextField {
+    class func createTextField(_ backgroundColor: UIColor, color: UIColor, placeholder: String? = nil) -> UITextField {
         let textField = UITextField(frame: .zero)
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = backgroundColor
+        textField.textColor = color
         return textField
     }
 }

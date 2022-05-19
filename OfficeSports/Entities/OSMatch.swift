@@ -1,5 +1,5 @@
 //
-//  OSMatchResult.swift
+//  OSMatch.swift
 //  Office Sports
 //
 //  Created by Øyvind Hauge on 10/05/2022.
@@ -7,9 +7,11 @@
 
 import Foundation
 
-struct OSMatchResult: Codable {
+struct OSMatch: Codable {
     
     var date: Date
+    
+    var sport: OSSport
     
     var winner: OSPlayer
     
@@ -18,6 +20,4 @@ struct OSMatchResult: Codable {
     var loserDelta: Int
     
     var winnerDelta: Int
-    
-    var sport: OSSport
 }

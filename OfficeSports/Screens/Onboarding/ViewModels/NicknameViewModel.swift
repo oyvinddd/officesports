@@ -28,14 +28,7 @@ final class NicknameViewModel {
     }
     
     func updateProfileDetails(nickname: String, emoji: String) {
-        delegate?.shouldToggleLoading(enabled: true)
-        api.registerProfileDetails(OSProfileDetails(nickname: nickname, emoji: emoji)) { [weak self] error in
-            self?.delegate?.shouldToggleLoading(enabled: false)
-            if let error = error {
-                self?.delegate?.detailsUpdateFailed(with: error)
-            } else {
-                self?.delegate?.detailsUpdatedSuccessfully()
-            }
-        }
+        api.saveProfileDetails(nickname: nickname, emoji: emoji)
+        delegate?.detailsUpdatedSuccessfully()
     }
 }

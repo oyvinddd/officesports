@@ -15,10 +15,10 @@ protocol CompoundFieldDelegate: AnyObject {
 final class CompoundField: UIView {
     
     private lazy var textField: UITextField = {
-        let textField = UITextField.createTextField(.clear)
+        let textField = UITextField.createTextField(.clear, color: UIColor.OS.Text.normal)
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0)
-        textField.font = UIFont.systemFont(ofSize: 18)
-        textField.textColor = UIColor.OS.Text.normal
+        textField.font = UIFont.systemFont(ofSize: 20)
+        textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
         return textField
     }()

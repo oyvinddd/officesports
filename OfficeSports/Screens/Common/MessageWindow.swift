@@ -11,6 +11,8 @@ enum MessageType: Int {
     case success, failure, warning, info
 }
 
+private let messageMaxOpacity: CGFloat = 0.95
+private let messageMinOpacity: CGFloat = 0
 private let messageDisplayDuration: TimeInterval = 2 // seconds
 
 final class MessageWindow: UIWindow {
@@ -64,34 +66,30 @@ final class MessageViewController: UIViewController {
         ])
     }
     
-    func displayMessage(_ message: String, type: MessageType) {
-        messageView.setMessage(message)
-        switch type {
-        case .success:
-            break
-        case .failure:
-            break
-        case .warning:
-            break
-        default: // info
-            break
-        }
+    func displayMessage(_ message: String, type: MessageType, seconds: Int = 3) {
+        messageView.updateMessageAndStyle(message, type: type)
     }
 }
 
 final class MessageView: UIView {
     
+    private lazy var infoImageView: UIImageView = {
+        return UIImageView.createImageView(nil)
+    }()
+    
     private lazy var messageLabel: UILabel = {
-        return UILabel.createLabel(.white, alignment: .left, text: "Hello world!")
+        let label = UILabel.createLabel(.white, alignment: .left, text: nil)
+        label.font = UIFont.boldSystemFont(ofSize: 16)
+        return label
     }()
     
     init() {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         applyMediumDropShadow(.black)
-        applyCornerRadius(15)
-        backgroundColor = .green
+        applyCornerRadius(6)
         setupChildViews()
+        updateMessageAndStyle("This is a test success message...", type: .success)
     }
     
     required init?(coder: NSCoder) {
@@ -99,10 +97,21 @@ final class MessageView: UIView {
     }
     
     private func setupChildViews() {
-        NSLayoutConstraint.pinToView(self, messageLabel, padding: 8)
+        NSLayoutConstraint.pinToView(self, messageLabel, padding: 16)
     }
     
-    func setMessage(_ message: String) {
+    func updateMessageAndStyle(_ message: String?, type: MessageType) {
+        alpha = 0
         messageLabel.text = message
+        switch type {
+        case .success:
+            backgroundColor = UIColor.OS.General.success
+        case .failure:
+            backgroundColor = UIColor.OS.General.failure
+        case .warning:
+            backgroundColor = UIColor.OS.General.warning
+        case .info:
+            break
+        }
     }
 }

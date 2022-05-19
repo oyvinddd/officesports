@@ -7,8 +7,7 @@
 
 import UIKit
 
-private let kDialogMinHeight: CGFloat = 150
-private let kBackgroundMaxFade: CGFloat = 0.7
+private let kBackgroundMaxFade: CGFloat = 0.6
 private let kBackgroundMinFade: CGFloat = 0
 private let kAnimDuration: TimeInterval = 0.15
 private let kAnimDelay: TimeInterval = 0
@@ -53,7 +52,7 @@ final class SettingsViewController: UIViewController {
     }()
     
     private lazy var viewModel: AuthViewModel = {
-        return AuthViewModel(delegate: self)
+        return AuthViewModel(api: FirebaseSportsAPI(), delegate: self)
     }()
     
     private let dialogHideConstant: CGFloat = 0

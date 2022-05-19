@@ -13,13 +13,29 @@ private let profileImageRadius: CGFloat = profileImageDimater / 2
 private let codeTransitionDuration: TimeInterval = 0.3  // seconds
 private let codeHideDelayDuration: TimeInterval = 2     // seconds
 
+protocol ProfileViewDelegate: AnyObject {
+    
+    func settingsButtonTapped()
+}
+
 final class ProfileView: UIView {
     
     private lazy var codeImageView: UIImageView = {
+        // TODO: one code for each sport
         let image = CodeGen.generateQRCode(from: "Hello, world!")
         let imageView = UIImageView.createImageView(image!)
         imageView.alpha = 0
         return imageView
+    }()
+    
+    private lazy var settingsButton: UIButton = {
+        let config = UIImage.SymbolConfiguration(pointSize: 24, weight: .semibold, scale: .large)
+        let image = UIImage(systemName: "gearshape", withConfiguration: config)
+        let button = UIButton.createButton(.clear, .clear, title: nil)
+        button.addTarget(self, action: #selector(settingsButtonTapped), for: .touchUpInside)
+        button.tintColor = UIColor.OS.General.mainDark
+        button.setImage(image, for: .normal)
+        return button
     }()
     
     private lazy var profileImageWrap: UIView = {
@@ -54,18 +70,32 @@ final class ProfileView: UIView {
         return label
     }()
     
+    private weak var delegate: ProfileViewDelegate?
+    
+    private let account: OSAccount
     private var isDisplayingCode: Bool = false
     
-    init(account: OSAccount) {
+    init(account: OSAccount, delegate: ProfileViewDelegate?) {
+        self.account = account
+        self.delegate = delegate
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
-        configureUI(account: account)
+        configureUI()
         setupChildViews()
-        //backgroundColor = .red
+        displayDetailsForSport(.foosball)
+        backgroundColor = .red
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func displayDetailsForSport(_ sport: OSSport, animated: Bool = false) {
+        if sport == .foosball {
+            totalScoreLabel.text = "\(account.player.foosballScore) pts"
+        } else {
+            totalScoreLabel.text = "\(account.player.tableTennisScore) pts"
+        }
     }
     
     func displayQrCode(seconds: Int) {
@@ -90,6 +120,7 @@ final class ProfileView: UIView {
     private func setupChildViews() {
         addSubview(codeImageView)
         addSubview(profileImageWrap)
+        addSubview(settingsButton)
         profileImageWrap.addSubview(profileImageBackground)
         addSubview(usernameLabel)
         addSubview(totalScoreLabel)
@@ -108,6 +139,10 @@ final class ProfileView: UIView {
             profileImageBackground.rightAnchor.constraint(equalTo: profileImageWrap.rightAnchor, constant: -8),
             profileImageBackground.topAnchor.constraint(equalTo: profileImageWrap.topAnchor, constant: 8),
             profileImageBackground.bottomAnchor.constraint(equalTo: profileImageWrap.bottomAnchor, constant: -8),
+            settingsButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
+            settingsButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
+            settingsButton.widthAnchor.constraint(equalToConstant: 50),
+            settingsButton.heightAnchor.constraint(equalTo: settingsButton.widthAnchor),
             usernameLabel.leftAnchor.constraint(equalTo: leftAnchor),
             usernameLabel.rightAnchor.constraint(equalTo: rightAnchor),
             usernameLabel.topAnchor.constraint(equalTo: profileImageWrap.bottomAnchor, constant: 8),
@@ -118,9 +153,12 @@ final class ProfileView: UIView {
         ])
     }
     
-    private func configureUI(account: OSAccount) {
-        profileEmjoiLabel.text = account.emoji ?? "🧘🏻"
-        usernameLabel.text = account.nickname?.lowercased()
-        totalScoreLabel.text = "\(account.totalFoosballScore) pts"
+    private func configureUI() {
+        profileEmjoiLabel.text = account.player.emoji
+        usernameLabel.text = account.player.nickname.lowercased()
+    }
+    
+    @objc private func settingsButtonTapped(_ sender: UIButton) {
+        delegate?.settingsButtonTapped()
     }
 }

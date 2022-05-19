@@ -21,6 +21,12 @@ extension UIColor {
             static let mainDark = UIColor(hex: 0x7071C1)
             
             static let separator = UIColor(hex: 0xF1F0F2)
+            
+            static let failure = UIColor(hex: 0xEA4755)
+            
+            static let success = UIColor(hex: 0x65C775)
+            
+            static let warning = UIColor(hex: 0xF4BB52)
         }
         
         enum Text {
