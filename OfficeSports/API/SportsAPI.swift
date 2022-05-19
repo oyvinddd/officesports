@@ -6,13 +6,15 @@
 //
 
 import Foundation
+import GoogleSignIn
 import FirebaseCore
+import FirebaseAuth
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 protocol SportsAPI {
     
-    func signIn(result: @escaping ((Error?) -> Void))
+    func signIn(_ viewController: UIViewController, result: @escaping ((Error?) -> Void))
     
     func registerProfileDetails(_ details: OSProfileDetails, result: @escaping ((Error?) -> Void))
     
@@ -28,18 +30,51 @@ protocol SportsAPI {
 // MARK: - Firebase Sports API implements the Sports API protocol
 
 private let fbDetailsCollection = "profileDetails"
-private let fbScoreboardCollection = "scoreboard"
+private let fbUsersCollection = "users"
 private let fbMatchHistoryCollection = "matchHistory"
 
 final class FirebaseSportsAPI: SportsAPI {
     
     private let database = Firestore.firestore()
     
-    func signIn(result: @escaping ((Error?) -> Void)) {
+    func signIn(_ viewController: UIViewController, result: @escaping ((Error?) -> Void)) {
+        guard let clientID = FirebaseApp.app()?.options.clientID else {
+            return
+        }
+        
+        // Create Google Sign In configuration object.
+        let config = GIDConfiguration(clientID: clientID)
+        
+        // Start the sign in flow!
+        GIDSignIn.sharedInstance.signIn(with: config, presenting: viewController) { [unowned self] user, error in
+            if let error = error {
+                result(error)
+                return
+            }
+            
+            guard let authentication = user?.authentication, let idToken = authentication.idToken else {
+                // TODO: return error
+                return
+            }
+            
+            let credentials = GoogleAuthProvider.credential(
+                withIDToken: idToken,
+                accessToken: authentication.accessToken
+            )
+            
+            Auth.auth().signIn(with: credentials) { [unowned self] authResult, error in
+                if let error = error {
+                    result(error)
+                } else {
+                    result(nil)
+                }
+            }
+        }
     }
     
     func registerProfileDetails(_ details: OSProfileDetails, result: @escaping ((Error?) -> Void)) {
         do {
+            // TODO: document should in this case be the users own user id
             try database.collection(fbDetailsCollection).document("123").setData(from: details, merge: true)
             result(nil)
         } catch let error {

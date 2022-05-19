@@ -9,7 +9,7 @@ import UIKit
 
 extension UIView {
     
-    class func createView(_ backgroundColor: UIColor) -> UIView {
+    class func createView(_ backgroundColor: UIColor, cornerRadius: CGFloat = 0) -> UIView {
         let view = UIView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = backgroundColor
