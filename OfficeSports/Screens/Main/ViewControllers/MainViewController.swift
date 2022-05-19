@@ -8,6 +8,7 @@
 import UIKit
 
 private let scannerFadeDuration: TimeInterval = 0.2 // seconds
+private let scannerDelayDuration: TimeInterval = 0  // seconds
 
 final class MainViewController: UIViewController {
     
@@ -50,7 +51,7 @@ final class MainViewController: UIViewController {
         return SportViewController(viewModel: viewModel)
     }()
     
-    private var isDisplayingScanner: Bool = false
+    private var cameraIsShowing: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,9 +66,7 @@ final class MainViewController: UIViewController {
     
     private func setupChildViews() {
         
-        let scannerView = scannerViewController.view!
-        
-        view.addSubview(scannerView)
+        view.addSubview(scannerViewController.view!)
         
         NSLayoutConstraint.pinToView(view, contentWrap)
         
@@ -147,19 +146,20 @@ extension MainViewController: FloatingMenuDelegate {
         profileView.displayQrCode(seconds: 0)
     }
     
-    func registerMatchButtonTapped() {
-        guard !isDisplayingScanner else {
-            return
+    func toggleCameraButtonTapped() {
+        if cameraIsShowing {
+            scannerViewController.stopCaptureSession()
+        } else {
+            scannerViewController.startCaptureSession()
         }
-        isDisplayingScanner = true
+        floatingMenu.toggleCameraMode(enabled: !cameraIsShowing)
+        
         UIView.animate(
             withDuration: scannerFadeDuration,
-            delay: 0,
-            options: [.curveEaseInOut]) { [weak self] in
-                self?.contentWrap.alpha = 0
-            } completion: { [weak self] _ in
-                self?.isDisplayingScanner = false
+            delay: scannerDelayDuration) { [unowned self] in
+                self.contentWrap.alpha = cameraIsShowing ? 1 : 0
             }
+        cameraIsShowing = !cameraIsShowing
     }
     
     func changeSportsButtonTapped() {

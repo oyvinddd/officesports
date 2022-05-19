@@ -14,7 +14,7 @@ protocol FloatingMenuDelegate: AnyObject {
     
     func displayCodeButtonTapped()
     
-    func registerMatchButtonTapped()
+    func toggleCameraButtonTapped()
     
     func changeSportsButtonTapped()
 }
@@ -38,9 +38,9 @@ final class FloatingMenu: UIView {
         return button
     }()
     
-    private lazy var mbRegisterMatch: MenuButton = {
+    private lazy var mbToggleCamera: MenuButton = {
         let button = MenuButton(.clear, image: UIImage(systemName: "qrcode.viewfinder", withConfiguration: buttonImageConfig))
-        button.addTarget(self, action: #selector(registerMatchButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(toggleCameraButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -72,14 +72,20 @@ final class FloatingMenu: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func toggle(turnOn: Bool, animated: Bool = true) {
+    func toggleCameraMode(enabled: Bool, animated: Bool = true) {
+        let icon = enabled ? "xmark" : "qrcode.viewfinder"
+        let image = UIImage(systemName: icon, withConfiguration: buttonImageConfig)
+        mbToggleCamera.setImage(image, for: .normal)
+        mbSettings.toggle(enabled: !enabled)
+        mbChangeSports.toggle(enabled: !enabled)
+        mbShowQrCode.toggle(enabled: !enabled)
     }
     
     private func setupChildViews() {
         NSLayoutConstraint.pinToView(self, stackView, padding: 4)
         
         stackView.addArrangedSubview(mbSettings)
-        stackView.addArrangedSubview(mbRegisterMatch)
+        stackView.addArrangedSubview(mbToggleCamera)
         stackView.addArrangedSubview(mbShowQrCode)
         stackView.addArrangedSubview(mbChangeSports)
     }
@@ -93,7 +99,7 @@ final class FloatingMenu: UIView {
     // MARK: - Button Handling
     
     @objc private func settingsButtonTapped(_ sender: MenuButton) {
-        feedbackGenerator.impactOccurred()
+        //feedbackGenerator.impactOccurred()
         //delegate?.settingsButtonTapped()
     }
     
@@ -102,9 +108,9 @@ final class FloatingMenu: UIView {
         delegate?.changeSportsButtonTapped()
     }
     
-    @objc private func registerMatchButtonTapped(_ sender: MenuButton) {
+    @objc private func toggleCameraButtonTapped(_ sender: MenuButton) {
         feedbackGenerator.impactOccurred()
-        delegate?.registerMatchButtonTapped()
+        delegate?.toggleCameraButtonTapped()
     }
     
     @objc private func displayCodeButtonTapped(_ sender: MenuButton) {
@@ -128,5 +134,14 @@ private final class MenuButton: UIButton {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func toggle(enabled: Bool) {
+        isEnabled = enabled
+        if enabled {
+            tintColor = UIColor.OS.General.main
+        } else {
+            tintColor = UIColor.OS.Text.disabled
+        }
     }
 }

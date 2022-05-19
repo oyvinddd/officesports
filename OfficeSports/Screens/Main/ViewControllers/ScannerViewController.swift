@@ -11,8 +11,7 @@ import AVFoundation
 final class ScannerViewController: UIViewController {
     
     private lazy var activateCameraDescription: UILabel = {
-        let label = UILabel.createLabel(.white, alignment: .left, text: "You need to activate the camera in order to register match scores.")
-        return label
+        return UILabel.createLabel(.white, alignment: .left, text: "You need to activate the camera in order to register match scores.")
     }()
     
     private lazy var activateCameraButton: UIButton = {
@@ -30,11 +29,6 @@ final class ScannerViewController: UIViewController {
         view.backgroundColor = UIColor.OS.General.main
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        //setupAndStartCaptureSession()
-    }
-    
     private func setupChildViews() {
         view.addSubview(activateCameraDescription)
         view.addSubview(activateCameraButton)
@@ -46,32 +40,39 @@ final class ScannerViewController: UIViewController {
             activateCameraButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
             activateCameraButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
             activateCameraButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            activateCameraButton.heightAnchor.constraint(equalToConstant: 50),
+            activateCameraButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     
-    private func setupAndStartCaptureSession() {
-        // DispatchQueue.global(qos: .userInitiated).async {
+    func stopCaptureSession() {
+        if captureSession.isRunning {
+            captureSession.stopRunning()
+        }
+    }
+    
+    func startCaptureSession() {
+        // exit early if camera has not been enabled by the user
+        guard AVCaptureDevice.authorizationStatus(for: .video) == .authorized else {
+            return
+        }
         
-        // init capture session
-        self.captureSession = AVCaptureSession()
+        // initialize and configure capture session
+        captureSession = AVCaptureSession()
+        captureSession.beginConfiguration()
+        captureSession.commitConfiguration()
         
-        // configuration
-        self.captureSession.beginConfiguration()
-        self.captureSession.commitConfiguration()
+        let videoInput = createVideoInput()
         
-        let videoInput = self.createVideoInput()
-        
-        if self.captureSession.canAddInput(videoInput!) {
-            self.captureSession.addInput(videoInput!)
+        if captureSession.canAddInput(videoInput!) {
+            captureSession.addInput(videoInput!)
         } else {
             return
         }
         
         let metadataOutput = AVCaptureMetadataOutput()
         
-        if self.captureSession.canAddOutput(metadataOutput) {
-            self.captureSession.addOutput(metadataOutput)
+        if captureSession.canAddOutput(metadataOutput) {
+            captureSession.addOutput(metadataOutput)
             
             metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
             metadataOutput.metadataObjectTypes = [.ean8, .ean13, .pdf417, .aztec]
@@ -84,35 +85,34 @@ final class ScannerViewController: UIViewController {
         previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         previewLayer.frame = view.layer.bounds
         previewLayer.videoGravity = .resizeAspectFill
-        self.view.layer.addSublayer(previewLayer)
+        view.layer.addSublayer(previewLayer)
         
         // start the capture session (blocking)
-        self.captureSession.startRunning()
-        // }
+        captureSession.startRunning()
     }
     
     private func createVideoInput() -> AVCaptureDeviceInput? {
         guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else {
             return nil
         }
-        let videoInput: AVCaptureDeviceInput?
         
         do {
-            videoInput = try AVCaptureDeviceInput(device: videoCaptureDevice)
-        } catch {
+            return try AVCaptureDeviceInput(device: videoCaptureDevice)
+        } catch let error {
+            print(error.localizedDescription)
             return nil
         }
-        return videoInput
     }
     
     @objc private func activateCameraButtonTapped(_ sender: UIButton) {
-        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        let authorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
+        switch authorizationStatus {
         case .authorized:
-            setupAndStartCaptureSession()
+            startCaptureSession()
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
                 if granted {
-                    self?.setupAndStartCaptureSession()
+                    self?.startCaptureSession()
                 }
             }
         case .denied:
@@ -121,9 +121,8 @@ final class ScannerViewController: UIViewController {
         case .restricted:
             // user can't grant access due to restriction
             return
-        default:
-            // ...
-            return
+        @unknown default:
+            fatalError("Unknown camera status")
         }
     }
 }
