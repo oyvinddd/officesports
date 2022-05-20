@@ -7,3 +7,7 @@ Office Sports is an app where users can challenge colleagues to either a foosbal
 ### Technical Details
 
 The app is written in Swift 5 and all UI is built programmatically in UIKit (no SwiftUI). Firebase Firestore is used as the backend and users sign in using their Google accounts.
+
+### Dependencies
+
+SPM is used as the package manager. Currently, the only dependency is the Firebase iOS SDK.

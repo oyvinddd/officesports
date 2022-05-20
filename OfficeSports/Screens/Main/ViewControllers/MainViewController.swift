@@ -33,7 +33,8 @@ final class MainViewController: UIViewController {
     }()
     
     private lazy var scannerViewController: ScannerViewController = {
-        return ScannerViewController()
+        let viewModel = ScannerViewModel(api: FirebaseSportsAPI())
+        return ScannerViewController(viewModel: viewModel)
     }()
     
     private lazy var invitesViewController: InvitesViewController = {

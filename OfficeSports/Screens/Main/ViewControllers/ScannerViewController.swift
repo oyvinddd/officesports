@@ -20,8 +20,18 @@ final class ScannerViewController: UIViewController {
         return button
     }()
     
+    private let viewModel: ScannerViewModel
     private var captureSession: AVCaptureSession!
     private var previewLayer: AVCaptureVideoPreviewLayer!
+    
+    init(viewModel: ScannerViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -142,5 +152,21 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
             print("Barcode found: \(stringValue)")
         }
+    }
+}
+
+// MARK: - Scanner View Model Delegate
+
+extension ScannerViewController: ScannerViewModelDelegate {
+    
+    func matchRegistrationSuccess() {
+        
+    }
+    
+    func matchRegistrationFailed(error: Error) {
+        
+    }
+    
+    func shouldToggleLoading(enabled: Bool) {
     }
 }

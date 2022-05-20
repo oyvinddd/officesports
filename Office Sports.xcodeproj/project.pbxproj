@@ -55,6 +55,7 @@
 		8EF13879283791AE001D8DA6 /* MockSportsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF13878283791AE001D8DA6 /* MockSportsAPI.swift */; };
 		8EF1387B2837CF3A001D8DA6 /* OSCodePayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1387A2837CF3A001D8DA6 /* OSCodePayload.swift */; };
 		8EF1387D2837EEEC001D8DA6 /* MatchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1387C2837EEEC001D8DA6 /* MatchTableViewCell.swift */; };
+		8EF1387F2837FDD3001D8DA6 /* ScannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1387E2837FDD3001D8DA6 /* ScannerViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -105,6 +106,7 @@
 		8EF13878283791AE001D8DA6 /* MockSportsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSportsAPI.swift; sourceTree = "<group>"; };
 		8EF1387A2837CF3A001D8DA6 /* OSCodePayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSCodePayload.swift; sourceTree = "<group>"; };
 		8EF1387C2837EEEC001D8DA6 /* MatchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchTableViewCell.swift; sourceTree = "<group>"; };
+		8EF1387E2837FDD3001D8DA6 /* ScannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -269,6 +271,7 @@
 				8E70C131282AD1F0009A9452 /* SportViewModel.swift */,
 				8E973321283231F40012E236 /* SettingsViewModel.swift */,
 				8E31E24128364B0A0085238C /* InvitesViewModel.swift */,
+				8EF1387E2837FDD3001D8DA6 /* ScannerViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -453,6 +456,7 @@
 				8E70C11C282AC3F2009A9452 /* ScannerViewController.swift in Sources */,
 				8E2EE769283675EF0096659D /* InviteTableViewCell.swift in Sources */,
 				8EF1387D2837EEEC001D8DA6 /* MatchTableViewCell.swift in Sources */,
+				8EF1387F2837FDD3001D8DA6 /* ScannerViewModel.swift in Sources */,
 				8E70C121282AC510009A9452 /* OSPlayer.swift in Sources */,
 				8E973322283231F40012E236 /* SettingsViewModel.swift in Sources */,
 				8E70C117282ABD3E009A9452 /* FloatingMenu.swift in Sources */,
@@ -628,6 +632,7 @@
 				DEVELOPMENT_TEAM = 2SMFLM66R9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OfficeSports/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "The application needs to access the camera in order to register scores.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -638,7 +643,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tietoevry.officesports;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -657,6 +662,7 @@
 				DEVELOPMENT_TEAM = 2SMFLM66R9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OfficeSports/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "The application needs to access the camera in order to register scores.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -667,7 +673,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tietoevry.officesports;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
