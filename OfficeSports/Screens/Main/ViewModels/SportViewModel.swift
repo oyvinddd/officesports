@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ScoreboardViewModelDelegate: AnyObject {
+protocol SportViewModelDelegate: AnyObject {
     
     func fetchedScoreboardSuccessfully()
     
@@ -25,7 +25,7 @@ final class SportViewModel {
     var scoreboard = [OSPlayer]()
     var recentMatches = [OSMatch]()
     
-    weak var delegate: ScoreboardViewModelDelegate?
+    weak var delegate: SportViewModelDelegate?
     
     private let api: SportsAPI
     private let sport: OSSport

@@ -16,11 +16,12 @@ final class SportViewController: UIViewController {
         return tableView
     }()
     
-    private var viewModel: ScoreboardViewModel
+    private var viewModel: SportViewModel
     
-    init(viewModel: ScoreboardViewModel) {
+    init(viewModel: SportViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        viewModel.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -91,6 +92,28 @@ extension SportViewController: UITableViewDataSource {
 // MARK: - Table View Delegate
 
 extension SportViewController: UITableViewDelegate {
+}
+
+// MARK: - Sport View Model Delegate
+
+extension SportViewController: SportViewModelDelegate {
+    
+    func fetchedScoreboardSuccessfully() {
+        tableView.reloadData()
+    }
+    
+    func didFetchScoreboard(with error: Error) {
+    }
+    
+    func fetchedRecentMatchesSuccessfully() {
+        tableView.reloadData()
+    }
+    
+    func didFetchRecentMatches(with error: Error) {
+    }
+    
+    func shouldToggleLoading(enabled: Bool) {
+    }
 }
 
 // MARK: - Sport Filter Delegate

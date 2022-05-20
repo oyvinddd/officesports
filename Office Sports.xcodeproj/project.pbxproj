@@ -36,7 +36,7 @@
 		8E70C12B282ACEAF009A9452 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C12A282ACEAF009A9452 /* UIColor+Hex.swift */; };
 		8E70C12D282AD01A009A9452 /* UIView+Visuals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C12C282AD01A009A9452 /* UIView+Visuals.swift */; };
 		8E70C12F282AD0AE009A9452 /* UITableView+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C12E282AD0AE009A9452 /* UITableView+Util.swift */; };
-		8E70C132282AD1F0009A9452 /* ScoreboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C131282AD1F0009A9452 /* ScoreboardViewModel.swift */; };
+		8E70C132282AD1F0009A9452 /* SportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C131282AD1F0009A9452 /* SportViewModel.swift */; };
 		8E70C134282AD279009A9452 /* OSSport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C133282AD279009A9452 /* OSSport.swift */; };
 		8E70C136282ADF7A009A9452 /* OSAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C135282ADF7A009A9452 /* OSAccount.swift */; };
 		8E70C138282AEE2F009A9452 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C137282AEE2F009A9452 /* WelcomeViewController.swift */; };
@@ -80,7 +80,7 @@
 		8E70C12A282ACEAF009A9452 /* UIColor+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		8E70C12C282AD01A009A9452 /* UIView+Visuals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Visuals.swift"; sourceTree = "<group>"; };
 		8E70C12E282AD0AE009A9452 /* UITableView+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Util.swift"; sourceTree = "<group>"; };
-		8E70C131282AD1F0009A9452 /* ScoreboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreboardViewModel.swift; sourceTree = "<group>"; };
+		8E70C131282AD1F0009A9452 /* SportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportViewModel.swift; sourceTree = "<group>"; };
 		8E70C133282AD279009A9452 /* OSSport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSSport.swift; sourceTree = "<group>"; };
 		8E70C135282ADF7A009A9452 /* OSAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSAccount.swift; sourceTree = "<group>"; };
 		8E70C137282AEE2F009A9452 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
@@ -257,7 +257,7 @@
 		8E70C130282AD1DE009A9452 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				8E70C131282AD1F0009A9452 /* ScoreboardViewModel.swift */,
+				8E70C131282AD1F0009A9452 /* SportViewModel.swift */,
 				8E973321283231F40012E236 /* SettingsViewModel.swift */,
 				8E31E24128364B0A0085238C /* InvitesViewModel.swift */,
 			);
@@ -462,7 +462,7 @@
 				8E70C124282AC949009A9452 /* PlacementTableViewCell.swift in Sources */,
 				8E176F6F28329E4A00377497 /* NicknameViewModel.swift in Sources */,
 				8E9849C8282BCDC80020266B /* CircleView.swift in Sources */,
-				8E70C132282AD1F0009A9452 /* ScoreboardViewModel.swift in Sources */,
+				8E70C132282AD1F0009A9452 /* SportViewModel.swift in Sources */,
 				8E230887282D575D00AF60EB /* AuthViewModel.swift in Sources */,
 				8E70C136282ADF7A009A9452 /* OSAccount.swift in Sources */,
 				8E230889282D788D00AF60EB /* EmojiViewController.swift in Sources */,
@@ -619,8 +619,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -648,8 +648,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

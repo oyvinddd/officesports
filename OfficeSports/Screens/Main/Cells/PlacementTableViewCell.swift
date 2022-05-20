@@ -15,7 +15,7 @@ final class PlacementTableViewCell: UITableViewCell {
     
     private lazy var profileImageWrap: UIView = {
         let view = UIView.createView(.red)
-        view.applyCornerRadius(25)
+        view.applyCornerRadius(23)
         return view
     }()
     
@@ -27,7 +27,7 @@ final class PlacementTableViewCell: UITableViewCell {
     
     private lazy var usernameLabel: UILabel = {
         let label = UILabel.createLabel(UIColor.OS.Text.normal)
-        label.font = UIFont.boldSystemFont(ofSize: 22)
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         return label
     }()
     
@@ -43,7 +43,7 @@ final class PlacementTableViewCell: UITableViewCell {
     }()
     
     private let placementFontNormal = UIFont.boldSystemFont(ofSize: 18)
-    private let placementFontEmoji = UIFont.systemFont(ofSize: 32)
+    private let placementFontEmoji = UIFont.systemFont(ofSize: 28)
     
     init() {
         super.init(style: .default, reuseIdentifier: String(describing: PlacementTableViewCell.self))
@@ -69,21 +69,22 @@ final class PlacementTableViewCell: UITableViewCell {
     }
     
     func applyCornerRadius(isFirstElement: Bool, isLastElement: Bool) {
-        if isFirstElement {
-            contentWrap.layer.cornerRadius = 15
-            contentWrap.layer.maskedCorners = [
-                .layerMaxXMinYCorner,
-                .layerMinXMinYCorner
-            ]
-        } else if isLastElement {
-            contentWrap.layer.cornerRadius = 15
-            contentWrap.layer.maskedCorners = [
-                .layerMinXMaxYCorner,
-                .layerMaxXMaxYCorner
-            ]
-        } else {
+        guard isFirstElement || isLastElement else {
             contentWrap.layer.maskedCorners = []
+            return
         }
+        
+        var mask = CACornerMask()
+        if isFirstElement {
+            mask.insert(.layerMaxXMinYCorner)
+            mask.insert(.layerMinXMinYCorner)
+        }
+        if isLastElement {
+            mask.insert(.layerMinXMaxYCorner)
+            mask.insert(.layerMaxXMaxYCorner)
+        }
+        contentWrap.layer.cornerRadius = 15
+        contentWrap.layer.maskedCorners = mask
     }
     
     private func setupChildViews() {
@@ -102,11 +103,11 @@ final class PlacementTableViewCell: UITableViewCell {
             profileImageWrap.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
             profileImageWrap.topAnchor.constraint(equalTo: contentWrap.topAnchor, constant: 16),
             profileImageWrap.bottomAnchor.constraint(equalTo: contentWrap.bottomAnchor, constant: -16),
-            profileImageWrap.heightAnchor.constraint(equalToConstant: 50),
+            profileImageWrap.heightAnchor.constraint(equalToConstant: 46),
             profileImageWrap.widthAnchor.constraint(equalTo: profileImageWrap.heightAnchor),
             usernameLabel.leftAnchor.constraint(equalTo: profileImageWrap.rightAnchor, constant: 16),
             usernameLabel.topAnchor.constraint(equalTo: profileImageWrap.topAnchor),
-            usernameLabel.bottomAnchor.constraint(greaterThanOrEqualTo: scoreLabel.topAnchor),
+            // usernameLabel.bottomAnchor.constraint(greaterThanOrEqualTo: scoreLabel.topAnchor),
             usernameLabel.rightAnchor.constraint(greaterThanOrEqualTo: placementLabel.leftAnchor, constant: -8),
             scoreLabel.leftAnchor.constraint(equalTo: profileImageWrap.rightAnchor, constant: 16),
             scoreLabel.bottomAnchor.constraint(equalTo: profileImageWrap.bottomAnchor),
@@ -121,7 +122,7 @@ final class PlacementTableViewCell: UITableViewCell {
         backgroundColor = .clear
         selectionStyle = .none
     }
-
+    
     private func placementText(_ placement: Int) -> String {
         switch placement {
         case 0:

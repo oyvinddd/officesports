@@ -42,12 +42,12 @@ final class MainViewController: UIViewController {
     }()
     
     private lazy var foosballViewController: SportViewController = {
-        let viewModel = ScoreboardViewModel(api: FirebaseSportsAPI(), sport: .foosball)
+        let viewModel = SportViewModel(api: FirebaseSportsAPI(), sport: .foosball)
         return SportViewController(viewModel: viewModel)
     }()
     
     private lazy var tableTennisViewController: SportViewController = {
-        let viewModel = ScoreboardViewModel(api: FirebaseSportsAPI(), sport: .tableTennis)
+        let viewModel = SportViewModel(api: FirebaseSportsAPI(), sport: .tableTennis)
         return SportViewController(viewModel: viewModel)
     }()
     
@@ -62,6 +62,11 @@ final class MainViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         configureTableViewInsets()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        Coordinator.global.displayMessage("Hi hi", type: .warning)
     }
     
     private func setupChildViews() {

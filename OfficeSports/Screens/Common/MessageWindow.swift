@@ -13,7 +13,8 @@ enum MessageType: Int {
 
 private let messageMaxOpacity: CGFloat = 0.95
 private let messageMinOpacity: CGFloat = 0
-private let messageDisplayDuration: TimeInterval = 2 // seconds
+private let messageAnimateDuration: TimeInterval = 0.2    // seconds
+private let messageDisplayDuration: TimeInterval = 2    // seconds
 
 final class MessageWindow: UIWindow {
     
@@ -40,8 +41,8 @@ final class MessageWindow: UIWindow {
         return nil
     }
     
-    func displayMessage(_ message: String, type: MessageType) {
-        messageViewController.displayMessage(message, type: type)
+    func displayMessage(_ message: String, type: MessageType, seconds: Int = 3) {
+        messageViewController.displayMessage(message, type: type, seconds: seconds)
     }
 }
 
@@ -49,6 +50,10 @@ final class MessageViewController: UIViewController {
     
     private lazy var messageView: MessageView = {
         return MessageView()
+    }()
+    
+    private lazy var constraint: NSLayoutConstraint = {
+        return messageView.bottomAnchor.constraint(equalTo: view.topAnchor)
     }()
     
     override func viewDidLoad() {
@@ -62,12 +67,35 @@ final class MessageViewController: UIViewController {
         NSLayoutConstraint.activate([
             messageView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
             messageView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
-            messageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32)
+            constraint
         ])
     }
     
     func displayMessage(_ message: String, type: MessageType, seconds: Int = 3) {
-        messageView.updateMessageAndStyle(message, type: type)
+        messageView.setMessageAndStyle(message, type: type)
+        messageView.alpha = messageMaxOpacity
+        
+        constraint.constant += messageView.frame.height + 64
+        
+        view.setNeedsUpdateConstraints()
+        
+        UIView.animate(
+            withDuration: messageAnimateDuration,
+            delay: 0,
+            options: [.curveEaseOut]) {
+                self.view.layoutIfNeeded()
+            } completion: { _ in
+                
+
+                
+                //self.view.setNeedsUpdateConstraints()
+                UIView.animate(withDuration: messageAnimateDuration, delay: 3) {
+                    // FIXME: dialog disappears
+                    self.constraint.constant = 0
+                    self.messageView.alpha = messageMinOpacity
+                    //self.view.layoutIfNeeded()
+                }
+            }
     }
 }
 
@@ -89,7 +117,7 @@ final class MessageView: UIView {
         applyMediumDropShadow(.black)
         applyCornerRadius(6)
         setupChildViews()
-        updateMessageAndStyle("This is a test success message...", type: .success)
+        setMessageAndStyle("This is a test success message...", type: .success)
     }
     
     required init?(coder: NSCoder) {
@@ -100,8 +128,7 @@ final class MessageView: UIView {
         NSLayoutConstraint.pinToView(self, messageLabel, padding: 16)
     }
     
-    func updateMessageAndStyle(_ message: String?, type: MessageType) {
-        alpha = 0
+    func setMessageAndStyle(_ message: String?, type: MessageType) {
         messageLabel.text = message
         switch type {
         case .success:
