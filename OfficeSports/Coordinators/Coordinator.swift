@@ -25,11 +25,6 @@ final class Coordinator {
         didSet { updateRootViewController(animated: false) }
     }
     
-    private lazy var currentViewController: UIViewController? = {
-        // TODO: return top most vc here instead
-        return window?.rootViewController
-    }()
-    
     init(window: UIWindow?, account: OSAccount) {
         self.window = window
     }

@@ -41,11 +41,7 @@ final class FirebaseSportsAPI: SportsAPI {
                 // TODO: return error
                 return
             }
-            
-            let credentials = GoogleAuthProvider.credential(
-                withIDToken: idToken,
-                accessToken: authentication.accessToken
-            )
+            let credentials = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: authentication.accessToken)
             
             Auth.auth().signIn(with: credentials) { (_, error) in
                 result(error)
