@@ -15,11 +15,13 @@ final class SportViewController: UIViewController {
         let tableView = UITableView.createTableView(.clear, dataSource: self)
         tableView.registerCell(SportFilterTableViewCell.self)
         tableView.registerCell(PlacementTableViewCell.self)
+        tableView.registerCell(MatchTableViewCell.self)
         tableView.refreshControl = refreshControl
         return tableView
     }()
     
     private let viewModel: SportViewModel
+    private var showScoreboard: Bool = true
     
     init(viewModel: SportViewModel) {
         self.viewModel = viewModel
@@ -77,21 +79,29 @@ extension SportViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? 1 : viewModel.scoreboard.count
+        return section == 0 ? 1 : (showScoreboard ? viewModel.scoreboard.count : viewModel.recentMatches.count)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(for: SportFilterTableViewCell.self, for: indexPath)
+            cell.toggleLeftButton(enabled: showScoreboard)
             cell.delegate = self
             return cell
         }
-        let cell = tableView.dequeueReusableCell(for: PlacementTableViewCell.self, for: indexPath)
-        cell.setPlayerAndPlacement(viewModel.scoreboard[indexPath.row], indexPath.row)
         
         let isFirstElement = indexPath.row == 0
-        let isLastElement = indexPath.row == viewModel.scoreboard.count - 1
+        let isLastElement = indexPath.row == (showScoreboard ? viewModel.scoreboard.count - 1 : viewModel.recentMatches.count - 1)
+        
+        if showScoreboard {
+            let cell = tableView.dequeueReusableCell(for: PlacementTableViewCell.self, for: indexPath)
+            cell.setPlayerAndPlacement(viewModel.scoreboard[indexPath.row], indexPath.row)
+            cell.applyCornerRadius(isFirstElement: isFirstElement, isLastElement: isLastElement)
+            return cell
+        }
+        let cell = tableView.dequeueReusableCell(for: MatchTableViewCell.self, for: indexPath)
         cell.applyCornerRadius(isFirstElement: isFirstElement, isLastElement: isLastElement)
+        cell.match = viewModel.recentMatches[indexPath.row]
         return cell
     }
 }
@@ -131,8 +141,12 @@ extension SportViewController: SportViewModelDelegate {
 extension SportViewController: SportFilterDelegate {
     
     func leftButtonTapped() {
+        showScoreboard = true
+        tableView.reloadData()
     }
     
     func rightButtonTapped() {
+        showScoreboard = false
+        tableView.reloadData()
     }
 }

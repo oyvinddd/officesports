@@ -61,6 +61,16 @@ final class SportFilterTableViewCell: UITableViewCell {
         super.init(coder: aDecoder)
     }
     
+    func toggleLeftButton(enabled: Bool) {
+        if enabled {
+            leftButton.setTitleColor(UIColor.OS.Text.normal, for: .normal)
+            rightButton.setTitleColor(UIColor.OS.Text.disabled, for: .normal)
+        } else {
+            rightButton.setTitleColor(UIColor.OS.Text.normal, for: .normal)
+            leftButton.setTitleColor(UIColor.OS.Text.disabled, for: .normal)
+        }
+    }
+    
     private func setupChildViews() {
         contentView.addSubview(contentWrap)
         contentWrap.addSubview(leftButton)
@@ -95,15 +105,13 @@ final class SportFilterTableViewCell: UITableViewCell {
     }
     
     @objc private func leftButtonTapped(_ sender: UIButton) {
-        leftButton.setTitleColor(UIColor.OS.Text.normal, for: .normal)
-        rightButton.setTitleColor(UIColor.OS.Text.disabled, for: .normal)
+        toggleLeftButton(enabled: true)
         feedbackGenerator.impactOccurred()
         delegate?.leftButtonTapped()
     }
     
     @objc private func rightButtonTapped(_ sender: UIButton) {
-        rightButton.setTitleColor(UIColor.OS.Text.normal, for: .normal)
-        leftButton.setTitleColor(UIColor.OS.Text.disabled, for: .normal)
+        toggleLeftButton(enabled: false)
         feedbackGenerator.impactOccurred()
         delegate?.rightButtonTapped()
     }

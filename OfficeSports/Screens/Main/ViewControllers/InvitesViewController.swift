@@ -10,7 +10,8 @@ import UIKit
 final class InvitesViewController: UIViewController {
     
     private lazy var emptyContentLabel: UILabel = {
-        let label = UILabel.createLabel(UIColor.OS.Text.disabled, alignment: .center, text: "You have no invites")
+        let message = "Your match invitations will show up here"
+        let label = UILabel.createLabel(UIColor.OS.Text.disabled, alignment: .center, text: message)
         label.font = UIFont.boldSystemFont(ofSize: 24)
         return label
     }()
@@ -40,7 +41,7 @@ final class InvitesViewController: UIViewController {
     
     private func setupChildViews() {
         NSLayoutConstraint.pinToView(view, tableView)
-        NSLayoutConstraint.pinToView(view, emptyContentLabel)
+        NSLayoutConstraint.pinToView(view, emptyContentLabel, padding: 32)
     }
 }
 

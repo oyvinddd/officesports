@@ -67,16 +67,17 @@ final class ProfileView: UIView {
         return label
     }()
     
-    private lazy var usernameLabel: UILabel = {
+    private lazy var nicknameLabel: UILabel = {
         let label = UILabel.createLabel(UIColor.OS.Text.normal, alignment: .center)
-        label.font = UIFont.boldSystemFont(ofSize: 32)
+        label.font = UIFont.systemFont(ofSize: 32, weight: .medium)
         label.numberOfLines = 1
         return label
     }()
     
     private lazy var totalScoreLabel: UILabel = {
-        let label = UILabel.createLabel(.darkGray, alignment: .center)
+        let label = UILabel.createLabel(UIColor.OS.Text.subtitle, alignment: .center)
         label.font = UIFont.systemFont(ofSize: 24)
+        label.numberOfLines = 1
         return label
     }()
     
@@ -93,7 +94,6 @@ final class ProfileView: UIView {
         configureUI()
         setupChildViews()
         displayDetailsForSport(.foosball)
-        backgroundColor = .red
     }
     
     required init?(coder: NSCoder) {
@@ -131,7 +131,7 @@ final class ProfileView: UIView {
         addSubview(profileImageWrap)
         addSubview(settingsButton)
         profileImageWrap.addSubview(profileImageBackground)
-        addSubview(usernameLabel)
+        addSubview(nicknameLabel)
         addSubview(totalScoreLabel)
         
         NSLayoutConstraint.pinToView(profileImageBackground, profileEmjoiLabel)
@@ -141,7 +141,7 @@ final class ProfileView: UIView {
             codeImageView.centerXAnchor.constraint(equalTo: profileImageWrap.centerXAnchor),
             codeImageView.centerYAnchor.constraint(equalTo: profileImageWrap.centerYAnchor),
             profileImageWrap.widthAnchor.constraint(equalToConstant: profileImageDimater),
-            profileImageWrap.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
+            profileImageWrap.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 32),
             profileImageWrap.heightAnchor.constraint(equalTo: profileImageWrap.widthAnchor),
             profileImageWrap.centerXAnchor.constraint(equalTo: centerXAnchor),
             profileImageBackground.leftAnchor.constraint(equalTo: profileImageWrap.leftAnchor, constant: 8),
@@ -152,19 +152,19 @@ final class ProfileView: UIView {
             settingsButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
             settingsButton.widthAnchor.constraint(equalToConstant: 50),
             settingsButton.heightAnchor.constraint(equalTo: settingsButton.widthAnchor),
-            usernameLabel.leftAnchor.constraint(equalTo: leftAnchor),
-            usernameLabel.rightAnchor.constraint(equalTo: rightAnchor),
-            usernameLabel.topAnchor.constraint(equalTo: profileImageWrap.bottomAnchor, constant: 8),
-            totalScoreLabel.leftAnchor.constraint(equalTo: leftAnchor),
-            totalScoreLabel.rightAnchor.constraint(equalTo: rightAnchor),
-            totalScoreLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 6),
+            nicknameLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 16),
+            nicknameLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
+            nicknameLabel.topAnchor.constraint(equalTo: profileImageWrap.bottomAnchor, constant: 8),
+            totalScoreLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 16),
+            totalScoreLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
+            totalScoreLabel.topAnchor.constraint(equalTo: nicknameLabel.bottomAnchor, constant: 6),
             totalScoreLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
         ])
     }
     
     private func configureUI() {
         profileEmjoiLabel.text = account.player.emoji
-        usernameLabel.text = account.player.nickname.lowercased()
+        nicknameLabel.text = account.player.nickname.lowercased()
     }
     
     @objc private func settingsButtonTapped(_ sender: UIButton) {
