@@ -75,7 +75,7 @@ final class ScannerViewController: UIViewController {
             captureSession.addOutput(metadataOutput)
             
             metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-            metadataOutput.metadataObjectTypes = [.ean8, .ean13, .pdf417, .aztec]
+            metadataOutput.metadataObjectTypes = [.ean8, .ean13, .pdf417, .aztec, .qr]
         } else {
             // failed()
             return

@@ -20,4 +20,12 @@ struct OSAccount: Codable {
     var loggedIn: Bool {
         return Auth.auth().currentUser != nil
     }
+    
+    func qrCodePayloadForSport(_ sport: OSSport) -> OSCodePayload? {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("Unable to get user ID since user is not logged in.")
+            return nil
+        }
+        return OSCodePayload(userId: uid, sport: sport)
+    }
 }

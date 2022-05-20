@@ -20,12 +20,22 @@ protocol ProfileViewDelegate: AnyObject {
 
 final class ProfileView: UIView {
     
+    private lazy var foosballCodeImage: UIImage? = {
+        guard let payload = OSAccount.current.qrCodePayloadForSport(.foosball) else {
+            return nil
+        }
+        return CodeGen.generateQRCode(from: payload)
+    }()
+    
+    private lazy var tableTennisCodeImage: UIImage? = {
+        guard let payload = OSAccount.current.qrCodePayloadForSport(.tableTennis) else {
+            return nil
+        }
+        return CodeGen.generateQRCode(from: payload)
+    }()
+    
     private lazy var codeImageView: UIImageView = {
-        // TODO: one code for each sport
-        let image = CodeGen.generateQRCode(from: "Hello, world!")
-        let imageView = UIImageView.createImageView(image!)
-        imageView.alpha = 0
-        return imageView
+        return UIImageView.createImageView(foosballCodeImage, alpha: 0)
     }()
     
     private lazy var settingsButton: UIButton = {
@@ -151,13 +161,6 @@ final class ProfileView: UIView {
             totalScoreLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
         ])
     }
-    
-    /*
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        layoutIfNeeded()
-    }
-     */
     
     private func configureUI() {
         profileEmjoiLabel.text = account.player.emoji

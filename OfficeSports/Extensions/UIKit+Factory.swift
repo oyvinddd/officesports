@@ -89,10 +89,11 @@ extension UIButton {
 
 extension UIImageView {
     
-    class func createImageView(_ image: UIImage?) -> UIImageView {
+    class func createImageView(_ image: UIImage?, alpha: Float = 1) -> UIImageView {
         let imageView = UIImageView(image: image)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
+        imageView.alpha = CGFloat(alpha)
         return imageView
     }
 }

@@ -145,6 +145,6 @@ final class PlacementTableViewCell: UITableViewCell {
     }
     
     private func profileBackgroundColor(_ nickname: String) -> UIColor {
-        return UIColor.OS.Profile.red
+        return UIColor.OS.General.mainDark//UIColor.OS.Profile.red
     }
 }
