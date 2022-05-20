@@ -10,13 +10,16 @@ import UIKit
 final class SportViewController: UIViewController {
     
     private lazy var tableView: UITableView = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshPulled), for: .valueChanged)
         let tableView = UITableView.createTableView(.clear, dataSource: self)
         tableView.registerCell(SportFilterTableViewCell.self)
         tableView.registerCell(PlacementTableViewCell.self)
+        tableView.refreshControl = refreshControl
         return tableView
     }()
     
-    private var viewModel: SportViewModel
+    private let viewModel: SportViewModel
     
     init(viewModel: SportViewModel) {
         self.viewModel = viewModel
@@ -47,9 +50,8 @@ final class SportViewController: UIViewController {
     
     func scrollTableViewToTop(animated: Bool) {
         // scroll table view all the way to the top, taking
-        // into consideration the custom content inset of the table view
-        let customOffset = CGPoint(x: 0, y: -tableView.contentInset.top)
-        tableView.setContentOffset(customOffset, animated: animated)
+        // into consideration the custom content inset of the table
+        tableView.scrollToTop(animated: animated)
     }
     
     private func setupChildViews() {
@@ -58,6 +60,11 @@ final class SportViewController: UIViewController {
     
     private func configureUI() {
         view.backgroundColor = .clear
+    }
+    
+    @objc private func refreshPulled(_ sender: UIRefreshControl) {
+        viewModel.fetchRecentMatches()
+        viewModel.fetchScoreboard()
     }
 }
 
@@ -103,16 +110,19 @@ extension SportViewController: SportViewModelDelegate {
     }
     
     func didFetchScoreboard(with error: Error) {
+        Coordinator.global.displayMessage(error.localizedDescription, type: .failure)
     }
     
     func fetchedRecentMatchesSuccessfully() {
-        tableView.reloadData()
+        //tableView.reloadData()
     }
     
     func didFetchRecentMatches(with error: Error) {
+        Coordinator.global.displayMessage(error.localizedDescription, type: .failure)
     }
     
     func shouldToggleLoading(enabled: Bool) {
+        tableView.refreshControl?.endRefreshing()
     }
 }
 

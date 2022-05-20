@@ -92,7 +92,7 @@ final class FloatingMenu: UIView {
     
     private func configureUI() {
         backgroundColor = .white
-        applyMediumDropShadow(.black)
+        applyMediumDropShadow(UIColor.OS.Text.normal)
         applyCornerRadius(8)
     }
     

@@ -29,7 +29,7 @@ final class SportFilterTableViewCell: UITableViewCell {
         let title = leftButtonTitle.uppercased()
         let button = UIButton.createButton(.clear, UIColor.OS.Text.normal, title: title)
         button.addTarget(self, action: #selector(leftButtonTapped), for: .touchUpInside)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
         return button
     }()
     
@@ -37,7 +37,7 @@ final class SportFilterTableViewCell: UITableViewCell {
         let title = rightButtonTitle.uppercased()
         let button = UIButton.createButton(.clear, UIColor.OS.Text.disabled, title: title)
         button.addTarget(self, action: #selector(rightButtonTapped), for: .touchUpInside)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
         return button
     }()
     

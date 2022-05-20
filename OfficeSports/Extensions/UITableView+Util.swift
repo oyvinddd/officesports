@@ -34,4 +34,9 @@ extension UITableView {
     public func registerHeaderFooterView<T: UITableViewHeaderFooterView>(_ type: T.Type) {
         register(type, forHeaderFooterViewReuseIdentifier: reuseIndentifier(for: type))
     }
+    
+    public func scrollToTop(animated: Bool = false) {
+        let indexPathZero = IndexPath(row: 0, section: 0)
+        scrollToRow(at: indexPathZero, at: .top, animated: animated)
+    }
 }

@@ -61,7 +61,7 @@ final class PlacementTableViewCell: UITableViewCell {
     
     func setPlayerAndPlacement(_ player: OSPlayer, _ placement: Int) {
         profileImageWrap.backgroundColor = profileBackgroundColor(player.nickname)
-        profileEmojiLabel.text = "🤬"
+        profileEmojiLabel.text = player.emoji
         usernameLabel.text = player.nickname.lowercased()
         scoreLabel.text = "\(player.foosballScore) pts"
         placementLabel.text = placementText(placement)
@@ -107,7 +107,6 @@ final class PlacementTableViewCell: UITableViewCell {
             profileImageWrap.widthAnchor.constraint(equalTo: profileImageWrap.heightAnchor),
             usernameLabel.leftAnchor.constraint(equalTo: profileImageWrap.rightAnchor, constant: 16),
             usernameLabel.topAnchor.constraint(equalTo: profileImageWrap.topAnchor),
-            // usernameLabel.bottomAnchor.constraint(greaterThanOrEqualTo: scoreLabel.topAnchor),
             usernameLabel.rightAnchor.constraint(greaterThanOrEqualTo: placementLabel.leftAnchor, constant: -8),
             scoreLabel.leftAnchor.constraint(equalTo: profileImageWrap.rightAnchor, constant: 16),
             scoreLabel.bottomAnchor.constraint(equalTo: profileImageWrap.bottomAnchor),

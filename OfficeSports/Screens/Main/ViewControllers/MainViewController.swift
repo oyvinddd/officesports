@@ -42,12 +42,12 @@ final class MainViewController: UIViewController {
     }()
     
     private lazy var foosballViewController: SportViewController = {
-        let viewModel = SportViewModel(api: FirebaseSportsAPI(), sport: .foosball)
+        let viewModel = SportViewModel(api: MockSportsAPI(), sport: .foosball)
         return SportViewController(viewModel: viewModel)
     }()
     
     private lazy var tableTennisViewController: SportViewController = {
-        let viewModel = SportViewModel(api: FirebaseSportsAPI(), sport: .tableTennis)
+        let viewModel = SportViewModel(api: MockSportsAPI(), sport: .tableTennis)
         return SportViewController(viewModel: viewModel)
     }()
     
@@ -86,7 +86,7 @@ final class MainViewController: UIViewController {
         NSLayoutConstraint.activate([
             profileView.leftAnchor.constraint(equalTo: contentWrap.leftAnchor),
             profileView.rightAnchor.constraint(equalTo: contentWrap.rightAnchor),
-            profileView.topAnchor.constraint(equalTo: contentWrap.topAnchor, constant: 64),
+            profileView.topAnchor.constraint(equalTo: contentWrap.topAnchor),
             stackView.leftAnchor.constraint(equalTo: scrollView.leftAnchor),
             stackView.rightAnchor.constraint(equalTo: scrollView.rightAnchor),
             stackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
@@ -124,9 +124,8 @@ final class MainViewController: UIViewController {
     }
     
     private func configureTableViewInsets() {
-        let padding: CGFloat = 32
-        let profileMaxY = profileView.bounds.maxY + padding
-        let menuMinY = floatingMenu.bounds.maxY + padding
+        let profileMaxY = profileView.bounds.maxY
+        let menuMinY = floatingMenu.bounds.maxY
         let contentInset = UIEdgeInsets(top: profileMaxY, left: 0, bottom: menuMinY, right: 0)
         foosballViewController.applyContentInsetToTableView(contentInset)
         tableTennisViewController.applyContentInsetToTableView(contentInset)
@@ -148,7 +147,7 @@ extension MainViewController: FloatingMenuDelegate {
     
     func displayCodeButtonTapped() {
         foosballViewController.scrollTableViewToTop(animated: true)
-        profileView.displayQrCode(seconds: 0)
+        profileView.displayQrCode(seconds: 3)
     }
     
     func toggleCameraButtonTapped() {
