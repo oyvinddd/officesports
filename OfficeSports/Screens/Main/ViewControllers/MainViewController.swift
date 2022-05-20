@@ -66,7 +66,7 @@ final class MainViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        Coordinator.global.displayMessage("Hi hi", type: .warning)
+        scrollToViewController(foosballViewController)
     }
     
     private func setupChildViews() {
@@ -129,6 +129,10 @@ final class MainViewController: UIViewController {
         let contentInset = UIEdgeInsets(top: profileMaxY, left: 0, bottom: menuMinY, right: 0)
         foosballViewController.applyContentInsetToTableView(contentInset)
         tableTennisViewController.applyContentInsetToTableView(contentInset)
+    }
+    
+    private func scrollToViewController(_ viewController: UIViewController, animated: Bool = false) {
+        scrollView.scrollRectToVisible(viewController.view.frame, animated: animated)
     }
 }
 

@@ -9,8 +9,14 @@ import UIKit
 
 final class InvitesViewController: UIViewController {
     
+    private lazy var emptyContentLabel: UILabel = {
+        let label = UILabel.createLabel(UIColor.OS.Text.disabled, alignment: .center, text: "You have no invites")
+        label.font = UIFont.boldSystemFont(ofSize: 24)
+        return label
+    }()
+    
     private lazy var tableView: UITableView = {
-        let tableView = UITableView.createTableView(.blue, dataSource: self)
+        let tableView = UITableView.createTableView(.clear, dataSource: self)
         tableView.registerCell(InviteTableViewCell.self)
         return tableView
     }()
@@ -29,11 +35,12 @@ final class InvitesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupChildViews()
-        view.backgroundColor = .yellow
+        view.backgroundColor = .clear
     }
     
     private func setupChildViews() {
         NSLayoutConstraint.pinToView(view, tableView)
+        NSLayoutConstraint.pinToView(view, emptyContentLabel)
     }
 }
 
