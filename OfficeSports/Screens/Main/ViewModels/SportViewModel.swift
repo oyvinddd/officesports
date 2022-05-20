@@ -20,7 +20,7 @@ protocol ScoreboardViewModelDelegate: AnyObject {
     func shouldToggleLoading(enabled: Bool)
 }
 
-final class ScoreboardViewModel {
+final class SportViewModel {
     
     var scoreboard = [OSPlayer]()
     var recentMatches = [OSMatch]()
