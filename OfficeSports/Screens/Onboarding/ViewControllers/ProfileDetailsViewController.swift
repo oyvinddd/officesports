@@ -30,7 +30,6 @@ final class ProfileDetailsViewController: UIViewController {
     }()
     
     private var viewModel: NicknameViewModel
-    
     var selectedEmoji: String = "🙃"
     
     init(viewModel: NicknameViewModel) {

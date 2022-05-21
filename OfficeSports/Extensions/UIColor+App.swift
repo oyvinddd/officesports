@@ -40,9 +40,55 @@ extension UIColor {
         
         enum Profile {
             
-            static let red = UIColor(hex: 0xD2574D)
+            static let color1 = UIColor(hex: 0x6CBEA8)
             
-            static let blue = UIColor(hex: 0x2E69B4)
+            static let color2 = UIColor(hex: 0x98C39A)
+            
+            static let color3 = UIColor(hex: 0x98AA8F)
+            
+            static let color4 = UIColor(hex: 0x969E8F)
+            
+            static let color5 = UIColor(hex: 0x7D9FB9)
+            
+            static let color6 = UIColor(hex: 0xBEC88B)
+            
+            static let color7 = UIColor(hex: 0xEACC7C)
+            
+            static let color8 = UIColor(hex: 0xEAB471)
+            
+            static let color9 = UIColor(hex: 0xE8A772)
+            
+            static let color10 = UIColor(hex: 0xCEA89A)
+            
+            static let color11 = UIColor(hex: 0xBF9A7A)
+            
+            static let color12 = UIColor(hex: 0xEB9F6C)
+            
+            static let color13 = UIColor(hex: 0xED8561)
+            
+            static let color14 = UIColor(hex: 0xEA7960)
+            
+            static let color15 = UIColor(hex: 0xCF7A89)
+            
+            static let color16 = UIColor(hex: 0xB98277)
+            
+            static let color17 = UIColor(hex: 0xE68669)
+            
+            static let color18 = UIColor(hex: 0xE76E5F)
+            
+            static let color19 = UIColor(hex: 0xE3615D)
+            
+            static let color20 = UIColor(hex: 0xC86286)
+            
+            static let color21 = UIColor(hex: 0x8A84C5)
+            
+            static let color22 = UIColor(hex: 0xB689B6)
+            
+            static let color23 = UIColor(hex: 0xB870AD)
+            
+            static let color24 = UIColor(hex: 0xB563AB)
+            
+            static let color25 = UIColor(hex: 0x9A65D5)
         }
     }
 }
