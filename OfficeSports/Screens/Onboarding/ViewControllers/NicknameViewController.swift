@@ -31,6 +31,8 @@ final class NicknameViewController: UIViewController {
     
     private var viewModel: NicknameViewModel
     
+    var selectedEmoji: String = "🙃"
+    
     init(viewModel: NicknameViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -97,12 +99,16 @@ final class NicknameViewController: UIViewController {
 extension NicknameViewController: CompoundFieldDelegate {
     
     func buttonTapped(_ text: String?) {
+        let vm = EmojiViewModel()
+        present(EmojiPickerViewController(viewModel: vm), animated: true)
+        /*
         do {
             let nickname = try processAndValidateNickname(text)
             viewModel.updateProfileDetails(nickname: nickname, emoji: "😙")
         } catch let error {
             Coordinator.global.displayMessage(error.localizedDescription, type: .failure)
         }
+        */
     }
 }
 

@@ -21,7 +21,7 @@ final class Coordinator {
         didSet { updateRootViewController(animated: false) }
     }
     
-    var currentState: ApplicationState = .authorized {
+    var currentState: ApplicationState = .missingNickname {
         didSet { updateRootViewController(animated: false) }
     }
     

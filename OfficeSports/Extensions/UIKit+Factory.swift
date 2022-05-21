@@ -85,6 +85,15 @@ extension UIButton {
         button.applyCornerRadius(8)
         return button
     }
+    
+    class func createButton(_ backgroundColor: UIColor, tintColor: UIColor, image: UIImage?) -> UIButton {
+        let button = UIButton(frame: .zero)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(image, for: .normal)
+        button.backgroundColor = backgroundColor
+        button.tintColor = tintColor
+        return button
+    }
 }
 
 extension UIImageView {
@@ -112,7 +121,11 @@ extension UITextField {
 extension UICollectionView {
     
     class func createCollectionView() -> UICollectionView {
-        let collectionView = UICollectionView(frame: .zero)
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }

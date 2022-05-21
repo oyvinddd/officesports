@@ -14,7 +14,7 @@
 		8E230881282D543300AF60EB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E230880282D543300AF60EB /* GoogleService-Info.plist */; };
 		8E230884282D567D00AF60EB /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 8E230883282D567D00AF60EB /* GoogleSignIn */; };
 		8E230887282D575D00AF60EB /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E230886282D575D00AF60EB /* AuthViewModel.swift */; };
-		8E230889282D788D00AF60EB /* EmojiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E230888282D788D00AF60EB /* EmojiViewController.swift */; };
+		8E230889282D788D00AF60EB /* EmojiPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E230888282D788D00AF60EB /* EmojiPickerViewController.swift */; };
 		8E24F4592834A75900BC808B /* MessageWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E24F4582834A75900BC808B /* MessageWindow.swift */; };
 		8E2EE769283675EF0096659D /* InviteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2EE768283675EF0096659D /* InviteTableViewCell.swift */; };
 		8E2EE76B2836783C0096659D /* FirebaseSportsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2EE76A2836783C0096659D /* FirebaseSportsAPI.swift */; };
@@ -41,6 +41,10 @@
 		8E70C136282ADF7A009A9452 /* OSAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C135282ADF7A009A9452 /* OSAccount.swift */; };
 		8E70C138282AEE2F009A9452 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C137282AEE2F009A9452 /* WelcomeViewController.swift */; };
 		8E70C13A282AEE7E009A9452 /* SportsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C139282AEE7E009A9452 /* SportsAPI.swift */; };
+		8E7D0AC52838D5C0006D6DF7 /* EmojiCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D0AC42838D5C0006D6DF7 /* EmojiCollectionViewCell.swift */; };
+		8E7D0AC72838D7A1006D6DF7 /* UICollectionView+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D0AC62838D7A1006D6DF7 /* UICollectionView+Util.swift */; };
+		8E7D0AC92838D8A7006D6DF7 /* EmojiViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D0AC82838D8A7006D6DF7 /* EmojiViewModel.swift */; };
+		8E7D0ACC28391A9E006D6DF7 /* emojis.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8E7D0ACB28391A9E006D6DF7 /* emojis.csv */; };
 		8E7D9A7F282BEF66007BCDE0 /* CodeGen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D9A7E282BEF66007BCDE0 /* CodeGen.swift */; };
 		8E973322283231F40012E236 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E973321283231F40012E236 /* SettingsViewModel.swift */; };
 		8E9849C8282BCDC80020266B /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9849C7282BCDC80020266B /* CircleView.swift */; };
@@ -64,7 +68,7 @@
 		8E230877282D191C00AF60EB /* SportFilterTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportFilterTableViewCell.swift; sourceTree = "<group>"; };
 		8E230880282D543300AF60EB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8E230886282D575D00AF60EB /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
-		8E230888282D788D00AF60EB /* EmojiViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiViewController.swift; sourceTree = "<group>"; };
+		8E230888282D788D00AF60EB /* EmojiPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiPickerViewController.swift; sourceTree = "<group>"; };
 		8E24F4582834A75900BC808B /* MessageWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageWindow.swift; sourceTree = "<group>"; };
 		8E2EE768283675EF0096659D /* InviteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteTableViewCell.swift; sourceTree = "<group>"; };
 		8E2EE76A2836783C0096659D /* FirebaseSportsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseSportsAPI.swift; sourceTree = "<group>"; };
@@ -90,6 +94,10 @@
 		8E70C137282AEE2F009A9452 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		8E70C139282AEE7E009A9452 /* SportsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportsAPI.swift; sourceTree = "<group>"; };
 		8E70C13B282BAF51009A9452 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		8E7D0AC42838D5C0006D6DF7 /* EmojiCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCollectionViewCell.swift; sourceTree = "<group>"; };
+		8E7D0AC62838D7A1006D6DF7 /* UICollectionView+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Util.swift"; sourceTree = "<group>"; };
+		8E7D0AC82838D8A7006D6DF7 /* EmojiViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiViewModel.swift; sourceTree = "<group>"; };
+		8E7D0ACB28391A9E006D6DF7 /* emojis.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = emojis.csv; sourceTree = "<group>"; };
 		8E7D9A7E282BEF66007BCDE0 /* CodeGen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGen.swift; sourceTree = "<group>"; };
 		8E973321283231F40012E236 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		8E9849C7282BCDC80020266B /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
@@ -155,7 +163,7 @@
 			children = (
 				8EC84E8D282BD5B10093C9A0 /* NicknameViewController.swift */,
 				8E70C137282AEE2F009A9452 /* WelcomeViewController.swift */,
-				8E230888282D788D00AF60EB /* EmojiViewController.swift */,
+				8E230888282D788D00AF60EB /* EmojiPickerViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -185,6 +193,7 @@
 		8E23087F282D540E00AF60EB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8E7D0ACA28391A82006D6DF7 /* Emojis */,
 				8E230880282D543300AF60EB /* GoogleService-Info.plist */,
 			);
 			path = Resources;
@@ -195,6 +204,7 @@
 			children = (
 				8E230886282D575D00AF60EB /* AuthViewModel.swift */,
 				8E176F6E28329E4A00377497 /* NicknameViewModel.swift */,
+				8E7D0AC82838D8A7006D6DF7 /* EmojiViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -217,6 +227,7 @@
 				8E70C12C282AD01A009A9452 /* UIView+Visuals.swift */,
 				8E70C12E282AD0AE009A9452 /* UITableView+Util.swift */,
 				8EE7939528366B660025AB78 /* Encodable+Dictionary.swift */,
+				8E7D0AC62838D7A1006D6DF7 /* UICollectionView+Util.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -276,6 +287,14 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		8E7D0ACA28391A82006D6DF7 /* Emojis */ = {
+			isa = PBXGroup;
+			children = (
+				8E7D0ACB28391A9E006D6DF7 /* emojis.csv */,
+			);
+			path = Emojis;
+			sourceTree = "<group>";
+		};
 		8E7D9A7D282BEF4F007BCDE0 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -296,6 +315,7 @@
 			isa = PBXGroup;
 			children = (
 				8EDFA362282E418000A51292 /* CompoundField.swift */,
+				8E7D0AC42838D5C0006D6DF7 /* EmojiCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -419,6 +439,7 @@
 				8EE61FFB282AB79D00C01289 /* LaunchScreen.storyboard in Resources */,
 				8EE61FF8282AB79D00C01289 /* Assets.xcassets in Resources */,
 				8E230881282D543300AF60EB /* GoogleService-Info.plist in Resources */,
+				8E7D0ACC28391A9E006D6DF7 /* emojis.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -467,6 +488,7 @@
 				8EF1387B2837CF3A001D8DA6 /* OSCodePayload.swift in Sources */,
 				8E31E24228364B0A0085238C /* InvitesViewModel.swift in Sources */,
 				8E24F4592834A75900BC808B /* MessageWindow.swift in Sources */,
+				8E7D0AC92838D8A7006D6DF7 /* EmojiViewModel.swift in Sources */,
 				8E2EE76B2836783C0096659D /* FirebaseSportsAPI.swift in Sources */,
 				8EE61FEF282AB79C00C01289 /* AppDelegate.swift in Sources */,
 				8E70C119282ABD6F009A9452 /* UIKit+Factory.swift in Sources */,
@@ -481,13 +503,15 @@
 				8E70C132282AD1F0009A9452 /* SportViewModel.swift in Sources */,
 				8E230887282D575D00AF60EB /* AuthViewModel.swift in Sources */,
 				8E70C136282ADF7A009A9452 /* OSAccount.swift in Sources */,
-				8E230889282D788D00AF60EB /* EmojiViewController.swift in Sources */,
+				8E230889282D788D00AF60EB /* EmojiPickerViewController.swift in Sources */,
 				8E70C126282ACCB5009A9452 /* ProfileView.swift in Sources */,
 				8EAB6DA6282BE4B500FA1362 /* Coordinator.swift in Sources */,
 				8E70C13A282AEE7E009A9452 /* SportsAPI.swift in Sources */,
 				8E230878282D191C00AF60EB /* SportFilterTableViewCell.swift in Sources */,
+				8E7D0AC52838D5C0006D6DF7 /* EmojiCollectionViewCell.swift in Sources */,
 				8E70C12F282AD0AE009A9452 /* UITableView+Util.swift in Sources */,
 				8E70C12D282AD01A009A9452 /* UIView+Visuals.swift in Sources */,
+				8E7D0AC72838D7A1006D6DF7 /* UICollectionView+Util.swift in Sources */,
 				8EDFA363282E418000A51292 /* CompoundField.swift in Sources */,
 				8E70C114282ABC56009A9452 /* SportViewController.swift in Sources */,
 				8E70C138282AEE2F009A9452 /* WelcomeViewController.swift in Sources */,
