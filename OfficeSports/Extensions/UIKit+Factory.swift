@@ -19,9 +19,10 @@ extension UIView {
 
 extension UIScrollView {
     
-    class func createScrollView(_ backgroundColor: UIColor) -> UIScrollView {
+    class func createScrollView(_ backgroundColor: UIColor, delegate: UIScrollViewDelegate?) -> UIScrollView {
         let scrollView = UIScrollView(frame: .zero)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.delegate = delegate
         scrollView.backgroundColor = backgroundColor
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false

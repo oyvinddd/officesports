@@ -17,6 +17,8 @@ protocol FloatingMenuDelegate: AnyObject {
     func toggleCameraButtonTapped()
     
     func changeSportsButtonTapped()
+    
+    func settingsButtonTapped()
 }
 
 final class FloatingMenu: UIView {
@@ -99,8 +101,8 @@ final class FloatingMenu: UIView {
     // MARK: - Button Handling
     
     @objc private func settingsButtonTapped(_ sender: MenuButton) {
-        //feedbackGenerator.impactOccurred()
-        //delegate?.settingsButtonTapped()
+        feedbackGenerator.impactOccurred()
+        delegate?.settingsButtonTapped()
     }
     
     @objc private func changeSportsButtonTapped(_ sender: MenuButton) {

@@ -21,7 +21,7 @@ final class MainViewController: UIViewController {
     }()
     
     private lazy var scrollView: UIScrollView = {
-        return UIScrollView.createScrollView(.clear)
+        return UIScrollView.createScrollView(.clear, delegate: self)
     }()
     
     private lazy var stackView: UIStackView = {
@@ -181,5 +181,22 @@ extension MainViewController: FloatingMenuDelegate {
         }
         let frame = xOffset > 0 ? foosballFrame : tableTennisFrame
         scrollView.scrollRectToVisible(frame, animated: true)
+    }
+}
+
+// MARK: - Scroll View Delegate Conformance
+
+extension MainViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let xOffset = scrollView.contentOffset.x
+        let width = scrollView.frame.width
+        if xOffset == 0 { // invites screen is showing
+            // do something
+        } else if xOffset < width * 2 { // foosball screen is showing
+            profileView.displayDetailsForSport(.foosball)
+        } else if xOffset >= width * 2 { // table tennis screen is showing
+            profileView.displayDetailsForSport(.tableTennis)
+        }
     }
 }

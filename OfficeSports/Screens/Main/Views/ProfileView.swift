@@ -56,7 +56,7 @@ final class ProfileView: UIView {
     }()
     
     private lazy var profileImageBackground: UIView = {
-        let profileColor = UIColor.OS.hashedProfileColor(nickname: account.player.nickname)
+        let profileColor = UIColor.OS.hashedProfileColor(nickname: account.nickname)
         let profileImageBackground = UIView.createView(profileColor)
         profileImageBackground.applyCornerRadius((profileImageDimater - 16) / 2)
         return profileImageBackground
@@ -103,9 +103,9 @@ final class ProfileView: UIView {
     
     func displayDetailsForSport(_ sport: OSSport, animated: Bool = false) {
         if sport == .foosball {
-            totalScoreLabel.text = "\(account.player.foosballScore) pts"
-        } else {
-            totalScoreLabel.text = "\(account.player.tableTennisScore) pts"
+            totalScoreLabel.text = "\(account.foosballScore) pts"
+        } else if sport == .tableTennis {
+            totalScoreLabel.text = "\(account.tableTennisScore) pts"
         }
     }
     
@@ -164,8 +164,8 @@ final class ProfileView: UIView {
     }
     
     private func configureUI() {
-        profileEmjoiLabel.text = account.player.emoji
-        nicknameLabel.text = account.player.nickname.lowercased()
+        profileEmjoiLabel.text = account.emoji
+        nicknameLabel.text = account.nickname.lowercased()
     }
     
     @objc private func settingsButtonTapped(_ sender: UIButton) {

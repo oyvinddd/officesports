@@ -55,6 +55,7 @@ final class FirebaseSportsAPI: SportsAPI {
         } catch let error {
             return error
         }
+        clearProfileDetails()
         return nil
     }
     
@@ -125,8 +126,12 @@ final class FirebaseSportsAPI: SportsAPI {
     }
     
     func invitePlayer(_ player: OSPlayer, sport: OSSport, result: @escaping (Error?) -> Void) {
-        let invite = OSInvite(date: Date(), sport: sport, inviter: OSAccount.current.player, invitee: player)
-        //database.collection(fbInvitesCollection).addDocument(from: invite)
+        guard let accountPlayer = OSAccount.current.player else {
+            result(APIError.missingPlayer)
+            return
+        }
+        _ = OSInvite(date: Date(), sport: sport, inviter: accountPlayer, invitee: player)
+        // database.collection(fbInvitesCollection).addDocument(from: invite)
     }
     
     // ##################################
@@ -182,12 +187,16 @@ private enum APIError: LocalizedError {
     
     case nicknameTaken
     
+    case missingPlayer
+    
     var errorDescription: String? {
         switch self {
         case .missingToken:
             return "Missing ID token"
         case .nicknameTaken:
             return "Nickname already taken"
+        case .missingPlayer:
+            return "Unauthorized. Missing player details."
         }
     }
 }
