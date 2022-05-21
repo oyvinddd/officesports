@@ -38,7 +38,7 @@ final class FirebaseSportsAPI: SportsAPI {
             }
             
             guard let authentication = user?.authentication, let idToken = authentication.idToken else {
-                result(APIError.missingToken)
+                result(SOError.missingToken)
                 return
             }
             let credentials = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: authentication.accessToken)
@@ -59,7 +59,7 @@ final class FirebaseSportsAPI: SportsAPI {
         return nil
     }
     
-    func saveProfileDetails(nickname: String, emoji: String) {
+    func saveProfileDetails(nickname: String, emoji: String, result: @escaping ((Error?) -> Void)) {
         let standardDefaults = UserDefaults.standard
         standardDefaults.set(nickname, forKey: userDefaultsNicknameKey)
         standardDefaults.set(emoji, forKey: userdefaultsEmojiKey)
@@ -81,7 +81,7 @@ final class FirebaseSportsAPI: SportsAPI {
                 result(error)
             } else {
                 let count = snapshot!.documents.count
-                result(count > 0 ? APIError.nicknameTaken : nil)
+                result(count > 0 ? SOError.nicknameTaken : nil)
             }
         }
     }
@@ -127,7 +127,7 @@ final class FirebaseSportsAPI: SportsAPI {
     
     func invitePlayer(_ player: OSPlayer, sport: OSSport, result: @escaping (Error?) -> Void) {
         guard let accountPlayer = OSAccount.current.player else {
-            result(APIError.missingPlayer)
+            result(SOError.missingPlayer)
             return
         }
         _ = OSInvite(date: Date(), sport: sport, inviter: accountPlayer, invitee: player)
@@ -181,7 +181,7 @@ final class FirebaseSportsAPI: SportsAPI {
 
 // MARK: - Custom Errors for the sports API
 
-private enum APIError: LocalizedError {
+private enum SOError: LocalizedError {
     
     case missingToken
     

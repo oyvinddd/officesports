@@ -100,7 +100,7 @@ extension ProfileDetailsViewController: CompoundFieldDelegate {
     func buttonTapped(_ text: String?) {
         do {
             let nickname = try processAndValidateNickname(text)
-            viewModel.updateProfileDetails(nickname: nickname, emoji: "😙")
+            viewModel.updateProfileDetails(nickname: nickname, emoji: selectedEmoji)
         } catch let error {
             let localizedError = error.localizedDescription
             Coordinator.global.displayMessage(localizedError, type: .failure)
