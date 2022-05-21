@@ -44,17 +44,6 @@ final class PlacementTableViewCell: UITableViewCell {
     
     private let placementFontNormal = UIFont.boldSystemFont(ofSize: 18)
     private let placementFontEmoji = UIFont.systemFont(ofSize: 28)
-    private let profileColors = [
-        UIColor.OS.Profile.color1, UIColor.OS.Profile.color2, UIColor.OS.Profile.color3,
-        UIColor.OS.Profile.color4, UIColor.OS.Profile.color5, UIColor.OS.Profile.color6,
-        UIColor.OS.Profile.color7, UIColor.OS.Profile.color8, UIColor.OS.Profile.color9,
-        UIColor.OS.Profile.color10, UIColor.OS.Profile.color11, UIColor.OS.Profile.color12,
-        UIColor.OS.Profile.color13, UIColor.OS.Profile.color14, UIColor.OS.Profile.color15,
-        UIColor.OS.Profile.color16, UIColor.OS.Profile.color17, UIColor.OS.Profile.color18,
-        UIColor.OS.Profile.color19, UIColor.OS.Profile.color20, UIColor.OS.Profile.color21,
-        UIColor.OS.Profile.color22, UIColor.OS.Profile.color23, UIColor.OS.Profile.color24,
-        UIColor.OS.Profile.color25
-    ]
     
     init() {
         super.init(style: .default, reuseIdentifier: String(describing: PlacementTableViewCell.self))
@@ -71,7 +60,7 @@ final class PlacementTableViewCell: UITableViewCell {
     }
     
     func setPlayerAndPlacement(_ player: OSPlayer, _ placement: Int) {
-        profileImageWrap.backgroundColor = profileBackgroundColor(player.nickname)
+        profileImageWrap.backgroundColor = UIColor.OS.hashedProfileColor(nickname: player.nickname)
         profileEmojiLabel.text = player.emoji
         usernameLabel.text = player.nickname.lowercased()
         scoreLabel.text = "\(player.foosballScore) pts"
@@ -153,10 +142,5 @@ final class PlacementTableViewCell: UITableViewCell {
         default:
             return placementFontNormal
         }
-    }
-    
-    private func profileBackgroundColor(_ nickname: String) -> UIColor {
-        let hashedIndex = nickname.hashValue % profileColors.count
-        return profileColors[abs(hashedIndex)]
     }
 }

@@ -90,5 +90,24 @@ extension UIColor {
             
             static let color25 = UIColor(hex: 0x9A65D5)
         }
+        
+        static var profileColors: [UIColor] {
+            return [
+                UIColor.OS.Profile.color1, UIColor.OS.Profile.color2, UIColor.OS.Profile.color3,
+                UIColor.OS.Profile.color4, UIColor.OS.Profile.color5, UIColor.OS.Profile.color6,
+                UIColor.OS.Profile.color7, UIColor.OS.Profile.color8, UIColor.OS.Profile.color9,
+                UIColor.OS.Profile.color10, UIColor.OS.Profile.color11, UIColor.OS.Profile.color12,
+                UIColor.OS.Profile.color13, UIColor.OS.Profile.color14, UIColor.OS.Profile.color15,
+                UIColor.OS.Profile.color16, UIColor.OS.Profile.color17, UIColor.OS.Profile.color18,
+                UIColor.OS.Profile.color19, UIColor.OS.Profile.color20, UIColor.OS.Profile.color21,
+                UIColor.OS.Profile.color22, UIColor.OS.Profile.color23, UIColor.OS.Profile.color24,
+                UIColor.OS.Profile.color25
+            ]
+        }
+        
+        static func hashedProfileColor(nickname: String) -> UIColor {
+            let hashedIndex = nickname.hashValue % profileColors.count
+            return profileColors[abs(hashedIndex)]
+        }
     }
 }

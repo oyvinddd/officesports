@@ -56,7 +56,8 @@ final class ProfileView: UIView {
     }()
     
     private lazy var profileImageBackground: UIView = {
-        let profileImageBackground = UIView.createView(.yellow)
+        let profileColor = UIColor.OS.hashedProfileColor(nickname: account.player.nickname)
+        let profileImageBackground = UIView.createView(profileColor)
         profileImageBackground.applyCornerRadius((profileImageDimater - 16) / 2)
         return profileImageBackground
     }()
