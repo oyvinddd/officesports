@@ -105,7 +105,7 @@ extension EmojiPickerViewController: UICollectionViewDataSource {
 extension EmojiPickerViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let viewController = presentingViewController as? NicknameViewController {
+        if let viewController = presentingViewController as? ProfileDetailsViewController {
             viewController.selectedEmoji = viewModel.emojis[indexPath.row]
             dismiss(animated: true)
         }

@@ -81,9 +81,9 @@ extension Coordinator {
         return WelcomeViewController(viewModel: viewModel)
     }
     
-    var nicknameViewController: NicknameViewController {
+    var nicknameViewController: ProfileDetailsViewController {
         let viewModel = NicknameViewModel(api: FirebaseSportsAPI(), delegate: nil)
-        return NicknameViewController(viewModel: viewModel)
+        return ProfileDetailsViewController(viewModel: viewModel)
     }
     
     var mainViewController: MainViewController {

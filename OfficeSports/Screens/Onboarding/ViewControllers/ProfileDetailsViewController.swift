@@ -10,7 +10,7 @@ import UIKit
 private let nicknameMinLength = 3
 private let nicknameMaxLength = 20
 
-final class NicknameViewController: UIViewController {
+final class ProfileDetailsViewController: UIViewController {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel.createLabel(.white)
@@ -96,25 +96,22 @@ final class NicknameViewController: UIViewController {
 
 // MARK: - Text Field Delegate
 
-extension NicknameViewController: CompoundFieldDelegate {
+extension ProfileDetailsViewController: CompoundFieldDelegate {
     
     func buttonTapped(_ text: String?) {
-        let vm = EmojiViewModel()
-        present(EmojiPickerViewController(viewModel: vm), animated: true)
-        /*
         do {
             let nickname = try processAndValidateNickname(text)
             viewModel.updateProfileDetails(nickname: nickname, emoji: "😙")
         } catch let error {
-            Coordinator.global.displayMessage(error.localizedDescription, type: .failure)
+            let localizedError = error.localizedDescription
+            Coordinator.global.displayMessage(localizedError, type: .failure)
         }
-        */
     }
 }
 
 // MARK: - Nickname View Model Delegate Conformance
 
-extension NicknameViewController: NicknameViewModelDelegate {
+extension ProfileDetailsViewController: NicknameViewModelDelegate {
     
     func detailsUpdatedSuccessfully() {
         Coordinator.global.updateState(.authorized)

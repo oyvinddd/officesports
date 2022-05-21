@@ -49,7 +49,7 @@
 		8E973322283231F40012E236 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E973321283231F40012E236 /* SettingsViewModel.swift */; };
 		8E9849C8282BCDC80020266B /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9849C7282BCDC80020266B /* CircleView.swift */; };
 		8EAB6DA6282BE4B500FA1362 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAB6DA5282BE4B500FA1362 /* Coordinator.swift */; };
-		8EC84E8E282BD5B10093C9A0 /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC84E8D282BD5B10093C9A0 /* NicknameViewController.swift */; };
+		8EC84E8E282BD5B10093C9A0 /* ProfileDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC84E8D282BD5B10093C9A0 /* ProfileDetailsViewController.swift */; };
 		8EDFA363282E418000A51292 /* CompoundField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDFA362282E418000A51292 /* CompoundField.swift */; };
 		8EE61FEF282AB79C00C01289 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE61FEE282AB79C00C01289 /* AppDelegate.swift */; };
 		8EE61FF3282AB79C00C01289 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE61FF2282AB79C00C01289 /* MainViewController.swift */; };
@@ -102,7 +102,7 @@
 		8E973321283231F40012E236 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		8E9849C7282BCDC80020266B /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		8EAB6DA5282BE4B500FA1362 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
-		8EC84E8D282BD5B10093C9A0 /* NicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
+		8EC84E8D282BD5B10093C9A0 /* ProfileDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailsViewController.swift; sourceTree = "<group>"; };
 		8EDFA362282E418000A51292 /* CompoundField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundField.swift; sourceTree = "<group>"; };
 		8EE61FEB282AB79C00C01289 /* Office Sports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Office Sports.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EE61FEE282AB79C00C01289 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -161,7 +161,7 @@
 		8E23086D282CFC4200AF60EB /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				8EC84E8D282BD5B10093C9A0 /* NicknameViewController.swift */,
+				8EC84E8D282BD5B10093C9A0 /* ProfileDetailsViewController.swift */,
 				8E70C137282AEE2F009A9452 /* WelcomeViewController.swift */,
 				8E230888282D788D00AF60EB /* EmojiPickerViewController.swift */,
 			);
@@ -482,7 +482,7 @@
 				8E973322283231F40012E236 /* SettingsViewModel.swift in Sources */,
 				8E70C117282ABD3E009A9452 /* FloatingMenu.swift in Sources */,
 				8EE61FF3282AB79C00C01289 /* MainViewController.swift in Sources */,
-				8EC84E8E282BD5B10093C9A0 /* NicknameViewController.swift in Sources */,
+				8EC84E8E282BD5B10093C9A0 /* ProfileDetailsViewController.swift in Sources */,
 				8E23086F282CFC6B00AF60EB /* SettingsViewController.swift in Sources */,
 				8E70C129282ACE57009A9452 /* UIColor+App.swift in Sources */,
 				8EF1387B2837CF3A001D8DA6 /* OSCodePayload.swift in Sources */,

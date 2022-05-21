@@ -47,6 +47,10 @@ final class MockSportsAPI: SportsAPI {
         return nil
     }
     
+    func checkNicknameAvailability(_ nickname: String, result: @escaping ((Error?) -> Void)) {
+        result(nil)
+    }
+    
     func deleteAccount(result: @escaping ((Error?) -> Void)) {
         result(nil)
     }

@@ -17,6 +17,8 @@ protocol SportsAPI {
     
     func saveProfileDetails(nickname: String, emoji: String)
     
+    func checkNicknameAvailability(_ nickname: String, result: @escaping ((Error?) -> Void))
+    
     func loadProfileDetails() -> (String?, String?)
     
     func registerMatch(_ match: OSMatch, result: @escaping ((Error?) -> Void))

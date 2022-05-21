@@ -38,7 +38,7 @@ final class FirebaseSportsAPI: SportsAPI {
             }
             
             guard let authentication = user?.authentication, let idToken = authentication.idToken else {
-                // TODO: return error
+                result(APIError.missingToken)
                 return
             }
             let credentials = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: authentication.accessToken)
@@ -69,6 +69,20 @@ final class FirebaseSportsAPI: SportsAPI {
         let nickname = standardDefaults.object(forKey: userDefaultsNicknameKey) as? String
         let emoji = standardDefaults.object(forKey: userdefaultsEmojiKey) as? String
         return (nickname, emoji)
+    }
+    
+    func checkNicknameAvailability(_ nickname: String, result: @escaping ((Error?) -> Void)) {
+        let usersCollection = database.collection(fbUsersCollection)
+        let query = usersCollection.whereField("nickname", isEqualTo: nickname.lowercased())
+        
+        query.getDocuments { (snapshot, error) in
+            if let error = error {
+                result(error)
+            } else {
+                let count = snapshot!.documents.count
+                result(count > 0 ? APIError.nicknameTaken : nil)
+            }
+        }
     }
     
     func deleteAccount(result: @escaping ((Error?) -> Void)) {
@@ -156,6 +170,24 @@ final class FirebaseSportsAPI: SportsAPI {
         
         dictionary.keys.forEach { key in
             standardDefaults.removeObject(forKey: key)
+        }
+    }
+}
+
+// MARK: - Custom Errors for the sports API
+
+private enum APIError: LocalizedError {
+    
+    case missingToken
+    
+    case nicknameTaken
+    
+    var errorDescription: String? {
+        switch self {
+        case .missingToken:
+            return "Missing ID token"
+        case .nicknameTaken:
+            return "Nickname already taken"
         }
     }
 }
