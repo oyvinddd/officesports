@@ -27,7 +27,7 @@ final class MockSportsAPI: SportsAPI {
     
     private lazy var matches: [OSMatch] = {
         return [
-            OSMatch(date: Date(), sport: .foosball, winner: players[0], loser: players[1], loserDelta: -16, winnerDelta: 16),
+            OSMatch(date: Date(), sport: .foosball, winner: players[0], loser: players[2], loserDelta: -16, winnerDelta: 16),
             OSMatch(date: Date(), sport: .foosball, winner: players[1], loser: players[0], loserDelta: -16, winnerDelta: 9),
             OSMatch(date: Date(), sport: .tableTennis, winner: players[4], loser: players[7], loserDelta: -8, winnerDelta: 12)
         ]
