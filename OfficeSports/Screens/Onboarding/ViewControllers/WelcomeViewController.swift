@@ -94,7 +94,7 @@ final class WelcomeViewController: UIViewController {
 extension WelcomeViewController: AuthViewModelDelegate {
 
     func signedInSuccessfully() {
-        Coordinator.global.updateState(.missingNickname, animated: true)
+        Coordinator.global.changeAppState(.missingProfileDetails, animated: true)
     }
     
     func signInFailed(with error: Error) {

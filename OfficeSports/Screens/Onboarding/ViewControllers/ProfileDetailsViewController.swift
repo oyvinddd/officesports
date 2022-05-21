@@ -29,10 +29,10 @@ final class ProfileDetailsViewController: UIViewController {
         return CompoundField(UIColor.OS.General.mainDark, delegate: self)
     }()
     
-    private var viewModel: NicknameViewModel
+    private var viewModel: ProfileDetailsViewModel
     var selectedEmoji: String = "🙃"
     
-    init(viewModel: NicknameViewModel) {
+    init(viewModel: ProfileDetailsViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         viewModel.delegate = self
@@ -103,21 +103,21 @@ extension ProfileDetailsViewController: CompoundFieldDelegate {
             viewModel.updateProfileDetails(nickname: nickname, emoji: selectedEmoji)
         } catch let error {
             let localizedError = error.localizedDescription
-            Coordinator.global.displayMessage(localizedError, type: .failure)
+            Coordinator.global.showMessage(localizedError, type: .failure)
         }
     }
 }
 
 // MARK: - Nickname View Model Delegate Conformance
 
-extension ProfileDetailsViewController: NicknameViewModelDelegate {
+extension ProfileDetailsViewController: ProfileDetailsViewModelDelegate {
     
     func detailsUpdatedSuccessfully() {
-        Coordinator.global.updateState(.authorized)
+        Coordinator.global.changeAppState(.authorized)
     }
     
     func detailsUpdateFailed(with error: Error) {
-        Coordinator.global.displayMessage(error.localizedDescription, type: .failure)
+        Coordinator.global.showMessage(error.localizedDescription, type: .failure)
     }
     
     func shouldToggleLoading(enabled: Bool) {

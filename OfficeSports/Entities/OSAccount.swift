@@ -19,12 +19,19 @@ struct OSAccount: Codable {
         return Auth.auth().currentUser?.uid
     }
     
-    var loggedIn: Bool {
+    var signedIn: Bool {
         return Auth.auth().currentUser != nil
     }
     
+    var validProfileDetails: Bool {
+        return nickname != nil && emoji != nil
+    }
+    
     var player: OSPlayer? {
-        guard loggedIn, let uid = userId else {
+        guard signedIn,
+                let uid = userId,
+                let nickname = nickname,
+                let emoji = emoji else {
             return nil
         }
         return OSPlayer(
@@ -36,13 +43,17 @@ struct OSAccount: Codable {
         )
     }
     
-    var nickname: String = ""
+    var nickname: String?
     
-    var emoji: String = ""
+    var emoji: String?
     
     var foosballScore: Int = 0
     
     var tableTennisScore: Int = 0
+    
+    init() {
+        printStatus()
+    }
     
     func qrCodePayloadForSport(_ sport: OSSport) -> OSCodePayload? {
         guard let uid = Auth.auth().currentUser?.uid else {
@@ -59,8 +70,8 @@ struct OSAccount: Codable {
         print(
             "🔐 Signed in: [\(signedIn)]\n" +
             "🎁 User ID: [\(userId)]\n" +
-            "🧸 Nickname: [\(nickname)]\n" +
-            "🙃 Emoji: [\(emoji)]"
+            "🧸 Nickname: [\(nickname ?? "None")]\n" +
+            "🙃 Emoji: [\(emoji ?? "None")]"
         )
     }
 }

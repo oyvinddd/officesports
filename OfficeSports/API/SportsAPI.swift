@@ -15,7 +15,7 @@ protocol SportsAPI {
     
     func deleteAccount(result: @escaping ((Error?) -> Void))
     
-    func saveProfileDetails(nickname: String, emoji: String, result: @escaping ((Error?) -> Void))
+    // func saveProfileDetails(nickname: String, emoji: String, result: @escaping ((Error?) -> Void))
     
     func checkNicknameAvailability(_ nickname: String, result: @escaping ((Error?) -> Void))
     

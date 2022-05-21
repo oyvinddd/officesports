@@ -7,36 +7,49 @@
 
 import UIKit
 
-enum ApplicationState: Int, RawRepresentable {
-    case authorized, unauthorized, missingNickname
+enum AppState: Int, RawRepresentable {
+    case authorized, unauthorized, missingProfileDetails
 }
 
 final class Coordinator {
     
-    static var global = Coordinator(window: nil, account: OSAccount.current)
+    static var global = Coordinator(account: OSAccount.current, window: nil)
     
-    var messageWindow = MessageWindow()
+    var account: OSAccount
     
-    var window: UIWindow? {
+    var window: UIWindow?
+    
+    var messageWindow: MessageWindow = {
+        return MessageWindow()
+    }()
+    
+    var currentState: AppState = .authorized {
         didSet { updateRootViewController(animated: false) }
     }
     
-    var currentState: ApplicationState = .authorized {
-        didSet { updateRootViewController(animated: false) }
-    }
-    
-    init(window: UIWindow?, account: OSAccount) {
+    init(account: OSAccount, window: UIWindow?) {
+        self.account = account
         self.window = window
     }
     
-    func updateState(_ state: ApplicationState, animated: Bool = true) {
+    func checkAndHandleAppState() {
+        if !account.signedIn {
+            currentState = .unauthorized
+        } else if !account.validProfileDetails {
+            currentState = .missingProfileDetails
+        } else {
+            currentState = .authorized
+        }
+    }
+    
+    func changeAppState(_ state: AppState, animated: Bool = true) {
         guard state != currentState else {
             return
         }
         currentState = state
     }
     
-    func displayMessage(_ message: String, type: MessageType) {
+    func showMessage(_ message: String, type: MessageType) {
         messageWindow.displayMessage(message, type: type)
     }
     
@@ -48,7 +61,7 @@ final class Coordinator {
         switch currentState {
         case .authorized:
             viewController = mainViewController
-        case .missingNickname:
+        case .missingProfileDetails:
             viewController = nicknameViewController
         default: // unauthorized
             viewController = welcomeViewController
@@ -82,7 +95,7 @@ extension Coordinator {
     }
     
     var nicknameViewController: ProfileDetailsViewController {
-        let viewModel = NicknameViewModel(api: FirebaseSportsAPI(), delegate: nil)
+        let viewModel = ProfileDetailsViewModel(api: FirebaseSportsAPI(), delegate: nil)
         return ProfileDetailsViewController(viewModel: viewModel)
     }
     

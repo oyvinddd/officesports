@@ -56,7 +56,7 @@ final class ProfileView: UIView {
     }()
     
     private lazy var profileImageBackground: UIView = {
-        let profileColor = UIColor.OS.hashedProfileColor(nickname: account.nickname)
+        let profileColor = UIColor.OS.hashedProfileColor(nickname: account.nickname ?? "")
         let profileImageBackground = UIView.createView(profileColor)
         profileImageBackground.applyCornerRadius((profileImageDimater - 16) / 2)
         return profileImageBackground
@@ -165,7 +165,7 @@ final class ProfileView: UIView {
     
     private func configureUI() {
         profileEmjoiLabel.text = account.emoji
-        nicknameLabel.text = account.nickname.lowercased()
+        nicknameLabel.text = account.nickname?.lowercased()
     }
     
     @objc private func settingsButtonTapped(_ sender: UIButton) {

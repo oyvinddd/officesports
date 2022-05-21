@@ -18,7 +18,7 @@ import GoogleSignIn
         
         window = UIWindow(frame: UIScreen.main.bounds)
         Coordinator.global.window = window
-        OSAccount.current.printStatus()
+        Coordinator.global.checkAndHandleAppState()
         
         return true
     }

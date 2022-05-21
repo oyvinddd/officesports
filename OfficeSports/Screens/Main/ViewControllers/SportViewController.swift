@@ -120,7 +120,7 @@ extension SportViewController: SportViewModelDelegate {
     }
     
     func didFetchScoreboard(with error: Error) {
-        Coordinator.global.displayMessage(error.localizedDescription, type: .failure)
+        Coordinator.global.showMessage(error.localizedDescription, type: .failure)
     }
     
     func fetchedRecentMatchesSuccessfully() {
@@ -128,7 +128,7 @@ extension SportViewController: SportViewModelDelegate {
     }
     
     func didFetchRecentMatches(with error: Error) {
-        Coordinator.global.displayMessage(error.localizedDescription, type: .failure)
+        Coordinator.global.showMessage(error.localizedDescription, type: .failure)
     }
     
     func shouldToggleLoading(enabled: Bool) {
