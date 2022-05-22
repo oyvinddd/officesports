@@ -117,7 +117,7 @@ final class ProfileDetailsViewController: UIViewController {
             viewModel.updateProfileDetails(nickname: nickname, emoji: selectedEmoji)
         } catch let error {
             let localizedError = error.localizedDescription
-            Coordinator.global.showMessage(localizedError, type: .failure)
+            Coordinator.global.showMessage(OSMessage(error.localizedDescription, .failure))
         }
     }
 }
@@ -141,7 +141,7 @@ extension ProfileDetailsViewController: ProfileDetailsViewModelDelegate {
     }
     
     func detailsUpdateFailed(with error: Error) {
-        Coordinator.global.showMessage(error.localizedDescription, type: .failure)
+        Coordinator.global.showMessage(OSMessage(error.localizedDescription, .failure))
     }
     
     func shouldToggleLoading(enabled: Bool) {

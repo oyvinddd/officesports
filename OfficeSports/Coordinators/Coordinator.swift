@@ -49,8 +49,8 @@ final class Coordinator {
         currentState = state
     }
     
-    func showMessage(_ message: String, type: MessageType) {
-        messageWindow.displayMessage(message, type: type)
+    func showMessage(_ message: OSMessage) {
+        messageWindow.showMessage(message)
     }
     
     private func updateRootViewController(animated: Bool) {

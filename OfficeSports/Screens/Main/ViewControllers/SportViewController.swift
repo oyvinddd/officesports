@@ -120,15 +120,15 @@ extension SportViewController: SportViewModelDelegate {
     }
     
     func didFetchScoreboard(with error: Error) {
-        Coordinator.global.showMessage(error.localizedDescription, type: .failure)
+        Coordinator.global.showMessage(OSMessage(error.localizedDescription, .failure))
     }
     
     func fetchedRecentMatchesSuccessfully() {
-        //tableView.reloadData()
+        // tableView.reloadData()
     }
     
     func didFetchRecentMatches(with error: Error) {
-        Coordinator.global.showMessage(error.localizedDescription, type: .failure)
+        Coordinator.global.showMessage(OSMessage(error.localizedDescription, .failure))
     }
     
     func shouldToggleLoading(enabled: Bool) {

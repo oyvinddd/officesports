@@ -20,6 +20,8 @@ import GoogleSignIn
         Coordinator.global.window = window
         Coordinator.global.checkAndHandleAppState()
         
+        Coordinator.global.showMessage(OSMessage("This is a test message that should span multiple lines...", .failure))
+        
         return true
     }
     
