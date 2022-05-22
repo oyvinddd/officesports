@@ -10,15 +10,15 @@ import UIKit
 final class MockSportsAPI: SportsAPI {
     
     private let players = [
-        OSPlayer(userId: "id#1", nickname: "oyvindhauge", emoji: "🙃", foosballScore: 1699, tableTennisScore: 1550),
-        OSPlayer(userId: "id#2", nickname: "heimegut", emoji: "💩", foosballScore: 1558, tableTennisScore: 1500),
-        OSPlayer(userId: "id#3", nickname: "salmaaan", emoji: "🧐", foosballScore: 1619, tableTennisScore: 905),
-        OSPlayer(userId: "id#4", nickname: "patidati", emoji: "👻", foosballScore: 2100, tableTennisScore: 1480),
-        OSPlayer(userId: "id#5", nickname: "sekse", emoji: "🤖", foosballScore: 1558, tableTennisScore: 1200),
-        OSPlayer(userId: "id#6", nickname: "dimling", emoji: "👨🏻‍🎨", foosballScore: 1498, tableTennisScore: 1100),
-        OSPlayer(userId: "id#7", nickname: "konstant", emoji: "☀️", foosballScore: 1570, tableTennisScore: 1220),
-        OSPlayer(userId: "id#8", nickname: "eirik", emoji: "👑", foosballScore: 1300, tableTennisScore: 912),
-        OSPlayer(userId: "id#9", nickname: "panzertax", emoji: "🐹", foosballScore: 1483, tableTennisScore: 1799)
+        OSPlayer(userId: "id#1", nickname: "oyvindhauge", emoji: "🙃", foosballScore: 1699, tableTennisScore: 1550, matchesPlayed: 0),
+        OSPlayer(userId: "id#2", nickname: "heimegut", emoji: "💩", foosballScore: 1558, tableTennisScore: 1500, matchesPlayed: 0),
+        OSPlayer(userId: "id#3", nickname: "salmaaan", emoji: "🧐", foosballScore: 1619, tableTennisScore: 905, matchesPlayed: 0),
+        OSPlayer(userId: "id#4", nickname: "patidati", emoji: "👻", foosballScore: 2100, tableTennisScore: 1480, matchesPlayed: 0),
+        OSPlayer(userId: "id#5", nickname: "sekse", emoji: "🤖", foosballScore: 1558, tableTennisScore: 1200, matchesPlayed: 0),
+        OSPlayer(userId: "id#6", nickname: "dimling", emoji: "👨🏻‍🎨", foosballScore: 1498, tableTennisScore: 1100, matchesPlayed: 0),
+        OSPlayer(userId: "id#7", nickname: "konstant", emoji: "☀️", foosballScore: 1570, tableTennisScore: 1220, matchesPlayed: 0),
+        OSPlayer(userId: "id#8", nickname: "eirik", emoji: "👑", foosballScore: 1300, tableTennisScore: 912, matchesPlayed: 0),
+        OSPlayer(userId: "id#9", nickname: "panzertax", emoji: "🐹", foosballScore: 1483, tableTennisScore: 1799, matchesPlayed: 0)
     ]
     
     private lazy var scoreboard: [OSPlayer] = {

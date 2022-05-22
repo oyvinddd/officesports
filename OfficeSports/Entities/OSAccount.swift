@@ -39,7 +39,8 @@ struct OSAccount: Codable {
             nickname: nickname,
             emoji: emoji,
             foosballScore: foosballScore,
-            tableTennisScore: tableTennisScore
+            tableTennisScore: tableTennisScore,
+            matchesPlayed: 0
         )
     }
     
