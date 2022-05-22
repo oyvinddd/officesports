@@ -18,4 +18,6 @@ struct OSPlayer: Codable {
     var foosballScore: Int
     
     var tableTennisScore: Int
+    
+    var matchesPlayed: Int
 }

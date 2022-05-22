@@ -48,6 +48,7 @@
 		8E7D9A7F282BEF66007BCDE0 /* CodeGen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D9A7E282BEF66007BCDE0 /* CodeGen.swift */; };
 		8E973322283231F40012E236 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E973321283231F40012E236 /* SettingsViewModel.swift */; };
 		8E9849C8282BCDC80020266B /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9849C7282BCDC80020266B /* CircleView.swift */; };
+		8E9C7289283AB3C800974DAA /* OSOrganization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9C7288283AB3C800974DAA /* OSOrganization.swift */; };
 		8EAB6DA6282BE4B500FA1362 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAB6DA5282BE4B500FA1362 /* Coordinator.swift */; };
 		8EC84E8E282BD5B10093C9A0 /* ProfileDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC84E8D282BD5B10093C9A0 /* ProfileDetailsViewController.swift */; };
 		8EDFA363282E418000A51292 /* CompoundField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDFA362282E418000A51292 /* CompoundField.swift */; };
@@ -102,6 +103,7 @@
 		8E973321283231F40012E236 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		8E9849C7282BCDC80020266B /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		8E9C7287283A722600974DAA /* Office Sports.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Office Sports.entitlements"; sourceTree = "<group>"; };
+		8E9C7288283AB3C800974DAA /* OSOrganization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSOrganization.swift; sourceTree = "<group>"; };
 		8EAB6DA5282BE4B500FA1362 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		8EC84E8D282BD5B10093C9A0 /* ProfileDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailsViewController.swift; sourceTree = "<group>"; };
 		8EDFA362282E418000A51292 /* CompoundField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundField.swift; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 				8E70C135282ADF7A009A9452 /* OSAccount.swift */,
 				8E31E23D283649230085238C /* OSInvite.swift */,
 				8EF1387A2837CF3A001D8DA6 /* OSCodePayload.swift */,
+				8E9C7288283AB3C800974DAA /* OSOrganization.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -508,6 +511,7 @@
 				8E230889282D788D00AF60EB /* EmojiPickerViewController.swift in Sources */,
 				8E70C126282ACCB5009A9452 /* ProfileView.swift in Sources */,
 				8EAB6DA6282BE4B500FA1362 /* Coordinator.swift in Sources */,
+				8E9C7289283AB3C800974DAA /* OSOrganization.swift in Sources */,
 				8E70C13A282AEE7E009A9452 /* SportsAPI.swift in Sources */,
 				8E230878282D191C00AF60EB /* SportFilterTableViewCell.swift in Sources */,
 				8E7D0AC52838D5C0006D6DF7 /* EmojiCollectionViewCell.swift in Sources */,
