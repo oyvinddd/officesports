@@ -93,4 +93,4 @@ iOSInjectionProject/
 
 GoogleService-Info.plist
 
-local.env
+.env.default

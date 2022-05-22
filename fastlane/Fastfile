@@ -1,22 +1,41 @@
-# This file contains the fastlane.tools configuration
-# You can find the documentation at https://docs.fastlane.tools
-#
-# For a list of all available actions, check out
-#
-#     https://docs.fastlane.tools/actions
-#
-# For a list of all available plugins, check out
-#
-#     https://docs.fastlane.tools/plugins/available-plugins
-#
-
 update_fastlane
-
 default_platform(:ios)
 
 platform :ios do
-  desc "Build and distribute app to Firebase App Distribution"
-  lane :distribute do
-    # add actions here: https://docs.fastlane.tools/actions
-  end
+	desc "Build and distribute app to Firebase App Distribution"
+	lane :distribute do
+        # Get API key
+        api_key = apple_api_key()
+		setup_ci()
+		# Sync certificates and profiles
+        match(
+            type: "development",
+            readonly: false,
+            app_identifier: ENV["APP_BUNDLE_ID"],
+            api_key: api_key
+        )
+        # Build and sign iOS app
+        build_ios_app(
+            scheme: "Office Sports",
+            clean: true,
+            output_directory: "build",
+            output_name: "OfficeSports.ipa",
+            export_method: "development"
+        )
+        # Distribute to Firebase
+        firebase_app_distribution(
+            app: ENV["FB_APP_ID"],
+            firebase_cli_token: ENV["FB_CLI_TOKEN"],
+            groups: "internal-testers"
+        )
+	end
+ 
+     # Load Apple API key
+    def apple_api_key()
+        api_key = app_store_connect_api_key(
+            key_id: ENV["APPLE_API_KEY_ID"],
+            issuer_id: ENV["APPLE_API_ISS_ID"],
+            key_content: ENV["APPLE_API_KEY_CONTENT"]
+        )
+    end
 end
