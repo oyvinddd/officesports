@@ -26,11 +26,25 @@ final class ProfileDetailsViewController: UIViewController {
     }()
     
     private lazy var nicknameField: CompoundField = {
-        return CompoundField(UIColor.OS.General.mainDark, delegate: self)
+        let field = CompoundField(UIColor.OS.General.mainDark, buttonColor: .white, alignment: .left)
+        field.setButtonTitle("🙃")
+        field.delegate = self
+        return field
     }()
     
+    private lazy var continueButton: UIButton = {
+        let button = UIButton.createButton(.white, UIColor.OS.General.main, title: "Continue")
+        button.addTarget(self, action: #selector(continueButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    var selectedEmoji: String = "🙃" {
+        didSet {
+            nicknameField.setButtonTitle(selectedEmoji)
+        }
+    }
+    
     private var viewModel: ProfileDetailsViewModel
-    var selectedEmoji: String = "🙃"
     
     init(viewModel: ProfileDetailsViewModel) {
         self.viewModel = viewModel
@@ -57,6 +71,7 @@ final class ProfileDetailsViewController: UIViewController {
         view.addSubview(titleLabel)
         view.addSubview(descriptionLabel)
         view.addSubview(nicknameField)
+        view.addSubview(continueButton)
         
         NSLayoutConstraint.activate([
             titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
@@ -68,7 +83,11 @@ final class ProfileDetailsViewController: UIViewController {
             nicknameField.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
             nicknameField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
             nicknameField.heightAnchor.constraint(equalToConstant: 50),
-            nicknameField.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            nicknameField.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            continueButton.leftAnchor.constraint(equalTo: nicknameField.leftAnchor),
+            continueButton.rightAnchor.constraint(equalTo: nicknameField.rightAnchor),
+            continueButton.topAnchor.constraint(equalTo: nicknameField.bottomAnchor, constant: 16),
+            continueButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     
@@ -91,6 +110,16 @@ final class ProfileDetailsViewController: UIViewController {
         }
         return lowercasedNickname
     }
+    
+    @objc private func continueButtonTapped(_ sender: UIButton) {
+        do {
+            let nickname = try processAndValidateNickname(nicknameField.text)
+            viewModel.updateProfileDetails(nickname: nickname, emoji: selectedEmoji)
+        } catch let error {
+            let localizedError = error.localizedDescription
+            Coordinator.global.showMessage(localizedError, type: .failure)
+        }
+    }
 }
 
 // MARK: - Text Field Delegate
@@ -98,13 +127,8 @@ final class ProfileDetailsViewController: UIViewController {
 extension ProfileDetailsViewController: CompoundFieldDelegate {
     
     func buttonTapped(_ text: String?) {
-        do {
-            let nickname = try processAndValidateNickname(text)
-            viewModel.updateProfileDetails(nickname: nickname, emoji: selectedEmoji)
-        } catch let error {
-            let localizedError = error.localizedDescription
-            Coordinator.global.showMessage(localizedError, type: .failure)
-        }
+        let viewController = EmojiPickerViewController(viewModel: EmojiViewModel())
+        present(viewController, animated: true)
     }
 }
 

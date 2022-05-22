@@ -8,8 +8,8 @@
 import Foundation
 import FirebaseAuth
 
-private let nicknameUserDefaultsKey = "nickname"
-private let emojiUserDefaultsKey = "emoji"
+private let userDefaultsNicknameKey = "nickname"
+private let userdefaultsEmojiKey = "emoji"
 
 struct OSAccount: Codable {
     
@@ -52,6 +52,9 @@ struct OSAccount: Codable {
     var tableTennisScore: Int = 0
     
     init() {
+        let (nick, emoji) = loadProfileDetails()
+        self.nickname = nick
+        self.emoji = emoji
         printStatus()
     }
     
@@ -61,6 +64,13 @@ struct OSAccount: Codable {
             return nil
         }
         return OSCodePayload(userId: uid, sport: sport)
+    }
+    
+    func loadProfileDetails() -> (String?, String?) {
+        let standardDefaults = UserDefaults.standard
+        let nickname = standardDefaults.object(forKey: userDefaultsNicknameKey) as? String
+        let emoji = standardDefaults.object(forKey: userdefaultsEmojiKey) as? String
+        return (nickname, emoji)
     }
     
     func printStatus() {

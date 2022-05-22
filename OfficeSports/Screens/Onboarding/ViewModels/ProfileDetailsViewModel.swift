@@ -7,6 +7,9 @@
 
 import Foundation
 
+private let userDefaultsNicknameKey = "nickname"
+private let userdefaultsEmojiKey = "emoji"
+
 protocol ProfileDetailsViewModelDelegate: AnyObject {
     
     func detailsUpdatedSuccessfully()
@@ -32,8 +35,15 @@ final class ProfileDetailsViewModel {
             if let error = error {
                 self.delegate?.detailsUpdateFailed(with: error)
             } else {
+                self.saveProfileDetails(nickname: nickname, emoji: emoji)
                 self.delegate?.detailsUpdatedSuccessfully()
             }
         }
+    }
+    
+    private func saveProfileDetails(nickname: String, emoji: String) {
+        let standardDefaults = UserDefaults.standard
+        standardDefaults.set(nickname, forKey: userDefaultsNicknameKey)
+        standardDefaults.set(emoji, forKey: userdefaultsEmojiKey)
     }
 }

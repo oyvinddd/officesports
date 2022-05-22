@@ -15,9 +15,6 @@ private let fbUsersCollection = "users"
 private let fbMatchesCollection = "matches"
 private let fbInvitesCollection = "invites"
 
-private let userDefaultsNicknameKey = "nickname"
-private let userdefaultsEmojiKey = "emoji"
-
 final class FirebaseSportsAPI: SportsAPI {
     
     private let database = Firestore.firestore()
@@ -55,21 +52,7 @@ final class FirebaseSportsAPI: SportsAPI {
         } catch let error {
             return error
         }
-        clearProfileDetails()
         return nil
-    }
-    
-    func saveProfileDetails(nickname: String, emoji: String, result: @escaping ((Error?) -> Void)) {
-        let standardDefaults = UserDefaults.standard
-        standardDefaults.set(nickname, forKey: userDefaultsNicknameKey)
-        standardDefaults.set(emoji, forKey: userdefaultsEmojiKey)
-    }
-    
-    func loadProfileDetails() -> (String?, String?) {
-        let standardDefaults = UserDefaults.standard
-        let nickname = standardDefaults.object(forKey: userDefaultsNicknameKey) as? String
-        let emoji = standardDefaults.object(forKey: userdefaultsEmojiKey) as? String
-        return (nickname, emoji)
     }
     
     func checkNicknameAvailability(_ nickname: String, result: @escaping ((Error?) -> Void)) {
@@ -169,6 +152,7 @@ final class FirebaseSportsAPI: SportsAPI {
         return matches
     }
     
+    // never used
     private func clearProfileDetails() {
         let standardDefaults = UserDefaults.standard
         let dictionary = standardDefaults.dictionaryRepresentation()

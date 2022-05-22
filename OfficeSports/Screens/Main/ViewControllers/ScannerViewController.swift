@@ -71,13 +71,10 @@ final class ScannerViewController: UIViewController {
         captureSession.beginConfiguration()
         captureSession.commitConfiguration()
         
-        let videoInput = createVideoInput()
-        
-        if captureSession.canAddInput(videoInput!) {
-            captureSession.addInput(videoInput!)
-        } else {
+        guard let videoInput = createVideoInput(), captureSession.canAddInput(videoInput) else {
             return
         }
+        captureSession.addInput(videoInput)
         
         let metadataOutput = AVCaptureMetadataOutput()
         
@@ -85,7 +82,7 @@ final class ScannerViewController: UIViewController {
             captureSession.addOutput(metadataOutput)
             
             metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-            metadataOutput.metadataObjectTypes = [.ean8, .ean13, .pdf417, .aztec, .qr]
+            metadataOutput.metadataObjectTypes = [.qr]
         } else {
             // failed()
             return

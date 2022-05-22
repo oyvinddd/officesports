@@ -87,7 +87,7 @@ final class MessageViewController: UIViewController {
             } completion: { _ in
                 
 
-                
+                /*
                 //self.view.setNeedsUpdateConstraints()
                 UIView.animate(withDuration: messageAnimateDuration, delay: 3) {
                     // FIXME: dialog disappears
@@ -95,6 +95,7 @@ final class MessageViewController: UIViewController {
                     self.messageView.alpha = messageMinOpacity
                     //self.view.layoutIfNeeded()
                 }
+                */
             }
     }
 }

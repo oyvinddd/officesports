@@ -62,8 +62,8 @@ final class Coordinator {
         case .authorized:
             viewController = mainViewController
         case .missingProfileDetails:
-            viewController = nicknameViewController
-        default: // unauthorized
+            viewController = profileDetailsViewController
+        case .unauthorized:
             viewController = welcomeViewController
         }
         window.rootViewController = viewController
@@ -94,7 +94,7 @@ extension Coordinator {
         return WelcomeViewController(viewModel: viewModel)
     }
     
-    var nicknameViewController: ProfileDetailsViewController {
+    var profileDetailsViewController: ProfileDetailsViewController {
         let viewModel = ProfileDetailsViewModel(api: FirebaseSportsAPI(), delegate: nil)
         return ProfileDetailsViewController(viewModel: viewModel)
     }
