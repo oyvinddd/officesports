@@ -49,6 +49,7 @@
 		8E973322283231F40012E236 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E973321283231F40012E236 /* SettingsViewModel.swift */; };
 		8E9849C8282BCDC80020266B /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9849C7282BCDC80020266B /* CircleView.swift */; };
 		8E9C7289283AB3C800974DAA /* OSOrganization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9C7288283AB3C800974DAA /* OSOrganization.swift */; };
+		8E9C728B283AB93C00974DAA /* fastlane in Resources */ = {isa = PBXBuildFile; fileRef = 8E9C728A283AB93C00974DAA /* fastlane */; };
 		8EAB6DA6282BE4B500FA1362 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAB6DA5282BE4B500FA1362 /* Coordinator.swift */; };
 		8EC84E8E282BD5B10093C9A0 /* ProfileDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC84E8D282BD5B10093C9A0 /* ProfileDetailsViewController.swift */; };
 		8EDFA363282E418000A51292 /* CompoundField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDFA362282E418000A51292 /* CompoundField.swift */; };
@@ -104,6 +105,7 @@
 		8E9849C7282BCDC80020266B /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		8E9C7287283A722600974DAA /* Office Sports.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Office Sports.entitlements"; sourceTree = "<group>"; };
 		8E9C7288283AB3C800974DAA /* OSOrganization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSOrganization.swift; sourceTree = "<group>"; };
+		8E9C728A283AB93C00974DAA /* fastlane */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fastlane; sourceTree = "<group>"; };
 		8EAB6DA5282BE4B500FA1362 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		8EC84E8D282BD5B10093C9A0 /* ProfileDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailsViewController.swift; sourceTree = "<group>"; };
 		8EDFA362282E418000A51292 /* CompoundField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundField.swift; sourceTree = "<group>"; };
@@ -329,6 +331,7 @@
 			children = (
 				8E9C7287283A722600974DAA /* Office Sports.entitlements */,
 				8E70C13B282BAF51009A9452 /* README.md */,
+				8E9C728A283AB93C00974DAA /* fastlane */,
 				8EE61FED282AB79C00C01289 /* OfficeSports */,
 				8EE61FEC282AB79C00C01289 /* Products */,
 			);
@@ -445,6 +448,7 @@
 				8EE61FF8282AB79D00C01289 /* Assets.xcassets in Resources */,
 				8E230881282D543300AF60EB /* GoogleService-Info.plist in Resources */,
 				8E7D0ACC28391A9E006D6DF7 /* emojis.csv in Resources */,
+				8E9C728B283AB93C00974DAA /* fastlane in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
