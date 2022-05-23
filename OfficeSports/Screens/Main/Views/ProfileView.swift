@@ -9,14 +9,8 @@ import UIKit
 
 private let profileImageDimater: CGFloat = 128
 private let profileImageRadius: CGFloat = profileImageDimater / 2
-
 private let codeTransitionDuration: TimeInterval = 0.3  // seconds
 private let codeHideDelayDuration: TimeInterval = 2     // seconds
-
-protocol ProfileViewDelegate: AnyObject {
-    
-    func settingsButtonTapped()
-}
 
 final class ProfileView: UIView {
     
@@ -36,16 +30,6 @@ final class ProfileView: UIView {
     
     private lazy var codeImageView: UIImageView = {
         return UIImageView.createImageView(foosballCodeImage, alpha: 0)
-    }()
-    
-    private lazy var settingsButton: UIButton = {
-        let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .semibold, scale: .large)
-        let image = UIImage(systemName: "gearshape.fill", withConfiguration: config)
-        let button = UIButton.createButton(.clear, .clear, title: nil)
-        button.addTarget(self, action: #selector(settingsButtonTapped), for: .touchUpInside)
-        button.tintColor = UIColor.OS.Text.normal
-        button.setImage(image, for: .normal)
-        return button
     }()
     
     private lazy var profileImageWrap: UIView = {
@@ -82,14 +66,11 @@ final class ProfileView: UIView {
         return label
     }()
     
-    private weak var delegate: ProfileViewDelegate?
-    
     private let account: OSAccount
     private var isDisplayingCode: Bool = false
     
-    init(account: OSAccount, delegate: ProfileViewDelegate?) {
+    init(account: OSAccount) {
         self.account = account
-        self.delegate = delegate
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         configureUI()
@@ -130,7 +111,6 @@ final class ProfileView: UIView {
     private func setupChildViews() {
         addSubview(codeImageView)
         addSubview(profileImageWrap)
-        addSubview(settingsButton)
         profileImageWrap.addSubview(profileImageBackground)
         addSubview(nicknameLabel)
         addSubview(totalScoreLabel)
@@ -149,10 +129,6 @@ final class ProfileView: UIView {
             profileImageBackground.rightAnchor.constraint(equalTo: profileImageWrap.rightAnchor, constant: -8),
             profileImageBackground.topAnchor.constraint(equalTo: profileImageWrap.topAnchor, constant: 8),
             profileImageBackground.bottomAnchor.constraint(equalTo: profileImageWrap.bottomAnchor, constant: -8),
-            settingsButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
-            settingsButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
-            settingsButton.widthAnchor.constraint(equalToConstant: 50),
-            settingsButton.heightAnchor.constraint(equalTo: settingsButton.widthAnchor),
             nicknameLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 16),
             nicknameLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
             nicknameLabel.topAnchor.constraint(equalTo: profileImageWrap.bottomAnchor, constant: 8),
@@ -166,9 +142,5 @@ final class ProfileView: UIView {
     private func configureUI() {
         profileEmjoiLabel.text = account.emoji
         nicknameLabel.text = account.nickname?.lowercased()
-    }
-    
-    @objc private func settingsButtonTapped(_ sender: UIButton) {
-        delegate?.settingsButtonTapped()
     }
 }

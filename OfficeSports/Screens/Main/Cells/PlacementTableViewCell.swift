@@ -51,24 +51,25 @@ final class PlacementTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        backgroundColor = .clear
+        selectionStyle = .none
         setupChildViews()
-        configureUI()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    func setPlayerAndPlacement(_ player: OSPlayer, _ placement: Int) {
+    func configure(with player: OSPlayer, _ placement: Int, _ isFirst: Bool, _ isLast: Bool) {
+        applyCornerRadius(isFirstElement: isFirst, isLastElement: isLast)
+        configurePlacementLabel(placement, isLast: isLast)
         profileImageWrap.backgroundColor = UIColor.OS.hashedProfileColor(nickname: player.nickname)
         profileEmojiLabel.text = player.emoji
         usernameLabel.text = player.nickname.lowercased()
         scoreLabel.text = "\(player.foosballScore) pts"
-        placementLabel.text = placementText(placement)
-        placementLabel.font = placementFont(placement)
     }
     
-    func applyCornerRadius(isFirstElement: Bool, isLastElement: Bool) {
+    private func applyCornerRadius(isFirstElement: Bool, isLastElement: Bool) {
         guard isFirstElement || isLastElement else {
             contentWrap.layer.maskedCorners = []
             return
@@ -117,30 +118,26 @@ final class PlacementTableViewCell: UITableViewCell {
         ])
     }
     
-    private func configureUI() {
-        backgroundColor = .clear
-        selectionStyle = .none
-    }
-    
-    private func placementText(_ placement: Int) -> String {
+    private func configurePlacementLabel(_ placement: Int, isLast: Bool) {
+        // configure font
+        if placement == 0 || placement == 1 || placement == 2 || isLast {
+            placementLabel.font = placementFontEmoji
+        } else {
+            placementLabel.font = placementFontNormal
+        }
+        // configure text label
         switch placement {
         case 0:
-            return "🥇"
+            placementLabel.text = "🥇"
         case 1:
-            return "🥈"
+            placementLabel.text = "🥈"
         case 2:
-            return "🥉"
+            placementLabel.text = "🥉"
         default:
-            return "\(placement + 1)th"
+            placementLabel.text = "\(placement + 1)th"
         }
-    }
-    
-    private func placementFont(_ placement: Int) -> UIFont {
-        switch placement {
-        case 0, 1, 2:
-            return placementFontEmoji
-        default:
-            return placementFontNormal
+        if isLast {
+            placementLabel.text = "💩"
         }
     }
 }
