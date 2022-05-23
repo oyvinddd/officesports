@@ -21,6 +21,7 @@ final class ScannerViewController: UIViewController {
     }()
     
     private let viewModel: ScannerViewModel
+    
     private var captureSession: AVCaptureSession!
     private var previewLayer: AVCaptureVideoPreviewLayer!
     
@@ -139,7 +140,7 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         // if a barcode is detected, stop the capture session
         if captureSession.isRunning {
-            captureSession.stopRunning()
+            //captureSession.stopRunning()
         }
         
         if let metadataObject = metadataObjects.first {
@@ -148,6 +149,12 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
             
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
             print("Barcode found: \(stringValue)")
+            
+            guard let winnerId = OSAccount.current.userId else {
+                return
+            }
+            let registration = OSMatchRegistration(sport: .foosball, winnerId: winnerId, loserId: winnerId)
+            viewModel.registerMatch(registration)
         }
     }
 }

@@ -11,7 +11,7 @@ import FirebaseAuth
 private let userDefaultsNicknameKey = "nickname"
 private let userdefaultsEmojiKey = "emoji"
 
-struct OSAccount: Codable {
+final class OSAccount: Codable {
     
     static let current = OSAccount()
     

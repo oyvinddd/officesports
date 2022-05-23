@@ -24,10 +24,8 @@ final class SettingsViewController: UIViewController {
     }()
     
     private lazy var dialogView: UIView = {
-        let view = UIView(frame: .zero)
-        view.translatesAutoresizingMaskIntoConstraints = false
+        let view = UIView.createView(.white)
         view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        view.backgroundColor = .white
         return view
     }()
     
@@ -166,9 +164,10 @@ extension SettingsViewController: AuthViewModelDelegate {
     }
     
     func signOutFailed(with error: Error) {
-        print(error.localizedDescription)
+        Coordinator.global.showMessage(OSMessage("Error signing out", .failure))
     }
     
     func shouldToggleLoading(enabled: Bool) {
+        // do nothing
     }
 }

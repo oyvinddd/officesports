@@ -17,7 +17,17 @@ final class MainViewController: UIViewController {
     }()
     
     private lazy var profileView: ProfileView = {
-        return ProfileView(account: OSAccount.current, delegate: self)
+        return ProfileView(account: OSAccount.current)
+    }()
+    
+    private lazy var settingsButton: UIButton = {
+        let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .semibold, scale: .large)
+        let image = UIImage(systemName: "gearshape.fill", withConfiguration: config)
+        let button = UIButton.createButton(.clear, .clear, title: nil)
+        button.addTarget(self, action: #selector(settingsButtonTapped2), for: .touchUpInside)
+        button.tintColor = UIColor.OS.Text.normal
+        button.setImage(image, for: .normal)
+        return button
     }()
     
     private lazy var scrollView: UIScrollView = {
@@ -44,12 +54,12 @@ final class MainViewController: UIViewController {
     
     private lazy var foosballViewController: SportViewController = {
         let viewModel = SportViewModel(api: MockSportsAPI(), sport: .foosball)
-        return SportViewController(viewModel: viewModel)
+        return SportViewController(viewModel: viewModel, delegate: self)
     }()
     
     private lazy var tableTennisViewController: SportViewController = {
         let viewModel = SportViewModel(api: MockSportsAPI(), sport: .tableTennis)
-        return SportViewController(viewModel: viewModel)
+        return SportViewController(viewModel: viewModel, delegate: self)
     }()
     
     private var cameraIsShowing: Bool = false
@@ -82,6 +92,7 @@ final class MainViewController: UIViewController {
         
         scrollView.addSubview(stackView)
         
+        view.addSubview(settingsButton)
         view.addSubview(floatingMenu)
         
         NSLayoutConstraint.activate([
@@ -93,6 +104,10 @@ final class MainViewController: UIViewController {
             stackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             stackView.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor),
+            settingsButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
+            settingsButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            settingsButton.widthAnchor.constraint(equalToConstant: 50),
+            settingsButton.heightAnchor.constraint(equalTo: settingsButton.widthAnchor),
             floatingMenu.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 64),
             floatingMenu.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -64),
             floatingMenu.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
@@ -135,13 +150,8 @@ final class MainViewController: UIViewController {
     private func scrollToViewController(_ viewController: UIViewController, animated: Bool = false) {
         scrollView.scrollRectToVisible(viewController.view.frame, animated: animated)
     }
-}
-
-// MARK: - Profile view delegate conformance
-
-extension MainViewController: ProfileViewDelegate {
     
-    func settingsButtonTapped() {
+    @objc private func settingsButtonTapped2(_ sender: UIButton) {
         Coordinator.global.presentSettings(from: self)
     }
 }
@@ -149,6 +159,10 @@ extension MainViewController: ProfileViewDelegate {
 // MARK: - Floating Menu Delegate Conformance
 
 extension MainViewController: FloatingMenuDelegate {
+    
+    func invitesButtonTapped() {
+        scrollToViewController(invitesViewController, animated: true)
+    }
     
     func displayCodeButtonTapped() {
         foosballViewController.scrollTableViewToTop(animated: true)
@@ -181,6 +195,15 @@ extension MainViewController: FloatingMenuDelegate {
         }
         let frame = xOffset > 0 ? foosballFrame : tableTennisFrame
         scrollView.scrollRectToVisible(frame, animated: true)
+    }
+}
+
+// MARK: - Sport View Controller Delegate Conformance
+
+extension MainViewController: SportViewControllerDelegate {
+    
+    func tableViewDidScroll(_ contentOffset: CGPoint) {
+        // TODO: fade in/out profile view and settings button based on the y offest of the table view
     }
 }
 

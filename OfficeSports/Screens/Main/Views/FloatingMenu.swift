@@ -18,7 +18,7 @@ protocol FloatingMenuDelegate: AnyObject {
     
     func changeSportsButtonTapped()
     
-    func settingsButtonTapped()
+    func invitesButtonTapped()
 }
 
 final class FloatingMenu: UIView {
@@ -27,10 +27,10 @@ final class FloatingMenu: UIView {
         return UIStackView.createStackView(.clear, axis: .horizontal, spacing: 4)
     }()
     
-    private lazy var mbSettings: MenuButton = {
+    private lazy var mbInvites: MenuButton = {
         let config = UIImage.SymbolConfiguration(pointSize: 22, weight: .bold, scale: .large)
-        let button = MenuButton(.clear, image: UIImage(systemName: "gearshape", withConfiguration: buttonImageConfig))
-        button.addTarget(self, action: #selector(settingsButtonTapped), for: .touchUpInside)
+        let button = MenuButton(.clear, image: UIImage(systemName: "bell.badge", withConfiguration: buttonImageConfig))
+        button.addTarget(self, action: #selector(invitesButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -78,7 +78,7 @@ final class FloatingMenu: UIView {
         let icon = enabled ? "xmark" : "qrcode.viewfinder"
         let image = UIImage(systemName: icon, withConfiguration: buttonImageConfig)
         mbToggleCamera.setImage(image, for: .normal)
-        mbSettings.toggle(enabled: !enabled)
+        mbInvites.toggle(enabled: !enabled)
         mbChangeSports.toggle(enabled: !enabled)
         mbShowQrCode.toggle(enabled: !enabled)
     }
@@ -86,7 +86,7 @@ final class FloatingMenu: UIView {
     private func setupChildViews() {
         NSLayoutConstraint.pinToView(self, stackView, padding: 4)
         
-        stackView.addArrangedSubview(mbSettings)
+        stackView.addArrangedSubview(mbInvites)
         stackView.addArrangedSubview(mbToggleCamera)
         stackView.addArrangedSubview(mbShowQrCode)
         stackView.addArrangedSubview(mbChangeSports)
@@ -100,9 +100,9 @@ final class FloatingMenu: UIView {
     
     // MARK: - Button Handling
     
-    @objc private func settingsButtonTapped(_ sender: MenuButton) {
+    @objc private func invitesButtonTapped(_ sender: MenuButton) {
         feedbackGenerator.impactOccurred()
-        delegate?.settingsButtonTapped()
+        delegate?.invitesButtonTapped()
     }
     
     @objc private func changeSportsButtonTapped(_ sender: MenuButton) {

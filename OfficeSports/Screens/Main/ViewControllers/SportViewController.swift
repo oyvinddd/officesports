@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol SportViewControllerDelegate: AnyObject {
+    
+    func tableViewDidScroll(_ contentOffset: CGPoint)
+}
+
 final class SportViewController: UIViewController {
     
     private lazy var tableView: UITableView = {
@@ -17,14 +22,18 @@ final class SportViewController: UIViewController {
         tableView.registerCell(PlacementTableViewCell.self)
         tableView.registerCell(MatchTableViewCell.self)
         tableView.refreshControl = refreshControl
+        tableView.delegate = self
         return tableView
     }()
+    
+    weak var delegate: SportViewControllerDelegate?
     
     private let viewModel: SportViewModel
     private var showScoreboard: Bool = true
     
-    init(viewModel: SportViewModel) {
+    init(viewModel: SportViewModel, delegate: SportViewControllerDelegate?) {
         self.viewModel = viewModel
+        self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
         viewModel.delegate = self
     }
@@ -95,14 +104,22 @@ extension SportViewController: UITableViewDataSource {
         
         if showScoreboard {
             let cell = tableView.dequeueReusableCell(for: PlacementTableViewCell.self, for: indexPath)
-            cell.setPlayerAndPlacement(viewModel.scoreboard[indexPath.row], indexPath.row)
-            cell.applyCornerRadius(isFirstElement: isFirstElement, isLastElement: isLastElement)
+            cell.configure(with: viewModel.scoreboard[indexPath.row], indexPath.row, isFirstElement, isLastElement)
             return cell
         }
         let cell = tableView.dequeueReusableCell(for: MatchTableViewCell.self, for: indexPath)
         cell.applyCornerRadius(isFirstElement: isFirstElement, isLastElement: isLastElement)
         cell.match = viewModel.recentMatches[indexPath.row]
         return cell
+    }
+}
+
+// MARK: - Scroll View Delegate
+
+extension SportViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        delegate?.tableViewDidScroll(scrollView.contentOffset)
     }
 }
 
