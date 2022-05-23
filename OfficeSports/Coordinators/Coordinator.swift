@@ -24,7 +24,7 @@ final class Coordinator {
     }()
     
     var currentState: AppState = .authorized {
-        didSet { updateRootViewController(animated: false) }
+        didSet { updateRootViewController(animated: true) }
     }
     
     init(account: OSAccount, window: UIWindow?) {
@@ -42,7 +42,7 @@ final class Coordinator {
         }
     }
     
-    func changeAppState(_ state: AppState, animated: Bool = true) {
+    func changeAppState(_ state: AppState) {
         guard state != currentState else {
             return
         }
@@ -51,6 +51,10 @@ final class Coordinator {
     
     func showMessage(_ message: OSMessage) {
         messageWindow.showMessage(message)
+    }
+    
+    func presentSettings(from viewController: UIViewController) {
+        viewController.present(settingsViewController, animated: false)
     }
     
     private func updateRootViewController(animated: Bool) {

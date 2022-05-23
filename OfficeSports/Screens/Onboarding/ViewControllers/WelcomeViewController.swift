@@ -11,27 +11,27 @@ final class WelcomeViewController: UIViewController {
 
     private lazy var welcomeLabel: UILabel = {
         let label = UILabel.createLabel(.white, alignment: .center)
-        label.font = UIFont.boldSystemFont(ofSize: 32)
-        label.text = "Welcome to Office Sports!"
+        label.font = UIFont.boldSystemFont(ofSize: 34)
+        label.text = "Welcome to Office Sports! 🥹"
         return label
     }()
     
     private lazy var foosballCircleView: CircleView = {
-        let circleView = CircleView(.white, text: "⚽️")
-        circleView.applyMediumDropShadow(UIColor.OS.Text.subtitle)
+        let circleView = CircleView(UIColor.OS.Profile.color12, .white, text: "⚽️")
+        circleView.applyMediumDropShadow(UIColor.black)
         circleView.applyCornerRadius(50)
         return circleView
     }()
     
     private lazy var tableTennisCircleView: CircleView = {
-        let circleView = CircleView(.white, text: "🏓")
-        circleView.applyMediumDropShadow(UIColor.OS.Text.subtitle)
+        let circleView = CircleView(UIColor.OS.Profile.color1, .white, text: "🏓")
+        circleView.applyMediumDropShadow(UIColor.black)
         circleView.applyCornerRadius(50)
         return circleView
     }()
     
     private lazy var signInButton: UIButton = {
-        let button = UIButton.createButton(.white, UIColor.OS.General.main, title: "Sign in with Google")
+        let button = UIButton.createButton(.white, UIColor.OS.General.main, UIColor.OS.General.mainDark, title: "Sign in with Google")
         button.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -52,7 +52,7 @@ final class WelcomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupChildViews()
-        configureUI()
+        view.backgroundColor = UIColor.OS.General.main
     }
     
     private func setupChildViews() {
@@ -65,7 +65,7 @@ final class WelcomeViewController: UIViewController {
             welcomeLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 64),
             welcomeLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -64),
             welcomeLabel.bottomAnchor.constraint(equalTo: foosballCircleView.topAnchor, constant: -64),
-            foosballCircleView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            foosballCircleView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -8),
             foosballCircleView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 26),
             foosballCircleView.widthAnchor.constraint(equalToConstant: 100),
             foosballCircleView.heightAnchor.constraint(equalTo: foosballCircleView.widthAnchor),
@@ -80,10 +80,6 @@ final class WelcomeViewController: UIViewController {
         ])
     }
     
-    private func configureUI() {
-        view.backgroundColor = UIColor.OS.General.main
-    }
-    
     @objc private func signInButtonTapped(_ sender: UIButton) {
         viewModel.signIn(from: self)
     }
@@ -94,13 +90,14 @@ final class WelcomeViewController: UIViewController {
 extension WelcomeViewController: AuthViewModelDelegate {
 
     func signedInSuccessfully() {
-        Coordinator.global.changeAppState(.missingProfileDetails, animated: true)
+        Coordinator.global.checkAndHandleAppState()
     }
     
     func signInFailed(with error: Error) {
-        // show error
+        Coordinator.global.showMessage(OSMessage(error.localizedDescription, .failure))
     }
     
     func shouldToggleLoading(enabled: Bool) {
+        signInButton.toggleLoading(enabled)
     }
 }

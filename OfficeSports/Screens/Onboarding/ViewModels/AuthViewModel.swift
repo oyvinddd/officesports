@@ -32,7 +32,9 @@ final class AuthViewModel {
     }
     
     func signIn(from viewController: UIViewController) {
+        delegate?.shouldToggleLoading(enabled: true)
         api.signIn(viewController) { [unowned self] error in
+            self.delegate?.shouldToggleLoading(enabled: false)
             guard let error = error else {
                 delegate?.signedInSuccessfully?()
                 return

@@ -106,7 +106,7 @@ extension UIColor {
         }
         
         static func hashedProfileColor(nickname: String) -> UIColor {
-            let hashedIndex = nickname.hashValue % profileColors.count
+            let hashedIndex = nickname.count << 5 % profileColors.count
             return profileColors[abs(hashedIndex)]
         }
     }

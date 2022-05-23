@@ -41,6 +41,17 @@ final class SettingsViewController: UIViewController {
         return button
     }()
     
+    private lazy var signOutConfirmController: UIAlertController = {
+        let alertController = UIAlertController(title: "Are you sure you want to sign out?", message: nil, preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "Yes", style: .default) { [unowned self] _ in
+            self.viewModel.signOut()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(confirmAction)
+        alertController.addAction(cancelAction)
+        return alertController
+    }()
+    
     private lazy var tapRecognizer: UITapGestureRecognizer = {
         return UITapGestureRecognizer(target: self, action: #selector(backgroundTapped))
     }()
@@ -142,7 +153,7 @@ final class SettingsViewController: UIViewController {
     }
     
     @objc private func signOutButtonTapped(_ sender: UIButton) {
-        viewModel.signOut()
+        present(signOutConfirmController, animated: true)
     }
 }
 
@@ -151,7 +162,7 @@ final class SettingsViewController: UIViewController {
 extension SettingsViewController: AuthViewModelDelegate {
     
     func signedOutSuccessfully() {
-        Coordinator.global.changeAppState(.unauthorized, animated: true)
+        Coordinator.global.changeAppState(.unauthorized)
     }
     
     func signOutFailed(with error: Error) {

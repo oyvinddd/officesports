@@ -20,7 +20,7 @@ final class CircleView: UIView {
     
     private lazy var textLabel: UILabel = {
         let label = UILabel.createLabel(UIColor.OS.Text.normal, alignment: .center)
-        label.font = UIFont.boldSystemFont(ofSize: 50)
+        label.font = UIFont.boldSystemFont(ofSize: 60)
         return label
     }()
     
@@ -28,10 +28,11 @@ final class CircleView: UIView {
         return UIImageView.createImageView(nil)
     }()
     
-    init(_ backgroundColor: UIColor, text: String? = nil, image: UIImage? = nil) {
+    init(_ backgroundColor: UIColor, _ borderColor: UIColor, text: String? = nil, image: UIImage? = nil) {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
-        self.backgroundColor = backgroundColor
+        self.backgroundColor = borderColor
+        contentWrap.backgroundColor = backgroundColor
         setupChildViews(text, image)
     }
     

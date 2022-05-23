@@ -116,7 +116,6 @@ final class ProfileDetailsViewController: UIViewController {
             let nickname = try processAndValidateNickname(nicknameField.text)
             viewModel.updateProfileDetails(nickname: nickname, emoji: selectedEmoji)
         } catch let error {
-            let localizedError = error.localizedDescription
             Coordinator.global.showMessage(OSMessage(error.localizedDescription, .failure))
         }
     }
@@ -145,6 +144,7 @@ extension ProfileDetailsViewController: ProfileDetailsViewModelDelegate {
     }
     
     func shouldToggleLoading(enabled: Bool) {
+        continueButton.toggleLoading(enabled)
     }
 }
 

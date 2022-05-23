@@ -76,11 +76,14 @@ extension UILabel {
 
 extension UIButton {
     
-    class func createButton(_ backgroundColor: UIColor, _ color: UIColor, title: String?) -> UIButton {
+    class func createButton(_ backgroundColor: UIColor, _ color: UIColor, _ selectedColor: UIColor? = nil, title: String? = nil) -> UIButton {
         let button = UIButton(frame: .zero)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         button.setTitleColor(color, for: .normal)
+        button.setTitleColor(selectedColor, for: .selected)
+        button.setTitleColor(selectedColor, for: .highlighted)
+        button.setTitleColor(selectedColor, for: .focused)
         button.backgroundColor = backgroundColor
         button.setTitle(title, for: .normal)
         button.applyCornerRadius(8)

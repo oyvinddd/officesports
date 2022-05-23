@@ -28,9 +28,6 @@ struct CodeGen {
         }
         return nil
     }
-}
-
-extension CodeGen {
     
     static func generateQRCode(from payload: OSCodePayload) -> UIImage? {
         do {

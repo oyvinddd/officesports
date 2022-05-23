@@ -85,7 +85,9 @@ final class MessageViewController: UIViewController {
     }
 }
 
-final class MessageView: UIView {
+// MARK: Message View
+
+private final class MessageView: UIView {
     
     private lazy var infoImageView: UIImageView = {
         return UIImageView.createImageView(nil)

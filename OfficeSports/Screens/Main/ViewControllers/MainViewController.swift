@@ -142,7 +142,7 @@ final class MainViewController: UIViewController {
 extension MainViewController: ProfileViewDelegate {
     
     func settingsButtonTapped() {
-        present(SettingsViewController(), animated: false)
+        Coordinator.global.presentSettings(from: self)
     }
 }
 
