@@ -39,11 +39,11 @@ final class ProfileView: UIView {
     }()
     
     private lazy var settingsButton: UIButton = {
-        let config = UIImage.SymbolConfiguration(pointSize: 24, weight: .semibold, scale: .large)
-        let image = UIImage(systemName: "gearshape", withConfiguration: config)
+        let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .semibold, scale: .large)
+        let image = UIImage(systemName: "gearshape.fill", withConfiguration: config)
         let button = UIButton.createButton(.clear, .clear, title: nil)
         button.addTarget(self, action: #selector(settingsButtonTapped), for: .touchUpInside)
-        button.tintColor = UIColor.OS.General.mainDark
+        button.tintColor = UIColor.OS.Text.normal
         button.setImage(image, for: .normal)
         return button
     }()
