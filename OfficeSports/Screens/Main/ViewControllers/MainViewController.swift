@@ -105,7 +105,7 @@ final class MainViewController: UIViewController {
             stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             stackView.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor),
             settingsButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
-            settingsButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            settingsButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
             settingsButton.widthAnchor.constraint(equalToConstant: 50),
             settingsButton.heightAnchor.constraint(equalTo: settingsButton.widthAnchor),
             floatingMenu.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 64),
