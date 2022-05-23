@@ -217,9 +217,9 @@ extension MainViewController: UIScrollViewDelegate {
         if xOffset == 0 { // invites screen is showing
             // do something
         } else if xOffset < width * 2 { // foosball screen is showing
-            profileView.displayDetailsForSport(.foosball)
+            profileView.configureForSport(.foosball)
         } else if xOffset >= width * 2 { // table tennis screen is showing
-            profileView.displayDetailsForSport(.tableTennis)
+            profileView.configureForSport(.tableTennis)
         }
     }
 }

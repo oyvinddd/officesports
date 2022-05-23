@@ -116,7 +116,7 @@ private final class MessageView: UIView {
     
     private func configureUI(_ message: OSMessage) {
         alpha = messageMinOpacity
-        applyMediumDropShadow(.black)
+        applyMediumDropShadow(UIColor.OS.Text.normal)
         applyCornerRadius(6)
         messageLabel.text = message.text
         switch message.category {

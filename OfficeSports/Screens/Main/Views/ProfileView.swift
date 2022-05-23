@@ -28,12 +28,13 @@ final class ProfileView: UIView {
         return CodeGen.generateQRCode(from: payload)
     }()
     
+    private lazy var codeImageView: UIImageView = {
+        return UIImageView.createImageView(foosballCodeImage)
+    }()
+    
     private lazy var codeImageWrap: UIView = {
-        let imageView = UIImageView.createImageView(foosballCodeImage)
         let view = UIView.createView(.white)
-        NSLayoutConstraint.pinToView(view, imageView, padding: 5)
-        view.layer.masksToBounds = true
-        view.layer.cornerRadius = 5
+        view.applyCornerRadius(5)
         view.applyMediumDropShadow(UIColor.OS.Text.normal)
         view.alpha = 0
         return view
@@ -83,17 +84,19 @@ final class ProfileView: UIView {
         profileEmjoiLabel.text = account.emoji
         nicknameLabel.text = account.nickname?.lowercased()
         setupChildViews()
-        displayDetailsForSport(.foosball)
+        configureForSport(.foosball)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func displayDetailsForSport(_ sport: OSSport, animated: Bool = false) {
+    func configureForSport(_ sport: OSSport) {
         if sport == .foosball {
+            codeImageView.image = foosballCodeImage
             totalScoreLabel.text = "\(account.foosballScore) pts"
         } else if sport == .tableTennis {
+            codeImageView.image = tableTennisCodeImage
             totalScoreLabel.text = "\(account.tableTennisScore) pts"
         }
     }
@@ -123,7 +126,9 @@ final class ProfileView: UIView {
         addSubview(nicknameLabel)
         addSubview(totalScoreLabel)
         
+        NSLayoutConstraint.pinToView(codeImageWrap, codeImageView, padding: 6)
         NSLayoutConstraint.pinToView(profileImageBackground, profileEmjoiLabel)
+        
         NSLayoutConstraint.activate([
             codeImageWrap.widthAnchor.constraint(equalToConstant: profileImageDimater),
             codeImageWrap.heightAnchor.constraint(equalTo: codeImageWrap.widthAnchor),

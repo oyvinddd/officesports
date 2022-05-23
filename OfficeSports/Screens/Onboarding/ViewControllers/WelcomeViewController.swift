@@ -18,14 +18,14 @@ final class WelcomeViewController: UIViewController {
     
     private lazy var foosballCircleView: CircleView = {
         let circleView = CircleView(UIColor.OS.Profile.color12, .white, text: "⚽️")
-        circleView.applyMediumDropShadow(UIColor.black)
+        circleView.applyMediumDropShadow(UIColor.OS.Text.normal)
         circleView.applyCornerRadius(50)
         return circleView
     }()
     
     private lazy var tableTennisCircleView: CircleView = {
         let circleView = CircleView(UIColor.OS.Profile.color1, .white, text: "🏓")
-        circleView.applyMediumDropShadow(UIColor.black)
+        circleView.applyMediumDropShadow(UIColor.OS.Text.normal)
         circleView.applyCornerRadius(50)
         return circleView
     }()
