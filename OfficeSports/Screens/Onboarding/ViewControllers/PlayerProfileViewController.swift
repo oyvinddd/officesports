@@ -132,7 +132,7 @@ extension PlayerProfileViewController: CompoundFieldDelegate {
 extension PlayerProfileViewController: PlayerProfileViewModelDelegate {
     
     func detailsUpdatedSuccessfully() {
-        Coordinator.global.showMessage(OSMessage("Successfully updated player details!", .success))
+        Coordinator.global.showMessage(OSMessage("Successfully updated player details! 🤝", .success))
         // we check if vc was presented modally so
         // that we know where to send the user next
         guard presentingViewController != nil else {
