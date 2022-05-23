@@ -10,7 +10,7 @@ import Foundation
 private let userDefaultsNicknameKey = "nickname"
 private let userdefaultsEmojiKey = "emoji"
 
-protocol ProfileDetailsViewModelDelegate: AnyObject {
+protocol PlayerProfileViewModelDelegate: AnyObject {
     
     func detailsUpdatedSuccessfully()
     
@@ -19,19 +19,21 @@ protocol ProfileDetailsViewModelDelegate: AnyObject {
     func shouldToggleLoading(enabled: Bool)
 }
 
-final class ProfileDetailsViewModel {
+final class PlayerProfileViewModel {
     
     var api: SportsAPI
     
-    weak var delegate: ProfileDetailsViewModelDelegate?
+    weak var delegate: PlayerProfileViewModelDelegate?
     
-    init(api: SportsAPI, delegate: ProfileDetailsViewModelDelegate? = nil) {
+    init(api: SportsAPI, delegate: PlayerProfileViewModelDelegate? = nil) {
         self.api = api
         self.delegate = delegate
     }
     
-    func updateProfileDetails(nickname: String, emoji: String) {
-        api.checkNicknameAvailability(nickname) { [unowned self] error in
+    func registerProfileDetails(nickname: String, emoji: String) {
+        delegate?.shouldToggleLoading(enabled: true)
+        api.registerPlayerProfile(nickname: nickname, emoji: emoji) { [unowned self] error in
+            self.delegate?.shouldToggleLoading(enabled: true)
             if let error = error {
                 self.delegate?.detailsUpdateFailed(with: error)
             } else {
@@ -42,8 +44,12 @@ final class ProfileDetailsViewModel {
     }
     
     private func saveProfileDetails(nickname: String, emoji: String) {
+        // store profile details in user defaults
         let standardDefaults = UserDefaults.standard
         standardDefaults.set(nickname, forKey: userDefaultsNicknameKey)
         standardDefaults.set(emoji, forKey: userdefaultsEmojiKey)
+        // add profile details to the current account
+        OSAccount.current.nickname = nickname
+        OSAccount.current.emoji = emoji
     }
 }

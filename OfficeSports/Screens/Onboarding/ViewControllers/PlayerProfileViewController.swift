@@ -10,7 +10,7 @@ import UIKit
 private let nicknameMinLength = 3
 private let nicknameMaxLength = 20
 
-final class ProfileDetailsViewController: UIViewController {
+final class PlayerProfileViewController: UIViewController {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel.createLabel(.white)
@@ -44,9 +44,9 @@ final class ProfileDetailsViewController: UIViewController {
         }
     }
     
-    private var viewModel: ProfileDetailsViewModel
+    private var viewModel: PlayerProfileViewModel
     
-    init(viewModel: ProfileDetailsViewModel) {
+    init(viewModel: PlayerProfileViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         viewModel.delegate = self
@@ -114,7 +114,7 @@ final class ProfileDetailsViewController: UIViewController {
     @objc private func continueButtonTapped(_ sender: UIButton) {
         do {
             let nickname = try processAndValidateNickname(nicknameField.text)
-            viewModel.updateProfileDetails(nickname: nickname, emoji: selectedEmoji)
+            viewModel.registerProfileDetails(nickname: nickname, emoji: selectedEmoji)
         } catch let error {
             Coordinator.global.showMessage(OSMessage(error.localizedDescription, .failure))
         }
@@ -123,7 +123,7 @@ final class ProfileDetailsViewController: UIViewController {
 
 // MARK: - Text Field Delegate
 
-extension ProfileDetailsViewController: CompoundFieldDelegate {
+extension PlayerProfileViewController: CompoundFieldDelegate {
     
     func buttonTapped(_ text: String?) {
         let viewController = EmojiPickerViewController(viewModel: EmojiViewModel())
@@ -133,7 +133,7 @@ extension ProfileDetailsViewController: CompoundFieldDelegate {
 
 // MARK: - Nickname View Model Delegate Conformance
 
-extension ProfileDetailsViewController: ProfileDetailsViewModelDelegate {
+extension PlayerProfileViewController: PlayerProfileViewModelDelegate {
     
     func detailsUpdatedSuccessfully() {
         Coordinator.global.changeAppState(.authorized)

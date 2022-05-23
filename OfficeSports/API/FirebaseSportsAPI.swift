@@ -11,7 +11,7 @@ import FirebaseAuth
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-private let fbUsersCollection = "users"
+private let fbPlayersCollection = "players"
 private let fbMatchesCollection = "matches"
 private let fbInvitesCollection = "invites"
 
@@ -35,7 +35,7 @@ final class FirebaseSportsAPI: SportsAPI {
             }
             
             guard let authentication = user?.authentication, let idToken = authentication.idToken else {
-                result(SOError.missingToken)
+                result(OSError.missingToken)
                 return
             }
             let credentials = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: authentication.accessToken)
@@ -56,7 +56,7 @@ final class FirebaseSportsAPI: SportsAPI {
     }
     
     func checkNicknameAvailability(_ nickname: String, result: @escaping ((Error?) -> Void)) {
-        let usersCollection = database.collection(fbUsersCollection)
+        let usersCollection = database.collection(fbPlayersCollection)
         let query = usersCollection.whereField("nickname", isEqualTo: nickname.lowercased())
         
         query.getDocuments { (snapshot, error) in
@@ -64,8 +64,22 @@ final class FirebaseSportsAPI: SportsAPI {
                 result(error)
             } else {
                 let count = snapshot!.documents.count
-                result(count > 0 ? SOError.nicknameTaken : nil)
+                result(count > 0 ? OSError.nicknameTaken : nil)
             }
+        }
+    }
+    
+    func registerPlayerProfile(nickname: String, emoji: String, result: @escaping ((Error?) -> Void)) {
+        guard let uid = OSAccount.current.userId else {
+            result(OSError.unauthorized)
+            return
+        }
+        
+        let playersCollection = database.collection(fbPlayersCollection)
+        let data: [String: Any] = ["nickname": nickname, "emoji": emoji]
+        
+        playersCollection.document(uid).setData(data, mergeFields: Array(data.keys)) { error in
+            result(error)
         }
     }
     
@@ -74,7 +88,7 @@ final class FirebaseSportsAPI: SportsAPI {
     }
     
     func getScoreboard(sport: OSSport, result: @escaping (([OSPlayer], Error?) -> Void)) {
-        database.collection(fbUsersCollection).getDocuments { (snapshot, error) in
+        database.collection(fbPlayersCollection).getDocuments { (snapshot, error) in
             if let error = error {
                 result([], error)
             } else {
@@ -110,7 +124,7 @@ final class FirebaseSportsAPI: SportsAPI {
     
     func invitePlayer(_ player: OSPlayer, sport: OSSport, result: @escaping (Error?) -> Void) {
         guard let accountPlayer = OSAccount.current.player else {
-            result(SOError.missingPlayer)
+            result(OSError.missingPlayer)
             return
         }
         _ = OSInvite(date: Date(), sport: sport, inviter: accountPlayer, invitee: player)
@@ -165,7 +179,9 @@ final class FirebaseSportsAPI: SportsAPI {
 
 // MARK: - Custom Errors for the sports API
 
-private enum SOError: LocalizedError {
+private enum OSError: LocalizedError {
+    
+    case unauthorized
     
     case missingToken
     
@@ -175,6 +191,8 @@ private enum SOError: LocalizedError {
     
     var errorDescription: String? {
         switch self {
+        case .unauthorized:
+            return "Unauthorized"
         case .missingToken:
             return "Missing ID token"
         case .nicknameTaken:

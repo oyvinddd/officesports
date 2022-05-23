@@ -8,7 +8,7 @@
 import UIKit
 
 final class MockSportsAPI: SportsAPI {
-    
+
     private let players = [
         OSPlayer(userId: "id#1", nickname: "oyvindhauge", emoji: "🙃", foosballScore: 1699, tableTennisScore: 1550, matchesPlayed: 0),
         OSPlayer(userId: "id#2", nickname: "heimegut", emoji: "💩", foosballScore: 1558, tableTennisScore: 1500, matchesPlayed: 0),
@@ -51,17 +51,12 @@ final class MockSportsAPI: SportsAPI {
         result(nil)
     }
     
-    func deleteAccount(result: @escaping ((Error?) -> Void)) {
+    func registerPlayerProfile(nickname: String, emoji: String, result: @escaping ((Error?) -> Void)) {
         result(nil)
     }
     
-    func saveProfileDetails(nickname: String, emoji: String) {
-        profileNickname = nickname
-        profileEmoji = emoji
-    }
-    
-    func loadProfileDetails() -> (String?, String?) {
-        return (profileNickname, profileEmoji)
+    func deleteAccount(result: @escaping ((Error?) -> Void)) {
+        result(nil)
     }
     
     func registerMatch(_ match: OSMatch, result: @escaping ((Error?) -> Void)) {
