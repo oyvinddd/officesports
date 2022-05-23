@@ -17,6 +17,7 @@ final class SportViewController: UIViewController {
     private lazy var tableView: UITableView = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshPulled), for: .valueChanged)
+        refreshControl.tintColor = UIColor.OS.Text.subtitle
         let tableView = UITableView.createTableView(.clear, dataSource: self)
         tableView.registerCell(SportFilterTableViewCell.self)
         tableView.registerCell(PlacementTableViewCell.self)

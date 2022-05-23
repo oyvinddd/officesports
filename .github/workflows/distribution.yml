@@ -13,12 +13,15 @@ jobs:
       - name: Build and Distribute
         env:
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
+          APPLE_API_ISS_ID: ${{ secrets.APPLE_API_ISS_ID }}
+          APPLE_API_KEY_CONTENT: ${{ secrets.APPLE_API_KEY_CONTENT }}
           APP_BUNDLE_ID: ${{ secrets.APP_BUNDLE_ID }}
-          FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          FB_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+          FB_CLI_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           GITHUB_AUTH: ${{ secrets.GITHUB_AUTH }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-          MATCH_GIT_BASIC_AUTH: ${{ secrets.MATCH_GIT_BASIC_AUTH }}
+          MATCH_GIT_BASIC_AUTH: ${{ secrets.MATCH_GIT_BASIC_AUTH }},
         run: |
           bundle install
           bundle exec fastlane ios distribute
