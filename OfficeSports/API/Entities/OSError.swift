@@ -21,6 +21,12 @@ enum OSError: LocalizedError {
     
     case invalidOpponent
     
+    case nicknameMissing
+    
+    case nicknameTooShort
+    
+    case nicknameTooLong
+    
     var errorDescription: String? {
         switch self {
         case .unauthorized:
@@ -30,11 +36,17 @@ enum OSError: LocalizedError {
         case .nicknameTaken:
             return "Nickname already taken"
         case .missingPlayer:
-            return "Unauthorized. Missing player details."
+            return "Unauthorized. Missing player details"
         case .invalidQrCode:
-            return "The QR code is not valid."
+            return "The QR code is not valid"
         case .invalidOpponent:
             return "You cannot play against yourself dumbass!"
+        case .nicknameMissing:
+            return "Nickname is missing"
+        case .nicknameTooShort:
+            return "Nickname is too short"
+        case .nicknameTooLong:
+            return "Nickname is too long"
         }
     }
 }

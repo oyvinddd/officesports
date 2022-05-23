@@ -79,7 +79,7 @@ extension UIButton {
     class func createButton(_ backgroundColor: UIColor, _ color: UIColor, _ selectedColor: UIColor? = nil, title: String? = nil) -> UIButton {
         let button = UIButton(frame: .zero)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         button.setTitleColor(color, for: .normal)
         button.setTitleColor(selectedColor, for: .selected)
         button.setTitleColor(selectedColor, for: .highlighted)

@@ -30,6 +30,7 @@ final class EmojiPickerViewController: UIViewController {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.registerCell(EmojiCollectionViewCell.self)
+        collectionView.backgroundColor = .clear
         collectionView.dataSource = self
         collectionView.delegate = self
         return collectionView
@@ -49,8 +50,7 @@ final class EmojiPickerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupChildViews()
-        view.backgroundColor = UIColor.OS.General.background
-        collectionView.backgroundColor = UIColor.OS.General.background
+        view.backgroundColor = .white
     }
     
     private func setupChildViews() {

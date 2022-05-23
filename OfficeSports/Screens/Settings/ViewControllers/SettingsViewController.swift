@@ -33,6 +33,10 @@ final class SettingsViewController: UIViewController {
         return UIView.createView(.white)
     }()
     
+    private lazy var stackView: UIStackView = {
+        return UIStackView.createStackView(.clear, axis: .vertical, spacing: 0)
+    }()
+    
     private lazy var signOutButton: UIButton = {
         let button = UIButton.createButton(UIColor.OS.General.main, .white, title: "Sign Out")
         button.addTarget(self, action: #selector(signOutButtonTapped), for: .touchUpInside)
@@ -94,7 +98,19 @@ final class SettingsViewController: UIViewController {
         view.addSubview(backgroundView)
         view.addSubview(dialogView)
         dialogView.addSubview(contentWrapView)
-        contentWrapView.addSubview(signOutButton)
+        contentWrapView.addSubview(stackView)
+        
+        let profileButton = createSettingsButton("person", "Update player profile")
+        let signOutButton = createSettingsButton("power", "Sign out")
+        
+        let recognizer1 = UITapGestureRecognizer(target: self, action: #selector(profileButtonTapped))
+        let recognizer2 = UITapGestureRecognizer(target: self, action: #selector(signOutButtonTapped))
+        
+        profileButton.addGestureRecognizer(recognizer1)
+        signOutButton.addGestureRecognizer(recognizer2)
+        
+        stackView.addArrangedSubview(profileButton)
+        stackView.addArrangedSubview(signOutButton)
         
         NSLayoutConstraint.activate([
             backgroundView.leftAnchor.constraint(equalTo: view.leftAnchor),
@@ -108,11 +124,10 @@ final class SettingsViewController: UIViewController {
             contentWrapView.rightAnchor.constraint(equalTo: dialogView.rightAnchor, constant: -8),
             contentWrapView.topAnchor.constraint(equalTo: dialogView.topAnchor, constant: 8),
             contentWrapView.bottomAnchor.constraint(equalTo: dialogView.safeAreaLayoutGuide.bottomAnchor),
-            signOutButton.leftAnchor.constraint(equalTo: contentWrapView.leftAnchor, constant: 16),
-            signOutButton.rightAnchor.constraint(equalTo: contentWrapView.rightAnchor, constant: -16),
-            signOutButton.topAnchor.constraint(equalTo: contentWrapView.topAnchor, constant: 16),
-            signOutButton.bottomAnchor.constraint(equalTo: contentWrapView.safeAreaLayoutGuide.bottomAnchor, constant: -32),
-            signOutButton.heightAnchor.constraint(equalToConstant: 50)
+            stackView.leftAnchor.constraint(equalTo: contentWrapView.leftAnchor),
+            stackView.rightAnchor.constraint(equalTo: contentWrapView.rightAnchor),
+            stackView.topAnchor.constraint(equalTo: contentWrapView.topAnchor, constant: 16),
+            stackView.bottomAnchor.constraint(equalTo: contentWrapView.safeAreaLayoutGuide.bottomAnchor, constant: -16)
         ])
     }
     
@@ -127,13 +142,18 @@ final class SettingsViewController: UIViewController {
             withDuration: kAnimDuration,
             delay: kAnimDelay,
             options: [.curveEaseOut]) {
-            self.view.layoutIfNeeded()
-        } completion: {_ in
-            if !enabled {
-                self.dismiss()
+                self.view.layoutIfNeeded()
+            } completion: {_ in
+                if !enabled {
+                    self.dismiss()
+                }
             }
-        }
-
+    }
+    
+    private func createSettingsButton(_ systemIconName: String, _ title: String) -> SettingsButton {
+        let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .semibold, scale: .large)
+        let buttonIcon = UIImage(systemName: systemIconName, withConfiguration: config)!
+        return SettingsButton(buttonIcon, title)
     }
     
     private func toggleBackgroundView(enabled: Bool) {
@@ -144,6 +164,12 @@ final class SettingsViewController: UIViewController {
     
     private func dismiss() {
         dismiss(animated: false, completion: nil)
+    }
+    
+    // MARK: - Button Handling
+    
+    @objc private func profileButtonTapped(_ sender: UIButton) {
+        Coordinator.global.presentPlayerProfile(from: self)
     }
     
     @objc private func backgroundTapped(sender: UITapGestureRecognizer) {
@@ -169,5 +195,49 @@ extension SettingsViewController: AuthViewModelDelegate {
     
     func shouldToggleLoading(enabled: Bool) {
         // do nothing
+    }
+}
+
+// MARK: - Settings Button
+
+private final class SettingsButton: UIView {
+    
+    private lazy var iconImageView: UIImageView = {
+        let imageView = UIImageView.createImageView(nil)
+        imageView.tintColor = UIColor.OS.Text.normal
+        return imageView
+    }()
+    
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel.createLabel(UIColor.OS.Text.normal)
+        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        return label
+    }()
+    
+    init(_ icon: UIImage, _ title: String) {
+        super.init(frame: .zero)
+        translatesAutoresizingMaskIntoConstraints = false
+        iconImageView.image = icon
+        titleLabel.text = title
+        setupChildViews()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupChildViews() {
+        addSubview(iconImageView)
+        addSubview(titleLabel)
+        
+        NSLayoutConstraint.activate([
+            iconImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 16),
+            iconImageView.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            iconImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
+            iconImageView.widthAnchor.constraint(equalTo: iconImageView.heightAnchor),
+            titleLabel.leftAnchor.constraint(equalTo: iconImageView.rightAnchor, constant: 16),
+            titleLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
+            titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
+        ])
     }
 }

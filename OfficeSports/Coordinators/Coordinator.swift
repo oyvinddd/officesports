@@ -53,8 +53,16 @@ final class Coordinator {
         messageWindow.showMessage(message)
     }
     
+    func presentPlayerProfile(from viewController: UIViewController) {
+        viewController.present(playerProfileViewController, animated: true)
+    }
+    
     func presentSettings(from viewController: UIViewController) {
         viewController.present(settingsViewController, animated: false)
+    }
+    
+    func presentEmojiPicker(from viewController: UIViewController) {
+        viewController.present(emojiPickerViewController, animated: true)
     }
     
     private func updateRootViewController(animated: Bool) {
@@ -66,7 +74,7 @@ final class Coordinator {
         case .authorized:
             viewController = mainViewController
         case .missingProfileDetails:
-            viewController = profileDetailsViewController
+            viewController = playerProfileViewController
         case .unauthorized:
             viewController = welcomeViewController
         }
@@ -98,7 +106,7 @@ extension Coordinator {
         return WelcomeViewController(viewModel: viewModel)
     }
     
-    var profileDetailsViewController: PlayerProfileViewController {
+    var playerProfileViewController: PlayerProfileViewController {
         let viewModel = PlayerProfileViewModel(api: FirebaseSportsAPI(), delegate: nil)
         return PlayerProfileViewController(viewModel: viewModel)
     }
@@ -109,5 +117,9 @@ extension Coordinator {
     
     var settingsViewController: SettingsViewController {
         return SettingsViewController()
+    }
+    
+    var emojiPickerViewController: EmojiPickerViewController {
+        return EmojiPickerViewController(viewModel: EmojiViewModel())
     }
 }

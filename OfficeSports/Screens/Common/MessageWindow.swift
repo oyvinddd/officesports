@@ -10,7 +10,7 @@ import UIKit
 private let messageMaxOpacity: CGFloat = 0.95
 private let messageMinOpacity: CGFloat = 0
 private let messageAnimateDuration: TimeInterval = 0.2  // seconds
-private let messageDisplayDuration: TimeInterval = 2    // seconds
+private let messageDisplayDuration: TimeInterval = 2.5  // seconds
 
 final class MessageWindow: UIWindow {
     

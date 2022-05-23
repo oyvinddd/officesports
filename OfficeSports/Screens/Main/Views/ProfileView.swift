@@ -37,7 +37,7 @@ final class ProfileView: UIView {
     private lazy var codeImageWrap: UIView = {
         let view = UIView.createView(.white)
         view.applyCornerRadius(5)
-        view.applyMediumDropShadow(UIColor.OS.Text.normal)
+        view.applyMediumDropShadow(.black)
         view.alpha = 0
         return view
     }()
@@ -45,7 +45,7 @@ final class ProfileView: UIView {
     private lazy var profileImageWrap: UIView = {
         let imageWrap = UIView.createView(.white)
         imageWrap.applyCornerRadius(profileImageRadius)
-        imageWrap.applyMediumDropShadow(UIColor.black)//.OS.Text.normal)
+        imageWrap.applyMediumDropShadow(.black)
         return imageWrap
     }()
     
@@ -71,7 +71,7 @@ final class ProfileView: UIView {
     private lazy var sportImageWrap: UIView = {
         let imageWrap = UIView.createView(.white)
         imageWrap.applyCornerRadius(sportImageRadius)
-        imageWrap.applyMediumDropShadow(UIColor.black)
+        imageWrap.applyMediumDropShadow(.black)
         return imageWrap
     }()
     
