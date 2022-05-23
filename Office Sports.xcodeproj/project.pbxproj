@@ -28,6 +28,8 @@
 		8E38B578283BC9F1009E0387 /* OSError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B577283BC9F1009E0387 /* OSError.swift */; };
 		8E38B57A283BCBC8009E0387 /* OSMatchRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B579283BCBC8009E0387 /* OSMatchRegistration.swift */; };
 		8E38B57C283C39A2009E0387 /* UserDefaultsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B57B283C39A2009E0387 /* UserDefaultsHelper.swift */; };
+		8E38B57E283C3D01009E0387 /* AchievementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B57D283C3D01009E0387 /* AchievementsViewController.swift */; };
+		8E38B580283C4F5F009E0387 /* KeyboardLayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B57F283C4F5F009E0387 /* KeyboardLayoutConstraint.swift */; };
 		8E6DF2992834CEB20009ACA1 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 8E6DF2982834CEB20009ACA1 /* FirebaseFirestore */; };
 		8E6DF29B2834CEB20009ACA1 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8E6DF29A2834CEB20009ACA1 /* FirebaseFirestoreSwift */; };
 		8E70C112282ABA4E009A9452 /* NSLayoutConstraint+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C111282ABA4E009A9452 /* NSLayoutConstraint+Util.swift */; };
@@ -91,6 +93,8 @@
 		8E38B577283BC9F1009E0387 /* OSError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSError.swift; sourceTree = "<group>"; };
 		8E38B579283BCBC8009E0387 /* OSMatchRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSMatchRegistration.swift; sourceTree = "<group>"; };
 		8E38B57B283C39A2009E0387 /* UserDefaultsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsHelper.swift; sourceTree = "<group>"; };
+		8E38B57D283C3D01009E0387 /* AchievementsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsViewController.swift; sourceTree = "<group>"; };
+		8E38B57F283C4F5F009E0387 /* KeyboardLayoutConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardLayoutConstraint.swift; sourceTree = "<group>"; };
 		8E70C111282ABA4E009A9452 /* NSLayoutConstraint+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Util.swift"; sourceTree = "<group>"; };
 		8E70C113282ABC56009A9452 /* SportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportViewController.swift; sourceTree = "<group>"; };
 		8E70C116282ABD3E009A9452 /* FloatingMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingMenu.swift; sourceTree = "<group>"; };
@@ -205,6 +209,7 @@
 				8E70C113282ABC56009A9452 /* SportViewController.swift */,
 				8EE61FF2282AB79C00C01289 /* MainViewController.swift */,
 				8E31E23F28364A6F0085238C /* InvitesViewController.swift */,
+				8E38B57D283C3D01009E0387 /* AchievementsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -327,6 +332,7 @@
 			children = (
 				8E7D9A7E282BEF66007BCDE0 /* CodeGen.swift */,
 				8E38B57B283C39A2009E0387 /* UserDefaultsHelper.swift */,
+				8E38B57F283C4F5F009E0387 /* KeyboardLayoutConstraint.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -500,6 +506,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E38B57E283C3D01009E0387 /* AchievementsViewController.swift in Sources */,
 				8E7D9A7F282BEF66007BCDE0 /* CodeGen.swift in Sources */,
 				8EF13879283791AE001D8DA6 /* MockSportsAPI.swift in Sources */,
 				8E70C134282AD279009A9452 /* OSSport.swift in Sources */,
@@ -512,6 +519,7 @@
 				8EF1387F2837FDD3001D8DA6 /* ScannerViewModel.swift in Sources */,
 				8E70C121282AC510009A9452 /* OSPlayer.swift in Sources */,
 				8E973322283231F40012E236 /* SettingsViewModel.swift in Sources */,
+				8E38B580283C4F5F009E0387 /* KeyboardLayoutConstraint.swift in Sources */,
 				8E38B576283BC5AD009E0387 /* Bundle+Version.swift in Sources */,
 				8E70C117282ABD3E009A9452 /* FloatingMenu.swift in Sources */,
 				8EE61FF3282AB79C00C01289 /* MainViewController.swift in Sources */,

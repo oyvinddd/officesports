@@ -48,7 +48,12 @@ final class CompoundField: UIView {
     }()
     
     var text: String? {
-        return textField.text
+        get {
+            return textField.text
+        }
+        set {
+            textField.text = newValue
+        }
     }
     
     var alignment: ButtonAlignment
