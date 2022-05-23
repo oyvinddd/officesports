@@ -45,7 +45,7 @@ final class ProfileView: UIView {
     private lazy var profileImageWrap: UIView = {
         let imageWrap = UIView.createView(.white)
         imageWrap.applyCornerRadius(profileImageRadius)
-        imageWrap.applyMediumDropShadow(UIColor.OS.Text.normal)
+        imageWrap.applyMediumDropShadow(UIColor.black)//.OS.Text.normal)
         return imageWrap
     }()
     
@@ -71,7 +71,7 @@ final class ProfileView: UIView {
     private lazy var sportImageWrap: UIView = {
         let imageWrap = UIView.createView(.white)
         imageWrap.applyCornerRadius(sportImageRadius)
-        imageWrap.applyMediumDropShadow(UIColor.OS.Text.normal)
+        imageWrap.applyMediumDropShadow(UIColor.black)
         return imageWrap
     }()
     
@@ -114,13 +114,19 @@ final class ProfileView: UIView {
     
     func configureForSport(_ sport: OSSport) {
         if sport == .foosball {
+            sportImageWrap.alpha = 1
             codeImageView.image = foosballCodeImage
+            sportImageBackground.backgroundColor = UIColor.OS.Sport.foosball
             sportEmojiLabel.text = "⚽️"
             totalScoreLabel.text = "\(account.foosballScore) pts"
         } else if sport == .tableTennis {
+            sportImageWrap.alpha = 1
             codeImageView.image = tableTennisCodeImage
+            sportImageBackground.backgroundColor = UIColor.OS.Sport.tableTennis
             sportEmojiLabel.text = "🏓"
             totalScoreLabel.text = "\(account.tableTennisScore) pts"
+        } else {
+            sportImageWrap.alpha = 0
         }
     }
     

@@ -38,6 +38,13 @@ extension UIColor {
             static let disabled = UIColor(hex: 0x9FA1A4)
         }
         
+        enum Sport {
+            
+            static let foosball = UIColor(hex: 0xEB9F6C)
+            
+            static let tableTennis = UIColor(hex: 0x6CBEA8)
+        }
+        
         enum Profile {
             
             static let color1 = UIColor(hex: 0x6CBEA8)

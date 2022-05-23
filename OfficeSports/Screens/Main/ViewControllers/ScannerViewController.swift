@@ -56,7 +56,7 @@ final class ScannerViewController: UIViewController {
     }
     
     func stopCaptureSession() {
-        if captureSession.isRunning {
+        if captureSession != nil && captureSession.isRunning {
             captureSession.stopRunning()
         }
     }
@@ -138,11 +138,6 @@ final class ScannerViewController: UIViewController {
 extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
     
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
-        // if a barcode is detected, stop the capture session
-        if captureSession.isRunning {
-            //captureSession.stopRunning()
-        }
-        
         if let metadataObject = metadataObjects.first {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
             guard let stringValue = readableObject.stringValue else { return }
@@ -164,11 +159,13 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
 extension ScannerViewController: ScannerViewModelDelegate {
     
     func matchRegistrationSuccess() {
-        
+        let message = OSMessage("Congratulations on your victory! 🥳", .success)
+        Coordinator.global.showMessage(message)
     }
     
     func matchRegistrationFailed(error: Error) {
-        
+        let message = OSMessage(error.localizedDescription, .failure)
+        Coordinator.global.showMessage(message)
     }
     
     func shouldToggleLoading(enabled: Bool) {

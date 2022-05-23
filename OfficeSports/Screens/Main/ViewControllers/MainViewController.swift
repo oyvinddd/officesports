@@ -212,10 +212,18 @@ extension MainViewController: SportViewControllerDelegate {
 extension MainViewController: UIScrollViewDelegate {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        configureProfileView(scrollView: scrollView)
+    }
+    
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        configureProfileView(scrollView: scrollView)
+    }
+    
+    private func configureProfileView(scrollView: UIScrollView) {
         let xOffset = scrollView.contentOffset.x
         let width = scrollView.frame.width
         if xOffset == 0 { // invites screen is showing
-            // do something
+            profileView.configureForSport(.unknown)
         } else if xOffset < width * 2 { // foosball screen is showing
             profileView.configureForSport(.foosball)
         } else if xOffset >= width * 2 { // table tennis screen is showing

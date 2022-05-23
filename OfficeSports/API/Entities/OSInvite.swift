@@ -13,7 +13,11 @@ struct OSInvite: Codable {
     
     var sport: OSSport
     
-    var inviter: OSPlayer
+    var inviterId: String
     
-    var invitee: OSPlayer
+    var inviteeId: String
+    
+    var inviteeNickname: String
+    
+    var accepted: Bool = false
 }

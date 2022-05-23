@@ -134,12 +134,17 @@ final class FirebaseSportsAPI: SportsAPI {
     }
     
     func invitePlayer(_ player: OSPlayer, sport: OSSport, result: @escaping (Error?) -> Void) {
-        guard let accountPlayer = OSAccount.current.player else {
-            result(OSError.missingPlayer)
+        guard let uid = OSAccount.current.userId else {
+            result(OSError.unauthorized)
             return
         }
-        _ = OSInvite(date: Date(), sport: sport, inviter: accountPlayer, invitee: player)
-        // database.collection(fbInvitesCollection).addDocument(from: invite)
+        
+        let invite = OSInvite(date: Date(), sport: sport, inviterId: uid, inviteeId: player.userId, inviteeNickname: player.nickname)
+        
+        
+        database.collection(fbInvitesCollection).addDocument(data: [:]) { error in
+            result(error)
+        }
     }
     
     // ##################################
@@ -175,15 +180,5 @@ final class FirebaseSportsAPI: SportsAPI {
             }
         }
         return matches
-    }
-    
-    // never used
-    private func clearProfileDetails() {
-        let standardDefaults = UserDefaults.standard
-        let dictionary = standardDefaults.dictionaryRepresentation()
-        
-        dictionary.keys.forEach { key in
-            standardDefaults.removeObject(forKey: key)
-        }
     }
 }

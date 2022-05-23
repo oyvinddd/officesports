@@ -8,5 +8,5 @@
 import Foundation
 
 enum OSSport: Int, Codable {
-    case foosball, tableTennis
+    case foosball, tableTennis, unknown
 }

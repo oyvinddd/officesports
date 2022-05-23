@@ -27,6 +27,7 @@
 		8E38B576283BC5AD009E0387 /* Bundle+Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B575283BC5AD009E0387 /* Bundle+Version.swift */; };
 		8E38B578283BC9F1009E0387 /* OSError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B577283BC9F1009E0387 /* OSError.swift */; };
 		8E38B57A283BCBC8009E0387 /* OSMatchRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B579283BCBC8009E0387 /* OSMatchRegistration.swift */; };
+		8E38B57C283C39A2009E0387 /* UserDefaultsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B57B283C39A2009E0387 /* UserDefaultsHelper.swift */; };
 		8E6DF2992834CEB20009ACA1 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 8E6DF2982834CEB20009ACA1 /* FirebaseFirestore */; };
 		8E6DF29B2834CEB20009ACA1 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8E6DF29A2834CEB20009ACA1 /* FirebaseFirestoreSwift */; };
 		8E70C112282ABA4E009A9452 /* NSLayoutConstraint+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C111282ABA4E009A9452 /* NSLayoutConstraint+Util.swift */; };
@@ -89,6 +90,7 @@
 		8E38B575283BC5AD009E0387 /* Bundle+Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Version.swift"; sourceTree = "<group>"; };
 		8E38B577283BC9F1009E0387 /* OSError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSError.swift; sourceTree = "<group>"; };
 		8E38B579283BCBC8009E0387 /* OSMatchRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSMatchRegistration.swift; sourceTree = "<group>"; };
+		8E38B57B283C39A2009E0387 /* UserDefaultsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsHelper.swift; sourceTree = "<group>"; };
 		8E70C111282ABA4E009A9452 /* NSLayoutConstraint+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Util.swift"; sourceTree = "<group>"; };
 		8E70C113282ABC56009A9452 /* SportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportViewController.swift; sourceTree = "<group>"; };
 		8E70C116282ABD3E009A9452 /* FloatingMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingMenu.swift; sourceTree = "<group>"; };
@@ -324,6 +326,7 @@
 			isa = PBXGroup;
 			children = (
 				8E7D9A7E282BEF66007BCDE0 /* CodeGen.swift */,
+				8E38B57B283C39A2009E0387 /* UserDefaultsHelper.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -540,6 +543,7 @@
 				8EAB6DA6282BE4B500FA1362 /* Coordinator.swift in Sources */,
 				8E9C7289283AB3C800974DAA /* OSOrganization.swift in Sources */,
 				8E70C13A282AEE7E009A9452 /* SportsAPI.swift in Sources */,
+				8E38B57C283C39A2009E0387 /* UserDefaultsHelper.swift in Sources */,
 				8E230878282D191C00AF60EB /* SportFilterTableViewCell.swift in Sources */,
 				8E7D0AC52838D5C0006D6DF7 /* EmojiCollectionViewCell.swift in Sources */,
 				8E70C12F282AD0AE009A9452 /* UITableView+Util.swift in Sources */,
