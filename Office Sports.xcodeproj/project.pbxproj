@@ -24,6 +24,9 @@
 		8E31E24028364A6F0085238C /* InvitesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E31E23F28364A6F0085238C /* InvitesViewController.swift */; };
 		8E31E24228364B0A0085238C /* InvitesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E31E24128364B0A0085238C /* InvitesViewModel.swift */; };
 		8E38B574283B97C8009E0387 /* UIColor+CoreImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B573283B97C8009E0387 /* UIColor+CoreImage.swift */; };
+		8E38B576283BC5AD009E0387 /* Bundle+Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B575283BC5AD009E0387 /* Bundle+Version.swift */; };
+		8E38B578283BC9F1009E0387 /* OSError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B577283BC9F1009E0387 /* OSError.swift */; };
+		8E38B57A283BCBC8009E0387 /* OSMatchRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B579283BCBC8009E0387 /* OSMatchRegistration.swift */; };
 		8E6DF2992834CEB20009ACA1 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 8E6DF2982834CEB20009ACA1 /* FirebaseFirestore */; };
 		8E6DF29B2834CEB20009ACA1 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8E6DF29A2834CEB20009ACA1 /* FirebaseFirestoreSwift */; };
 		8E70C112282ABA4E009A9452 /* NSLayoutConstraint+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C111282ABA4E009A9452 /* NSLayoutConstraint+Util.swift */; };
@@ -83,6 +86,9 @@
 		8E31E23F28364A6F0085238C /* InvitesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitesViewController.swift; sourceTree = "<group>"; };
 		8E31E24128364B0A0085238C /* InvitesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitesViewModel.swift; sourceTree = "<group>"; };
 		8E38B573283B97C8009E0387 /* UIColor+CoreImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+CoreImage.swift"; sourceTree = "<group>"; };
+		8E38B575283BC5AD009E0387 /* Bundle+Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Version.swift"; sourceTree = "<group>"; };
+		8E38B577283BC9F1009E0387 /* OSError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSError.swift; sourceTree = "<group>"; };
+		8E38B579283BCBC8009E0387 /* OSMatchRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSMatchRegistration.swift; sourceTree = "<group>"; };
 		8E70C111282ABA4E009A9452 /* NSLayoutConstraint+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Util.swift"; sourceTree = "<group>"; };
 		8E70C113282ABC56009A9452 /* SportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportViewController.swift; sourceTree = "<group>"; };
 		8E70C116282ABD3E009A9452 /* FloatingMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingMenu.swift; sourceTree = "<group>"; };
@@ -241,6 +247,7 @@
 				8E7D0AC62838D7A1006D6DF7 /* UICollectionView+Util.swift */,
 				8E287F55283B1013005BBE28 /* UIButton+Loading.swift */,
 				8E38B573283B97C8009E0387 /* UIColor+CoreImage.swift */,
+				8E38B575283BC5AD009E0387 /* Bundle+Version.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -266,6 +273,8 @@
 				8EF1387A2837CF3A001D8DA6 /* OSCodePayload.swift */,
 				8E9C7288283AB3C800974DAA /* OSOrganization.swift */,
 				8E231EDB283AC97B0030768D /* OSMessage.swift */,
+				8E38B577283BC9F1009E0387 /* OSError.swift */,
+				8E38B579283BCBC8009E0387 /* OSMatchRegistration.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -284,6 +293,7 @@
 		8E70C127282ACD10009A9452 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				8E70C11D282AC424009A9452 /* Entities */,
 				8E70C139282AEE7E009A9452 /* SportsAPI.swift */,
 				8E2EE76A2836783C0096659D /* FirebaseSportsAPI.swift */,
 				8EF13878283791AE001D8DA6 /* MockSportsAPI.swift */,
@@ -361,7 +371,6 @@
 				8E7D9A7D282BEF4F007BCDE0 /* Utils */,
 				8EAB6DA4282BE34B00FA1362 /* Coordinators */,
 				8E70C127282ACD10009A9452 /* API */,
-				8E70C11D282AC424009A9452 /* Entities */,
 				8E70C110282AB9BB009A9452 /* Extensions */,
 				8EE62002282AB7AA00C01289 /* Screens */,
 				8EE61FEE282AB79C00C01289 /* AppDelegate.swift */,
@@ -500,11 +509,13 @@
 				8EF1387F2837FDD3001D8DA6 /* ScannerViewModel.swift in Sources */,
 				8E70C121282AC510009A9452 /* OSPlayer.swift in Sources */,
 				8E973322283231F40012E236 /* SettingsViewModel.swift in Sources */,
+				8E38B576283BC5AD009E0387 /* Bundle+Version.swift in Sources */,
 				8E70C117282ABD3E009A9452 /* FloatingMenu.swift in Sources */,
 				8EE61FF3282AB79C00C01289 /* MainViewController.swift in Sources */,
 				8EC84E8E282BD5B10093C9A0 /* PlayerProfileViewController.swift in Sources */,
 				8E23086F282CFC6B00AF60EB /* SettingsViewController.swift in Sources */,
 				8E70C129282ACE57009A9452 /* UIColor+App.swift in Sources */,
+				8E38B57A283BCBC8009E0387 /* OSMatchRegistration.swift in Sources */,
 				8EF1387B2837CF3A001D8DA6 /* OSCodePayload.swift in Sources */,
 				8E31E24228364B0A0085238C /* InvitesViewModel.swift in Sources */,
 				8E24F4592834A75900BC808B /* MessageWindow.swift in Sources */,
@@ -536,6 +547,7 @@
 				8E7D0AC72838D7A1006D6DF7 /* UICollectionView+Util.swift in Sources */,
 				8EDFA363282E418000A51292 /* CompoundField.swift in Sources */,
 				8E70C114282ABC56009A9452 /* SportViewController.swift in Sources */,
+				8E38B578283BC9F1009E0387 /* OSError.swift in Sources */,
 				8E70C138282AEE2F009A9452 /* WelcomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

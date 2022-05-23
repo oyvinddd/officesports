@@ -19,7 +19,7 @@ protocol SportsAPI {
     
     func checkNicknameAvailability(_ nickname: String, result: @escaping ((Error?) -> Void))
     
-    func registerMatch(_ match: OSMatch, result: @escaping ((Error?) -> Void))
+    func registerMatch(_ registration: OSMatchRegistration, result: @escaping ((Error?) -> Void))
     
     func getScoreboard(sport: OSSport, result: @escaping (([OSPlayer], Error?) -> Void))
     

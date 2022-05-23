@@ -59,7 +59,7 @@ final class MockSportsAPI: SportsAPI {
         result(nil)
     }
     
-    func registerMatch(_ match: OSMatch, result: @escaping ((Error?) -> Void)) {
+    func registerMatch(_ registration: OSMatchRegistration, result: @escaping ((Error?) -> Void)) {
         result(nil)
     }
     

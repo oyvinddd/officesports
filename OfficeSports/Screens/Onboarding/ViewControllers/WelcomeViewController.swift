@@ -36,6 +36,14 @@ final class WelcomeViewController: UIViewController {
         return button
     }()
     
+    private lazy var versionLabel: UILabel = {
+        let text = "Version \(Bundle.main.appVersionNumber ?? "") (\(Bundle.main.appBuildNumber ?? ""))"
+        let label = UILabel.createLabel(.white, alignment: .center, text: text)
+        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.alpha = 0.5
+        return label
+    }()
+    
     private let viewModel: AuthViewModel
     
     init(viewModel: AuthViewModel) {
@@ -60,6 +68,7 @@ final class WelcomeViewController: UIViewController {
         view.addSubview(foosballCircleView)
         view.addSubview(tableTennisCircleView)
         view.addSubview(signInButton)
+        view.addSubview(versionLabel)
         
         NSLayoutConstraint.activate([
             welcomeLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 64),
@@ -76,7 +85,10 @@ final class WelcomeViewController: UIViewController {
             signInButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 64),
             signInButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -64),
             signInButton.topAnchor.constraint(equalTo: tableTennisCircleView.bottomAnchor, constant: 64),
-            signInButton.heightAnchor.constraint(equalToConstant: 50)
+            signInButton.heightAnchor.constraint(equalToConstant: 50),
+            versionLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
+            versionLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
+            versionLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     

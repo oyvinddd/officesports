@@ -98,16 +98,27 @@ final class FirebaseSportsAPI: SportsAPI {
         }
     }
     
-    func registerMatch(_ match: OSMatch, result: @escaping ((Error?) -> Void)) {
-        let data: [String: Any] = [
-            "date": FieldValue.serverTimestamp(),
-            "winnerDelta": 0,
-            "loserDelta": 0
-        ]
+    func registerMatch(_ registration: OSMatchRegistration, result: @escaping ((Error?) -> Void)) {
+        guard registration.winnerId != registration.loserId else {
+            result(OSError.invalidOpponent)
+            return
+        }
         
+        let playersCollection = database.collection(fbPlayersCollection)
+        
+        database.runTransaction { (transaction, errorPointer) in
+            
+            playersCollection.document(registration.loserId)
+            
+        } completion: { (object, error) in
+        }
+
+        /*
+        let data: [String: Any] = [:]
         database.collection(fbMatchesCollection).addDocument(data: data) { error in
             result(error)
         }
+        */
     }
     
     func getMatchHistory(sport: OSSport, result: @escaping (([OSMatch], Error?) -> Void)) {
@@ -173,32 +184,6 @@ final class FirebaseSportsAPI: SportsAPI {
         
         dictionary.keys.forEach { key in
             standardDefaults.removeObject(forKey: key)
-        }
-    }
-}
-
-// MARK: - Custom Errors for the sports API
-
-private enum OSError: LocalizedError {
-    
-    case unauthorized
-    
-    case missingToken
-    
-    case nicknameTaken
-    
-    case missingPlayer
-    
-    var errorDescription: String? {
-        switch self {
-        case .unauthorized:
-            return "Unauthorized"
-        case .missingToken:
-            return "Missing ID token"
-        case .nicknameTaken:
-            return "Nickname already taken"
-        case .missingPlayer:
-            return "Unauthorized. Missing player details."
         }
     }
 }

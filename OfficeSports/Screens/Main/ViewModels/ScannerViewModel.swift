@@ -26,9 +26,9 @@ final class ScannerViewModel {
         self.api = api
     }
     
-    func registerMatch(_ match: OSMatch) {
+    func registerMatch(_ registration: OSMatchRegistration) {
         delegate?.shouldToggleLoading(enabled: true)
-        api.registerMatch(match) { [unowned self] error in
+        api.registerMatch(registration) { [unowned self] error in
             self.delegate?.shouldToggleLoading(enabled: false)
             guard let error = error else {
                 self.delegate?.matchRegistrationSuccess()
