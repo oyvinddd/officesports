@@ -21,4 +21,4 @@ jobs:
           MATCH_GIT_BASIC_AUTH: ${{ secrets.MATCH_GIT_BASIC_AUTH }}
         run: |
           bundle install
-          bundle exec fastlane ios distribution
+          bundle exec fastlane ios distribute
