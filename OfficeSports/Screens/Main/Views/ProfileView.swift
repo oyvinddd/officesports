@@ -28,8 +28,15 @@ final class ProfileView: UIView {
         return CodeGen.generateQRCode(from: payload)
     }()
     
-    private lazy var codeImageView: UIImageView = {
-        return UIImageView.createImageView(foosballCodeImage, alpha: 0)
+    private lazy var codeImageWrap: UIView = {
+        let imageView = UIImageView.createImageView(foosballCodeImage)
+        let view = UIView.createView(.white)
+        NSLayoutConstraint.pinToView(view, imageView, padding: 5)
+        view.layer.masksToBounds = true
+        view.layer.cornerRadius = 5
+        view.applyMediumDropShadow(UIColor.OS.Text.normal)
+        view.alpha = 0
+        return view
     }()
     
     private lazy var profileImageWrap: UIView = {
@@ -73,7 +80,8 @@ final class ProfileView: UIView {
         self.account = account
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
-        configureUI()
+        profileEmjoiLabel.text = account.emoji
+        nicknameLabel.text = account.nickname?.lowercased()
         setupChildViews()
         displayDetailsForSport(.foosball)
     }
@@ -97,11 +105,11 @@ final class ProfileView: UIView {
         isDisplayingCode = true
         UIView.animate(withDuration: codeTransitionDuration, delay: 0, options: [.curveEaseOut]) { [weak self] in
             self?.profileImageWrap.alpha = 0
-            self?.codeImageView.alpha = 1
+            self?.codeImageWrap.alpha = 1
         } completion: { [weak self] _ in
             UIView.animate(withDuration: codeTransitionDuration, delay: TimeInterval(seconds), options: [.curveEaseOut]) { [weak self] in
                 self?.profileImageWrap.alpha = 1
-                self?.codeImageView.alpha = 0
+                self?.codeImageWrap.alpha = 0
             } completion: { [weak self] _ in
                 self?.isDisplayingCode = false
             }
@@ -109,7 +117,7 @@ final class ProfileView: UIView {
     }
     
     private func setupChildViews() {
-        addSubview(codeImageView)
+        addSubview(codeImageWrap)
         addSubview(profileImageWrap)
         profileImageWrap.addSubview(profileImageBackground)
         addSubview(nicknameLabel)
@@ -117,10 +125,10 @@ final class ProfileView: UIView {
         
         NSLayoutConstraint.pinToView(profileImageBackground, profileEmjoiLabel)
         NSLayoutConstraint.activate([
-            codeImageView.widthAnchor.constraint(equalToConstant: profileImageDimater),
-            codeImageView.heightAnchor.constraint(equalTo: codeImageView.widthAnchor),
-            codeImageView.centerXAnchor.constraint(equalTo: profileImageWrap.centerXAnchor),
-            codeImageView.centerYAnchor.constraint(equalTo: profileImageWrap.centerYAnchor),
+            codeImageWrap.widthAnchor.constraint(equalToConstant: profileImageDimater),
+            codeImageWrap.heightAnchor.constraint(equalTo: codeImageWrap.widthAnchor),
+            codeImageWrap.centerXAnchor.constraint(equalTo: profileImageWrap.centerXAnchor),
+            codeImageWrap.centerYAnchor.constraint(equalTo: profileImageWrap.centerYAnchor),
             profileImageWrap.widthAnchor.constraint(equalToConstant: profileImageDimater),
             profileImageWrap.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 32),
             profileImageWrap.heightAnchor.constraint(equalTo: profileImageWrap.widthAnchor),
@@ -137,10 +145,5 @@ final class ProfileView: UIView {
             totalScoreLabel.topAnchor.constraint(equalTo: nicknameLabel.bottomAnchor, constant: 6),
             totalScoreLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
         ])
-    }
-    
-    private func configureUI() {
-        profileEmjoiLabel.text = account.emoji
-        nicknameLabel.text = account.nickname?.lowercased()
     }
 }

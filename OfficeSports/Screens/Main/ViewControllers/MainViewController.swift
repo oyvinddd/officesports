@@ -54,12 +54,12 @@ final class MainViewController: UIViewController {
     
     private lazy var foosballViewController: SportViewController = {
         let viewModel = SportViewModel(api: MockSportsAPI(), sport: .foosball)
-        return SportViewController(viewModel: viewModel)
+        return SportViewController(viewModel: viewModel, delegate: self)
     }()
     
     private lazy var tableTennisViewController: SportViewController = {
         let viewModel = SportViewModel(api: MockSportsAPI(), sport: .tableTennis)
-        return SportViewController(viewModel: viewModel)
+        return SportViewController(viewModel: viewModel, delegate: self)
     }()
     
     private var cameraIsShowing: Bool = false
@@ -195,6 +195,15 @@ extension MainViewController: FloatingMenuDelegate {
         }
         let frame = xOffset > 0 ? foosballFrame : tableTennisFrame
         scrollView.scrollRectToVisible(frame, animated: true)
+    }
+}
+
+// MARK: - Sport View Controller Delegate Conformance
+
+extension MainViewController: SportViewControllerDelegate {
+    
+    func tableViewDidScroll(_ contentOffset: CGPoint) {
+        // TODO: fade in/out profile view and settings button based on the y offest of the table view
     }
 }
 

@@ -23,6 +23,7 @@
 		8E31E23E283649230085238C /* OSInvite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E31E23D283649230085238C /* OSInvite.swift */; };
 		8E31E24028364A6F0085238C /* InvitesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E31E23F28364A6F0085238C /* InvitesViewController.swift */; };
 		8E31E24228364B0A0085238C /* InvitesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E31E24128364B0A0085238C /* InvitesViewModel.swift */; };
+		8E38B574283B97C8009E0387 /* UIColor+CoreImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B573283B97C8009E0387 /* UIColor+CoreImage.swift */; };
 		8E6DF2992834CEB20009ACA1 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 8E6DF2982834CEB20009ACA1 /* FirebaseFirestore */; };
 		8E6DF29B2834CEB20009ACA1 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8E6DF29A2834CEB20009ACA1 /* FirebaseFirestoreSwift */; };
 		8E70C112282ABA4E009A9452 /* NSLayoutConstraint+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C111282ABA4E009A9452 /* NSLayoutConstraint+Util.swift */; };
@@ -81,6 +82,7 @@
 		8E31E23D283649230085238C /* OSInvite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSInvite.swift; sourceTree = "<group>"; };
 		8E31E23F28364A6F0085238C /* InvitesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitesViewController.swift; sourceTree = "<group>"; };
 		8E31E24128364B0A0085238C /* InvitesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitesViewModel.swift; sourceTree = "<group>"; };
+		8E38B573283B97C8009E0387 /* UIColor+CoreImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+CoreImage.swift"; sourceTree = "<group>"; };
 		8E70C111282ABA4E009A9452 /* NSLayoutConstraint+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Util.swift"; sourceTree = "<group>"; };
 		8E70C113282ABC56009A9452 /* SportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportViewController.swift; sourceTree = "<group>"; };
 		8E70C116282ABD3E009A9452 /* FloatingMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingMenu.swift; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 				8EE7939528366B660025AB78 /* Encodable+Dictionary.swift */,
 				8E7D0AC62838D7A1006D6DF7 /* UICollectionView+Util.swift */,
 				8E287F55283B1013005BBE28 /* UIButton+Loading.swift */,
+				8E38B573283B97C8009E0387 /* UIColor+CoreImage.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -491,6 +494,7 @@
 				8E70C11F282AC499009A9452 /* OSMatch.swift in Sources */,
 				8E287F56283B1013005BBE28 /* UIButton+Loading.swift in Sources */,
 				8E70C11C282AC3F2009A9452 /* ScannerViewController.swift in Sources */,
+				8E38B574283B97C8009E0387 /* UIColor+CoreImage.swift in Sources */,
 				8E2EE769283675EF0096659D /* InviteTableViewCell.swift in Sources */,
 				8EF1387D2837EEEC001D8DA6 /* MatchTableViewCell.swift in Sources */,
 				8EF1387F2837FDD3001D8DA6 /* ScannerViewModel.swift in Sources */,
