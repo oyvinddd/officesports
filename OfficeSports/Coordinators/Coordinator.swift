@@ -65,6 +65,10 @@ final class Coordinator {
         viewController.present(preferencesViewController, animated: true)
     }
     
+    func presentAbout(from viewController: UIViewController) {
+        viewController.present(aboutViewController, animated: true)
+    }
+    
     func presentEmojiPicker(from viewController: UIViewController) {
         viewController.present(emojiPickerViewController, animated: true)
     }
@@ -125,6 +129,10 @@ extension Coordinator {
     
     var preferencesViewController: PreferencesViewController {
         return PreferencesViewController()
+    }
+    
+    var aboutViewController: AboutViewController {
+        return AboutViewController()
     }
     
     var emojiPickerViewController: EmojiPickerViewController {

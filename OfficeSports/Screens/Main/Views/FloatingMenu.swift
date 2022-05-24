@@ -16,9 +16,9 @@ protocol FloatingMenuDelegate: AnyObject {
     
     func toggleCameraButtonTapped()
     
-    func changeSportsButtonTapped()
+    func foosballButtonTapped()
     
-    func invitesButtonTapped()
+    func tableTennisButtonTapped()
 }
 
 final class FloatingMenu: UIView {
@@ -27,16 +27,17 @@ final class FloatingMenu: UIView {
         return UIStackView.createStackView(.clear, axis: .horizontal, spacing: 4)
     }()
     
-    private lazy var mbInvites: MenuButton = {
-        let config = UIImage.SymbolConfiguration(pointSize: 22, weight: .bold, scale: .large)
-        let button = MenuButton(.clear, image: UIImage(systemName: "bell.badge", withConfiguration: buttonImageConfig))
-        button.addTarget(self, action: #selector(invitesButtonTapped), for: .touchUpInside)
+    private lazy var mbFoosballButton: MenuButton = {
+        let image = UIImage(named: "Soccer")!.withRenderingMode(.alwaysTemplate)
+        let button = MenuButton(.clear, image: image)
+        button.addTarget(self, action: #selector(foosballButtonTapped), for: .touchUpInside)
         return button
     }()
     
-    private lazy var mbChangeSports: MenuButton = {
-        let button = MenuButton(.clear, image: UIImage(systemName: "arrow.left.arrow.right.square", withConfiguration: buttonImageConfig))
-        button.addTarget(self, action: #selector(changeSportsButtonTapped), for: .touchUpInside)
+    private lazy var mbTableTennisButton: MenuButton = {
+        let image = UIImage(named: "TableTennis")!.withRenderingMode(.alwaysTemplate)
+        let button = MenuButton(.clear, image: image)
+        button.addTarget(self, action: #selector(tableTennisButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -78,8 +79,8 @@ final class FloatingMenu: UIView {
         let icon = enabled ? "xmark" : "qrcode.viewfinder"
         let image = UIImage(systemName: icon, withConfiguration: buttonImageConfig)
         mbToggleCamera.setImage(image, for: .normal)
-        mbInvites.toggle(enabled: !enabled)
-        mbChangeSports.toggle(enabled: !enabled)
+        mbFoosballButton.toggle(enabled: !enabled)
+        mbTableTennisButton.toggle(enabled: !enabled)
         mbShowQrCode.toggle(enabled: !enabled)
     }
     
@@ -95,10 +96,10 @@ final class FloatingMenu: UIView {
     private func setupChildViews() {
         NSLayoutConstraint.pinToView(self, stackView, padding: 4)
         
-        stackView.addArrangedSubview(mbInvites)
         stackView.addArrangedSubview(mbToggleCamera)
         stackView.addArrangedSubview(mbShowQrCode)
-        stackView.addArrangedSubview(mbChangeSports)
+        stackView.addArrangedSubview(mbFoosballButton)
+        stackView.addArrangedSubview(mbTableTennisButton)
     }
     
     private func configureUI() {
@@ -109,14 +110,14 @@ final class FloatingMenu: UIView {
     
     // MARK: - Button Handling
     
-    @objc private func invitesButtonTapped(_ sender: MenuButton) {
+    @objc private func foosballButtonTapped(_ sender: MenuButton) {
         feedbackGenerator.impactOccurred()
-        delegate?.invitesButtonTapped()
+        delegate?.foosballButtonTapped()
     }
     
-    @objc private func changeSportsButtonTapped(_ sender: MenuButton) {
+    @objc private func tableTennisButtonTapped(_ sender: MenuButton) {
         feedbackGenerator.impactOccurred()
-        delegate?.changeSportsButtonTapped()
+        delegate?.tableTennisButtonTapped()
     }
     
     @objc private func toggleCameraButtonTapped(_ sender: MenuButton) {
@@ -140,6 +141,15 @@ private final class MenuButton: UIButton {
         self.backgroundColor = backgroundColor
         setImage(image, for: .normal)
         tintColor = UIColor.OS.General.main
+        applyCornerRadius(5)
+    }
+    
+    init(_ backgroundColor: UIColor?, emoji: String) {
+        super.init(frame: .zero)
+        translatesAutoresizingMaskIntoConstraints = false
+        self.backgroundColor = backgroundColor
+        setTitle(emoji, for: .normal)
+        titleLabel?.font = UIFont.systemFont(ofSize: 26)
         applyCornerRadius(5)
     }
     

@@ -102,18 +102,22 @@ final class SettingsViewController: UIViewController {
         
         let profileButton = createSettingsButton("person", "Update player profile")
         let preferencesButton = createSettingsButton("checklist", "Preferences")
+        let aboutButton = createSettingsButton("info.circle", "About")
         let signOutButton = createSettingsButton("power", "Sign out")
         
         let recognizer1 = UITapGestureRecognizer(target: self, action: #selector(profileButtonTapped))
         let recognizer2 = UITapGestureRecognizer(target: self, action: #selector(signOutButtonTapped))
         let recognizer3 = UITapGestureRecognizer(target: self, action: #selector(preferencesButtonTapped))
+        let recognizer4 = UITapGestureRecognizer(target: self, action: #selector(aboutButtonTapped))
         
         profileButton.addGestureRecognizer(recognizer1)
         preferencesButton.addGestureRecognizer(recognizer3)
         signOutButton.addGestureRecognizer(recognizer2)
+        aboutButton.addGestureRecognizer(recognizer4)
         
         stackView.addArrangedSubview(profileButton)
         stackView.addArrangedSubview(preferencesButton)
+        stackView.addArrangedSubview(aboutButton)
         stackView.addArrangedSubview(signOutButton)
         
         NSLayoutConstraint.activate([
@@ -178,6 +182,10 @@ final class SettingsViewController: UIViewController {
     
     @objc private func preferencesButtonTapped(_ sender: UITapGestureRecognizer) {
         Coordinator.global.presentPreferences(from: self)
+    }
+    
+    @objc private func aboutButtonTapped(_ sender: UITapGestureRecognizer) {
+        Coordinator.global.presentAbout(from: self)
     }
     
     @objc private func signOutButtonTapped(_ sender: UITapGestureRecognizer) {

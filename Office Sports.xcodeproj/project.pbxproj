@@ -73,6 +73,7 @@
 		8EF1387B2837CF3A001D8DA6 /* OSCodePayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1387A2837CF3A001D8DA6 /* OSCodePayload.swift */; };
 		8EF1387D2837EEEC001D8DA6 /* MatchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1387C2837EEEC001D8DA6 /* MatchTableViewCell.swift */; };
 		8EF1387F2837FDD3001D8DA6 /* ScannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1387E2837FDD3001D8DA6 /* ScannerViewModel.swift */; };
+		8EF418A4283CFF39005CAE09 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF418A3283CFF39005CAE09 /* AboutViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -142,6 +143,7 @@
 		8EF1387A2837CF3A001D8DA6 /* OSCodePayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSCodePayload.swift; sourceTree = "<group>"; };
 		8EF1387C2837EEEC001D8DA6 /* MatchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchTableViewCell.swift; sourceTree = "<group>"; };
 		8EF1387E2837FDD3001D8DA6 /* ScannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerViewModel.swift; sourceTree = "<group>"; };
+		8EF418A3283CFF39005CAE09 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -215,6 +217,7 @@
 				8E31E23F28364A6F0085238C /* InvitesViewController.swift */,
 				8E38B57D283C3D01009E0387 /* AchievementsViewController.swift */,
 				8E38B581283C5895009E0387 /* PreferencesViewController.swift */,
+				8EF418A3283CFF39005CAE09 /* AboutViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -538,6 +541,7 @@
 				8E31E24228364B0A0085238C /* InvitesViewModel.swift in Sources */,
 				8E24F4592834A75900BC808B /* MessageWindow.swift in Sources */,
 				8E7D0AC92838D8A7006D6DF7 /* EmojiViewModel.swift in Sources */,
+				8EF418A4283CFF39005CAE09 /* AboutViewController.swift in Sources */,
 				8E2EE76B2836783C0096659D /* FirebaseSportsAPI.swift in Sources */,
 				8E25B0F8283CD3F100FE2FB3 /* OSStats.swift in Sources */,
 				8EE61FEF282AB79C00C01289 /* AppDelegate.swift in Sources */,

@@ -21,7 +21,7 @@ final class PlayerProfileViewController: UIViewController {
     
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel.createLabel(.white)
-        label.text = "Choose a nickname that people can remember you by. You can also choose an emoji as a profile picture."
+        label.text = "Choose a nickname and an associated emoji that people can remember you by. You can edit these details later if you want to."
         return label
     }()
     
@@ -45,6 +45,8 @@ final class PlayerProfileViewController: UIViewController {
     
     private var viewModel: PlayerProfileViewModel
     
+    private var centerYConstraint: NSLayoutConstraint?
+    
     init(viewModel: PlayerProfileViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -61,6 +63,22 @@ final class PlayerProfileViewController: UIViewController {
         view.backgroundColor = UIColor.OS.General.main
         selectedEmoji = OSAccount.current.emoji ?? "😄"
         nicknameField.text = OSAccount.current.nickname
+        
+        // Subscribe to Keyboard Will Show notifications
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow(_:)),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+
+        // Subscribe to Keyboard Will Hide notifications
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide(_:)),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -74,6 +92,8 @@ final class PlayerProfileViewController: UIViewController {
         view.addSubview(nicknameField)
         view.addSubview(continueButton)
         
+        centerYConstraint = nicknameField.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        
         NSLayoutConstraint.activate([
             titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
             titleLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
@@ -84,7 +104,8 @@ final class PlayerProfileViewController: UIViewController {
             nicknameField.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
             nicknameField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
             nicknameField.heightAnchor.constraint(equalToConstant: 50),
-            nicknameField.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            centerYConstraint!,
+            //nicknameField.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             continueButton.leftAnchor.constraint(equalTo: nicknameField.leftAnchor),
             continueButton.rightAnchor.constraint(equalTo: nicknameField.rightAnchor),
             continueButton.topAnchor.constraint(equalTo: nicknameField.bottomAnchor, constant: 20),
@@ -148,5 +169,66 @@ extension PlayerProfileViewController: PlayerProfileViewModelDelegate {
     
     func shouldToggleLoading(enabled: Bool) {
         continueButton.toggleLoading(enabled)
+    }
+}
+
+// swiftlint:disable force_cast
+extension PlayerProfileViewController {
+    
+    @objc
+    dynamic func keyboardWillShow(
+        _ notification: NSNotification
+    ) {
+        animateWithKeyboard(notification: notification) {
+            (keyboardFrame) in
+            let constant =  keyboardFrame.height / 2//(self.view.frame.size.height - keyboardFrame.height) * 100 / self.view.frame.size.height
+            //self.textFieldTrailingConstraint?.constant = constant
+            self.centerYConstraint?.constant = -constant
+        }
+    }
+    
+    @objc
+    dynamic func keyboardWillHide(
+        _ notification: NSNotification
+    ) {
+        animateWithKeyboard(notification: notification) {
+            (keyboardFrame) in
+            //self.textFieldTrailingConstraint?.constant = 20
+            self.centerYConstraint?.constant = 0
+        }
+    }
+    
+    func animateWithKeyboard(
+        notification: NSNotification,
+        animations: ((_ keyboardFrame: CGRect) -> Void)?
+    ) {
+        // Extract the duration of the keyboard animation
+        let durationKey = UIResponder.keyboardAnimationDurationUserInfoKey
+        let duration = notification.userInfo![durationKey] as! Double
+        
+        // Extract the final frame of the keyboard
+        let frameKey = UIResponder.keyboardFrameEndUserInfoKey
+        let keyboardFrameValue = notification.userInfo![frameKey] as! NSValue
+        
+        // Extract the curve of the iOS keyboard animation
+        let curveKey = UIResponder.keyboardAnimationCurveUserInfoKey
+        let curveValue = notification.userInfo![curveKey] as! Int
+        let curve = UIView.AnimationCurve(rawValue: curveValue)!
+
+        // Create a property animator to manage the animation
+        let animator = UIViewPropertyAnimator(
+            duration: duration,
+            curve: curve
+        ) {
+            // Perform the necessary animation layout updates
+            animations?(keyboardFrameValue.cgRectValue)
+            
+            // Required to trigger NSLayoutConstraint changes
+            // to animate
+            self.view?.layoutIfNeeded()
+        }
+        
+        // Start the animation
+        animator.startAnimation()
     }
 }
