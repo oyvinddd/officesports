@@ -24,7 +24,7 @@ final class MainViewController: UIViewController {
         let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .semibold, scale: .large)
         let image = UIImage(systemName: "gearshape.fill", withConfiguration: config)
         let button = UIButton.createButton(.clear, .clear, title: nil)
-        button.addTarget(self, action: #selector(settingsButtonTapped2), for: .touchUpInside)
+        button.addTarget(self, action: #selector(settingsButtonTapped), for: .touchUpInside)
         button.tintColor = UIColor.OS.Text.normal
         button.setImage(image, for: .normal)
         return button
@@ -151,7 +151,7 @@ final class MainViewController: UIViewController {
         scrollView.scrollRectToVisible(viewController.view.frame, animated: animated)
     }
     
-    @objc private func settingsButtonTapped2(_ sender: UIButton) {
+    @objc private func settingsButtonTapped(_ sender: UIButton) {
         Coordinator.global.presentSettings(from: self)
     }
 }
@@ -223,10 +223,13 @@ extension MainViewController: UIScrollViewDelegate {
         let xOffset = scrollView.contentOffset.x
         let width = scrollView.frame.width
         if xOffset == 0 { // invites screen is showing
+            floatingMenu.toggleButtonAtIndex(2, enabled: false)
             profileView.configureForSport(.unknown)
         } else if xOffset < width * 2 { // foosball screen is showing
+            floatingMenu.toggleButtonAtIndex(2, enabled: true)
             profileView.configureForSport(.foosball)
         } else if xOffset >= width * 2 { // table tennis screen is showing
+            floatingMenu.toggleButtonAtIndex(2, enabled: true)
             profileView.configureForSport(.tableTennis)
         }
     }

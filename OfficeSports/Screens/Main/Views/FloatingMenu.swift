@@ -83,6 +83,15 @@ final class FloatingMenu: UIView {
         mbShowQrCode.toggle(enabled: !enabled)
     }
     
+    func toggleButtonAtIndex(_ index: Int, enabled: Bool) {
+        if let buttons = stackView.arrangedSubviews as? [MenuButton] {
+            guard index >= 0 && index < 4 else {
+                return
+            }
+            buttons[index].toggle(enabled: enabled, animated: true)
+        }
+    }
+    
     private func setupChildViews() {
         NSLayoutConstraint.pinToView(self, stackView, padding: 4)
         
@@ -138,7 +147,8 @@ private final class MenuButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func toggle(enabled: Bool) {
+    func toggle(enabled: Bool, animated: Bool = false) {
+        guard isEnabled != enabled else { return }
         isEnabled = enabled
         if enabled {
             tintColor = UIColor.OS.General.main

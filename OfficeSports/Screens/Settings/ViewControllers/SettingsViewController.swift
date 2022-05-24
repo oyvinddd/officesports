@@ -155,7 +155,7 @@ final class SettingsViewController: UIViewController {
     }
     
     private func createSettingsButton(_ systemIconName: String, _ title: String) -> SettingsButton {
-        let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .semibold, scale: .large)
+        let config = UIImage.SymbolConfiguration(pointSize: 17, weight: .semibold, scale: .medium)
         let buttonIcon = UIImage(systemName: systemIconName, withConfiguration: config)!
         return SettingsButton(buttonIcon, title)
     }
@@ -218,7 +218,7 @@ private final class SettingsButton: UIView {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel.createLabel(UIColor.OS.Text.normal)
-        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        label.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         return label
     }()
     
