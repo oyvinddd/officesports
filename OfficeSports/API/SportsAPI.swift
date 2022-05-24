@@ -25,5 +25,7 @@ protocol SportsAPI {
     
     func getMatchHistory(sport: OSSport, result: @escaping (([OSMatch], Error?) -> Void))
     
-    func invitePlayer(_ player: OSPlayer, sport: OSSport, result: @escaping (Error?) -> Void)
+    func invitePlayer(_ player: OSPlayer, sport: OSSport, result: @escaping ((Error?) -> Void))
+    
+    func getActiveInvites(result: @escaping (([OSInvite], Error?) -> Void))
 }

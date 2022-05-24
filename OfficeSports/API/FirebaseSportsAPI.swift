@@ -16,7 +16,7 @@ private let fbMatchesCollection = "matches"
 private let fbInvitesCollection = "invites"
 
 final class FirebaseSportsAPI: SportsAPI {
-    
+
     private let database = Firestore.firestore()
     
     func signIn(_ viewController: UIViewController, result: @escaping ((Error?) -> Void)) {
@@ -141,10 +141,20 @@ final class FirebaseSportsAPI: SportsAPI {
         
         let invite = OSInvite(date: Date(), sport: sport, inviterId: uid, inviteeId: player.userId, inviteeNickname: player.nickname)
         
-        
         database.collection(fbInvitesCollection).addDocument(data: [:]) { error in
             result(error)
         }
+    }
+    
+    func getActiveInvites(result: @escaping (([OSInvite], Error?) -> Void)) {
+        guard let uid = OSAccount.current.userId else {
+            result([], OSError.unauthorized)
+            return
+        }
+        
+        let invitesCollection = database.collection(fbInvitesCollection)
+        
+        invitesCollection.whereField("inviterId", isEqualTo: uid)
     }
     
     // ##################################

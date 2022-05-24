@@ -86,4 +86,9 @@ final class MockSportsAPI: SportsAPI {
     func invitePlayer(_ player: OSPlayer, sport: OSSport, result: @escaping (Error?) -> Void) {
         result(nil)
     }
+    
+    func getActiveInvites(result: @escaping (([OSInvite], Error?) -> Void)) {
+        let invite = OSInvite(date: Date(), sport: .foosball, inviterId: "id#1", inviteeId: "id#2", inviteeNickname: "heimegut")
+        result([invite], nil)
+    }
 }
