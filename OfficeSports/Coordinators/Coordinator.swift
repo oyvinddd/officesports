@@ -62,7 +62,7 @@ final class Coordinator {
     }
     
     func presentPreferences(from viewController: UIViewController) {
-        viewController.present(preferencesViewController, animated: false)
+        viewController.present(preferencesViewController, animated: true)
     }
     
     func presentEmojiPicker(from viewController: UIViewController) {

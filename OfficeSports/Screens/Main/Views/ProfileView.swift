@@ -95,7 +95,7 @@ final class ProfileView: UIView {
         return label
     }()
     
-    private let account: OSAccount
+    private var account: OSAccount
     private var isDisplayingCode: Bool = false
     
     init(account: OSAccount) {

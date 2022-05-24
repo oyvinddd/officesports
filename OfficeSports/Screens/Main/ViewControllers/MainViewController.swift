@@ -152,6 +152,7 @@ final class MainViewController: UIViewController {
     }
     
     @objc private func settingsButtonTapped(_ sender: UIButton) {
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         Coordinator.global.presentSettings(from: self)
     }
 }
@@ -222,7 +223,7 @@ extension MainViewController: UIScrollViewDelegate {
     private func configureProfileView(scrollView: UIScrollView) {
         let xOffset = scrollView.contentOffset.x
         let width = scrollView.frame.width
-        if xOffset == 0 { // invites screen is showing
+        if xOffset < width { // invites screen is showing
             floatingMenu.toggleButtonAtIndex(2, enabled: false)
             profileView.configureForSport(.unknown)
         } else if xOffset < width * 2 { // foosball screen is showing

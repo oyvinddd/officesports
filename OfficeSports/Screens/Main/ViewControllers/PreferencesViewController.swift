@@ -11,5 +11,6 @@ final class PreferencesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.OS.General.main
     }
 }
