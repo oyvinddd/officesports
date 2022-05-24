@@ -23,7 +23,7 @@ final class OSAccount: Codable {
         return Auth.auth().currentUser != nil
     }
     
-    var validProfileDetails: Bool {
+    var hasValidProfileDetails: Bool {
         return nickname != nil && emoji != nil
     }
     

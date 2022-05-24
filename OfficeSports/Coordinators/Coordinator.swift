@@ -35,7 +35,7 @@ final class Coordinator {
     func checkAndHandleAppState() {
         if !account.signedIn {
             currentState = .unauthorized
-        } else if !account.validProfileDetails {
+        } else if !account.hasValidProfileDetails {
             currentState = .missingProfileDetails
         } else {
             currentState = .authorized

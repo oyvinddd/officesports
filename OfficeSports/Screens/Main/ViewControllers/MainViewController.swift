@@ -154,10 +154,15 @@ final class MainViewController: UIViewController {
         ])
     }
     
+    var topInset: CGFloat?
+    
     private func configureTableViewInsets() {
-        let profileMaxY = profileView.bounds.maxY
-        let menuMinY = floatingMenu.bounds.maxY
-        let contentInset = UIEdgeInsets(top: profileMaxY, left: 0, bottom: menuMinY, right: 0)
+//        if topInset == nil && profileView.bounds.maxY != 0 {
+//            topInset = profileView.bounds.maxY
+//        }
+        let top = profileView.bounds.maxY
+        let bottom = view.frame.height - floatingMenu.frame.minY
+        let contentInset = UIEdgeInsets(top: top, left: 0, bottom: bottom, right: 0)
         foosballViewController.applyContentInsetToTableView(contentInset)
         tableTennisViewController.applyContentInsetToTableView(contentInset)
     }
@@ -167,8 +172,8 @@ final class MainViewController: UIViewController {
     }
     
     @objc private func invitesButtonTapped(_ sender: UIButton) {
-        //UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-        //Coordinator.global.presentSettings(from: self)
+        // UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        // Coordinator.global.presentSettings(from: self)
     }
     
     @objc private func settingsButtonTapped(_ sender: UIButton) {
@@ -216,7 +221,7 @@ extension MainViewController: FloatingMenuDelegate {
 extension MainViewController: SportViewControllerDelegate {
     
     func tableViewDidScroll(_ contentOffset: CGPoint) {
-        // TODO: fade in/out profile view and settings button based on the y offest of the table view
+        //profileView.alpha
     }
 }
 

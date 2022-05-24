@@ -46,6 +46,7 @@ final class PlayerProfileViewController: UIViewController {
     private var viewModel: PlayerProfileViewModel
     
     private var centerYConstraint: NSLayoutConstraint?
+    private let defaultEmoji = "😄"
     
     init(viewModel: PlayerProfileViewModel) {
         self.viewModel = viewModel
@@ -60,9 +61,7 @@ final class PlayerProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupChildViews()
-        view.backgroundColor = UIColor.OS.General.main
-        selectedEmoji = OSAccount.current.emoji ?? "😄"
-        nicknameField.text = OSAccount.current.nickname
+        configureUI()
         
         // Subscribe to Keyboard Will Show notifications
         NotificationCenter.default.addObserver(
@@ -111,6 +110,16 @@ final class PlayerProfileViewController: UIViewController {
             continueButton.topAnchor.constraint(equalTo: nicknameField.bottomAnchor, constant: 20),
             continueButton.heightAnchor.constraint(equalToConstant: 50)
         ])
+    }
+    
+    private func configureUI() {
+        view.backgroundColor = UIColor.OS.General.main
+        if OSAccount.current.hasValidProfileDetails {
+            continueButton.setTitle("Update", for: .normal)
+            titleLabel.text = "Update your nickname"
+        }
+        selectedEmoji = OSAccount.current.emoji ?? defaultEmoji
+        nicknameField.text = OSAccount.current.nickname
     }
     
     private func processAndValidateNickname(_ nickname: String?) throws -> String {
