@@ -54,6 +54,7 @@ final class PlacementTableViewCell: UITableViewCell {
         backgroundColor = .clear
         selectionStyle = .none
         setupChildViews()
+        contentWrap.isUserInteractionEnabled = false
     }
     
     required init?(coder aDecoder: NSCoder) {

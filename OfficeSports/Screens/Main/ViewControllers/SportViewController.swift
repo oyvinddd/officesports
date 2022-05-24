@@ -127,6 +127,10 @@ extension SportViewController: UIScrollViewDelegate {
 // MARK: - Table View Delegate
 
 extension SportViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 }
 
 // MARK: - Sport View Model Delegate

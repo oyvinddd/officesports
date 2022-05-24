@@ -101,15 +101,19 @@ final class SettingsViewController: UIViewController {
         contentWrapView.addSubview(stackView)
         
         let profileButton = createSettingsButton("person", "Update player profile")
+        let preferencesButton = createSettingsButton("checklist", "Preferences")
         let signOutButton = createSettingsButton("power", "Sign out")
         
         let recognizer1 = UITapGestureRecognizer(target: self, action: #selector(profileButtonTapped))
         let recognizer2 = UITapGestureRecognizer(target: self, action: #selector(signOutButtonTapped))
+        let recognizer3 = UITapGestureRecognizer(target: self, action: #selector(preferencesButtonTapped))
         
         profileButton.addGestureRecognizer(recognizer1)
+        preferencesButton.addGestureRecognizer(recognizer3)
         signOutButton.addGestureRecognizer(recognizer2)
         
         stackView.addArrangedSubview(profileButton)
+        stackView.addArrangedSubview(preferencesButton)
         stackView.addArrangedSubview(signOutButton)
         
         NSLayoutConstraint.activate([
@@ -168,16 +172,20 @@ final class SettingsViewController: UIViewController {
     
     // MARK: - Button Handling
     
-    @objc private func profileButtonTapped(_ sender: UIButton) {
+    @objc private func profileButtonTapped(_ sender: UITapGestureRecognizer) {
         Coordinator.global.presentPlayerProfile(from: self)
     }
     
-    @objc private func backgroundTapped(sender: UITapGestureRecognizer) {
-        toggleDialog(enabled: false)
+    @objc private func preferencesButtonTapped(_ sender: UITapGestureRecognizer) {
+        Coordinator.global.presentPreferences(from: self)
     }
     
-    @objc private func signOutButtonTapped(_ sender: UIButton) {
+    @objc private func signOutButtonTapped(_ sender: UITapGestureRecognizer) {
         present(signOutConfirmController, animated: true)
+    }
+    
+    @objc private func backgroundTapped(_ sender: UITapGestureRecognizer) {
+        toggleDialog(enabled: false)
     }
 }
 
