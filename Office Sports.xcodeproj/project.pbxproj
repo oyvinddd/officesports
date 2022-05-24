@@ -24,6 +24,8 @@
 		8E31E23E283649230085238C /* OSInvite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E31E23D283649230085238C /* OSInvite.swift */; };
 		8E31E24028364A6F0085238C /* InvitesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E31E23F28364A6F0085238C /* InvitesViewController.swift */; };
 		8E31E24228364B0A0085238C /* InvitesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E31E24128364B0A0085238C /* InvitesViewModel.swift */; };
+		8E3293E4283D8E8800B7CCDC /* InvitePlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3293E3283D8E8800B7CCDC /* InvitePlayerViewController.swift */; };
+		8E3293E7283D8FBA00B7CCDC /* InvitePlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3293E6283D8FBA00B7CCDC /* InvitePlayerViewModel.swift */; };
 		8E38B574283B97C8009E0387 /* UIColor+CoreImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B573283B97C8009E0387 /* UIColor+CoreImage.swift */; };
 		8E38B576283BC5AD009E0387 /* Bundle+Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B575283BC5AD009E0387 /* Bundle+Version.swift */; };
 		8E38B578283BC9F1009E0387 /* OSError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B577283BC9F1009E0387 /* OSError.swift */; };
@@ -92,6 +94,8 @@
 		8E31E23D283649230085238C /* OSInvite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSInvite.swift; sourceTree = "<group>"; };
 		8E31E23F28364A6F0085238C /* InvitesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitesViewController.swift; sourceTree = "<group>"; };
 		8E31E24128364B0A0085238C /* InvitesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitesViewModel.swift; sourceTree = "<group>"; };
+		8E3293E3283D8E8800B7CCDC /* InvitePlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitePlayerViewController.swift; sourceTree = "<group>"; };
+		8E3293E6283D8FBA00B7CCDC /* InvitePlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitePlayerViewModel.swift; sourceTree = "<group>"; };
 		8E38B573283B97C8009E0387 /* UIColor+CoreImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+CoreImage.swift"; sourceTree = "<group>"; };
 		8E38B575283BC5AD009E0387 /* Bundle+Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Version.swift"; sourceTree = "<group>"; };
 		8E38B577283BC9F1009E0387 /* OSError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSError.swift; sourceTree = "<group>"; };
@@ -214,7 +218,6 @@
 				8E70C11B282AC3F2009A9452 /* ScannerViewController.swift */,
 				8E70C113282ABC56009A9452 /* SportViewController.swift */,
 				8EE61FF2282AB79C00C01289 /* MainViewController.swift */,
-				8E31E23F28364A6F0085238C /* InvitesViewController.swift */,
 				8E38B57D283C3D01009E0387 /* AchievementsViewController.swift */,
 				8E38B581283C5895009E0387 /* PreferencesViewController.swift */,
 				8EF418A3283CFF39005CAE09 /* AboutViewController.swift */,
@@ -225,9 +228,9 @@
 		8E23087F282D540E00AF60EB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				8E9C7287283A722600974DAA /* OfficeSports.entitlements */,
 				8E7D0ACA28391A82006D6DF7 /* Emojis */,
-				8E230880282D543300AF60EB /* GoogleService-Info.plist */,
+				8E3293E0283D83BA00B7CCDC /* Firebase */,
+				8E9C7287283A722600974DAA /* OfficeSports.entitlements */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -248,6 +251,41 @@
 				8E24F4582834A75900BC808B /* MessageWindow.swift */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		8E3293E0283D83BA00B7CCDC /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				8E230880282D543300AF60EB /* GoogleService-Info.plist */,
+			);
+			path = Firebase;
+			sourceTree = "<group>";
+		};
+		8E3293E1283D8E5600B7CCDC /* Invitations */ = {
+			isa = PBXGroup;
+			children = (
+				8E3293E5283D8E8F00B7CCDC /* ViewModels */,
+				8E3293E2283D8E6000B7CCDC /* ViewControllers */,
+			);
+			path = Invitations;
+			sourceTree = "<group>";
+		};
+		8E3293E2283D8E6000B7CCDC /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				8E31E23F28364A6F0085238C /* InvitesViewController.swift */,
+				8E3293E3283D8E8800B7CCDC /* InvitePlayerViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		8E3293E5283D8E8F00B7CCDC /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				8E31E24128364B0A0085238C /* InvitesViewModel.swift */,
+				8E3293E6283D8FBA00B7CCDC /* InvitePlayerViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		8E70C110282AB9BB009A9452 /* Extensions */ = {
@@ -323,7 +361,6 @@
 			children = (
 				8E70C131282AD1F0009A9452 /* SportViewModel.swift */,
 				8E973321283231F40012E236 /* SettingsViewModel.swift */,
-				8E31E24128364B0A0085238C /* InvitesViewModel.swift */,
 				8EF1387E2837FDD3001D8DA6 /* ScannerViewModel.swift */,
 			);
 			path = ViewModels;
@@ -402,6 +439,7 @@
 		8EE62002282AB7AA00C01289 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				8E3293E1283D8E5600B7CCDC /* Invitations */,
 				8E24F4562834A6EB00BC808B /* Common */,
 				8E230870282CFC7D00AF60EB /* Main */,
 				8E23086C282CFC3A00AF60EB /* Onboarding */,
@@ -520,10 +558,12 @@
 				8EF13879283791AE001D8DA6 /* MockSportsAPI.swift in Sources */,
 				8E70C134282AD279009A9452 /* OSSport.swift in Sources */,
 				8E70C11F282AC499009A9452 /* OSMatch.swift in Sources */,
+				8E3293E4283D8E8800B7CCDC /* InvitePlayerViewController.swift in Sources */,
 				8E287F56283B1013005BBE28 /* UIButton+Loading.swift in Sources */,
 				8E70C11C282AC3F2009A9452 /* ScannerViewController.swift in Sources */,
 				8E38B574283B97C8009E0387 /* UIColor+CoreImage.swift in Sources */,
 				8E2EE769283675EF0096659D /* InviteTableViewCell.swift in Sources */,
+				8E3293E7283D8FBA00B7CCDC /* InvitePlayerViewModel.swift in Sources */,
 				8EF1387D2837EEEC001D8DA6 /* MatchTableViewCell.swift in Sources */,
 				8EF1387F2837FDD3001D8DA6 /* ScannerViewModel.swift in Sources */,
 				8E70C121282AC510009A9452 /* OSPlayer.swift in Sources */,

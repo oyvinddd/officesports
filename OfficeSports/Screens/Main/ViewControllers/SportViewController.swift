@@ -46,7 +46,7 @@ final class SportViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupChildViews()
-        configureUI()
+        view.backgroundColor = .clear
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -68,10 +68,6 @@ final class SportViewController: UIViewController {
     
     private func setupChildViews() {
         NSLayoutConstraint.pinToView(view, tableView)
-    }
-    
-    private func configureUI() {
-        view.backgroundColor = .clear
     }
     
     @objc private func refreshPulled(_ sender: UIRefreshControl) {
@@ -130,6 +126,13 @@ extension SportViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        if showScoreboard {
+            // TODO: refactor this code to somewhere else
+            let player = viewModel.scoreboard[indexPath.row]
+            let viewModel = InvitePlayerViewModel(api: FirebaseSportsAPI())
+            let viewController = InvitePlayerViewController(viewModel: viewModel, player: player, sport: self.viewModel.sport)
+            present(viewController, animated: false)
+        }
     }
 }
 

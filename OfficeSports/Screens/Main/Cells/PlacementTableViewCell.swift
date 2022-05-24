@@ -10,7 +10,9 @@ import UIKit
 final class PlacementTableViewCell: UITableViewCell {
     
     private lazy var contentWrap: UIView = {
-        return UIView.createView(.white)
+        let view = UIView.createView(.white)
+        view.isUserInteractionEnabled = false
+        return view
     }()
     
     private lazy var profileImageWrap: UIView = {
@@ -54,7 +56,6 @@ final class PlacementTableViewCell: UITableViewCell {
         backgroundColor = .clear
         selectionStyle = .none
         setupChildViews()
-        contentWrap.isUserInteractionEnabled = false
     }
     
     required init?(coder aDecoder: NSCoder) {

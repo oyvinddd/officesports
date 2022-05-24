@@ -8,5 +8,17 @@
 import Foundation
 
 enum OSSport: Int, Codable {
+    
     case foosball, tableTennis, unknown
+    
+    var humanReadableName: String {
+        switch self {
+        case .foosball:
+            return "foosball"
+        case .tableTennis:
+            return "table tennis"
+        case .unknown:
+            return "unknown sport"
+        }
+    }
 }

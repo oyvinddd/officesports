@@ -24,11 +24,11 @@ final class SportViewModel {
     
     var scoreboard = [OSPlayer]()
     var recentMatches = [OSMatch]()
+    let sport: OSSport
     
     weak var delegate: SportViewModelDelegate?
     
     private let api: SportsAPI
-    private let sport: OSSport
     
     init(api: SportsAPI, sport: OSSport) {
         self.api = api
