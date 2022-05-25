@@ -20,7 +20,7 @@ jobs:
           FB_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
           FB_CLI_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           GITHUB_AUTH: ${{ secrets.GITHUB_AUTH }}
-          MATCH_GIT_BASIC_AUTH: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }},
+          MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }},
         run: |
           bundle install
           bundle exec fastlane ios distribute
