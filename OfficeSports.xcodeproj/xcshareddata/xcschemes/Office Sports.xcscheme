@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8EE61FEA282AB79C00C01289"
-               BuildableName = "Office Sports.app"
+               BuildableName = "OfficeSports.app"
                BlueprintName = "OfficeSports"
                ReferencedContainer = "container:OfficeSports.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8EE61FEA282AB79C00C01289"
-            BuildableName = "Office Sports.app"
+            BuildableName = "OfficeSports.app"
             BlueprintName = "OfficeSports"
             ReferencedContainer = "container:OfficeSports.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8EE61FEA282AB79C00C01289"
-            BuildableName = "Office Sports.app"
+            BuildableName = "OfficeSports.app"
             BlueprintName = "OfficeSports"
             ReferencedContainer = "container:OfficeSports.xcodeproj">
          </BuildableReference>
