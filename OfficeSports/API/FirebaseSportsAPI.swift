@@ -19,6 +19,18 @@ final class FirebaseSportsAPI: SportsAPI {
 
     private let database = Firestore.firestore()
     
+    private var playersCollection: CollectionReference {
+        database.collection(fbPlayersCollection)
+    }
+    
+    private var matchesCollection: CollectionReference {
+        database.collection(fbMatchesCollection)
+    }
+    
+    private var invitesCollection: CollectionReference {
+        database.collection(fbInvitesCollection)
+    }
+    
     func signIn(_ viewController: UIViewController, result: @escaping ((Error?) -> Void)) {
         guard let clientID = FirebaseApp.app()?.options.clientID else {
             return
@@ -56,8 +68,7 @@ final class FirebaseSportsAPI: SportsAPI {
     }
     
     func checkNicknameAvailability(_ nickname: String, result: @escaping ((Error?) -> Void)) {
-        let usersCollection = database.collection(fbPlayersCollection)
-        let query = usersCollection.whereField("nickname", isEqualTo: nickname.lowercased())
+        let query = playersCollection.whereField("nickname", isEqualTo: nickname.lowercased())
         
         query.getDocuments { (snapshot, error) in
             if let error = error {
@@ -75,7 +86,6 @@ final class FirebaseSportsAPI: SportsAPI {
             return
         }
         
-        let playersCollection = database.collection(fbPlayersCollection)
         let data: [String: Any] = ["nickname": nickname, "emoji": emoji]
         
         playersCollection.document(uid).setData(data, mergeFields: Array(data.keys)) { error in
@@ -84,17 +94,29 @@ final class FirebaseSportsAPI: SportsAPI {
     }
     
     func deleteAccount(result: @escaping ((Error?) -> Void)) {
-        result(nil)
+        fatalError("Delete account endpoint has not been implementet yet!")
     }
     
     func getScoreboard(sport: OSSport, result: @escaping (([OSPlayer], Error?) -> Void)) {
-        database.collection(fbPlayersCollection).getDocuments { (snapshot, error) in
-            if let error = error {
-                result([], error)
-            } else {
+        playersCollection.limit(to: 50).getDocuments { (snapshot, error) in
+            guard let error = error else {
                 let players = self.playersFromDocuments(snapshot!.documents)
                 result(players, nil)
+                return
             }
+            result([], error)
+        }
+    }
+    
+    func getMatchHistory(sport: OSSport, result: @escaping (([OSMatch], Error?) -> Void)) {
+        let query = matchesCollection.limit(to: 100).whereField("sport", isEqualTo: sport.rawValue)
+        query.getDocuments { [unowned self] (snapshot, error) in
+            guard let error = error else {
+                let matches = matchesFromDocuments(snapshot!.documents)
+                result(matches, nil)
+                return
+            }
+            result([], error)
         }
     }
     
@@ -104,32 +126,11 @@ final class FirebaseSportsAPI: SportsAPI {
             return
         }
         
-        let playersCollection = database.collection(fbPlayersCollection)
-        
-        database.runTransaction { (transaction, errorPointer) in
+        database.runTransaction { [unowned self] (transaction, errorPointer) in
             
-            playersCollection.document(registration.loserId)
+            self.playersCollection.document(registration.loserId)
             
         } completion: { (object, error) in
-        }
-
-        /*
-        let data: [String: Any] = [:]
-        database.collection(fbMatchesCollection).addDocument(data: data) { error in
-            result(error)
-        }
-        */
-    }
-    
-    func getMatchHistory(sport: OSSport, result: @escaping (([OSMatch], Error?) -> Void)) {
-        let query = database.collection(fbMatchesCollection).whereField("sport", isEqualTo: sport.rawValue)
-        query.getDocuments { [unowned self] (snapshot, error) in
-            if let error = error {
-                result([], error)
-            } else {
-                let matches = matchesFromDocuments(snapshot!.documents)
-                result(matches, nil)
-            }
         }
     }
     
@@ -139,9 +140,15 @@ final class FirebaseSportsAPI: SportsAPI {
             return
         }
         
+        let invitesCollection = database.collection(fbInvitesCollection)
         let invite = OSInvite(date: Date(), sport: sport, inviterId: uid, inviteeId: player.userId, inviteeNickname: player.nickname)
         
-        database.collection(fbInvitesCollection).addDocument(data: [:]) { error in
+        do {
+            let data = try Firestore.Encoder().encode(invite)
+            invitesCollection.addDocument(data: data) { error in
+                result(error)
+            }
+        } catch let error {
             result(error)
         }
     }
@@ -152,9 +159,24 @@ final class FirebaseSportsAPI: SportsAPI {
             return
         }
         
-        let invitesCollection = database.collection(fbInvitesCollection)
+        let query = invitesCollection.whereField("inviterId", isEqualTo: uid)
         
-        invitesCollection.whereField("inviterId", isEqualTo: uid)
+        query.getDocuments { (querySnapshot, error) in
+            guard let error = error else {
+                var invites = [OSInvite]()
+                for document in querySnapshot!.documents {
+                    do {
+                        let invite = try document.data(as: OSInvite.self)
+                        invites.append(invite)
+                    } catch let error {
+                        result([], error)
+                    }
+                }
+                result(invites, nil)
+                return
+            }
+            result([], error)
+        }
     }
     
     // ##################################
