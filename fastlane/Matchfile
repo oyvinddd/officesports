@@ -1,11 +1,11 @@
-git_url("git@github.com:oyvinddd/officesports-certificates.git")
+git_url("https://github.com/oyvinddd/officesports.git")
 
 storage_mode("git")
 
 type("development") # The default type, can be: appstore, adhoc, enterprise or development
 
-# app_identifier(["tools.fastlane.app", "tools.fastlane.app2"])
-username("oyvind.s.hauge@gmail.com") # Your Apple Developer Portal username
+app_identifier(["com.tietoevry.officesports"])
+username("oyvind.s.hauge@gmail.com")
 
 # For all available options run `fastlane match --help`
 # Remove the # in the beginning of the line to enable the other options
