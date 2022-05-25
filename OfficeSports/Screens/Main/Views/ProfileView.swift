@@ -75,9 +75,16 @@ final class ProfileView: UIView {
         return imageWrap
     }()
     
-    private lazy var sportEmojiLabel: UILabel = {
-        let label = UILabel.createLabel(.black, alignment: .center)
+    private lazy var foosballEmojiLabel: UILabel = {
+        let label = UILabel.createLabel(.black, alignment: .center, text: "⚽️")
         label.font = UIFont.systemFont(ofSize: 32)
+        return label
+    }()
+    
+    private lazy var tableTennisEmojiLabel: UILabel = {
+        let label = UILabel.createLabel(.black, alignment: .center, text: "🏓")
+        label.font = UIFont.systemFont(ofSize: 32)
+        label.alpha = 0
         return label
     }()
     
@@ -117,14 +124,16 @@ final class ProfileView: UIView {
             sportImageWrap.alpha = 1
             codeImageView.image = foosballCodeImage
             sportImageBackground.backgroundColor = UIColor.OS.Sport.foosball
-            sportEmojiLabel.text = "⚽️"
             totalScoreLabel.text = "\(account.foosballScore) pts"
+            foosballEmojiLabel.alpha = 1
+            tableTennisEmojiLabel.alpha = 0
         } else if sport == .tableTennis {
             sportImageWrap.alpha = 1
             codeImageView.image = tableTennisCodeImage
             sportImageBackground.backgroundColor = UIColor.OS.Sport.tableTennis
-            sportEmojiLabel.text = "🏓"
             totalScoreLabel.text = "\(account.tableTennisScore) pts"
+            foosballEmojiLabel.alpha = 0
+            tableTennisEmojiLabel.alpha = 1
         } else {
             sportImageWrap.alpha = 0
         }
@@ -161,7 +170,8 @@ final class ProfileView: UIView {
         NSLayoutConstraint.pinToView(codeImageWrap, codeImageView, padding: 6)
         NSLayoutConstraint.pinToView(profileImageBackground, profileEmjoiLabel)
         NSLayoutConstraint.pinToView(sportImageWrap, sportImageBackground, padding: 5)
-        NSLayoutConstraint.pinToView(sportImageBackground, sportEmojiLabel)
+        NSLayoutConstraint.pinToView(sportImageBackground, foosballEmojiLabel)
+        NSLayoutConstraint.pinToView(sportImageBackground, tableTennisEmojiLabel)
         
         NSLayoutConstraint.activate([
             codeImageWrap.widthAnchor.constraint(equalToConstant: profileImageDiameter),
