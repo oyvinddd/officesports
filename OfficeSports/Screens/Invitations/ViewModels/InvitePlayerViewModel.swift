@@ -12,11 +12,11 @@ protocol InvitePlayerViewModelDelegate: AnyObject {
     func invitePlayerSuccess()
     
     func invitePlayerFailed(with error: Error)
-    
-    func shouldToggleLoading(enabled: Bool)
 }
 
 final class InvitePlayerViewModel {
+    
+    @Published var shouldToggleLoading: Bool = false
     
     private let api: SportsAPI
     
@@ -27,9 +27,12 @@ final class InvitePlayerViewModel {
     }
     
     func invitePlayer(_ player: OSPlayer, sport: OSSport) {
-        delegate?.shouldToggleLoading(enabled: true)
+        shouldToggleLoading = true
+        //delegate?.shouldToggleLoading(enabled: true)
         api.invitePlayer(player, sport: sport) { [unowned self] error in
-            self.delegate?.shouldToggleLoading(enabled: false)
+            
+            shouldToggleLoading = false
+            //self.delegate?.shouldToggleLoading(enabled: false)
             guard let error = error else {
                 self.delegate?.invitePlayerSuccess()
                 return

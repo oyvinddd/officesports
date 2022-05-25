@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 private let kBackgroundMaxFade: CGFloat = 0.6
 private let kBackgroundMinFade: CGFloat = 0
@@ -18,10 +19,9 @@ private let profileImageRadius: CGFloat = profileImageDiameter / 2
 final class InvitePlayerViewController: UIViewController {
     
     private lazy var backgroundView: UIView = {
-        let view = UIView(frame: .zero)
+        let view = UIView.createView(.black)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.addGestureRecognizer(tapRecognizer)
-        view.backgroundColor = .black
         view.alpha = 0
         return view
     }()
@@ -33,7 +33,7 @@ final class InvitePlayerViewController: UIViewController {
         return view
     }()
     
-    private lazy var contentWrapView: UIView = {
+    private lazy var contentWrap: UIView = {
         return UIView.createView(.clear)
     }()
     
@@ -92,6 +92,8 @@ final class InvitePlayerViewController: UIViewController {
         return -dialogView.frame.height
     }
     
+    private var subscribers: [AnyCancellable] = []
+    
     private let viewModel: InvitePlayerViewModel
     private let player: OSPlayer
     private let sport: OSSport
@@ -113,6 +115,12 @@ final class InvitePlayerViewController: UIViewController {
         super.viewDidLoad()
         setupChildViews()
         configureUI()
+        
+        // setup subscribers
+        viewModel.$shouldToggleLoading
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.isHidden, on: inviteButton)
+            .store(in: &subscribers)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -123,10 +131,11 @@ final class InvitePlayerViewController: UIViewController {
     private func setupChildViews() {
         view.addSubview(backgroundView)
         view.addSubview(dialogView)
-        dialogView.addSubview(contentWrapView)
-        contentWrapView.addSubview(profileImageWrap)
-        contentWrapView.addSubview(nicknameLabel)
-        contentWrapView.addSubview(inviteButton)
+        dialogView.addSubview(contentWrap)
+        contentWrap.addSubview(profileImageWrap)
+        contentWrap.addSubview(nicknameLabel)
+        contentWrap.addSubview(totalScoreLabel)
+        contentWrap.addSubview(inviteButton)
         profileImageWrap.addSubview(profileImageBackground)
         
         NSLayoutConstraint.pinToView(profileImageBackground, profileEmjoiLabel)
@@ -139,25 +148,28 @@ final class InvitePlayerViewController: UIViewController {
             dialogView.leftAnchor.constraint(equalTo: view.leftAnchor),
             dialogView.rightAnchor.constraint(equalTo: view.rightAnchor),
             dialogBottomConstraint,
-            contentWrapView.leftAnchor.constraint(equalTo: dialogView.leftAnchor),
-            contentWrapView.rightAnchor.constraint(equalTo: dialogView.rightAnchor),
-            contentWrapView.topAnchor.constraint(equalTo: dialogView.topAnchor),
-            contentWrapView.bottomAnchor.constraint(equalTo: dialogView.safeAreaLayoutGuide.bottomAnchor),
+            contentWrap.leftAnchor.constraint(equalTo: dialogView.leftAnchor),
+            contentWrap.rightAnchor.constraint(equalTo: dialogView.rightAnchor),
+            contentWrap.topAnchor.constraint(equalTo: dialogView.topAnchor),
+            contentWrap.bottomAnchor.constraint(equalTo: dialogView.safeAreaLayoutGuide.bottomAnchor),
             profileImageWrap.widthAnchor.constraint(equalToConstant: profileImageDiameter),
-            profileImageWrap.topAnchor.constraint(equalTo: contentWrapView.topAnchor, constant: 32),
+            profileImageWrap.topAnchor.constraint(equalTo: contentWrap.topAnchor, constant: 32),
             profileImageWrap.heightAnchor.constraint(equalTo: profileImageWrap.widthAnchor),
-            profileImageWrap.centerXAnchor.constraint(equalTo: contentWrapView.centerXAnchor),
+            profileImageWrap.centerXAnchor.constraint(equalTo: contentWrap.centerXAnchor),
             profileImageBackground.leftAnchor.constraint(equalTo: profileImageWrap.leftAnchor, constant: 8),
             profileImageBackground.rightAnchor.constraint(equalTo: profileImageWrap.rightAnchor, constant: -8),
             profileImageBackground.topAnchor.constraint(equalTo: profileImageWrap.topAnchor, constant: 8),
             profileImageBackground.bottomAnchor.constraint(equalTo: profileImageWrap.bottomAnchor, constant: -8),
-            nicknameLabel.leftAnchor.constraint(equalTo: contentWrapView.leftAnchor, constant: 16),
-            nicknameLabel.rightAnchor.constraint(equalTo: contentWrapView.rightAnchor, constant: -16),
+            nicknameLabel.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
+            nicknameLabel.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
             nicknameLabel.topAnchor.constraint(equalTo: profileImageWrap.bottomAnchor, constant: 16),
-            inviteButton.leftAnchor.constraint(equalTo: contentWrapView.leftAnchor, constant: 16),
-            inviteButton.rightAnchor.constraint(equalTo: contentWrapView.rightAnchor, constant: -16),
-            inviteButton.topAnchor.constraint(equalTo: nicknameLabel.bottomAnchor, constant: 32),
-            inviteButton.bottomAnchor.constraint(equalTo: contentWrapView.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            totalScoreLabel.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
+            totalScoreLabel.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
+            totalScoreLabel.topAnchor.constraint(equalTo: nicknameLabel.bottomAnchor, constant: 6),
+            inviteButton.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
+            inviteButton.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
+            inviteButton.topAnchor.constraint(equalTo: totalScoreLabel.bottomAnchor, constant: 32),
+            inviteButton.bottomAnchor.constraint(equalTo: contentWrap.safeAreaLayoutGuide.bottomAnchor, constant: -16),
             inviteButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
@@ -220,9 +232,5 @@ extension InvitePlayerViewController: InvitePlayerViewModelDelegate {
     
     func invitePlayerFailed(with error: Error) {
         Coordinator.global.showMessage(OSMessage(error.localizedDescription, .failure))
-    }
-    
-    func shouldToggleLoading(enabled: Bool) {
-        inviteButton.toggleLoading(enabled)
     }
 }

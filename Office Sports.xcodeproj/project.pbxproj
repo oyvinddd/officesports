@@ -66,6 +66,7 @@
 		8EAB6DA6282BE4B500FA1362 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAB6DA5282BE4B500FA1362 /* Coordinator.swift */; };
 		8EC84E8E282BD5B10093C9A0 /* PlayerProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC84E8D282BD5B10093C9A0 /* PlayerProfileViewController.swift */; };
 		8EDFA363282E418000A51292 /* CompoundField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDFA362282E418000A51292 /* CompoundField.swift */; };
+		8EE32D68283E8D88009AD89C /* plistinject in Resources */ = {isa = PBXBuildFile; fileRef = 8EE32D67283E8D88009AD89C /* plistinject */; };
 		8EE61FEF282AB79C00C01289 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE61FEE282AB79C00C01289 /* AppDelegate.swift */; };
 		8EE61FF3282AB79C00C01289 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE61FF2282AB79C00C01289 /* MainViewController.swift */; };
 		8EE61FF8282AB79D00C01289 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EE61FF7282AB79D00C01289 /* Assets.xcassets */; };
@@ -136,6 +137,7 @@
 		8EAB6DA5282BE4B500FA1362 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		8EC84E8D282BD5B10093C9A0 /* PlayerProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerProfileViewController.swift; sourceTree = "<group>"; };
 		8EDFA362282E418000A51292 /* CompoundField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundField.swift; sourceTree = "<group>"; };
+		8EE32D67283E8D88009AD89C /* plistinject */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = plistinject; sourceTree = "<group>"; };
 		8EE61FEB282AB79C00C01289 /* Office Sports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Office Sports.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EE61FEE282AB79C00C01289 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8EE61FF2282AB79C00C01289 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -401,9 +403,18 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		8EE32D66283E8D66009AD89C /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				8EE32D67283E8D88009AD89C /* plistinject */,
+			);
+			path = Scripts;
+			sourceTree = "<group>";
+		};
 		8EE61FE2282AB79C00C01289 = {
 			isa = PBXGroup;
 			children = (
+				8EE32D66283E8D66009AD89C /* Scripts */,
 				8E70C13B282BAF51009A9452 /* README.md */,
 				8E9C728A283AB93C00974DAA /* fastlane */,
 				8EE61FED282AB79C00C01289 /* OfficeSports */,
@@ -455,6 +466,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8EE61FFF282AB79D00C01289 /* Build configuration list for PBXNativeTarget "Office Sports" */;
 			buildPhases = (
+				8EE32D65283E8D4B009AD89C /* ShellScript */,
 				8EC84E8F282BD68A0093C9A0 /* ShellScript */,
 				8EE61FE7282AB79C00C01289 /* Sources */,
 				8EE61FE8282AB79C00C01289 /* Frameworks */,
@@ -518,6 +530,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8EE32D68283E8D88009AD89C /* plistinject in Resources */,
 				8EE61FFB282AB79D00C01289 /* LaunchScreen.storyboard in Resources */,
 				8EE61FF8282AB79D00C01289 /* Assets.xcassets in Resources */,
 				8E230881282D543300AF60EB /* GoogleService-Info.plist in Resources */,
@@ -545,6 +558,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+		8EE32D65283E8D4B009AD89C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# The plistinject script replaces dummy variables in the GoogleService-Info.plist\n# (used by the Firebase SDK) with actual produciton values stored in environment variables \n${SRCROOT}/Scripts/plistinject\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
