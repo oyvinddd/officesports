@@ -20,7 +20,6 @@ jobs:
           FB_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
           FB_CLI_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           GITHUB_AUTH: ${{ secrets.GITHUB_AUTH }}
-          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           MATCH_GIT_BASIC_AUTH: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }},
         run: |
           bundle install
