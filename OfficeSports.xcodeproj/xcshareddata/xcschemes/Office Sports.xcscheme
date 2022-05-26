@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8EE61FEA282AB79C00C01289"
                BuildableName = "Office Sports.app"
-               BlueprintName = "Office Sports"
-               ReferencedContainer = "container:Office Sports.xcodeproj">
+               BlueprintName = "OfficeSports"
+               ReferencedContainer = "container:OfficeSports.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -46,8 +46,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8EE61FEA282AB79C00C01289"
             BuildableName = "Office Sports.app"
-            BlueprintName = "Office Sports"
-            ReferencedContainer = "container:Office Sports.xcodeproj">
+            BlueprintName = "OfficeSports"
+            ReferencedContainer = "container:OfficeSports.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -63,8 +63,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8EE61FEA282AB79C00C01289"
             BuildableName = "Office Sports.app"
-            BlueprintName = "Office Sports"
-            ReferencedContainer = "container:Office Sports.xcodeproj">
+            BlueprintName = "OfficeSports"
+            ReferencedContainer = "container:OfficeSports.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
@@ -73,6 +73,7 @@
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"
+      customArchiveName = "OfficeSports"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

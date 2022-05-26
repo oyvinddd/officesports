@@ -9,16 +9,40 @@ import UIKit
 
 final class MockSportsAPI: SportsAPI {
 
+    private static let fs = [
+        OSStats(sport: .foosball, totalScore: 0, totalMatches: 1),
+        OSStats(sport: .foosball, totalScore: 1, totalMatches: 0),
+        OSStats(sport: .foosball, totalScore: 0, totalMatches: 0),
+        OSStats(sport: .foosball, totalScore: 11, totalMatches: 10),
+        OSStats(sport: .foosball, totalScore: 0, totalMatches: 0),
+        OSStats(sport: .foosball, totalScore: 0, totalMatches: 7),
+        OSStats(sport: .foosball, totalScore: 44, totalMatches: 10),
+        OSStats(sport: .foosball, totalScore: 0, totalMatches: 0),
+        OSStats(sport: .foosball, totalScore: 100, totalMatches: 0)
+    ]
+    
+    private static let tts = [
+        OSStats(sport: .tableTennis, totalScore: 0, totalMatches: 1),
+        OSStats(sport: .tableTennis, totalScore: 1, totalMatches: 0),
+        OSStats(sport: .tableTennis, totalScore: 0, totalMatches: 0),
+        OSStats(sport: .tableTennis, totalScore: 11, totalMatches: 10),
+        OSStats(sport: .tableTennis, totalScore: 0, totalMatches: 0),
+        OSStats(sport: .tableTennis, totalScore: 0, totalMatches: 7),
+        OSStats(sport: .tableTennis, totalScore: 44, totalMatches: 10),
+        OSStats(sport: .tableTennis, totalScore: 0, totalMatches: 0),
+        OSStats(sport: .tableTennis, totalScore: 100, totalMatches: 0)
+    ]
+    
     private let players = [
-        OSPlayer(userId: "id#1", nickname: "oyvindhauge", emoji: "🙃", foosballScore: 1699, tableTennisScore: 1550, matchesPlayed: 0),
-        OSPlayer(userId: "id#2", nickname: "heimegut", emoji: "💩", foosballScore: 1558, tableTennisScore: 1500, matchesPlayed: 0),
-        OSPlayer(userId: "id#3", nickname: "salmaaan", emoji: "🧐", foosballScore: 1619, tableTennisScore: 905, matchesPlayed: 0),
-        OSPlayer(userId: "id#4", nickname: "patidati", emoji: "👻", foosballScore: 2100, tableTennisScore: 1480, matchesPlayed: 0),
-        OSPlayer(userId: "id#5", nickname: "sekse", emoji: "🤖", foosballScore: 1558, tableTennisScore: 1200, matchesPlayed: 0),
-        OSPlayer(userId: "id#6", nickname: "dimling", emoji: "👨🏻‍🎨", foosballScore: 1498, tableTennisScore: 1100, matchesPlayed: 0),
-        OSPlayer(userId: "id#7", nickname: "konstant", emoji: "☀️", foosballScore: 1570, tableTennisScore: 1220, matchesPlayed: 0),
-        OSPlayer(userId: "id#8", nickname: "eirik", emoji: "👑", foosballScore: 1300, tableTennisScore: 912, matchesPlayed: 0),
-        OSPlayer(userId: "id#9", nickname: "panzertax", emoji: "🐹", foosballScore: 1483, tableTennisScore: 1799, matchesPlayed: 0)
+        OSPlayer(userId: "id#1", nickname: "oyvindhauge", emoji: "🙃", foosballStats: fs[0], tableTennisStats: tts[0]),
+        OSPlayer(userId: "id#2", nickname: "heimegut", emoji: "💩", foosballStats: fs[1], tableTennisStats: tts[1]),
+        OSPlayer(userId: "id#3", nickname: "salmaaan", emoji: "🧐", foosballStats: fs[2], tableTennisStats: tts[2]),
+        OSPlayer(userId: "id#4", nickname: "patidati", emoji: "👻", foosballStats: fs[3], tableTennisStats: tts[3]),
+        OSPlayer(userId: "id#5", nickname: "sekse", emoji: "🤖", foosballStats: fs[4], tableTennisStats: tts[4]),
+        OSPlayer(userId: "id#6", nickname: "dimling", emoji: "👨🏻‍🎨", foosballStats: fs[5], tableTennisStats: tts[5]),
+        OSPlayer(userId: "id#7", nickname: "konstant", emoji: "☀️", foosballStats: fs[6], tableTennisStats: tts[6]),
+        OSPlayer(userId: "id#8", nickname: "eirik", emoji: "👑", foosballStats: fs[7], tableTennisStats: tts[7]),
+        OSPlayer(userId: "id#9", nickname: "panzertax", emoji: "🐹", foosballStats: fs[8], tableTennisStats: tts[8])
     ]
     
     private lazy var scoreboard: [OSPlayer] = {
@@ -66,9 +90,9 @@ final class MockSportsAPI: SportsAPI {
     func getScoreboard(sport: OSSport, result: @escaping (([OSPlayer], Error?) -> Void)) {
         var sortedScoreboard: [OSPlayer] = []
         if sport == .foosball {
-            sortedScoreboard = scoreboard.sorted(by: { $0.foosballScore > $1.foosballScore })
+            sortedScoreboard = scoreboard.sorted(by: { $0.foosballStats.totalScore > $1.foosballStats.totalScore })
         } else if sport == .tableTennis {
-            sortedScoreboard = scoreboard.sorted(by: { $0.tableTennisScore > $1.tableTennisScore })
+            sortedScoreboard = scoreboard.sorted(by: { $0.tableTennisStats.totalScore > $1.tableTennisStats.totalScore })
         }
         result(sortedScoreboard, nil)
     }

@@ -20,16 +20,6 @@ final class MainViewController: UIViewController {
         return ProfileView(account: OSAccount.current)
     }()
     
-    private lazy var invitesButton: UIButton = {
-        let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .semibold, scale: .large)
-        let image = UIImage(systemName: "bell.fill", withConfiguration: config)
-        let button = UIButton.createButton(.clear, .clear, title: nil)
-        button.addTarget(self, action: #selector(invitesButtonTapped), for: .touchUpInside)
-        button.tintColor = UIColor.OS.Text.normal
-        button.setImage(image, for: .normal)
-        return button
-    }()
-    
     private lazy var settingsButton: UIButton = {
         let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .semibold, scale: .large)
         let image = UIImage(systemName: "gearshape.fill", withConfiguration: config)
@@ -102,7 +92,6 @@ final class MainViewController: UIViewController {
         
         scrollView.addSubview(stackView)
         
-        view.addSubview(invitesButton)
         view.addSubview(settingsButton)
         view.addSubview(floatingMenu)
         
@@ -115,10 +104,6 @@ final class MainViewController: UIViewController {
             stackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             stackView.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor),
-            invitesButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
-            invitesButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            invitesButton.widthAnchor.constraint(equalToConstant: 50),
-            invitesButton.heightAnchor.constraint(equalTo: invitesButton.widthAnchor),
             settingsButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
             settingsButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
             settingsButton.widthAnchor.constraint(equalToConstant: 50),
@@ -164,11 +149,6 @@ final class MainViewController: UIViewController {
     
     private func scrollToViewController(_ viewController: UIViewController, animated: Bool = false) {
         scrollView.scrollRectToVisible(viewController.view.frame, animated: animated)
-    }
-    
-    @objc private func invitesButtonTapped(_ sender: UIButton) {
-        // UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-        // Coordinator.global.presentSettings(from: self)
     }
     
     @objc private func settingsButtonTapped(_ sender: UIButton) {

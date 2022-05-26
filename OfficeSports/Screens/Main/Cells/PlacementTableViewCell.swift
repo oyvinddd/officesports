@@ -68,7 +68,7 @@ final class PlacementTableViewCell: UITableViewCell {
         profileImageWrap.backgroundColor = UIColor.OS.hashedProfileColor(nickname: player.nickname)
         profileEmojiLabel.text = player.emoji
         usernameLabel.text = player.nickname.lowercased()
-        scoreLabel.text = "\(player.foosballScore) pts"
+        scoreLabel.text = "\(player.foosballStats.totalScore) pts"
     }
     
     private func applyCornerRadius(isFirstElement: Bool, isLastElement: Bool) {

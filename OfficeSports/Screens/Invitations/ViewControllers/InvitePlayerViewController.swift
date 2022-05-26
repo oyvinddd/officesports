@@ -64,9 +64,9 @@ final class InvitePlayerViewController: UIViewController {
         return label
     }()
     
-    private lazy var totalScoreLabel: UILabel = {
+    private lazy var playerDetailsLabel: UILabel = {
         let label = UILabel.createLabel(UIColor.OS.Text.subtitle, alignment: .center)
-        label.font = UIFont.systemFont(ofSize: 24)
+        label.font = UIFont.systemFont(ofSize: 20)
         label.numberOfLines = 1
         return label
     }()
@@ -134,7 +134,7 @@ final class InvitePlayerViewController: UIViewController {
         dialogView.addSubview(contentWrap)
         contentWrap.addSubview(profileImageWrap)
         contentWrap.addSubview(nicknameLabel)
-        contentWrap.addSubview(totalScoreLabel)
+        contentWrap.addSubview(playerDetailsLabel)
         contentWrap.addSubview(inviteButton)
         profileImageWrap.addSubview(profileImageBackground)
         
@@ -163,12 +163,12 @@ final class InvitePlayerViewController: UIViewController {
             nicknameLabel.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
             nicknameLabel.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
             nicknameLabel.topAnchor.constraint(equalTo: profileImageWrap.bottomAnchor, constant: 16),
-            totalScoreLabel.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
-            totalScoreLabel.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
-            totalScoreLabel.topAnchor.constraint(equalTo: nicknameLabel.bottomAnchor, constant: 6),
+            playerDetailsLabel.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
+            playerDetailsLabel.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
+            playerDetailsLabel.topAnchor.constraint(equalTo: nicknameLabel.bottomAnchor, constant: 6),
             inviteButton.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
             inviteButton.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
-            inviteButton.topAnchor.constraint(equalTo: totalScoreLabel.bottomAnchor, constant: 32),
+            inviteButton.topAnchor.constraint(equalTo: playerDetailsLabel.bottomAnchor, constant: 32),
             inviteButton.bottomAnchor.constraint(equalTo: contentWrap.safeAreaLayoutGuide.bottomAnchor, constant: -16),
             inviteButton.heightAnchor.constraint(equalToConstant: 50)
         ])
@@ -178,6 +178,8 @@ final class InvitePlayerViewController: UIViewController {
         view.backgroundColor = .clear
         profileEmjoiLabel.text = player.emoji
         nicknameLabel.text = player.nickname
+        let stats = player.statsForSport(sport)
+        playerDetailsLabel.text = "\(stats.totalScore) pts • \(stats.totalMatches) matches"
     }
     
     private func toggleDialog(enabled: Bool) {

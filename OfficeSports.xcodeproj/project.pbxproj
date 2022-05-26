@@ -32,7 +32,6 @@
 		8E38B57A283BCBC8009E0387 /* OSMatchRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B579283BCBC8009E0387 /* OSMatchRegistration.swift */; };
 		8E38B57C283C39A2009E0387 /* UserDefaultsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B57B283C39A2009E0387 /* UserDefaultsHelper.swift */; };
 		8E38B57E283C3D01009E0387 /* AchievementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B57D283C3D01009E0387 /* AchievementsViewController.swift */; };
-		8E38B580283C4F5F009E0387 /* KeyboardLayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B57F283C4F5F009E0387 /* KeyboardLayoutConstraint.swift */; };
 		8E38B582283C5895009E0387 /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B581283C5895009E0387 /* PreferencesViewController.swift */; };
 		8E6DF2992834CEB20009ACA1 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 8E6DF2982834CEB20009ACA1 /* FirebaseFirestore */; };
 		8E6DF29B2834CEB20009ACA1 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8E6DF29A2834CEB20009ACA1 /* FirebaseFirestoreSwift */; };
@@ -104,7 +103,6 @@
 		8E38B579283BCBC8009E0387 /* OSMatchRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSMatchRegistration.swift; sourceTree = "<group>"; };
 		8E38B57B283C39A2009E0387 /* UserDefaultsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsHelper.swift; sourceTree = "<group>"; };
 		8E38B57D283C3D01009E0387 /* AchievementsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsViewController.swift; sourceTree = "<group>"; };
-		8E38B57F283C4F5F009E0387 /* KeyboardLayoutConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardLayoutConstraint.swift; sourceTree = "<group>"; };
 		8E38B581283C5895009E0387 /* PreferencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesViewController.swift; sourceTree = "<group>"; };
 		8E70C111282ABA4E009A9452 /* NSLayoutConstraint+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Util.swift"; sourceTree = "<group>"; };
 		8E70C113282ABC56009A9452 /* SportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportViewController.swift; sourceTree = "<group>"; };
@@ -140,7 +138,7 @@
 		8EC84E8D282BD5B10093C9A0 /* PlayerProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerProfileViewController.swift; sourceTree = "<group>"; };
 		8EDFA362282E418000A51292 /* CompoundField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundField.swift; sourceTree = "<group>"; };
 		8EE32D67283E8D88009AD89C /* plistinject */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = plistinject; sourceTree = "<group>"; };
-		8EE61FEB282AB79C00C01289 /* Office Sports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Office Sports.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8EE61FEB282AB79C00C01289 /* OfficeSports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OfficeSports.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EE61FEE282AB79C00C01289 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8EE61FF2282AB79C00C01289 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		8EE61FF7282AB79D00C01289 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -384,7 +382,6 @@
 			children = (
 				8E7D9A7E282BEF66007BCDE0 /* CodeGen.swift */,
 				8E38B57B283C39A2009E0387 /* UserDefaultsHelper.swift */,
-				8E38B57F283C4F5F009E0387 /* KeyboardLayoutConstraint.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -436,7 +433,7 @@
 		8EE61FEC282AB79C00C01289 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8EE61FEB282AB79C00C01289 /* Office Sports.app */,
+				8EE61FEB282AB79C00C01289 /* OfficeSports.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -473,9 +470,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8EE61FEA282AB79C00C01289 /* Office Sports */ = {
+		8EE61FEA282AB79C00C01289 /* OfficeSports */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8EE61FFF282AB79D00C01289 /* Build configuration list for PBXNativeTarget "Office Sports" */;
+			buildConfigurationList = 8EE61FFF282AB79D00C01289 /* Build configuration list for PBXNativeTarget "OfficeSports" */;
 			buildPhases = (
 				8EE32D65283E8D4B009AD89C /* ShellScript */,
 				8EC84E8F282BD68A0093C9A0 /* ShellScript */,
@@ -487,7 +484,7 @@
 			);
 			dependencies = (
 			);
-			name = "Office Sports";
+			name = OfficeSports;
 			packageProductDependencies = (
 				8E23087D282D530300AF60EB /* FirebaseAuth */,
 				8E230883282D567D00AF60EB /* GoogleSignIn */,
@@ -495,7 +492,7 @@
 				8E6DF29A2834CEB20009ACA1 /* FirebaseFirestoreSwift */,
 			);
 			productName = "Office Sports";
-			productReference = 8EE61FEB282AB79C00C01289 /* Office Sports.app */;
+			productReference = 8EE61FEB282AB79C00C01289 /* OfficeSports.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -513,7 +510,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 8EE61FE6282AB79C00C01289 /* Build configuration list for PBXProject "Office Sports" */;
+			buildConfigurationList = 8EE61FE6282AB79C00C01289 /* Build configuration list for PBXProject "OfficeSports" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -531,7 +528,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8EE61FEA282AB79C00C01289 /* Office Sports */,
+				8EE61FEA282AB79C00C01289 /* OfficeSports */,
 			);
 		};
 /* End PBXProject section */
@@ -609,7 +606,6 @@
 				8EF1387F2837FDD3001D8DA6 /* ScannerViewModel.swift in Sources */,
 				8E70C121282AC510009A9452 /* OSPlayer.swift in Sources */,
 				8E973322283231F40012E236 /* SettingsViewModel.swift in Sources */,
-				8E38B580283C4F5F009E0387 /* KeyboardLayoutConstraint.swift in Sources */,
 				8EA21271283EF18A00B37315 /* AppButton.swift in Sources */,
 				8E38B576283BC5AD009E0387 /* Bundle+Version.swift in Sources */,
 				8E70C117282ABD3E009A9452 /* FloatingMenu.swift in Sources */,
@@ -855,7 +851,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8EE61FE6282AB79C00C01289 /* Build configuration list for PBXProject "Office Sports" */ = {
+		8EE61FE6282AB79C00C01289 /* Build configuration list for PBXProject "OfficeSports" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8EE61FFD282AB79D00C01289 /* Debug */,
@@ -864,7 +860,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8EE61FFF282AB79D00C01289 /* Build configuration list for PBXNativeTarget "Office Sports" */ = {
+		8EE61FFF282AB79D00C01289 /* Build configuration list for PBXNativeTarget "OfficeSports" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8EE62000282AB79D00C01289 /* Debug */,
