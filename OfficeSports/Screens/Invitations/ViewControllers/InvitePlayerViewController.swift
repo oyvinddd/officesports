@@ -66,7 +66,7 @@ final class InvitePlayerViewController: UIViewController {
     
     private lazy var playerDetailsLabel: UILabel = {
         let label = UILabel.createLabel(UIColor.OS.Text.subtitle, alignment: .center)
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.font = UIFont.systemFont(ofSize: 18)
         label.numberOfLines = 1
         return label
     }()
