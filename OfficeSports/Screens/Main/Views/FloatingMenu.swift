@@ -12,13 +12,13 @@ import AudioToolbox
 
 protocol FloatingMenuDelegate: AnyObject {
     
-    func displayCodeButtonTapped()
-    
-    func toggleCameraButtonTapped()
+    func scannerButtonTapped()
     
     func foosballButtonTapped()
     
     func tableTennisButtonTapped()
+    
+    func invitesButtonTapped()
 }
 
 final class FloatingMenu: UIView {
@@ -27,29 +27,29 @@ final class FloatingMenu: UIView {
         return UIStackView.createStackView(.clear, axis: .horizontal, spacing: 4)
     }()
     
-    private lazy var mbFoosballButton: MenuButton = {
+    private lazy var mbScanner: MenuButton = {
+        let button = MenuButton(.clear, image: UIImage(systemName: "qrcode.viewfinder", withConfiguration: buttonImageConfig))
+        button.addTarget(self, action: #selector(scannerButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var mbFoosball: MenuButton = {
         let image = UIImage(named: "Soccer")!.withRenderingMode(.alwaysTemplate)
         let button = MenuButton(.clear, image: image)
         button.addTarget(self, action: #selector(foosballButtonTapped), for: .touchUpInside)
         return button
     }()
     
-    private lazy var mbTableTennisButton: MenuButton = {
+    private lazy var mbTableTennis: MenuButton = {
         let image = UIImage(named: "TableTennis")!.withRenderingMode(.alwaysTemplate)
         let button = MenuButton(.clear, image: image)
         button.addTarget(self, action: #selector(tableTennisButtonTapped), for: .touchUpInside)
         return button
     }()
     
-    private lazy var mbToggleCamera: MenuButton = {
-        let button = MenuButton(.clear, image: UIImage(systemName: "qrcode.viewfinder", withConfiguration: buttonImageConfig))
-        button.addTarget(self, action: #selector(toggleCameraButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    private lazy var mbShowQrCode: MenuButton = {
-        let button = MenuButton(.clear, image: UIImage(systemName: "qrcode", withConfiguration: buttonImageConfig))
-        button.addTarget(self, action: #selector(displayCodeButtonTapped), for: .touchUpInside)
+    private lazy var mbInvites: MenuButton = {
+        let button = MenuButton(.clear, image: UIImage(systemName: "bell.badge", withConfiguration: buttonImageConfig))
+        button.addTarget(self, action: #selector(invitesButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -75,15 +75,6 @@ final class FloatingMenu: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func toggleCameraMode(enabled: Bool, animated: Bool = true) {
-        let icon = enabled ? "xmark" : "qrcode.viewfinder"
-        let image = UIImage(systemName: icon, withConfiguration: buttonImageConfig)
-        mbToggleCamera.setImage(image, for: .normal)
-        mbFoosballButton.toggle(enabled: !enabled)
-        mbTableTennisButton.toggle(enabled: !enabled)
-        mbShowQrCode.toggle(enabled: !enabled)
-    }
-    
     func toggleButtonAtIndex(_ index: Int, enabled: Bool) {
         if let buttons = stackView.arrangedSubviews as? [MenuButton] {
             guard index >= 0 && index < 4 else {
@@ -96,10 +87,10 @@ final class FloatingMenu: UIView {
     private func setupChildViews() {
         NSLayoutConstraint.pinToView(self, stackView, padding: 4)
         
-        stackView.addArrangedSubview(mbToggleCamera)
-        stackView.addArrangedSubview(mbShowQrCode)
-        stackView.addArrangedSubview(mbFoosballButton)
-        stackView.addArrangedSubview(mbTableTennisButton)
+        stackView.addArrangedSubview(mbScanner)
+        stackView.addArrangedSubview(mbFoosball)
+        stackView.addArrangedSubview(mbTableTennis)
+        stackView.addArrangedSubview(mbInvites)
     }
     
     private func configureUI() {
@@ -109,6 +100,11 @@ final class FloatingMenu: UIView {
     }
     
     // MARK: - Button Handling
+    
+    @objc private func scannerButtonTapped(_ sender: MenuButton) {
+        feedbackGenerator.impactOccurred()
+        delegate?.scannerButtonTapped()
+    }
     
     @objc private func foosballButtonTapped(_ sender: MenuButton) {
         feedbackGenerator.impactOccurred()
@@ -120,14 +116,9 @@ final class FloatingMenu: UIView {
         delegate?.tableTennisButtonTapped()
     }
     
-    @objc private func toggleCameraButtonTapped(_ sender: MenuButton) {
+    @objc private func invitesButtonTapped(_ sender: MenuButton) {
         feedbackGenerator.impactOccurred()
-        delegate?.toggleCameraButtonTapped()
-    }
-    
-    @objc private func displayCodeButtonTapped(_ sender: MenuButton) {
-        feedbackGenerator.impactOccurred()
-        delegate?.displayCodeButtonTapped()
+        delegate?.invitesButtonTapped()
     }
 }
 
