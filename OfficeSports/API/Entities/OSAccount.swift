@@ -34,13 +34,14 @@ final class OSAccount: Codable {
                 let emoji = emoji else {
             return nil
         }
+        let foosballStats = OSStats(sport: .foosball, totalScore: 0, totalMatches: 10)
+        let tableTennisStats = OSStats(sport: .tableTennis, totalScore: 12, totalMatches: 40)
         return OSPlayer(
             userId: uid,
             nickname: nickname,
             emoji: emoji,
-            foosballScore: foosballScore,
-            tableTennisScore: tableTennisScore,
-            matchesPlayed: 0
+            foosballStats: foosballStats,
+            tableTennisStats: tableTennisStats
         )
     }
     
