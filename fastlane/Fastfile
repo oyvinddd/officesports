@@ -16,7 +16,7 @@ platform :ios do
         )
         # Build and sign iOS app
         build_ios_app(
-            scheme: "Office Sports",
+            scheme: "OfficeSports",
             clean: true,
             output_directory: "build",
             output_name: "OfficeSports.ipa",
