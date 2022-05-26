@@ -139,6 +139,10 @@ final class FirebaseSportsAPI: SportsAPI {
             result(OSError.unauthorized)
             return
         }
+        guard uid != player.userId else {
+            result(OSError.invalidInvite)
+            return
+        }
         
         let invitesCollection = database.collection(fbInvitesCollection)
         let invite = OSInvite(date: Date(), sport: sport, inviterId: uid, inviteeId: player.userId, inviteeNickname: player.nickname)

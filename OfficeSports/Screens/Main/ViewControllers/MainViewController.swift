@@ -222,15 +222,14 @@ extension MainViewController: UIScrollViewDelegate {
     private func configureProfileView(scrollView: UIScrollView) {
         let xOffset = scrollView.contentOffset.x
         let width = scrollView.frame.width
-        if xOffset < width { // invites screen is showing
-            floatingMenu.toggleButtonAtIndex(2, enabled: false)
+        if xOffset < width { // camera screen is showing
             profileView.configureForSport(.unknown)
         } else if xOffset < width * 2 { // foosball screen is showing
-            floatingMenu.toggleButtonAtIndex(2, enabled: true)
             profileView.configureForSport(.foosball)
-        } else if xOffset >= width * 2 { // table tennis screen is showing
-            floatingMenu.toggleButtonAtIndex(2, enabled: true)
+        } else if xOffset < width * 3 { // table tennis screen is showing
             profileView.configureForSport(.tableTennis)
+        } else if xOffset >= width * 3 { // invites screen is showing
+            profileView.configureForSport(.unknown)
         }
     }
 }

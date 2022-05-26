@@ -229,7 +229,7 @@ extension InvitePlayerViewController: InvitePlayerViewModelDelegate {
     func invitePlayerSuccess() {
         let message = OSMessage("You have invited \(player.nickname) to a game of \(sport.humanReadableName)", .success)
         Coordinator.global.showMessage(message)
-        dismiss()
+        toggleDialog(enabled: false)
     }
     
     func invitePlayerFailed(with error: Error) {

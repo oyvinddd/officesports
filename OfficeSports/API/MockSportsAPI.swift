@@ -34,7 +34,7 @@ final class MockSportsAPI: SportsAPI {
     ]
     
     private let players = [
-        OSPlayer(userId: "id#1", nickname: "oyvindhauge", emoji: "🙃", foosballStats: fs[0], tableTennisStats: tts[0]),
+        OSAccount.current.player!,
         OSPlayer(userId: "id#2", nickname: "heimegut", emoji: "💩", foosballStats: fs[1], tableTennisStats: tts[1]),
         OSPlayer(userId: "id#3", nickname: "salmaaan", emoji: "🧐", foosballStats: fs[2], tableTennisStats: tts[2]),
         OSPlayer(userId: "id#4", nickname: "patidati", emoji: "👻", foosballStats: fs[3], tableTennisStats: tts[3]),

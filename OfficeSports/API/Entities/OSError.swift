@@ -27,6 +27,8 @@ enum OSError: LocalizedError {
     
     case nicknameTooLong
     
+    case invalidInvite
+    
     var errorDescription: String? {
         switch self {
         case .unauthorized:
@@ -47,6 +49,8 @@ enum OSError: LocalizedError {
             return "Nickname is too short"
         case .nicknameTooLong:
             return "Nickname is too long"
+        case .invalidInvite:
+            return "You cannot invite yourself dumbass!"
         }
     }
 }
