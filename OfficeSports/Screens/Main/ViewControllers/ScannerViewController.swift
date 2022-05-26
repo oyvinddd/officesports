@@ -14,8 +14,8 @@ final class ScannerViewController: UIViewController {
         return UILabel.createLabel(.white, alignment: .left, text: "You need to activate the camera in order to register match scores.")
     }()
     
-    private lazy var activateCameraButton: UIButton = {
-        let button = UIButton.createButton(.white, UIColor.OS.General.main, title: "Activate camera")
+    private lazy var activateCameraButton: AppButton = {
+        let button = AppButton(.white, UIColor.OS.General.main, .black, "Help")
         button.addTarget(self, action: #selector(activateCameraButtonTapped), for: .touchUpInside)
         return button
     }()

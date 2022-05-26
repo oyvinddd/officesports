@@ -30,10 +30,8 @@ final class MainViewController: UIViewController {
         return button
     }()
     
-    private lazy var outerScrollView: UIScrollView = {
-        let scrollView = UIScrollView.createScrollView(.clear, delegate: self)
-        scrollView.bounces = false
-        return scrollView
+    private lazy var outerScrollView: PassthroughScrollView = {
+        return UIScrollView.createPassthroughScrollView(.clear, delegate: self)
     }()
     
     private lazy var innerScrollView: UIScrollView = {
@@ -42,8 +40,12 @@ final class MainViewController: UIViewController {
         return scrollView
     }()
 
-    private lazy var outerStackView: UIStackView = {
-        return UIStackView.createStackView(.clear, axis: .horizontal)
+    private lazy var outerStackView: PassthroughStackView = {
+        let stackView = PassthroughStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.distribution = .fillEqually
+        stackView.axis = .horizontal
+        return stackView
     }()
     
     private lazy var innerStackView: UIStackView = {
@@ -95,8 +97,6 @@ final class MainViewController: UIViewController {
         
         NSLayoutConstraint.pinToView(view, outerScrollView)
         
-        //NSLayoutConstraint.pinToView(view, contentWrap)
-        
         sportAndProfileWrap.addSubview(profileView)
         
         NSLayoutConstraint.pinToView(sportAndProfileWrap, innerScrollView)
@@ -105,6 +105,8 @@ final class MainViewController: UIViewController {
         innerScrollView.addSubview(innerStackView)
         
         let placeholderView = UIView.createView(.clear)
+        placeholderView.isUserInteractionEnabled = false
+        
         outerStackView.addArrangedSubview(placeholderView)
         outerStackView.addArrangedSubview(sportAndProfileWrap)
         

@@ -13,6 +13,10 @@ extension UIView {
         let view = UIView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = backgroundColor
+        if cornerRadius > 0 {
+            view.layer.masksToBounds = true
+            view.layer.cornerRadius = cornerRadius
+        }
         return view
     }
 }
@@ -21,6 +25,18 @@ extension UIScrollView {
     
     class func createScrollView(_ backgroundColor: UIColor, delegate: UIScrollViewDelegate?) -> UIScrollView {
         let scrollView = UIScrollView(frame: .zero)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.delegate = delegate
+        scrollView.backgroundColor = backgroundColor
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.isPagingEnabled = true
+        scrollView.bounces = false
+        return scrollView
+    }
+    
+    class func createPassthroughScrollView(_ backgroundColor: UIColor, delegate: UIScrollViewDelegate?) -> PassthroughScrollView {
+        let scrollView = PassthroughScrollView(frame: .zero)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.delegate = delegate
         scrollView.backgroundColor = backgroundColor
