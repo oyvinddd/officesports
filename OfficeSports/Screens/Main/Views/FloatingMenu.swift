@@ -93,7 +93,6 @@ final class FloatingMenu: UIView {
         } else if xOffsetPercent > 75 {
             xOffsetPercent = 75
         }
-        print(xOffsetPercent)
         selectedViewLeftConstraint!.constant = xOffsetPercent * frame.width / 100
     }
     
