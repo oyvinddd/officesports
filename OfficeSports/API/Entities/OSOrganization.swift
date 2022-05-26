@@ -9,4 +9,9 @@ import Foundation
 
 struct OSOrganization {
     
+    var orgId: String
+    
+    var name: String
+    
+    var pinCode: Int?
 }

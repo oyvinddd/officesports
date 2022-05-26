@@ -12,7 +12,7 @@ private let scannerDelayDuration: TimeInterval = 0  // seconds
 
 final class MainViewController: UIViewController {
     
-    private lazy var contentWrap: UIView = {
+    private lazy var sportAndProfileWrap: UIView = {
         return UIView.createView(UIColor.OS.General.background)
     }()
     
@@ -30,11 +30,23 @@ final class MainViewController: UIViewController {
         return button
     }()
     
-    private lazy var scrollView: UIScrollView = {
-        return UIScrollView.createScrollView(.clear, delegate: self)
+    private lazy var outerScrollView: UIScrollView = {
+        let scrollView = UIScrollView.createScrollView(.clear, delegate: self)
+        scrollView.bounces = false
+        return scrollView
     }()
     
-    private lazy var stackView: UIStackView = {
+    private lazy var innerScrollView: UIScrollView = {
+        let scrollView = UIScrollView.createScrollView(.clear, delegate: self)
+        scrollView.bounces = false
+        return scrollView
+    }()
+
+    private lazy var outerStackView: UIStackView = {
+        return UIStackView.createStackView(.clear, axis: .horizontal)
+    }()
+    
+    private lazy var innerStackView: UIStackView = {
         return UIStackView.createStackView(.clear, axis: .horizontal)
     }()
     
@@ -62,8 +74,6 @@ final class MainViewController: UIViewController {
         return SportViewController(viewModel: viewModel, delegate: self)
     }()
     
-    private var cameraIsShowing: Bool = false
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupChildViews()
@@ -83,26 +93,42 @@ final class MainViewController: UIViewController {
     private func setupChildViews() {
         view.addSubview(scannerViewController.view!)
         
-        NSLayoutConstraint.pinToView(view, contentWrap)
+        NSLayoutConstraint.pinToView(view, outerScrollView)
         
-        contentWrap.addSubview(profileView)
+        //NSLayoutConstraint.pinToView(view, contentWrap)
         
-        NSLayoutConstraint.pinToView(contentWrap, scrollView)
+        sportAndProfileWrap.addSubview(profileView)
         
-        scrollView.addSubview(stackView)
+        NSLayoutConstraint.pinToView(sportAndProfileWrap, innerScrollView)
+        
+        outerScrollView.addSubview(outerStackView)
+        innerScrollView.addSubview(innerStackView)
+        
+        let placeholderView = UIView.createView(.clear)
+        outerStackView.addArrangedSubview(placeholderView)
+        outerStackView.addArrangedSubview(sportAndProfileWrap)
         
         view.addSubview(settingsButton)
         view.addSubview(floatingMenu)
         
         NSLayoutConstraint.activate([
-            profileView.leftAnchor.constraint(equalTo: contentWrap.leftAnchor),
-            profileView.rightAnchor.constraint(equalTo: contentWrap.rightAnchor),
-            profileView.topAnchor.constraint(equalTo: contentWrap.topAnchor),
-            stackView.leftAnchor.constraint(equalTo: scrollView.leftAnchor),
-            stackView.rightAnchor.constraint(equalTo: scrollView.rightAnchor),
-            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            stackView.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor),
+            placeholderView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            placeholderView.heightAnchor.constraint(equalTo: view.heightAnchor),
+            sportAndProfileWrap.widthAnchor.constraint(equalTo: view.widthAnchor),
+            sportAndProfileWrap.heightAnchor.constraint(equalTo: view.heightAnchor),
+            profileView.leftAnchor.constraint(equalTo: sportAndProfileWrap.leftAnchor),
+            profileView.rightAnchor.constraint(equalTo: sportAndProfileWrap.rightAnchor),
+            profileView.topAnchor.constraint(equalTo: sportAndProfileWrap.topAnchor),
+            outerStackView.leftAnchor.constraint(equalTo: outerScrollView.leftAnchor),
+            outerStackView.rightAnchor.constraint(equalTo: outerScrollView.rightAnchor),
+            outerStackView.topAnchor.constraint(equalTo: outerScrollView.topAnchor),
+            outerStackView.bottomAnchor.constraint(equalTo: outerScrollView.bottomAnchor),
+            outerStackView.centerYAnchor.constraint(equalTo: outerScrollView.centerYAnchor),
+            innerStackView.leftAnchor.constraint(equalTo: innerScrollView.leftAnchor),
+            innerStackView.rightAnchor.constraint(equalTo: innerScrollView.rightAnchor),
+            innerStackView.topAnchor.constraint(equalTo: innerScrollView.topAnchor),
+            innerStackView.bottomAnchor.constraint(equalTo: innerScrollView.bottomAnchor),
+            innerStackView.centerYAnchor.constraint(equalTo: innerScrollView.centerYAnchor),
             settingsButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
             settingsButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
             settingsButton.widthAnchor.constraint(equalToConstant: 50),
@@ -124,16 +150,11 @@ final class MainViewController: UIViewController {
         let tableTennisView = tableTennisViewController.view!
         let invitesView = invitesViewController.view!
         
-        let placeholderView = UIView.createView(.clear)
-        
-        stackView.addArrangedSubview(placeholderView)
-        stackView.addArrangedSubview(foosballView)
-        stackView.addArrangedSubview(tableTennisView)
-        stackView.addArrangedSubview(invitesView)
+        innerStackView.addArrangedSubview(foosballView)
+        innerStackView.addArrangedSubview(tableTennisView)
+        innerStackView.addArrangedSubview(invitesView)
         
         NSLayoutConstraint.activate([
-            placeholderView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            placeholderView.heightAnchor.constraint(equalTo: view.heightAnchor),
             invitesView.widthAnchor.constraint(equalTo: view.widthAnchor),
             invitesView.heightAnchor.constraint(equalTo: view.heightAnchor),
             foosballView.widthAnchor.constraint(equalTo: view.widthAnchor),
@@ -152,7 +173,7 @@ final class MainViewController: UIViewController {
     }
     
     private func scrollToViewController(_ viewController: UIViewController, animated: Bool = false) {
-        scrollView.scrollRectToVisible(viewController.view.frame, animated: animated)
+        innerScrollView.scrollRectToVisible(viewController.view.frame, animated: animated)
     }
     
     @objc private func settingsButtonTapped(_ sender: UIButton) {
@@ -197,7 +218,7 @@ extension MainViewController: SportViewControllerDelegate {
 extension MainViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        floatingMenu.repositionSelectedView(scrollView)
+        floatingMenu.repositionButtonSelection(scrollView)
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
