@@ -23,6 +23,15 @@ protocol FloatingMenuDelegate: AnyObject {
 
 final class FloatingMenu: UIView {
     
+    private lazy var selectedView: UIView = {
+        let wrapper = UIView.createView(.clear)
+        let inner = UIView.createView(UIColor.OS.General.main)
+        inner.applyCornerRadius(6)
+        inner.alpha = 0.2
+        NSLayoutConstraint.pinToView(wrapper, inner, padding: 4)
+        return wrapper
+    }()
+    
     private lazy var stackView: UIStackView = {
         return UIStackView.createStackView(.clear, axis: .horizontal, spacing: 4)
     }()
@@ -61,6 +70,7 @@ final class FloatingMenu: UIView {
         return UIImpactFeedbackGenerator(style: .medium)
     }()
     
+    private var selectedViewLeftConstraint: NSLayoutConstraint?
     private weak var delegate: FloatingMenuDelegate?
     
     init(delegate: FloatingMenuDelegate?) {
@@ -75,16 +85,30 @@ final class FloatingMenu: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func toggleButtonAtIndex(_ index: Int, enabled: Bool) {
-        if let buttons = stackView.arrangedSubviews as? [MenuButton] {
-            guard index >= 0 && index < 4 else {
-                return
-            }
-            buttons[index].toggle(enabled: enabled, animated: true)
+    func repositionSelectedView(_ scrollView: UIScrollView) {
+        // get the current content offset in percent whenever users is scrolling the scroll view
+        var xOffsetPercent = scrollView.contentOffset.x * 100 / scrollView.contentSize.width
+        if xOffsetPercent < 0 {
+            xOffsetPercent = 0
+        } else if xOffsetPercent > 75 {
+            xOffsetPercent = 75
         }
+        print(xOffsetPercent)
+        selectedViewLeftConstraint!.constant = xOffsetPercent * frame.width / 100
     }
     
     private func setupChildViews() {
+        addSubview(selectedView)
+        
+        selectedViewLeftConstraint = selectedView.leftAnchor.constraint(equalTo: leftAnchor)
+        NSLayoutConstraint.activate([
+            selectedView.topAnchor.constraint(equalTo: topAnchor),
+            selectedView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            selectedView.widthAnchor.constraint(equalTo: selectedView.heightAnchor),
+            selectedViewLeftConstraint!,
+            selectedView.centerYAnchor.constraint(equalTo: centerYAnchor)
+        ])
+        
         NSLayoutConstraint.pinToView(self, stackView, padding: 4)
         
         stackView.addArrangedSubview(mbScanner)
@@ -132,7 +156,6 @@ private final class MenuButton: UIButton {
         self.backgroundColor = backgroundColor
         setImage(image, for: .normal)
         tintColor = UIColor.OS.General.main
-        applyCornerRadius(5)
     }
     
     init(_ backgroundColor: UIColor?, emoji: String) {
@@ -141,7 +164,6 @@ private final class MenuButton: UIButton {
         self.backgroundColor = backgroundColor
         setTitle(emoji, for: .normal)
         titleLabel?.font = UIFont.systemFont(ofSize: 26)
-        applyCornerRadius(5)
     }
     
     required init?(coder: NSCoder) {

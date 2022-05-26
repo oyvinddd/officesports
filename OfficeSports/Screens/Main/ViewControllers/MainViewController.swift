@@ -211,6 +211,10 @@ extension MainViewController: SportViewControllerDelegate {
 
 extension MainViewController: UIScrollViewDelegate {
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        floatingMenu.repositionSelectedView(scrollView)
+    }
+    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         configureProfileView(scrollView: scrollView)
     }
