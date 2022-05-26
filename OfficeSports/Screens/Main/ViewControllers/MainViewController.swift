@@ -81,7 +81,6 @@ final class MainViewController: UIViewController {
     }
     
     private func setupChildViews() {
-        
         view.addSubview(scannerViewController.view!)
         
         NSLayoutConstraint.pinToView(view, contentWrap)
@@ -121,19 +120,20 @@ final class MainViewController: UIViewController {
         tableTennisViewController.didMove(toParent: self)
         invitesViewController.didMove(toParent: self)
         
-        let scannerView = scannerViewController.view!
         let foosballView = foosballViewController.view!
         let tableTennisView = tableTennisViewController.view!
         let invitesView = invitesViewController.view!
         
-        stackView.addArrangedSubview(scannerView)
+        let placeholderView = UIView.createView(.clear)
+        
+        stackView.addArrangedSubview(placeholderView)
         stackView.addArrangedSubview(foosballView)
         stackView.addArrangedSubview(tableTennisView)
         stackView.addArrangedSubview(invitesView)
         
         NSLayoutConstraint.activate([
-            scannerView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            scannerView.heightAnchor.constraint(equalTo: view.heightAnchor),
+            placeholderView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            placeholderView.heightAnchor.constraint(equalTo: view.heightAnchor),
             invitesView.widthAnchor.constraint(equalTo: view.widthAnchor),
             invitesView.heightAnchor.constraint(equalTo: view.heightAnchor),
             foosballView.widthAnchor.constraint(equalTo: view.widthAnchor),
@@ -167,21 +167,6 @@ extension MainViewController: FloatingMenuDelegate {
     
     func scannerButtonTapped() {
         scrollToViewController(scannerViewController, animated: true)
-        /*
-        if cameraIsShowing {
-            scannerViewController.stopCaptureSession()
-        } else {
-            scannerViewController.startCaptureSession()
-        }
-        floatingMenu.toggleCameraMode(enabled: !cameraIsShowing)
-        
-        UIView.animate(
-            withDuration: scannerFadeDuration,
-            delay: scannerDelayDuration) { [unowned self] in
-                self.contentWrap.alpha = cameraIsShowing ? 1 : 0
-            }
-        cameraIsShowing = !cameraIsShowing
-        */
     }
     
     func foosballButtonTapped() {
@@ -194,8 +179,8 @@ extension MainViewController: FloatingMenuDelegate {
     
     func invitesButtonTapped() {
         scrollToViewController(invitesViewController, animated: true)
-        //foosballViewController.scrollTableViewToTop(animated: true)
-        //profileView.displayQrCode(seconds: 3)
+        // foosballViewController.scrollTableViewToTop(animated: true)
+        // profileView.displayQrCode(seconds: 3)
     }
 }
 
