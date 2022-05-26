@@ -154,12 +154,7 @@ final class MainViewController: UIViewController {
         ])
     }
     
-    var topInset: CGFloat?
-    
     private func configureTableViewInsets() {
-//        if topInset == nil && profileView.bounds.maxY != 0 {
-//            topInset = profileView.bounds.maxY
-//        }
         let top = profileView.bounds.maxY
         let bottom = view.frame.height - floatingMenu.frame.minY
         let contentInset = UIEdgeInsets(top: top, left: 0, bottom: bottom, right: 0)

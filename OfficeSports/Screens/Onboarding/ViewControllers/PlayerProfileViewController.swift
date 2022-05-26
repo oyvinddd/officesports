@@ -104,7 +104,6 @@ final class PlayerProfileViewController: UIViewController {
             nicknameField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
             nicknameField.heightAnchor.constraint(equalToConstant: 50),
             centerYConstraint!,
-            //nicknameField.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             continueButton.leftAnchor.constraint(equalTo: nicknameField.leftAnchor),
             continueButton.rightAnchor.constraint(equalTo: nicknameField.rightAnchor),
             continueButton.topAnchor.constraint(equalTo: nicknameField.bottomAnchor, constant: 20),
