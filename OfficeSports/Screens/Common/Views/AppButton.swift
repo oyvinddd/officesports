@@ -35,10 +35,10 @@ final class AppButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        print("button passthrough")
-        return true
-    }
+//    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+//        print("button passthrough")
+//        return true
+//    }
     
     override var isHighlighted: Bool {
         didSet {

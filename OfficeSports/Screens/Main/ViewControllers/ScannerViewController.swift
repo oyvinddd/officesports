@@ -10,6 +10,13 @@ import AVFoundation
 
 final class ScannerViewController: UIViewController {
     
+    private lazy var contentWrap: PassthroughView = {
+        let view = PassthroughView(frame: .zero)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .red
+        return view
+    }()
+    
     private lazy var activateCameraDescription: UILabel = {
         return UILabel.createLabel(.white, alignment: .left, text: "You need to activate the camera in order to register match scores.")
     }()
@@ -41,16 +48,18 @@ final class ScannerViewController: UIViewController {
     }
     
     private func setupChildViews() {
-        view.addSubview(activateCameraDescription)
-        view.addSubview(activateCameraButton)
+        NSLayoutConstraint.pinToView(view, contentWrap)
+        
+        contentWrap.addSubview(activateCameraDescription)
+        contentWrap.addSubview(activateCameraButton)
         
         NSLayoutConstraint.activate([
-            activateCameraDescription.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
-            activateCameraDescription.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
+            activateCameraDescription.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 32),
+            activateCameraDescription.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -32),
             activateCameraDescription.bottomAnchor.constraint(equalTo: activateCameraButton.topAnchor, constant: -16),
-            activateCameraButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
-            activateCameraButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
-            activateCameraButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            activateCameraButton.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 32),
+            activateCameraButton.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -32),
+            activateCameraButton.centerYAnchor.constraint(equalTo: contentWrap.centerYAnchor),
             activateCameraButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
