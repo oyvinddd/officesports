@@ -164,6 +164,9 @@ final class MainViewController: UIViewController {
             outerScrollView.setContentOffset(.zero, animated: animated)
             return
         }
+        if outerScrollView.contentOffset == .zero {
+            outerScrollView.setContentOffset(sportAndProfileWrap.frame.origin, animated: animated)
+        }
         innerScrollView.scrollRectToVisible(viewController.view.frame, animated: animated)
     }
     
