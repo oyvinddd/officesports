@@ -17,7 +17,13 @@ final class MainViewController: UIViewController {
     }()
     
     private lazy var sportAndProfileWrap: UIView = {
-        return UIView.createView(UIColor.OS.General.background)
+        let view = UIView.createView(UIColor.OS.General.background)
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOffset = CGSize(width: -15, height: 0)
+        view.layer.masksToBounds = false
+        view.layer.shadowRadius = 10
+        view.layer.shadowOpacity = 0.3
+        return view
     }()
     
     private lazy var profileView: ProfileView = {
@@ -154,6 +160,10 @@ final class MainViewController: UIViewController {
     }
     
     private func scrollToViewController(_ viewController: UIViewController, animated: Bool = false) {
+        guard !viewController.isKind(of: ScannerViewController.self) else {
+            outerScrollView.setContentOffset(.zero, animated: animated)
+            return
+        }
         innerScrollView.scrollRectToVisible(viewController.view.frame, animated: animated)
     }
     

@@ -122,7 +122,7 @@ final class FloatingMenu: UIView {
         applyCornerRadius(8)
     }
     
-    // MARK: - Button Handling
+    // MARK: - Menu Button Handling
     
     @objc private func scannerButtonTapped(_ sender: MenuButton) {
         feedbackGenerator.impactOccurred()

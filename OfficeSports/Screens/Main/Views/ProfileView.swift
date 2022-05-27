@@ -61,7 +61,6 @@ final class ProfileView: UIView {
     
     private lazy var profileImageWrap: UIView = {
         let imageWrap = UIView.createView(.white, cornerRadius: profileImageRadius)
-        imageWrap.isUserInteractionEnabled = true
         imageWrap.applyMediumDropShadow(.black)
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(profilePictureTapped))
         imageWrap.addGestureRecognizer(tapGestureRecognizer)
@@ -72,7 +71,6 @@ final class ProfileView: UIView {
         let profileColor = UIColor.OS.hashedProfileColor(nickname: account.nickname ?? "")
         let profileImageBackground = UIView.createView(profileColor)
         profileImageBackground.applyCornerRadius((profileImageDiameter - 16) / 2)
-        profileImageBackground.isUserInteractionEnabled = true
         return profileImageBackground
     }()
     
