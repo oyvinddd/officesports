@@ -8,8 +8,12 @@ jobs:
     name: Firebase App Distribution
     runs-on: macos-latest
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v2
+      - name: Select Xcode version
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '13.4'
       - name: Build and Distribute
         env:
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}

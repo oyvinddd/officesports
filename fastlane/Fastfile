@@ -6,8 +6,8 @@ platform :ios do
 	lane :distribute do
         # Get API key
         api_key = apple_api_key()
-		setup_ci()
-		# Sync certificates and profiles
+	setup_ci()
+	# Sync certificates and profiles
         match(
             type: "development",
             readonly: false,
