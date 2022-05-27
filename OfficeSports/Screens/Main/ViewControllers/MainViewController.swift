@@ -226,6 +226,9 @@ extension MainViewController: SportViewControllerDelegate {
 extension MainViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView == outerScrollView {
+            scannerViewController.handleShadowViewOpacity(scrollView.contentOffset)
+        }
         floatingMenu.repositionButtonSelection(scrollView)
     }
     
@@ -238,16 +241,22 @@ extension MainViewController: UIScrollViewDelegate {
     }
     
     private func configureProfileView(scrollView: UIScrollView) {
+        let xOffset = scrollView.contentOffset.x
+        let width = scrollView.frame.width
         // update profile view based on inner scroll view content offset
         if scrollView == innerScrollView {
-            let xOffset = scrollView.contentOffset.x
-            let width = scrollView.frame.width
             if xOffset < width { // foosball screen is showing
                 profileView.configureForSport(.foosball)
             } else if xOffset < width * 2 { // table tennis screen is showing
                 profileView.configureForSport(.tableTennis)
             } else if xOffset >= width * 2 { // invites screen is showing
                 profileView.configureForSport(.unknown)
+            }
+        } else if scrollView == outerScrollView {
+            if xOffset == 0 { // camera/scanner screen is showing
+                
+            } else if xOffset >= width {
+                scannerViewController.stopCaptureSession()
             }
         }
     }

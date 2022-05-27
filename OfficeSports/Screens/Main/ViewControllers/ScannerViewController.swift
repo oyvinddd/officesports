@@ -10,6 +10,10 @@ import AVFoundation
 
 final class ScannerViewController: UIViewController {
     
+    private lazy var shadowView: UIView = {
+        return UIView.createView(.black)
+    }()
+    
     private lazy var activateCameraDescription: UILabel = {
         return UILabel.createLabel(.white, alignment: .left, text: "You need to activate the camera in order to register match scores.")
     }()
@@ -19,6 +23,10 @@ final class ScannerViewController: UIViewController {
         button.addTarget(self, action: #selector(activateCameraButtonTapped), for: .touchUpInside)
         return button
     }()
+    
+    private var cameraIsActive: Bool {
+        captureSession != nil && captureSession.isRunning
+    }
     
     private let viewModel: ScannerViewModel
     
@@ -41,8 +49,11 @@ final class ScannerViewController: UIViewController {
     }
     
     private func setupChildViews() {
+        
         view.addSubview(activateCameraDescription)
         view.addSubview(activateCameraButton)
+        
+        NSLayoutConstraint.pinToView(view, shadowView)
         
         NSLayoutConstraint.activate([
             activateCameraDescription.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
@@ -100,13 +111,17 @@ final class ScannerViewController: UIViewController {
     }
     
     func handleTouch(point: CGPoint) {
+        guard !cameraIsActive else { return }
         // since the button is covered by a scroll view, we need
         // to indirectly check if the user tapped within the frame
         // of the button and then send the touch action
         if activateCameraButton.frame.contains(point) {
-            // FIXME: don't fire if camera is already shown
             activateCameraButton.sendActions(for: .touchUpInside)
         }
+    }
+    
+    func handleShadowViewOpacity(_ contentOffset: CGPoint) {
+        shadowView.alpha = contentOffset.x / view.frame.width
     }
     
     private func createVideoInput() -> AVCaptureDeviceInput? {

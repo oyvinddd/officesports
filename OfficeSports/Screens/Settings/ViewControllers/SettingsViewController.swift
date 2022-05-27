@@ -29,6 +29,12 @@ final class SettingsViewController: UIViewController {
         return view
     }()
     
+    private lazy var dialogHandle: UIView = {
+        let view = UIView.createView(UIColor.OS.Text.subtitle, cornerRadius: 3)
+        view.alpha = 0.8
+        return view
+    }()
+    
     private lazy var contentWrapView: UIView = {
         return UIView.createView(.white)
     }()
@@ -97,6 +103,7 @@ final class SettingsViewController: UIViewController {
     private func setupChildViews() {
         view.addSubview(backgroundView)
         view.addSubview(dialogView)
+        view.addSubview(dialogHandle)
         dialogView.addSubview(contentWrapView)
         contentWrapView.addSubview(stackView)
         
@@ -128,9 +135,13 @@ final class SettingsViewController: UIViewController {
             dialogView.leftAnchor.constraint(equalTo: view.leftAnchor),
             dialogView.rightAnchor.constraint(equalTo: view.rightAnchor),
             dialogBottomConstraint,
+            dialogHandle.centerXAnchor.constraint(equalTo: dialogView.centerXAnchor),
+            dialogHandle.topAnchor.constraint(equalTo: dialogView.topAnchor, constant: 10),
+            dialogHandle.widthAnchor.constraint(equalToConstant: 40),
+            dialogHandle.heightAnchor.constraint(equalToConstant: 6),
             contentWrapView.leftAnchor.constraint(equalTo: dialogView.leftAnchor, constant: 8),
             contentWrapView.rightAnchor.constraint(equalTo: dialogView.rightAnchor, constant: -8),
-            contentWrapView.topAnchor.constraint(equalTo: dialogView.topAnchor, constant: 8),
+            contentWrapView.topAnchor.constraint(equalTo: dialogHandle.topAnchor, constant: 8),
             contentWrapView.bottomAnchor.constraint(equalTo: dialogView.safeAreaLayoutGuide.bottomAnchor),
             stackView.leftAnchor.constraint(equalTo: contentWrapView.leftAnchor),
             stackView.rightAnchor.constraint(equalTo: contentWrapView.rightAnchor),

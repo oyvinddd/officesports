@@ -12,7 +12,7 @@ final class InvitesViewController: UIViewController {
     private lazy var emptyContentLabel: UILabel = {
         let message = "Your match invitations will show up here"
         let label = UILabel.createLabel(UIColor.OS.Text.disabled, alignment: .center, text: message)
-        label.font = UIFont.boldSystemFont(ofSize: 24)
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         return label
     }()
     
