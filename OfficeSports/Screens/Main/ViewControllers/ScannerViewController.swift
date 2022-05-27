@@ -15,7 +15,7 @@ final class ScannerViewController: UIViewController {
     }()
     
     private lazy var activateCameraButton: AppButton = {
-        let button = AppButton(.white, UIColor.OS.General.main, .black, "Help")
+        let button = AppButton(.white, UIColor.OS.General.main, .black, "Enable camera")
         button.addTarget(self, action: #selector(activateCameraButtonTapped), for: .touchUpInside)
         return button
     }()

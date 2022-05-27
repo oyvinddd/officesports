@@ -14,7 +14,24 @@ private let sportImageRadius: CGFloat = sportImageDiameter / 2
 private let codeTransitionDuration: TimeInterval = 0.3  // seconds
 private let codeHideDelayDuration: TimeInterval = 2     // seconds
 
+protocol ProfileViewDelegate: AnyObject {
+    
+    func profilePictureTapped()
+    
+    func settingsButtonTapped()
+}
+
 final class ProfileView: UIView {
+    
+    private lazy var settingsButton: UIButton = {
+        let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .semibold, scale: .large)
+        let image = UIImage(systemName: "gearshape.fill", withConfiguration: config)
+        let button = UIButton.createButton(.clear, .clear, title: nil)
+        button.addTarget(self, action: #selector(settingsButtonTapped), for: .touchUpInside)
+        button.tintColor = UIColor.OS.Text.normal
+        button.setImage(image, for: .normal)
+        return button
+    }()
     
     private lazy var foosballCodeImage: UIImage? = {
         guard let payload = OSAccount.current.qrCodePayloadForSport(.foosball) else {
@@ -43,9 +60,11 @@ final class ProfileView: UIView {
     }()
     
     private lazy var profileImageWrap: UIView = {
-        let imageWrap = UIView.createView(.white)
-        imageWrap.applyCornerRadius(profileImageRadius)
+        let imageWrap = UIView.createView(.white, cornerRadius: profileImageRadius)
+        imageWrap.isUserInteractionEnabled = true
         imageWrap.applyMediumDropShadow(.black)
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(profilePictureTapped))
+        imageWrap.addGestureRecognizer(tapGestureRecognizer)
         return imageWrap
     }()
     
@@ -53,6 +72,7 @@ final class ProfileView: UIView {
         let profileColor = UIColor.OS.hashedProfileColor(nickname: account.nickname ?? "")
         let profileImageBackground = UIView.createView(profileColor)
         profileImageBackground.applyCornerRadius((profileImageDiameter - 16) / 2)
+        profileImageBackground.isUserInteractionEnabled = true
         return profileImageBackground
     }()
     
@@ -102,11 +122,14 @@ final class ProfileView: UIView {
         return label
     }()
     
+    weak var delegate: ProfileViewDelegate?
+    
     private var account: OSAccount
     private var isDisplayingCode: Bool = false
     
-    init(account: OSAccount) {
+    init(account: OSAccount, delegate: ProfileViewDelegate?) {
         self.account = account
+        self.delegate = delegate
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         profileEmjoiLabel.text = account.emoji
@@ -141,7 +164,7 @@ final class ProfileView: UIView {
         }
     }
     
-    func displayQrCode(seconds: Int) {
+    func displayQrCode(seconds: Float) {
         guard !isDisplayingCode else {
             return
         }
@@ -161,7 +184,16 @@ final class ProfileView: UIView {
         }
     }
     
+    func handleTouch(point: CGPoint) {
+        if settingsButton.frame.contains(point) {
+            settingsButton.sendActions(for: .touchUpInside)
+        } else if profileImageWrap.frame.contains(point) {
+            delegate?.profilePictureTapped()
+        }
+    }
+    
     private func setupChildViews() {
+        addSubview(settingsButton)
         addSubview(codeImageWrap)
         addSubview(profileImageWrap)
         profileImageWrap.addSubview(profileImageBackground)
@@ -176,6 +208,10 @@ final class ProfileView: UIView {
         NSLayoutConstraint.pinToView(sportImageBackground, tableTennisEmojiLabel)
         
         NSLayoutConstraint.activate([
+            settingsButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
+            settingsButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 10),
+            settingsButton.widthAnchor.constraint(equalToConstant: 50),
+            settingsButton.heightAnchor.constraint(equalTo: settingsButton.widthAnchor),
             codeImageWrap.widthAnchor.constraint(equalToConstant: profileImageDiameter),
             codeImageWrap.heightAnchor.constraint(equalTo: codeImageWrap.widthAnchor),
             codeImageWrap.centerXAnchor.constraint(equalTo: profileImageWrap.centerXAnchor),
@@ -200,5 +236,13 @@ final class ProfileView: UIView {
             totalScoreLabel.topAnchor.constraint(equalTo: nicknameLabel.bottomAnchor, constant: 6),
             totalScoreLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
         ])
+    }
+    
+    @objc private func profilePictureTapped(_ sender: UITapGestureRecognizer) {
+        delegate?.profilePictureTapped()
+    }
+    
+    @objc private func settingsButtonTapped(_ sender: UIButton) {
+        delegate?.settingsButtonTapped()
     }
 }

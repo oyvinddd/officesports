@@ -21,17 +21,7 @@ final class MainViewController: UIViewController {
     }()
     
     private lazy var profileView: ProfileView = {
-        return ProfileView(account: OSAccount.current)
-    }()
-    
-    private lazy var settingsButton: UIButton = {
-        let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .semibold, scale: .large)
-        let image = UIImage(systemName: "gearshape.fill", withConfiguration: config)
-        let button = UIButton.createButton(.clear, .clear, title: nil)
-        button.addTarget(self, action: #selector(settingsButtonTapped), for: .touchUpInside)
-        button.tintColor = UIColor.OS.Text.normal
-        button.setImage(image, for: .normal)
-        return button
+        return ProfileView(account: OSAccount.current, delegate: self)
     }()
     
     private lazy var outerScrollView: UIScrollView = {
@@ -103,7 +93,6 @@ final class MainViewController: UIViewController {
         outerScrollView.addSubview(cameraPlaceholderView)
         outerScrollView.addSubview(sportAndProfileWrap)
         
-        view.addSubview(settingsButton)
         view.addSubview(floatingMenu)
         
         NSLayoutConstraint.activate([
@@ -124,10 +113,6 @@ final class MainViewController: UIViewController {
             innerStackView.topAnchor.constraint(equalTo: innerScrollView.topAnchor),
             innerStackView.bottomAnchor.constraint(equalTo: innerScrollView.bottomAnchor),
             innerStackView.centerYAnchor.constraint(equalTo: innerScrollView.centerYAnchor),
-            settingsButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
-            settingsButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            settingsButton.widthAnchor.constraint(equalToConstant: 50),
-            settingsButton.heightAnchor.constraint(equalTo: settingsButton.widthAnchor),
             floatingMenu.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 64),
             floatingMenu.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -64),
             floatingMenu.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
@@ -172,14 +157,25 @@ final class MainViewController: UIViewController {
         innerScrollView.scrollRectToVisible(viewController.view.frame, animated: animated)
     }
     
-    @objc private func settingsButtonTapped(_ sender: UIButton) {
-        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-        Coordinator.global.presentSettings(from: self)
-    }
-    
     @objc private func scrollViewTapped(_ sender: UITapGestureRecognizer) {
         let touchPoint = sender.location(ofTouch: 0, in: view)
         scannerViewController.handleTouch(point: touchPoint)
+        profileView.handleTouch(point: touchPoint)
+    }
+}
+
+// MARK: - Profile View Delegate Conformance
+
+extension MainViewController: ProfileViewDelegate {
+    
+    func profilePictureTapped() {
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        profileView.displayQrCode(seconds: 2.5)
+    }
+    
+    func settingsButtonTapped() {
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        Coordinator.global.presentSettings(from: self)
     }
 }
 
@@ -201,8 +197,6 @@ extension MainViewController: FloatingMenuDelegate {
     
     func invitesButtonTapped() {
         scrollToViewController(invitesViewController, animated: true)
-        // foosballViewController.scrollTableViewToTop(animated: true)
-        // profileView.displayQrCode(seconds: 3)
     }
 }
 
@@ -231,16 +225,17 @@ extension MainViewController: UIScrollViewDelegate {
     }
     
     private func configureProfileView(scrollView: UIScrollView) {
-        let xOffset = scrollView.contentOffset.x
-        let width = scrollView.frame.width
-        if xOffset < width { // camera screen is showing
-            profileView.configureForSport(.unknown)
-        } else if xOffset < width * 2 { // foosball screen is showing
-            profileView.configureForSport(.foosball)
-        } else if xOffset < width * 3 { // table tennis screen is showing
-            profileView.configureForSport(.tableTennis)
-        } else if xOffset >= width * 3 { // invites screen is showing
-            profileView.configureForSport(.unknown)
+        // update profile view based on inner scroll view content offset
+        if scrollView == innerScrollView {
+            let xOffset = scrollView.contentOffset.x
+            let width = scrollView.frame.width
+            if xOffset < width { // foosball screen is showing
+                profileView.configureForSport(.foosball)
+            } else if xOffset < width * 2 { // table tennis screen is showing
+                profileView.configureForSport(.tableTennis)
+            } else if xOffset >= width * 2 { // invites screen is showing
+                profileView.configureForSport(.unknown)
+            }
         }
     }
 }
