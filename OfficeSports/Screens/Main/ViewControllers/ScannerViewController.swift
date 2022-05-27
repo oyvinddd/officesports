@@ -10,13 +10,6 @@ import AVFoundation
 
 final class ScannerViewController: UIViewController {
     
-    private lazy var contentWrap: PassthroughView = {
-        let view = PassthroughView(frame: .zero)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .red
-        return view
-    }()
-    
     private lazy var activateCameraDescription: UILabel = {
         return UILabel.createLabel(.white, alignment: .left, text: "You need to activate the camera in order to register match scores.")
     }()
@@ -48,18 +41,16 @@ final class ScannerViewController: UIViewController {
     }
     
     private func setupChildViews() {
-        NSLayoutConstraint.pinToView(view, contentWrap)
-        
-        contentWrap.addSubview(activateCameraDescription)
-        contentWrap.addSubview(activateCameraButton)
+        view.addSubview(activateCameraDescription)
+        view.addSubview(activateCameraButton)
         
         NSLayoutConstraint.activate([
-            activateCameraDescription.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 32),
-            activateCameraDescription.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -32),
+            activateCameraDescription.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
+            activateCameraDescription.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
             activateCameraDescription.bottomAnchor.constraint(equalTo: activateCameraButton.topAnchor, constant: -16),
-            activateCameraButton.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 32),
-            activateCameraButton.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -32),
-            activateCameraButton.centerYAnchor.constraint(equalTo: contentWrap.centerYAnchor),
+            activateCameraButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
+            activateCameraButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
+            activateCameraButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             activateCameraButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
@@ -106,6 +97,16 @@ final class ScannerViewController: UIViewController {
         
         // start the capture session (blocking)
         captureSession.startRunning()
+    }
+    
+    func handleTouch(point: CGPoint) {
+        // since the button is covered by a scroll view, we need
+        // to indirectly check if the user tapped within the frame
+        // of the button and then send the touch action
+        if activateCameraButton.frame.contains(point) {
+            // FIXME: don't fire if camera is already shown
+            activateCameraButton.sendActions(for: .touchUpInside)
+        }
     }
     
     private func createVideoInput() -> AVCaptureDeviceInput? {

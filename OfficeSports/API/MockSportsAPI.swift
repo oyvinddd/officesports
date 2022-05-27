@@ -9,7 +9,7 @@ import UIKit
 
 final class MockSportsAPI: SportsAPI {
 
-    private static let fs = [
+    private static let fst = [
         OSStats(sport: .foosball, totalScore: 0, totalMatches: 1),
         OSStats(sport: .foosball, totalScore: 1, totalMatches: 0),
         OSStats(sport: .foosball, totalScore: 0, totalMatches: 0),
@@ -21,7 +21,7 @@ final class MockSportsAPI: SportsAPI {
         OSStats(sport: .foosball, totalScore: 100, totalMatches: 0)
     ]
     
-    private static let tts = [
+    private static let tst = [
         OSStats(sport: .tableTennis, totalScore: 0, totalMatches: 1),
         OSStats(sport: .tableTennis, totalScore: 1, totalMatches: 0),
         OSStats(sport: .tableTennis, totalScore: 0, totalMatches: 0),
@@ -35,14 +35,14 @@ final class MockSportsAPI: SportsAPI {
     
     private let players = [
         OSAccount.current.player!,
-        OSPlayer(userId: "id#2", nickname: "heimegut", emoji: "💩", foosballStats: fs[1], tableTennisStats: tts[1]),
-        OSPlayer(userId: "id#3", nickname: "salmaaan", emoji: "🧐", foosballStats: fs[2], tableTennisStats: tts[2]),
-        OSPlayer(userId: "id#4", nickname: "patidati", emoji: "👻", foosballStats: fs[3], tableTennisStats: tts[3]),
-        OSPlayer(userId: "id#5", nickname: "sekse", emoji: "🤖", foosballStats: fs[4], tableTennisStats: tts[4]),
-        OSPlayer(userId: "id#6", nickname: "dimling", emoji: "👨🏻‍🎨", foosballStats: fs[5], tableTennisStats: tts[5]),
-        OSPlayer(userId: "id#7", nickname: "konstant", emoji: "☀️", foosballStats: fs[6], tableTennisStats: tts[6]),
-        OSPlayer(userId: "id#8", nickname: "eirik", emoji: "👑", foosballStats: fs[7], tableTennisStats: tts[7]),
-        OSPlayer(userId: "id#9", nickname: "panzertax", emoji: "🐹", foosballStats: fs[8], tableTennisStats: tts[8])
+        OSPlayer(userId: "id#2", nickname: "heimegut", emoji: "💩", foosballStats: fst[1], tableTennisStats: tst[1]),
+        OSPlayer(userId: "id#3", nickname: "salmaaan", emoji: "🧐", foosballStats: fst[2], tableTennisStats: tst[2]),
+        OSPlayer(userId: "id#4", nickname: "patidati", emoji: "👻", foosballStats: fst[3], tableTennisStats: tst[3]),
+        OSPlayer(userId: "id#5", nickname: "sekse", emoji: "🤖", foosballStats: fst[4], tableTennisStats: tst[4]),
+        OSPlayer(userId: "id#6", nickname: "dimling", emoji: "👨🏻‍🎨", foosballStats: fst[5], tableTennisStats: tst[5]),
+        OSPlayer(userId: "id#7", nickname: "konstant", emoji: "☀️", foosballStats: fst[6], tableTennisStats: tst[6]),
+        OSPlayer(userId: "id#8", nickname: "eirik", emoji: "👑", foosballStats: fst[7], tableTennisStats: tst[7]),
+        OSPlayer(userId: "id#9", nickname: "panzertax", emoji: "🐹", foosballStats: fst[8], tableTennisStats: tst[8])
     ]
     
     private lazy var scoreboard: [OSPlayer] = {

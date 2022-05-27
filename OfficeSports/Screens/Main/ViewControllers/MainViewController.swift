@@ -12,6 +12,10 @@ private let scannerDelayDuration: TimeInterval = 0  // seconds
 
 final class MainViewController: UIViewController {
     
+    private lazy var cameraPlaceholderView: UIView = {
+        return UIView.createView(.clear)
+    }()
+    
     private lazy var sportAndProfileWrap: UIView = {
         return UIView.createView(UIColor.OS.General.background)
     }()
@@ -30,22 +34,15 @@ final class MainViewController: UIViewController {
         return button
     }()
     
-    private lazy var outerScrollView: PassthroughScrollView = {
-        return UIScrollView.createPassthroughScrollView(.clear, delegate: self)
+    private lazy var outerScrollView: UIScrollView = {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(scrollViewTapped))
+        let scrollView = UIScrollView.createScrollView(.clear, delegate: self)
+        scrollView.addGestureRecognizer(tapGestureRecognizer)
+        return scrollView
     }()
     
     private lazy var innerScrollView: UIScrollView = {
-        let scrollView = UIScrollView.createScrollView(.clear, delegate: self)
-        scrollView.bounces = false
-        return scrollView
-    }()
-
-    private lazy var outerStackView: PassthroughStackView = {
-        let stackView = PassthroughStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.distribution = .fillEqually
-        stackView.axis = .horizontal
-        return stackView
+        return UIScrollView.createScrollView(.clear, delegate: self)
     }()
     
     private lazy var innerStackView: UIStackView = {
@@ -101,31 +98,27 @@ final class MainViewController: UIViewController {
         
         NSLayoutConstraint.pinToView(sportAndProfileWrap, innerScrollView)
         
-        outerScrollView.addSubview(outerStackView)
         innerScrollView.addSubview(innerStackView)
         
-        let placeholderView = UIView.createView(.clear)
-        placeholderView.isUserInteractionEnabled = false
-        
-        outerStackView.addArrangedSubview(placeholderView)
-        outerStackView.addArrangedSubview(sportAndProfileWrap)
+        outerScrollView.addSubview(cameraPlaceholderView)
+        outerScrollView.addSubview(sportAndProfileWrap)
         
         view.addSubview(settingsButton)
         view.addSubview(floatingMenu)
         
         NSLayoutConstraint.activate([
-            placeholderView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            placeholderView.heightAnchor.constraint(equalTo: view.heightAnchor),
-            sportAndProfileWrap.widthAnchor.constraint(equalTo: view.widthAnchor),
-            sportAndProfileWrap.heightAnchor.constraint(equalTo: view.heightAnchor),
+            cameraPlaceholderView.leftAnchor.constraint(equalTo: outerScrollView.leftAnchor),
+            cameraPlaceholderView.centerYAnchor.constraint(equalTo: outerScrollView.centerYAnchor),
+            cameraPlaceholderView.widthAnchor.constraint(equalTo: outerScrollView.widthAnchor),
+            cameraPlaceholderView.heightAnchor.constraint(equalTo: outerScrollView.heightAnchor),
+            sportAndProfileWrap.leftAnchor.constraint(equalTo: cameraPlaceholderView.rightAnchor),
+            sportAndProfileWrap.rightAnchor.constraint(equalTo: outerScrollView.rightAnchor),
+            sportAndProfileWrap.centerYAnchor.constraint(equalTo: outerScrollView.centerYAnchor),
+            sportAndProfileWrap.widthAnchor.constraint(equalTo: outerScrollView.widthAnchor),
+            sportAndProfileWrap.heightAnchor.constraint(equalTo: outerScrollView.heightAnchor),
             profileView.leftAnchor.constraint(equalTo: sportAndProfileWrap.leftAnchor),
             profileView.rightAnchor.constraint(equalTo: sportAndProfileWrap.rightAnchor),
             profileView.topAnchor.constraint(equalTo: sportAndProfileWrap.topAnchor),
-            outerStackView.leftAnchor.constraint(equalTo: outerScrollView.leftAnchor),
-            outerStackView.rightAnchor.constraint(equalTo: outerScrollView.rightAnchor),
-            outerStackView.topAnchor.constraint(equalTo: outerScrollView.topAnchor),
-            outerStackView.bottomAnchor.constraint(equalTo: outerScrollView.bottomAnchor),
-            outerStackView.centerYAnchor.constraint(equalTo: outerScrollView.centerYAnchor),
             innerStackView.leftAnchor.constraint(equalTo: innerScrollView.leftAnchor),
             innerStackView.rightAnchor.constraint(equalTo: innerScrollView.rightAnchor),
             innerStackView.topAnchor.constraint(equalTo: innerScrollView.topAnchor),
@@ -167,6 +160,7 @@ final class MainViewController: UIViewController {
     }
     
     private func configureTableViewInsets() {
+        // FIXME: table view top inset is sometimes larger than expected
         let top = profileView.bounds.maxY
         let bottom = view.frame.height - floatingMenu.frame.minY
         let contentInset = UIEdgeInsets(top: top, left: 0, bottom: bottom, right: 0)
@@ -181,6 +175,11 @@ final class MainViewController: UIViewController {
     @objc private func settingsButtonTapped(_ sender: UIButton) {
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         Coordinator.global.presentSettings(from: self)
+    }
+    
+    @objc private func scrollViewTapped(_ sender: UITapGestureRecognizer) {
+        let touchPoint = sender.location(ofTouch: 0, in: view)
+        scannerViewController.handleTouch(point: touchPoint)
     }
 }
 

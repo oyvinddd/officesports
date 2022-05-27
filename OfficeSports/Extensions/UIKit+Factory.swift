@@ -34,18 +34,6 @@ extension UIScrollView {
         scrollView.bounces = false
         return scrollView
     }
-    
-    class func createPassthroughScrollView(_ backgroundColor: UIColor, delegate: UIScrollViewDelegate?) -> PassthroughScrollView {
-        let scrollView = PassthroughScrollView(frame: .zero)
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.delegate = delegate
-        scrollView.backgroundColor = backgroundColor
-        scrollView.showsVerticalScrollIndicator = false
-        scrollView.showsHorizontalScrollIndicator = false
-        scrollView.isPagingEnabled = true
-        scrollView.bounces = true
-        return scrollView
-    }
 }
 
 extension UITableView {
