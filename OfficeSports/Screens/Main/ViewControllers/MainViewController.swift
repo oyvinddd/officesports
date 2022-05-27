@@ -252,12 +252,14 @@ extension MainViewController: UIScrollViewDelegate {
             } else if xOffset >= width * 2 { // invites screen is showing
                 profileView.configureForSport(.unknown)
             }
-        } else if scrollView == outerScrollView {
+        }
+        /*
+        else if scrollView == outerScrollView {
             if xOffset == 0 { // camera/scanner screen is showing
-                
+                scannerViewController.startCaptureSession()
             } else if xOffset >= width {
                 scannerViewController.stopCaptureSession()
             }
-        }
+        }*/
     }
 }

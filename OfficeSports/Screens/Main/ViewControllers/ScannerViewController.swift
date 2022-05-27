@@ -10,6 +10,10 @@ import AVFoundation
 
 final class ScannerViewController: UIViewController {
     
+    private lazy var cameraView: UIView = {
+        return UIView.createView(.black)
+    }()
+    
     private lazy var shadowView: UIView = {
         return UIView.createView(.black)
     }()
@@ -49,10 +53,10 @@ final class ScannerViewController: UIViewController {
     }
     
     private func setupChildViews() {
-        
         view.addSubview(activateCameraDescription)
         view.addSubview(activateCameraButton)
         
+        NSLayoutConstraint.pinToView(view, cameraView)
         NSLayoutConstraint.pinToView(view, shadowView)
         
         NSLayoutConstraint.activate([
@@ -73,8 +77,8 @@ final class ScannerViewController: UIViewController {
     }
     
     func startCaptureSession() {
-        // exit early if camera has not been enabled by the user
-        guard AVCaptureDevice.authorizationStatus(for: .video) == .authorized else {
+        // exit early if camera has not been enabled by the user or if it is already active
+        guard AVCaptureDevice.authorizationStatus(for: .video) == .authorized || !cameraIsActive else {
             return
         }
         
@@ -121,7 +125,14 @@ final class ScannerViewController: UIViewController {
     }
     
     func handleShadowViewOpacity(_ contentOffset: CGPoint) {
+        let width = view.frame.width
+        // set opacity of shadow view based on how much of the camera is showing
         shadowView.alpha = contentOffset.x / view.frame.width
+        if contentOffset.x == width && cameraIsActive {
+            stopCaptureSession()
+        } else if contentOffset.x < width && !cameraIsActive {
+            startCaptureSession()
+        }
     }
     
     private func createVideoInput() -> AVCaptureDeviceInput? {
