@@ -49,10 +49,6 @@ final class OSAccount: Codable {
     
     var emoji: String?
     
-    var foosballScore: Int = 0
-    
-    var tableTennisScore: Int = 0
-    
     init() {
         let (nick, emoji) = loadProfileDetails()
         self.nickname = nick

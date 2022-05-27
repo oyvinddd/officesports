@@ -14,8 +14,8 @@ final class ScannerViewController: UIViewController {
         return UILabel.createLabel(.white, alignment: .left, text: "You need to activate the camera in order to register match scores.")
     }()
     
-    private lazy var activateCameraButton: UIButton = {
-        let button = UIButton.createButton(.white, UIColor.OS.General.main, title: "Activate camera")
+    private lazy var activateCameraButton: AppButton = {
+        let button = AppButton(.white, UIColor.OS.General.main, .black, "Enable camera")
         button.addTarget(self, action: #selector(activateCameraButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -97,6 +97,16 @@ final class ScannerViewController: UIViewController {
         
         // start the capture session (blocking)
         captureSession.startRunning()
+    }
+    
+    func handleTouch(point: CGPoint) {
+        // since the button is covered by a scroll view, we need
+        // to indirectly check if the user tapped within the frame
+        // of the button and then send the touch action
+        if activateCameraButton.frame.contains(point) {
+            // FIXME: don't fire if camera is already shown
+            activateCameraButton.sendActions(for: .touchUpInside)
+        }
     }
     
     private func createVideoInput() -> AVCaptureDeviceInput? {

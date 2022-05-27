@@ -12,29 +12,36 @@ private let scannerDelayDuration: TimeInterval = 0  // seconds
 
 final class MainViewController: UIViewController {
     
-    private lazy var contentWrap: UIView = {
-        return UIView.createView(UIColor.OS.General.background)
+    private lazy var cameraPlaceholderView: UIView = {
+        return UIView.createView(.clear)
+    }()
+    
+    private lazy var sportAndProfileWrap: UIView = {
+        let view = UIView.createView(UIColor.OS.General.background)
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOffset = CGSize(width: -15, height: 0)
+        view.layer.masksToBounds = false
+        view.layer.shadowRadius = 10
+        view.layer.shadowOpacity = 0.3
+        return view
     }()
     
     private lazy var profileView: ProfileView = {
-        return ProfileView(account: OSAccount.current)
+        return ProfileView(account: OSAccount.current, delegate: self)
     }()
     
-    private lazy var settingsButton: UIButton = {
-        let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .semibold, scale: .large)
-        let image = UIImage(systemName: "gearshape.fill", withConfiguration: config)
-        let button = UIButton.createButton(.clear, .clear, title: nil)
-        button.addTarget(self, action: #selector(settingsButtonTapped), for: .touchUpInside)
-        button.tintColor = UIColor.OS.Text.normal
-        button.setImage(image, for: .normal)
-        return button
+    private lazy var outerScrollView: UIScrollView = {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(scrollViewTapped))
+        let scrollView = UIScrollView.createScrollView(.clear, delegate: self)
+        scrollView.addGestureRecognizer(tapGestureRecognizer)
+        return scrollView
     }()
     
-    private lazy var scrollView: UIScrollView = {
+    private lazy var innerScrollView: UIScrollView = {
         return UIScrollView.createScrollView(.clear, delegate: self)
     }()
     
-    private lazy var stackView: UIStackView = {
+    private lazy var innerStackView: UIStackView = {
         return UIStackView.createStackView(.clear, axis: .horizontal)
     }()
     
@@ -62,8 +69,6 @@ final class MainViewController: UIViewController {
         return SportViewController(viewModel: viewModel, delegate: self)
     }()
     
-    private var cameraIsShowing: Bool = false
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupChildViews()
@@ -81,33 +86,39 @@ final class MainViewController: UIViewController {
     }
     
     private func setupChildViews() {
-        
         view.addSubview(scannerViewController.view!)
         
-        NSLayoutConstraint.pinToView(view, contentWrap)
+        NSLayoutConstraint.pinToView(view, outerScrollView)
         
-        contentWrap.addSubview(profileView)
+        sportAndProfileWrap.addSubview(profileView)
         
-        NSLayoutConstraint.pinToView(contentWrap, scrollView)
+        NSLayoutConstraint.pinToView(sportAndProfileWrap, innerScrollView)
         
-        scrollView.addSubview(stackView)
+        innerScrollView.addSubview(innerStackView)
         
-        view.addSubview(settingsButton)
+        outerScrollView.addSubview(cameraPlaceholderView)
+        outerScrollView.addSubview(sportAndProfileWrap)
+        
         view.addSubview(floatingMenu)
         
         NSLayoutConstraint.activate([
-            profileView.leftAnchor.constraint(equalTo: contentWrap.leftAnchor),
-            profileView.rightAnchor.constraint(equalTo: contentWrap.rightAnchor),
-            profileView.topAnchor.constraint(equalTo: contentWrap.topAnchor),
-            stackView.leftAnchor.constraint(equalTo: scrollView.leftAnchor),
-            stackView.rightAnchor.constraint(equalTo: scrollView.rightAnchor),
-            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            stackView.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor),
-            settingsButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
-            settingsButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            settingsButton.widthAnchor.constraint(equalToConstant: 50),
-            settingsButton.heightAnchor.constraint(equalTo: settingsButton.widthAnchor),
+            cameraPlaceholderView.leftAnchor.constraint(equalTo: outerScrollView.leftAnchor),
+            cameraPlaceholderView.centerYAnchor.constraint(equalTo: outerScrollView.centerYAnchor),
+            cameraPlaceholderView.widthAnchor.constraint(equalTo: outerScrollView.widthAnchor),
+            cameraPlaceholderView.heightAnchor.constraint(equalTo: outerScrollView.heightAnchor),
+            sportAndProfileWrap.leftAnchor.constraint(equalTo: cameraPlaceholderView.rightAnchor),
+            sportAndProfileWrap.rightAnchor.constraint(equalTo: outerScrollView.rightAnchor),
+            sportAndProfileWrap.centerYAnchor.constraint(equalTo: outerScrollView.centerYAnchor),
+            sportAndProfileWrap.widthAnchor.constraint(equalTo: outerScrollView.widthAnchor),
+            sportAndProfileWrap.heightAnchor.constraint(equalTo: outerScrollView.heightAnchor),
+            profileView.leftAnchor.constraint(equalTo: sportAndProfileWrap.leftAnchor),
+            profileView.rightAnchor.constraint(equalTo: sportAndProfileWrap.rightAnchor),
+            profileView.topAnchor.constraint(equalTo: sportAndProfileWrap.topAnchor),
+            innerStackView.leftAnchor.constraint(equalTo: innerScrollView.leftAnchor),
+            innerStackView.rightAnchor.constraint(equalTo: innerScrollView.rightAnchor),
+            innerStackView.topAnchor.constraint(equalTo: innerScrollView.topAnchor),
+            innerStackView.bottomAnchor.constraint(equalTo: innerScrollView.bottomAnchor),
+            innerStackView.centerYAnchor.constraint(equalTo: innerScrollView.centerYAnchor),
             floatingMenu.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 64),
             floatingMenu.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -64),
             floatingMenu.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
@@ -121,19 +132,15 @@ final class MainViewController: UIViewController {
         tableTennisViewController.didMove(toParent: self)
         invitesViewController.didMove(toParent: self)
         
-        let scannerView = scannerViewController.view!
         let foosballView = foosballViewController.view!
         let tableTennisView = tableTennisViewController.view!
         let invitesView = invitesViewController.view!
         
-        stackView.addArrangedSubview(scannerView)
-        stackView.addArrangedSubview(foosballView)
-        stackView.addArrangedSubview(tableTennisView)
-        stackView.addArrangedSubview(invitesView)
+        innerStackView.addArrangedSubview(foosballView)
+        innerStackView.addArrangedSubview(tableTennisView)
+        innerStackView.addArrangedSubview(invitesView)
         
         NSLayoutConstraint.activate([
-            scannerView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            scannerView.heightAnchor.constraint(equalTo: view.heightAnchor),
             invitesView.widthAnchor.constraint(equalTo: view.widthAnchor),
             invitesView.heightAnchor.constraint(equalTo: view.heightAnchor),
             foosballView.widthAnchor.constraint(equalTo: view.widthAnchor),
@@ -144,6 +151,7 @@ final class MainViewController: UIViewController {
     }
     
     private func configureTableViewInsets() {
+        // FIXME: table view top inset is sometimes larger than expected
         let top = profileView.bounds.maxY
         let bottom = view.frame.height - floatingMenu.frame.minY
         let contentInset = UIEdgeInsets(top: top, left: 0, bottom: bottom, right: 0)
@@ -152,10 +160,33 @@ final class MainViewController: UIViewController {
     }
     
     private func scrollToViewController(_ viewController: UIViewController, animated: Bool = false) {
-        scrollView.scrollRectToVisible(viewController.view.frame, animated: animated)
+        guard !viewController.isKind(of: ScannerViewController.self) else {
+            outerScrollView.setContentOffset(.zero, animated: animated)
+            return
+        }
+        if outerScrollView.contentOffset == .zero {
+            outerScrollView.setContentOffset(sportAndProfileWrap.frame.origin, animated: animated)
+        }
+        innerScrollView.scrollRectToVisible(viewController.view.frame, animated: animated)
     }
     
-    @objc private func settingsButtonTapped(_ sender: UIButton) {
+    @objc private func scrollViewTapped(_ sender: UITapGestureRecognizer) {
+        let touchPoint = sender.location(ofTouch: 0, in: view)
+        scannerViewController.handleTouch(point: touchPoint)
+        profileView.handleTouch(point: touchPoint)
+    }
+}
+
+// MARK: - Profile View Delegate Conformance
+
+extension MainViewController: ProfileViewDelegate {
+    
+    func profilePictureTapped() {
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        profileView.displayQrCode(seconds: 2.5)
+    }
+    
+    func settingsButtonTapped() {
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         Coordinator.global.presentSettings(from: self)
     }
@@ -167,21 +198,6 @@ extension MainViewController: FloatingMenuDelegate {
     
     func scannerButtonTapped() {
         scrollToViewController(scannerViewController, animated: true)
-        /*
-        if cameraIsShowing {
-            scannerViewController.stopCaptureSession()
-        } else {
-            scannerViewController.startCaptureSession()
-        }
-        floatingMenu.toggleCameraMode(enabled: !cameraIsShowing)
-        
-        UIView.animate(
-            withDuration: scannerFadeDuration,
-            delay: scannerDelayDuration) { [unowned self] in
-                self.contentWrap.alpha = cameraIsShowing ? 1 : 0
-            }
-        cameraIsShowing = !cameraIsShowing
-        */
     }
     
     func foosballButtonTapped() {
@@ -194,8 +210,6 @@ extension MainViewController: FloatingMenuDelegate {
     
     func invitesButtonTapped() {
         scrollToViewController(invitesViewController, animated: true)
-        //foosballViewController.scrollTableViewToTop(animated: true)
-        //profileView.displayQrCode(seconds: 3)
     }
 }
 
@@ -212,7 +226,7 @@ extension MainViewController: SportViewControllerDelegate {
 extension MainViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        floatingMenu.repositionSelectedView(scrollView)
+        floatingMenu.repositionButtonSelection(scrollView)
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -224,16 +238,17 @@ extension MainViewController: UIScrollViewDelegate {
     }
     
     private func configureProfileView(scrollView: UIScrollView) {
-        let xOffset = scrollView.contentOffset.x
-        let width = scrollView.frame.width
-        if xOffset < width { // camera screen is showing
-            profileView.configureForSport(.unknown)
-        } else if xOffset < width * 2 { // foosball screen is showing
-            profileView.configureForSport(.foosball)
-        } else if xOffset < width * 3 { // table tennis screen is showing
-            profileView.configureForSport(.tableTennis)
-        } else if xOffset >= width * 3 { // invites screen is showing
-            profileView.configureForSport(.unknown)
+        // update profile view based on inner scroll view content offset
+        if scrollView == innerScrollView {
+            let xOffset = scrollView.contentOffset.x
+            let width = scrollView.frame.width
+            if xOffset < width { // foosball screen is showing
+                profileView.configureForSport(.foosball)
+            } else if xOffset < width * 2 { // table tennis screen is showing
+                profileView.configureForSport(.tableTennis)
+            } else if xOffset >= width * 2 { // invites screen is showing
+                profileView.configureForSport(.unknown)
+            }
         }
     }
 }

@@ -13,6 +13,10 @@ extension UIView {
         let view = UIView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = backgroundColor
+        if cornerRadius > 0 {
+            view.layer.masksToBounds = true
+            view.layer.cornerRadius = cornerRadius
+        }
         return view
     }
 }
@@ -27,7 +31,7 @@ extension UIScrollView {
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.isPagingEnabled = true
-        scrollView.bounces = true
+        scrollView.bounces = false
         return scrollView
     }
 }

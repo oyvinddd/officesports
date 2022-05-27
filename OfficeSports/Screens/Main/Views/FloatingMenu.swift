@@ -85,7 +85,7 @@ final class FloatingMenu: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func repositionSelectedView(_ scrollView: UIScrollView) {
+    func repositionButtonSelection(_ scrollView: UIScrollView) {
         // get the current content offset in percent whenever users is scrolling the scroll view
         var xOffsetPercent = scrollView.contentOffset.x * 100 / scrollView.contentSize.width
         if xOffsetPercent < 0 {
@@ -93,7 +93,6 @@ final class FloatingMenu: UIView {
         } else if xOffsetPercent > 75 {
             xOffsetPercent = 75
         }
-        print(xOffsetPercent)
         selectedViewLeftConstraint!.constant = xOffsetPercent * frame.width / 100
     }
     
@@ -123,7 +122,7 @@ final class FloatingMenu: UIView {
         applyCornerRadius(8)
     }
     
-    // MARK: - Button Handling
+    // MARK: - Menu Button Handling
     
     @objc private func scannerButtonTapped(_ sender: MenuButton) {
         feedbackGenerator.impactOccurred()
