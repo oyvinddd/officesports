@@ -228,8 +228,10 @@ extension MainViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView == outerScrollView {
             scannerViewController.handleShadowViewOpacity(scrollView.contentOffset)
+            floatingMenu.adjustSelectionFromOuterScrollView(scrollView)
+        } else {
+            floatingMenu.adjustselectionFromInnerScrollView(scrollView)
         }
-        floatingMenu.repositionButtonSelection(scrollView)
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
