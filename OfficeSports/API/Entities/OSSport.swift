@@ -9,7 +9,11 @@ import Foundation
 
 enum OSSport: Int, Codable {
     
-    case foosball, tableTennis, unknown
+    case unknown = -1
+    
+    case foosball = 0
+    
+    case tableTennis = 1
     
     var humanReadableName: String {
         switch self {

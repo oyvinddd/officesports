@@ -18,6 +18,8 @@ protocol ScannerViewModelDelegate: AnyObject {
 
 final class ScannerViewModel {
     
+    var isBusy: Bool = false
+    
     private let api: SportsAPI
     
     weak var delegate: ScannerViewModelDelegate?
@@ -28,6 +30,7 @@ final class ScannerViewModel {
     
     func registerMatch(_ registration: OSMatchRegistration) {
         delegate?.shouldToggleLoading(enabled: true)
+        isBusy = true
         api.registerMatch(registration) { [unowned self] error in
             self.delegate?.shouldToggleLoading(enabled: false)
             guard let error = error else {
@@ -35,6 +38,7 @@ final class ScannerViewModel {
                 return
             }
             delegate?.matchRegistrationFailed(error: error)
+            self.isBusy = false
         }
     }
 }

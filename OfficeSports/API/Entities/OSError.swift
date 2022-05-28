@@ -42,7 +42,7 @@ enum OSError: LocalizedError {
         case .invalidQrCode:
             return "The QR code is not valid"
         case .invalidOpponent:
-            return "You cannot play against yourself dumbass!"
+            return "You cannot register a match result against yourself dumbass!"
         case .nicknameMissing:
             return "Nickname is missing"
         case .nicknameTooShort:
@@ -50,7 +50,7 @@ enum OSError: LocalizedError {
         case .nicknameTooLong:
             return "Nickname is too long"
         case .invalidInvite:
-            return "You cannot invite yourself dumbass!"
+            return "You cannot invite yourself to a match dumbass!"
         }
     }
 }

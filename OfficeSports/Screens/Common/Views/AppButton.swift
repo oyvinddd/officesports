@@ -25,7 +25,6 @@ final class AppButton: UIButton {
         setTitleColor(color, for: .selected)
         setTitleColor(color, for: .highlighted)
         setTitleColor(color, for: .focused)
-        //tintColor = .yellow
         setTitle(title, for: .normal)
         layer.masksToBounds = true
         layer.cornerRadius = 8

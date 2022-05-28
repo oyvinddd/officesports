@@ -57,11 +57,11 @@ final class OSAccount: Codable {
     }
     
     func qrCodePayloadForSport(_ sport: OSSport) -> OSCodePayload? {
-        guard let uid = Auth.auth().currentUser?.uid else {
+        guard let uid = userId, let nickname = nickname else {
             print("Unable to get user ID since user is not logged in.")
             return nil
         }
-        return OSCodePayload(userId: uid, sport: sport)
+        return OSCodePayload(userId: uid, nickname: nickname, sport: sport)
     }
     
     func loadProfileDetails() -> (String?, String?) {

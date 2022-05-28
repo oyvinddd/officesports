@@ -33,6 +33,7 @@
 		8E38B57C283C39A2009E0387 /* UserDefaultsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B57B283C39A2009E0387 /* UserDefaultsHelper.swift */; };
 		8E38B57E283C3D01009E0387 /* AchievementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B57D283C3D01009E0387 /* AchievementsViewController.swift */; };
 		8E38B582283C5895009E0387 /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B581283C5895009E0387 /* PreferencesViewController.swift */; };
+		8E6B33E028426DFB00E73EDD /* ScannerFrameLinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6B33DF28426DFB00E73EDD /* ScannerFrameLinesView.swift */; };
 		8E6DF2992834CEB20009ACA1 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 8E6DF2982834CEB20009ACA1 /* FirebaseFirestore */; };
 		8E6DF29B2834CEB20009ACA1 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8E6DF29A2834CEB20009ACA1 /* FirebaseFirestoreSwift */; };
 		8E70C112282ABA4E009A9452 /* NSLayoutConstraint+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C111282ABA4E009A9452 /* NSLayoutConstraint+Util.swift */; };
@@ -104,6 +105,7 @@
 		8E38B57B283C39A2009E0387 /* UserDefaultsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsHelper.swift; sourceTree = "<group>"; };
 		8E38B57D283C3D01009E0387 /* AchievementsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsViewController.swift; sourceTree = "<group>"; };
 		8E38B581283C5895009E0387 /* PreferencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesViewController.swift; sourceTree = "<group>"; };
+		8E6B33DF28426DFB00E73EDD /* ScannerFrameLinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerFrameLinesView.swift; sourceTree = "<group>"; };
 		8E70C111282ABA4E009A9452 /* NSLayoutConstraint+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Util.swift"; sourceTree = "<group>"; };
 		8E70C113282ABC56009A9452 /* SportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportViewController.swift; sourceTree = "<group>"; };
 		8E70C116282ABD3E009A9452 /* FloatingMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingMenu.swift; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 				8E70C116282ABD3E009A9452 /* FloatingMenu.swift */,
 				8E70C125282ACCB5009A9452 /* ProfileView.swift */,
 				8E9849C7282BCDC80020266B /* CircleView.swift */,
+				8E6B33DF28426DFB00E73EDD /* ScannerFrameLinesView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -634,6 +637,7 @@
 				8E176F6F28329E4A00377497 /* PlayerProfileViewModel.swift in Sources */,
 				8E9849C8282BCDC80020266B /* CircleView.swift in Sources */,
 				8E70C132282AD1F0009A9452 /* SportViewModel.swift in Sources */,
+				8E6B33E028426DFB00E73EDD /* ScannerFrameLinesView.swift in Sources */,
 				8E230887282D575D00AF60EB /* AuthViewModel.swift in Sources */,
 				8E70C136282ADF7A009A9452 /* OSAccount.swift in Sources */,
 				8E230889282D788D00AF60EB /* EmojiPickerViewController.swift in Sources */,
