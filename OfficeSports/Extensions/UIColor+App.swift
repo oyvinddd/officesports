@@ -13,7 +13,6 @@ extension UIColor {
     enum OS {
         
         enum General {
-            
             static let background = UIColor(hex: 0xE4E6EB)
             
             static let main = UIColor(hex: 0x656FED)
@@ -21,17 +20,10 @@ extension UIColor {
             static let mainDark = UIColor(hex: 0x7071C1)
             
             static let separator = UIColor(hex: 0xF1F0F2)
-            
-            static let failure = UIColor(hex: 0xEA4755)
-            
-            static let success = UIColor(hex: 0x65C775)
-            
-            static let warning = UIColor(hex: 0xF4BB52)
         }
         
         enum Text {
-            
-            static let normal = UIColor(hex: 0x545A66) // 414755
+            static let normal = UIColor(hex: 0x545A66)
             
             static let subtitle = UIColor(hex: 0xC7C7C9)
             
@@ -39,14 +31,22 @@ extension UIColor {
         }
         
         enum Sport {
-            
             static let foosball = UIColor(hex: 0xEB9F6C)
             
             static let tableTennis = UIColor(hex: 0x6CBEA8)
         }
         
-        enum Profile {
+        enum Message {
+            static let failure = UIColor(hex: 0xEA4755)
             
+            static let success = UIColor(hex: 0x65C775)
+            
+            static let warning = UIColor(hex: 0xF4BB52)
+            
+            static let info = UIColor(hex: 0x000000)
+        }
+        
+        enum Profile {
             static let color1 = UIColor(hex: 0x6CBEA8)
             
             static let color2 = UIColor(hex: 0x98C39A)

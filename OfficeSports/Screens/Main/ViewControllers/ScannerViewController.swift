@@ -28,6 +28,17 @@ final class ScannerViewController: UIViewController {
         return button
     }()
     
+    private lazy var infoMessageView: UIView = {
+        let label = UILabel.createLabel(.white)
+        label.text = "To register a match, the winner only needs to scan the QR code of the loser."
+        label.font = UIFont.boldSystemFont(ofSize: 16)
+        let view = UIView.createView(UIColor.OS.Message.info)
+        NSLayoutConstraint.pinToView(view, label, padding: 8)
+        view.applyCornerRadius(6)
+        view.alpha = 0.5
+        return view
+    }()
+    
     private var cameraIsActive: Bool {
         captureSession != nil && captureSession.isRunning
     }
@@ -59,6 +70,8 @@ final class ScannerViewController: UIViewController {
         NSLayoutConstraint.pinToView(view, cameraView)
         NSLayoutConstraint.pinToView(view, shadowView)
         
+        view.addSubview(infoMessageView)
+        
         NSLayoutConstraint.activate([
             activateCameraDescription.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
             activateCameraDescription.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
@@ -66,7 +79,10 @@ final class ScannerViewController: UIViewController {
             activateCameraButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
             activateCameraButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
             activateCameraButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            activateCameraButton.heightAnchor.constraint(equalToConstant: 50)
+            activateCameraButton.heightAnchor.constraint(equalToConstant: 50),
+            infoMessageView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
+            infoMessageView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
+            infoMessageView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100)
         ])
     }
     
@@ -108,7 +124,7 @@ final class ScannerViewController: UIViewController {
         previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         previewLayer.frame = view.layer.bounds
         previewLayer.videoGravity = .resizeAspectFill
-        view.layer.addSublayer(previewLayer)
+        cameraView.layer.addSublayer(previewLayer)
         
         // start the capture session (blocking)
         captureSession.startRunning()
