@@ -11,26 +11,26 @@ final class MockSportsAPI: SportsAPI {
 
     private static let fst = [
         OSStats(sport: .foosball, totalScore: 0, totalMatches: 1),
-        OSStats(sport: .foosball, totalScore: 1, totalMatches: 0),
-        OSStats(sport: .foosball, totalScore: 0, totalMatches: 0),
+        OSStats(sport: .foosball, totalScore: 1, totalMatches: 20),
+        OSStats(sport: .foosball, totalScore: 0, totalMatches: 2),
         OSStats(sport: .foosball, totalScore: 11, totalMatches: 10),
-        OSStats(sport: .foosball, totalScore: 0, totalMatches: 0),
-        OSStats(sport: .foosball, totalScore: 0, totalMatches: 7),
-        OSStats(sport: .foosball, totalScore: 44, totalMatches: 10),
-        OSStats(sport: .foosball, totalScore: 0, totalMatches: 0),
-        OSStats(sport: .foosball, totalScore: 100, totalMatches: 0)
+        OSStats(sport: .foosball, totalScore: 0, totalMatches: 20),
+        OSStats(sport: .foosball, totalScore: 0, totalMatches: 700),
+        OSStats(sport: .foosball, totalScore: 110, totalMatches: 2),
+        OSStats(sport: .foosball, totalScore: 0, totalMatches: 2),
+        OSStats(sport: .foosball, totalScore: 100, totalMatches: 1)
     ]
     
     private static let tst = [
         OSStats(sport: .tableTennis, totalScore: 0, totalMatches: 1),
-        OSStats(sport: .tableTennis, totalScore: 1, totalMatches: 0),
-        OSStats(sport: .tableTennis, totalScore: 0, totalMatches: 0),
+        OSStats(sport: .tableTennis, totalScore: 1, totalMatches: 2),
+        OSStats(sport: .tableTennis, totalScore: 200, totalMatches: 300),
         OSStats(sport: .tableTennis, totalScore: 11, totalMatches: 10),
-        OSStats(sport: .tableTennis, totalScore: 0, totalMatches: 0),
+        OSStats(sport: .tableTennis, totalScore: 0, totalMatches: 1000),
         OSStats(sport: .tableTennis, totalScore: 0, totalMatches: 7),
-        OSStats(sport: .tableTennis, totalScore: 44, totalMatches: 10),
-        OSStats(sport: .tableTennis, totalScore: 0, totalMatches: 0),
-        OSStats(sport: .tableTennis, totalScore: 100, totalMatches: 0)
+        OSStats(sport: .tableTennis, totalScore: 44, totalMatches: 30),
+        OSStats(sport: .tableTennis, totalScore: 0, totalMatches: 32),
+        OSStats(sport: .tableTennis, totalScore: 0, totalMatches: 1)
     ]
     
     private let players = [

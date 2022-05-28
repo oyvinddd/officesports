@@ -236,6 +236,8 @@ final class ProfileView: UIView {
         ])
     }
     
+    // MARK: - Button Handling
+    
     @objc private func profilePictureTapped(_ sender: UITapGestureRecognizer) {
         delegate?.profilePictureTapped()
     }

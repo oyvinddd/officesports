@@ -27,6 +27,10 @@ final class OSAccount: Codable {
         return nickname != nil && emoji != nil
     }
     
+    var nickname: String?
+    
+    var emoji: String?
+    
     var player: OSPlayer? {
         guard signedIn,
                 let uid = userId,
@@ -44,10 +48,6 @@ final class OSAccount: Codable {
             tableTennisStats: tableTennisStats
         )
     }
-    
-    var nickname: String?
-    
-    var emoji: String?
     
     init() {
         let (nick, emoji) = loadProfileDetails()

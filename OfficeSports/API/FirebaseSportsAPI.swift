@@ -11,6 +11,9 @@ import FirebaseAuth
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
+private let maxResultsInScoreboard = 200
+private let maxResultsInRecentMatches = 100
+
 private let fbPlayersCollection = "players"
 private let fbMatchesCollection = "matches"
 private let fbInvitesCollection = "invites"
@@ -98,7 +101,7 @@ final class FirebaseSportsAPI: SportsAPI {
     }
     
     func getScoreboard(sport: OSSport, result: @escaping (([OSPlayer], Error?) -> Void)) {
-        playersCollection.limit(to: 50).getDocuments { (snapshot, error) in
+        playersCollection.limit(to: maxResultsInScoreboard).getDocuments { (snapshot, error) in
             guard let error = error else {
                 let players = self.playersFromDocuments(snapshot!.documents)
                 result(players, nil)
@@ -109,7 +112,7 @@ final class FirebaseSportsAPI: SportsAPI {
     }
     
     func getMatchHistory(sport: OSSport, result: @escaping (([OSMatch], Error?) -> Void)) {
-        let query = matchesCollection.limit(to: 100).whereField("sport", isEqualTo: sport.rawValue)
+        let query = matchesCollection.limit(to: maxResultsInRecentMatches).whereField("sport", isEqualTo: sport.rawValue)
         query.getDocuments { [unowned self] (snapshot, error) in
             guard let error = error else {
                 let matches = matchesFromDocuments(snapshot!.documents)

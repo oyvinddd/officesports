@@ -22,4 +22,8 @@ struct OSPlayer: Codable {
     func statsForSport(_ sport: OSSport) -> OSStats {
         sport == .foosball ? foosballStats : tableTennisStats
     }
+    
+    func scoreForSport(_ sport: OSSport) -> Int {
+        return statsForSport(sport).totalScore
+    }
 }
