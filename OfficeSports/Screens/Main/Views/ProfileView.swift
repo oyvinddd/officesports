@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 private let profileImageDiameter: CGFloat = 128
 private let sportImageDiameter: CGFloat = 60
@@ -122,6 +123,7 @@ final class ProfileView: UIView {
     
     weak var delegate: ProfileViewDelegate?
     
+    private var subscribers = Set<AnyCancellable>()
     private var account: OSAccount
     private var isDisplayingCode: Bool = false
     
@@ -133,6 +135,7 @@ final class ProfileView: UIView {
         profileEmjoiLabel.text = account.emoji
         nicknameLabel.text = account.nickname?.lowercased()
         setupChildViews()
+        setupObservables()
         configureForSport(.foosball)
     }
     
@@ -234,6 +237,17 @@ final class ProfileView: UIView {
             totalScoreLabel.topAnchor.constraint(equalTo: nicknameLabel.bottomAnchor, constant: 6),
             totalScoreLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
         ])
+    }
+    
+    private func setupObservables() {
+        OSAccount.current.$nickname
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.text, on: nicknameLabel)
+            .store(in: &subscribers)
+        OSAccount.current.$emoji
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.text, on: profileEmjoiLabel)
+            .store(in: &subscribers)
     }
     
     // MARK: - Button Handling

@@ -11,7 +11,7 @@ import FirebaseAuth
 private let userDefaultsNicknameKey = "nickname"
 private let userdefaultsEmojiKey = "emoji"
 
-final class OSAccount: Codable {
+final class OSAccount {
     
     static let current = OSAccount()
     
@@ -27,9 +27,13 @@ final class OSAccount: Codable {
         return nickname != nil && emoji != nil
     }
     
-    var nickname: String?
+    @Published var nickname: String? {
+        didSet {
+            print("Updated nickname: \(nickname ?? "")")
+        }
+    }
     
-    var emoji: String?
+    @Published var emoji: String?
     
     var player: OSPlayer? {
         guard signedIn,

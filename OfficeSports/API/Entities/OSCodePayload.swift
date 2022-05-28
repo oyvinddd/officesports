@@ -14,6 +14,4 @@ struct OSCodePayload: Codable {
     var nickname: String
     
     var sport: OSSport
-    
-    
 }

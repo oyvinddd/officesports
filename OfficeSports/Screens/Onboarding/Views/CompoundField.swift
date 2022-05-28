@@ -22,6 +22,7 @@ final class CompoundField: UIView {
         let textField = UITextField.createTextField(.clear, color: UIColor.OS.Text.normal)
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(16, 0, 0)
         textField.font = UIFont.systemFont(ofSize: 20)
+        // textField.clearButtonMode = .whileEditing
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
         return textField

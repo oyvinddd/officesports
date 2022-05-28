@@ -48,7 +48,7 @@ final class PlayerProfileViewModel {
         let standardDefaults = UserDefaults.standard
         standardDefaults.set(nickname, forKey: userDefaultsNicknameKey)
         standardDefaults.set(emoji, forKey: userdefaultsEmojiKey)
-        // add profile details to the current account
+        // update the profile details on the current account
         OSAccount.current.nickname = nickname
         OSAccount.current.emoji = emoji
     }
