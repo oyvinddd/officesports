@@ -30,9 +30,8 @@ final class WelcomeViewController: UIViewController {
         return circleView
     }()
     
-    private lazy var signInButton: AppButton = {
-        //let button = UIButton.createButton(.white, UIColor.OS.General.main, UIColor.OS.General.mainDark, title: "Sign in with Google")
-        let button = AppButton.main("Sign in with Google")
+    private lazy var signInButton: OSButton = {
+        let button = OSButton("Sign in with Google", type: .primary)
         button.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
         return button
     }()

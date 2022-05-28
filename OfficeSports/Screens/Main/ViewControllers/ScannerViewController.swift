@@ -26,8 +26,8 @@ final class ScannerViewController: UIViewController {
         return UILabel.createLabel(.white, alignment: .left, text: "You need to activate the camera in order to register match scores.")
     }()
     
-    private lazy var activateCameraButton: AppButton = {
-        let button = AppButton(.white, UIColor.OS.General.main, .black, "Enable camera")
+    private lazy var activateCameraButton: OSButton = {
+        let button = OSButton("Enable camera", type: .primary)
         button.addTarget(self, action: #selector(activateCameraButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -36,7 +36,7 @@ final class ScannerViewController: UIViewController {
         let label = UILabel.createLabel(.white)
         label.text = "If you're the winner of a match, scan the loser's QR code to register the match result."
         label.font = UIFont.boldSystemFont(ofSize: 16)
-        let view = UIView.createView(UIColor.OS.Message.info)
+        let view = UIView.createView(UIColor.OS.Status.info)
         NSLayoutConstraint.pinToView(view, label, padding: 16)
         view.applyCornerRadius(6)
         view.alpha = 0.7

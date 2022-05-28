@@ -121,11 +121,11 @@ private final class MessageView: UIView {
         messageLabel.text = message.text
         switch message.category {
         case .success:
-            backgroundColor = UIColor.OS.Message.success
+            backgroundColor = UIColor.OS.Status.success
         case .failure:
-            backgroundColor = UIColor.OS.Message.failure
+            backgroundColor = UIColor.OS.Status.failure
         case .warning:
-            backgroundColor = UIColor.OS.Message.warning
+            backgroundColor = UIColor.OS.Status.warning
         case .info:
             backgroundColor = UIColor.black
         }

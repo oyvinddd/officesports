@@ -27,11 +27,7 @@ final class OSAccount {
         return nickname != nil && emoji != nil
     }
     
-    @Published var nickname: String? {
-        didSet {
-            print("Updated nickname: \(nickname ?? "")")
-        }
-    }
+    @Published var nickname: String?
     
     @Published var emoji: String?
     

@@ -52,7 +52,7 @@ final class MatchTableViewCell: UITableViewCell {
     private lazy var winnerDeltaLabel: UILabel = {
         let label = UILabel.createLabel(.white, alignment: .center)
         label.font = UIFont.systemFont(ofSize: 13, weight: .bold)
-        label.backgroundColor = UIColor.OS.Message.success
+        label.backgroundColor = UIColor.OS.Status.success
         label.applyCornerRadius(5)
         return label
     }()
@@ -60,7 +60,7 @@ final class MatchTableViewCell: UITableViewCell {
     private lazy var loserDeltaLabel: UILabel = {
         let label = UILabel.createLabel(.white, alignment: .center)
         label.font = UIFont.systemFont(ofSize: 13, weight: .bold)
-        label.backgroundColor = UIColor.OS.Message.failure
+        label.backgroundColor = UIColor.OS.Status.failure
         return label
     }()
     

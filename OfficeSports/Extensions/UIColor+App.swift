@@ -36,7 +36,7 @@ extension UIColor {
             static let tableTennis = UIColor(hex: 0x6CBEA8)
         }
         
-        enum Message {
+        enum Status {
             static let failure = UIColor(hex: 0xEA4755)
             
             static let success = UIColor(hex: 0x65C775)
@@ -44,6 +44,20 @@ extension UIColor {
             static let warning = UIColor(hex: 0xF4BB52)
             
             static let info = UIColor(hex: 0x000000)
+        }
+        
+        enum Button {
+            static let primary = UIColor(hex: 0xFFFFFF)
+            
+            static let primaryForeground = UIColor.OS.General.main
+            
+            static let primaryInverted = UIColor(hex: 0xFFFFFF)
+            
+            static let primaryInvertedForeground = UIColor(hex: 0x000000)
+            
+            static let secondary = UIColor(hex: 0xFFFFFF)
+            
+            static let secondaryInverted = UIColor(hex: 0xFFFFFF)
         }
         
         enum Profile {

@@ -9,7 +9,7 @@ import UIKit
 
 final class ScannerFrameLinesView: UIView {
     
-    private let activeColor = UIColor.OS.Message.success.cgColor
+    private let activeColor = UIColor.OS.Status.success.cgColor
     private let inactiveColor = UIColor.white.cgColor
     private let frameWidth = 8.0
     
