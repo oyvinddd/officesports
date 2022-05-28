@@ -23,6 +23,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 Build and distribute app to Firebase App Distribution
 
+### ios version_bump
+
+```sh
+[bundle exec] fastlane ios version_bump
+```
+
+Increment version and build number
+
 ----
 
 This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.
