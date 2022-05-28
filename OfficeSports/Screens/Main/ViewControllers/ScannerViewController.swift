@@ -30,10 +30,10 @@ final class ScannerViewController: UIViewController {
     
     private lazy var infoMessageView: UIView = {
         let label = UILabel.createLabel(.white)
-        label.text = "To register a match, the winner only needs to scan the QR code of the loser."
+        label.text = "To register a match, the winner should scan the loser's QR code."
         label.font = UIFont.boldSystemFont(ofSize: 16)
         let view = UIView.createView(UIColor.OS.Message.info)
-        NSLayoutConstraint.pinToView(view, label, padding: 8)
+        NSLayoutConstraint.pinToView(view, label, padding: 16)
         view.applyCornerRadius(6)
         view.alpha = 0.5
         return view
@@ -86,13 +86,13 @@ final class ScannerViewController: UIViewController {
         ])
     }
     
-    func stopCaptureSession() {
+    private func stopCaptureSession() {
         if captureSession != nil && captureSession.isRunning {
             captureSession.stopRunning()
         }
     }
     
-    func startCaptureSession() {
+    private func startCaptureSession() {
         // exit early if camera has not been enabled by the user or if it is already active
         guard AVCaptureDevice.authorizationStatus(for: .video) == .authorized || !cameraIsActive else {
             return

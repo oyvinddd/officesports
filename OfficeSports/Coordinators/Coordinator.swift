@@ -8,7 +8,7 @@
 import UIKit
 
 enum AppState: Int, RawRepresentable {
-    case authorized, unauthorized, missingProfileDetails
+    case authorized, unauthorized, missingOrg, missingProfileDetails
 }
 
 final class Coordinator {
@@ -82,6 +82,8 @@ final class Coordinator {
         case .authorized:
             viewController = mainViewController
         case .missingProfileDetails:
+            viewController = playerProfileViewController
+        case .missingOrg:
             viewController = playerProfileViewController
         case .unauthorized:
             viewController = welcomeViewController
