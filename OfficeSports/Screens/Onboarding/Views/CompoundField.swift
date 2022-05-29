@@ -57,6 +57,26 @@ final class CompoundField: UIView {
         }
     }
     
+    var buttonTitle: String? {
+        get {
+            button.title(for: .normal)
+        }
+        set {
+            button.setTitle(newValue, for: .normal)
+            button.setImage(nil, for: .normal)
+        }
+    }
+    
+    var buttonImage: UIImage? {
+        get {
+            button.image(for: .normal)
+        }
+        set {
+            button.setImage(newValue, for: .normal)
+            button.setTitle(nil, for: .normal)
+        }
+    }
+    
     var alignment: ButtonAlignment
     
     weak var delegate: CompoundFieldDelegate?
@@ -79,11 +99,6 @@ final class CompoundField: UIView {
     override func becomeFirstResponder() -> Bool {
         super.becomeFirstResponder()
         return textField.becomeFirstResponder()
-    }
-    
-    func setButtonTitle(_ title: String) {
-        button.setTitle(title, for: .normal)
-        button.setImage(nil, for: .normal)
     }
     
     func toggleLoadingIndicator(enabled: Bool) {

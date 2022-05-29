@@ -17,7 +17,7 @@ extension UIColor {
             
             static let main = UIColor(hex: 0x656FED)
             
-            static let mainDark = UIColor(hex: 0x7071C1)
+            static let mainDark = UIColor(hex: 0x4C56C8)
             
             static let separator = UIColor(hex: 0xF1F0F2)
         }
@@ -126,8 +126,8 @@ extension UIColor {
             ]
         }
         
-        static func hashedProfileColor(nickname: String) -> UIColor {
-            let hashedIndex = nickname.count << 5 % profileColors.count
+        static func hashedProfileColor(_ input: String) -> UIColor {
+            let hashedIndex = input.count << 5 % profileColors.count
             return profileColors[abs(hashedIndex)]
         }
     }

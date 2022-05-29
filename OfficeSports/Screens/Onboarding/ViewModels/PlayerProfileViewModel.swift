@@ -21,13 +21,24 @@ protocol PlayerProfileViewModelDelegate: AnyObject {
 
 final class PlayerProfileViewModel {
     
-    var api: SportsAPI
+    let api: SportsAPI
+    var emoijs = [String]()
+    
+    var randomEmoji: String {
+        let randomIndex = Int.random(in: 0..<emoijs.count)
+        return emoijs[randomIndex]
+    }
     
     weak var delegate: PlayerProfileViewModelDelegate?
     
     init(api: SportsAPI, delegate: PlayerProfileViewModelDelegate? = nil) {
         self.api = api
         self.delegate = delegate
+        do {
+            self.emoijs = try loadEmojisFromFile(filename: "emojis")
+        } catch let error {
+            fatalError(error.localizedDescription)
+        }
     }
     
     func registerProfileDetails(nickname: String, emoji: String) {
@@ -51,5 +62,14 @@ final class PlayerProfileViewModel {
         // update the profile details on the current account
         OSAccount.current.nickname = nickname
         OSAccount.current.emoji = emoji
+    }
+    
+    private func loadEmojisFromFile(filename: String) throws -> [String] {
+        if let filePath = Bundle.main.path(forResource: filename, ofType: "csv") {
+            let contents = try String(contentsOfFile: filePath)
+            return contents.components(separatedBy: ",")
+        }
+        print("CSV file containing emojis not found")
+        return []
     }
 }

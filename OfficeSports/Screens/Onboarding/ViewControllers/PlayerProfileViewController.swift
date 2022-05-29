@@ -10,46 +10,73 @@ import UIKit
 private let nicknameMinLength = 3
 private let nicknameMaxLength = 20
 
+private let profileImageDiameter: CGFloat = 110
+private let profileImageRadius: CGFloat = profileImageDiameter / 2
+
 final class PlayerProfileViewController: UIViewController {
     
     private lazy var titleLabel: UILabel = {
-        let label = UILabel.createLabel(.white)
+        let label = UILabel.createLabel(.white, alignment: .center)
         label.font = UIFont.boldSystemFont(ofSize: 32)
-        label.text = "Choose your nickname"
+        label.text = "Create profile"
         return label
     }()
     
     private lazy var descriptionLabel: UILabel = {
-        let label = UILabel.createLabel(.white)
-        label.text = "Choose a nickname and an associated emoji that people can remember you by. You can edit these details later if you want to."
+        let label = UILabel.createLabel(.white, alignment: .center)
+        label.text = "Choose a nickname and an associated emoji that people can remember you by."
         return label
     }()
     
-    private lazy var nicknameField: CompoundField = {
-        let field = CompoundField(UIColor.OS.General.mainDark, buttonColor: .white, alignment: .left)
-        field.delegate = self
-        return field
+    private lazy var profileImageWrap: UIView = {
+        let imageWrap = UIView.createView(.white, cornerRadius: profileImageRadius)
+        imageWrap.applyMediumDropShadow(.black)
+        return imageWrap
     }()
     
-    private lazy var continueButton: UIButton = {
-        let button = UIButton.createButton(.white, UIColor.OS.General.main, title: "Continue")
-        button.addTarget(self, action: #selector(continueButtonTapped), for: .touchUpInside)
+    private lazy var profileImageBackground: UIView = {
+        let profileColor = UIColor.OS.hashedProfileColor("")
+        let profileImageBackground = UIView.createView(profileColor)
+        profileImageBackground.applyCornerRadius((profileImageDiameter - 12) / 2)
+        return profileImageBackground
+    }()
+    
+    private lazy var profileEmjoiLabel: UILabel = {
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(profileEmojiTapped))
+        let label = UILabel.createLabel(.black, alignment: .center)
+        label.addGestureRecognizer(tapRecognizer)
+        label.font = UIFont.systemFont(ofSize: 63)
+        label.isUserInteractionEnabled = true
+        return label
+    }()
+    
+    private lazy var nicknameField: UITextField = {
+        let textField = UITextField.createTextField(UIColor.OS.General.mainDark, color: .white, placeholder: "Nickname")
+        textField.layer.sublayerTransform = CATransform3DMakeTranslation(16, 0, 0)
+        textField.font = UIFont.boldSystemFont(ofSize: 20)
+        textField.autocapitalizationType = .none
+        textField.applyCornerRadius(8)
+        textField.delegate = self
+        return textField
+    }()
+    
+    private lazy var continueButton: OSButton = {
+        let button = OSButton("Continue", type: .primary)
         return button
     }()
     
-    var selectedEmoji: String = "" {
+    private let viewModel: PlayerProfileViewModel
+    private var centerYConstraint: NSLayoutConstraint?
+    
+    var selectedEmoji: String {
         didSet {
-            nicknameField.setButtonTitle(selectedEmoji)
+            profileEmjoiLabel.text = selectedEmoji
         }
     }
     
-    private var viewModel: PlayerProfileViewModel
-    
-    private var centerYConstraint: NSLayoutConstraint?
-    private let defaultEmoji = "😄"
-    
     init(viewModel: PlayerProfileViewModel) {
         self.viewModel = viewModel
+        self.selectedEmoji = viewModel.randomEmoji
         super.init(nibName: nil, bundle: nil)
         viewModel.delegate = self
     }
@@ -88,10 +115,14 @@ final class PlayerProfileViewController: UIViewController {
     private func setupChildViews() {
         view.addSubview(titleLabel)
         view.addSubview(descriptionLabel)
+        view.addSubview(profileImageWrap)
         view.addSubview(nicknameField)
         view.addSubview(continueButton)
         
-        centerYConstraint = nicknameField.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        NSLayoutConstraint.pinToView(profileImageWrap, profileImageBackground, padding: 6)
+        NSLayoutConstraint.pinToView(profileImageBackground, profileEmjoiLabel)
+        
+        centerYConstraint = profileImageWrap.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         
         NSLayoutConstraint.activate([
             titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
@@ -99,14 +130,18 @@ final class PlayerProfileViewController: UIViewController {
             descriptionLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
             descriptionLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
             descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
-            descriptionLabel.bottomAnchor.constraint(equalTo: nicknameField.topAnchor, constant: -32),
+            descriptionLabel.bottomAnchor.constraint(equalTo: profileImageWrap.topAnchor, constant: -32),
+            profileImageWrap.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            centerYConstraint!,
+            profileImageWrap.widthAnchor.constraint(equalToConstant: profileImageDiameter),
+            profileImageWrap.heightAnchor.constraint(equalTo: profileImageWrap.widthAnchor),
             nicknameField.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
             nicknameField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
+            nicknameField.topAnchor.constraint(equalTo: profileImageWrap.bottomAnchor, constant: 32),
             nicknameField.heightAnchor.constraint(equalToConstant: 50),
-            centerYConstraint!,
-            continueButton.leftAnchor.constraint(equalTo: nicknameField.leftAnchor),
-            continueButton.rightAnchor.constraint(equalTo: nicknameField.rightAnchor),
-            continueButton.topAnchor.constraint(equalTo: nicknameField.bottomAnchor, constant: 20),
+            continueButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
+            continueButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
+            continueButton.topAnchor.constraint(equalTo: nicknameField.bottomAnchor, constant: 16),
             continueButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
@@ -114,11 +149,14 @@ final class PlayerProfileViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = UIColor.OS.General.main
         if OSAccount.current.hasValidProfileDetails {
-            continueButton.setTitle("Update", for: .normal)
-            titleLabel.text = "Update your nickname"
+            titleLabel.text = "Update profile"
         }
-        selectedEmoji = OSAccount.current.emoji ?? defaultEmoji
-        nicknameField.text = OSAccount.current.nickname
+        let nickname = OSAccount.current.nickname
+        let emoji = OSAccount.current.emoji ?? selectedEmoji
+        
+        nicknameField.text = nickname
+        profileEmjoiLabel.text = emoji
+        profileImageBackground.backgroundColor = UIColor.OS.hashedProfileColor(nickname ?? "")
     }
     
     private func processAndValidateNickname(_ nickname: String?) throws -> String {
@@ -145,14 +183,9 @@ final class PlayerProfileViewController: UIViewController {
             Coordinator.global.showMessage(OSMessage(error.localizedDescription, .failure))
         }
     }
-}
-
-// MARK: - Text Field Delegate
-
-extension PlayerProfileViewController: CompoundFieldDelegate {
     
-    func buttonTapped(_ text: String?) {
-        Coordinator.global.presentEmojiPicker(from: self)
+    @objc private func profileEmojiTapped(_ sender: UITapGestureRecognizer) {
+        Coordinator.global.presentEmojiPicker(from: self, emojis: viewModel.emoijs)
     }
 }
 
@@ -176,8 +209,12 @@ extension PlayerProfileViewController: PlayerProfileViewModelDelegate {
     }
     
     func shouldToggleLoading(enabled: Bool) {
-        continueButton.toggleLoading(enabled)
+        //continueButton.toggleLoading(enabled)
     }
+}
+
+extension PlayerProfileViewController: UITextFieldDelegate {
+    
 }
 
 // swiftlint:disable force_cast

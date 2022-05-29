@@ -36,10 +36,10 @@ final class EmojiPickerViewController: UIViewController {
         return collectionView
     }()
     
-    private let viewModel: EmojiViewModel
+    private let emojis: [String]
     
-    init(viewModel: EmojiViewModel) {
-        self.viewModel = viewModel
+    init(emojis: [String]) {
+        self.emojis = emojis
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -90,12 +90,12 @@ extension EmojiPickerViewController: UICollectionViewDelegateFlowLayout {
 extension EmojiPickerViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.emojis.count
+        return emojis.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(for: EmojiCollectionViewCell.self, for: indexPath)
-        cell.emoji = viewModel.emojis[indexPath.row]
+        cell.emoji = emojis[indexPath.row]
         return cell
     }
 }
@@ -106,7 +106,7 @@ extension EmojiPickerViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let viewController = presentingViewController as? PlayerProfileViewController {
-            viewController.selectedEmoji = viewModel.emojis[indexPath.row]
+            viewController.selectedEmoji = emojis[indexPath.row]
             dismiss(animated: true)
         }
     }

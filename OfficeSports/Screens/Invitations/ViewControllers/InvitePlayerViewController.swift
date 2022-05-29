@@ -45,7 +45,7 @@ final class InvitePlayerViewController: UIViewController {
     }()
     
     private lazy var profileImageBackground: UIView = {
-        let profileColor = UIColor.OS.hashedProfileColor(nickname: player.nickname)
+        let profileColor = UIColor.OS.hashedProfileColor(player.nickname)
         let profileImageBackground = UIView.createView(profileColor)
         profileImageBackground.applyCornerRadius((profileImageDiameter - 16) / 2)
         return profileImageBackground

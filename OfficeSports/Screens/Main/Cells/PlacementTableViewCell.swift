@@ -65,7 +65,7 @@ final class PlacementTableViewCell: UITableViewCell {
     func configure(with player: OSPlayer, _ sport: OSSport, _ placement: Int, _ isFirst: Bool, _ isLast: Bool) {
         applyCornerRadius(isFirstElement: isFirst, isLastElement: isLast)
         configurePlacementLabel(placement, isLast: isLast)
-        profileImageWrap.backgroundColor = UIColor.OS.hashedProfileColor(nickname: player.nickname)
+        profileImageWrap.backgroundColor = UIColor.OS.hashedProfileColor(player.nickname)
         profileEmojiLabel.text = player.emoji
         usernameLabel.text = player.nickname.lowercased()
         scoreLabel.text = "\(player.scoreForSport(sport)) pts"

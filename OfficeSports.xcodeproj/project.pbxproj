@@ -56,7 +56,6 @@
 		8E70C13A282AEE7E009A9452 /* SportsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C139282AEE7E009A9452 /* SportsAPI.swift */; };
 		8E7D0AC52838D5C0006D6DF7 /* EmojiCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D0AC42838D5C0006D6DF7 /* EmojiCollectionViewCell.swift */; };
 		8E7D0AC72838D7A1006D6DF7 /* UICollectionView+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D0AC62838D7A1006D6DF7 /* UICollectionView+Util.swift */; };
-		8E7D0AC92838D8A7006D6DF7 /* EmojiViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D0AC82838D8A7006D6DF7 /* EmojiViewModel.swift */; };
 		8E7D0ACC28391A9E006D6DF7 /* emojis.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8E7D0ACB28391A9E006D6DF7 /* emojis.csv */; };
 		8E7D9A7F282BEF66007BCDE0 /* CodeGen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D9A7E282BEF66007BCDE0 /* CodeGen.swift */; };
 		8E973322283231F40012E236 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E973321283231F40012E236 /* SettingsViewModel.swift */; };
@@ -127,7 +126,6 @@
 		8E70C13B282BAF51009A9452 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		8E7D0AC42838D5C0006D6DF7 /* EmojiCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCollectionViewCell.swift; sourceTree = "<group>"; };
 		8E7D0AC62838D7A1006D6DF7 /* UICollectionView+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Util.swift"; sourceTree = "<group>"; };
-		8E7D0AC82838D8A7006D6DF7 /* EmojiViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiViewModel.swift; sourceTree = "<group>"; };
 		8E7D0ACB28391A9E006D6DF7 /* emojis.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = emojis.csv; sourceTree = "<group>"; };
 		8E7D9A7E282BEF66007BCDE0 /* CodeGen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGen.swift; sourceTree = "<group>"; };
 		8E973321283231F40012E236 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
@@ -244,7 +242,6 @@
 			children = (
 				8E230886282D575D00AF60EB /* AuthViewModel.swift */,
 				8E176F6E28329E4A00377497 /* PlayerProfileViewModel.swift */,
-				8E7D0AC82838D8A7006D6DF7 /* EmojiViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -621,7 +618,6 @@
 				8EF1387B2837CF3A001D8DA6 /* OSCodePayload.swift in Sources */,
 				8E31E24228364B0A0085238C /* InvitesViewModel.swift in Sources */,
 				8E24F4592834A75900BC808B /* MessageWindow.swift in Sources */,
-				8E7D0AC92838D8A7006D6DF7 /* EmojiViewModel.swift in Sources */,
 				8EF418A4283CFF39005CAE09 /* AboutViewController.swift in Sources */,
 				8E2EE76B2836783C0096659D /* FirebaseSportsAPI.swift in Sources */,
 				8E25B0F8283CD3F100FE2FB3 /* OSStats.swift in Sources */,
