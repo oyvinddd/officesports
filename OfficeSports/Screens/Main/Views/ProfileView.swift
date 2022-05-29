@@ -137,6 +137,7 @@ final class ProfileView: UIView {
         setupChildViews()
         setupObservables()
         configureForSport(.foosball)
+        backgroundColor = .red
     }
     
     required init?(coder: NSCoder) {

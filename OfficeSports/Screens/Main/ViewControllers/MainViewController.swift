@@ -54,9 +54,9 @@ final class MainViewController: UIViewController {
         return ScannerViewController(viewModel: viewModel)
     }()
     
-    private lazy var invitesViewController: InvitesViewController = {
-        let viewModel = InvitesViewModel(api: FirebaseSportsAPI())
-        return InvitesViewController(viewModel: viewModel)
+    private lazy var invitesViewController: MyInvitesViewController = {
+        let viewModel = MyInvitesViewModel(api: FirebaseSportsAPI())
+        return MyInvitesViewController(viewModel: viewModel)
     }()
     
     private lazy var foosballViewController: SportViewController = {
@@ -75,14 +75,10 @@ final class MainViewController: UIViewController {
         setupChildViewControllers()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        configureTableViewInsets()
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         scrollToViewController(foosballViewController)
+        configureTableViewInsets()
     }
     
     private func setupChildViews() {
@@ -151,10 +147,10 @@ final class MainViewController: UIViewController {
     }
     
     private func configureTableViewInsets() {
-        // FIXME: table view top inset is sometimes larger than expected
-        let top = profileView.bounds.maxY
-        let bottom = view.frame.height - floatingMenu.frame.minY
-        let contentInset = UIEdgeInsets(top: top, left: 0, bottom: bottom, right: 0)
+        let padding: CGFloat = 32
+        let topInset = profileView.frame.maxY
+        let bottomInset = view.frame.height - floatingMenu.frame.minY + padding
+        let contentInset = UIEdgeInsets(top: topInset, left: 0, bottom: bottomInset, right: 0)
         foosballViewController.applyContentInsetToTableView(contentInset)
         tableTennisViewController.applyContentInsetToTableView(contentInset)
     }

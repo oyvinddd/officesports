@@ -23,6 +23,7 @@ final class SportViewController: UIViewController {
         tableView.registerCell(PlacementTableViewCell.self)
         tableView.registerCell(MatchTableViewCell.self)
         tableView.refreshControl = refreshControl
+        tableView.contentInsetAdjustmentBehavior = .never
         tableView.delegate = self
         return tableView
     }()

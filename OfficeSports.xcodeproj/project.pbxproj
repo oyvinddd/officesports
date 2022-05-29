@@ -22,8 +22,8 @@
 		8E2EE769283675EF0096659D /* InviteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2EE768283675EF0096659D /* InviteTableViewCell.swift */; };
 		8E2EE76B2836783C0096659D /* FirebaseSportsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2EE76A2836783C0096659D /* FirebaseSportsAPI.swift */; };
 		8E31E23E283649230085238C /* OSInvite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E31E23D283649230085238C /* OSInvite.swift */; };
-		8E31E24028364A6F0085238C /* InvitesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E31E23F28364A6F0085238C /* InvitesViewController.swift */; };
-		8E31E24228364B0A0085238C /* InvitesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E31E24128364B0A0085238C /* InvitesViewModel.swift */; };
+		8E31E24028364A6F0085238C /* MyInvitesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E31E23F28364A6F0085238C /* MyInvitesViewController.swift */; };
+		8E31E24228364B0A0085238C /* MyInvitesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E31E24128364B0A0085238C /* MyInvitesViewModel.swift */; };
 		8E3293E4283D8E8800B7CCDC /* InvitePlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3293E3283D8E8800B7CCDC /* InvitePlayerViewController.swift */; };
 		8E3293E7283D8FBA00B7CCDC /* InvitePlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3293E6283D8FBA00B7CCDC /* InvitePlayerViewModel.swift */; };
 		8E38B574283B97C8009E0387 /* UIColor+CoreImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B573283B97C8009E0387 /* UIColor+CoreImage.swift */; };
@@ -93,8 +93,8 @@
 		8E2EE768283675EF0096659D /* InviteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteTableViewCell.swift; sourceTree = "<group>"; };
 		8E2EE76A2836783C0096659D /* FirebaseSportsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseSportsAPI.swift; sourceTree = "<group>"; };
 		8E31E23D283649230085238C /* OSInvite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSInvite.swift; sourceTree = "<group>"; };
-		8E31E23F28364A6F0085238C /* InvitesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitesViewController.swift; sourceTree = "<group>"; };
-		8E31E24128364B0A0085238C /* InvitesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitesViewModel.swift; sourceTree = "<group>"; };
+		8E31E23F28364A6F0085238C /* MyInvitesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInvitesViewController.swift; sourceTree = "<group>"; };
+		8E31E24128364B0A0085238C /* MyInvitesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInvitesViewModel.swift; sourceTree = "<group>"; };
 		8E3293E3283D8E8800B7CCDC /* InvitePlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitePlayerViewController.swift; sourceTree = "<group>"; };
 		8E3293E6283D8FBA00B7CCDC /* InvitePlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitePlayerViewModel.swift; sourceTree = "<group>"; };
 		8E38B573283B97C8009E0387 /* UIColor+CoreImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+CoreImage.swift"; sourceTree = "<group>"; };
@@ -275,7 +275,7 @@
 		8E3293E2283D8E6000B7CCDC /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				8E31E23F28364A6F0085238C /* InvitesViewController.swift */,
+				8E31E23F28364A6F0085238C /* MyInvitesViewController.swift */,
 				8E3293E3283D8E8800B7CCDC /* InvitePlayerViewController.swift */,
 			);
 			path = ViewControllers;
@@ -284,7 +284,7 @@
 		8E3293E5283D8E8F00B7CCDC /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				8E31E24128364B0A0085238C /* InvitesViewModel.swift */,
+				8E31E24128364B0A0085238C /* MyInvitesViewModel.swift */,
 				8E3293E6283D8FBA00B7CCDC /* InvitePlayerViewModel.swift */,
 			);
 			path = ViewModels;
@@ -616,7 +616,7 @@
 				8E70C129282ACE57009A9452 /* UIColor+App.swift in Sources */,
 				8E38B57A283BCBC8009E0387 /* OSMatchRegistration.swift in Sources */,
 				8EF1387B2837CF3A001D8DA6 /* OSCodePayload.swift in Sources */,
-				8E31E24228364B0A0085238C /* InvitesViewModel.swift in Sources */,
+				8E31E24228364B0A0085238C /* MyInvitesViewModel.swift in Sources */,
 				8E24F4592834A75900BC808B /* MessageWindow.swift in Sources */,
 				8EF418A4283CFF39005CAE09 /* AboutViewController.swift in Sources */,
 				8E2EE76B2836783C0096659D /* FirebaseSportsAPI.swift in Sources */,
@@ -626,7 +626,7 @@
 				8E31E23E283649230085238C /* OSInvite.swift in Sources */,
 				8E70C112282ABA4E009A9452 /* NSLayoutConstraint+Util.swift in Sources */,
 				8E70C12B282ACEAF009A9452 /* UIColor+Hex.swift in Sources */,
-				8E31E24028364A6F0085238C /* InvitesViewController.swift in Sources */,
+				8E31E24028364A6F0085238C /* MyInvitesViewController.swift in Sources */,
 				8EE7939628366B660025AB78 /* Encodable+Dictionary.swift in Sources */,
 				8E231EDC283AC97B0030768D /* OSMessage.swift in Sources */,
 				8E70C124282AC949009A9452 /* PlacementTableViewCell.swift in Sources */,

@@ -1,5 +1,5 @@
 //
-//  InvitesViewController.swift
+//  MyInvitesViewController.swift
 //  Office Sports
 //
 //  Created by Øyvind Hauge on 19/05/2022.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class InvitesViewController: UIViewController {
+final class MyInvitesViewController: UIViewController {
     
     private lazy var emptyContentLabel: UILabel = {
         let message = "Your match invitations will show up here"
@@ -22,9 +22,9 @@ final class InvitesViewController: UIViewController {
         return tableView
     }()
     
-    private let viewModel: InvitesViewModel
+    private let viewModel: MyInvitesViewModel
     
-    init(viewModel: InvitesViewModel) {
+    init(viewModel: MyInvitesViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -39,6 +39,11 @@ final class InvitesViewController: UIViewController {
         view.backgroundColor = .clear
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+    }
+    
     private func setupChildViews() {
         NSLayoutConstraint.pinToView(view, tableView)
         NSLayoutConstraint.pinToView(view, emptyContentLabel, padding: 32)
@@ -47,7 +52,7 @@ final class InvitesViewController: UIViewController {
 
 // MARK: - Table View Data Source
 
-extension InvitesViewController: UITableViewDataSource {
+extension MyInvitesViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
