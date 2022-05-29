@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 private let nicknameMinLength = 3
 private let nicknameMaxLength = 20
@@ -53,20 +54,22 @@ final class PlayerProfileViewController: UIViewController {
     private lazy var nicknameField: UITextField = {
         let textField = UITextField.createTextField(UIColor.OS.General.mainDark, color: .white, placeholder: "Nickname")
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(16, 0, 0)
+        textField.addTarget(self, action: #selector(nicknameFieldChanged), for: .editingChanged)
         textField.font = UIFont.boldSystemFont(ofSize: 20)
         textField.autocapitalizationType = .none
         textField.applyCornerRadius(8)
-        textField.delegate = self
         return textField
     }()
     
     private lazy var continueButton: OSButton = {
         let button = OSButton("Continue", type: .primary)
+        button.addTarget(self, action: #selector(continueButtonTapped), for: .touchUpInside)
         return button
     }()
     
     private let viewModel: PlayerProfileViewModel
     private var centerYConstraint: NSLayoutConstraint?
+    private var subscribers = Set<AnyCancellable>()
     
     var selectedEmoji: String {
         didSet {
@@ -76,7 +79,7 @@ final class PlayerProfileViewController: UIViewController {
     
     init(viewModel: PlayerProfileViewModel) {
         self.viewModel = viewModel
-        self.selectedEmoji = viewModel.randomEmoji
+        self.selectedEmoji = OSAccount.current.emoji ?? viewModel.randomEmoji
         super.init(nibName: nil, bundle: nil)
         viewModel.delegate = self
     }
@@ -87,6 +90,7 @@ final class PlayerProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupObservables()
         setupChildViews()
         configureUI()
         
@@ -152,11 +156,16 @@ final class PlayerProfileViewController: UIViewController {
             titleLabel.text = "Update profile"
         }
         let nickname = OSAccount.current.nickname
-        let emoji = OSAccount.current.emoji ?? selectedEmoji
-        
         nicknameField.text = nickname
-        profileEmjoiLabel.text = emoji
+        profileEmjoiLabel.text = selectedEmoji
         profileImageBackground.backgroundColor = UIColor.OS.hashedProfileColor(nickname ?? "")
+    }
+    
+    private func setupObservables() {
+        viewModel.$shouldToggleLoading
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.showLoading, on: continueButton)
+            .store(in: &subscribers)
     }
     
     private func processAndValidateNickname(_ nickname: String?) throws -> String {
@@ -166,6 +175,9 @@ final class PlayerProfileViewController: UIViewController {
         let trimmedNickname = nickname.trimmingCharacters(in: .whitespacesAndNewlines)
         let lowercasedNickname = trimmedNickname.lowercased()
         
+        if lowercasedNickname.rangeOfCharacter(from: .whitespacesAndNewlines) != nil {
+            throw OSError.invalidNickname
+        }
         if lowercasedNickname.count < nicknameMinLength {
             throw OSError.nicknameTooShort
         }
@@ -187,6 +199,10 @@ final class PlayerProfileViewController: UIViewController {
     @objc private func profileEmojiTapped(_ sender: UITapGestureRecognizer) {
         Coordinator.global.presentEmojiPicker(from: self, emojis: viewModel.emoijs)
     }
+    
+    @objc private func nicknameFieldChanged(_ sender: UITextField) {
+        profileImageBackground.backgroundColor = UIColor.OS.hashedProfileColor(sender.text!)
+    }
 }
 
 // MARK: - Nickname View Model Delegate Conformance
@@ -207,14 +223,6 @@ extension PlayerProfileViewController: PlayerProfileViewModelDelegate {
     func detailsUpdateFailed(with error: Error) {
         Coordinator.global.showMessage(OSMessage(error.localizedDescription, .failure))
     }
-    
-    func shouldToggleLoading(enabled: Bool) {
-        //continueButton.toggleLoading(enabled)
-    }
-}
-
-extension PlayerProfileViewController: UITextFieldDelegate {
-    
 }
 
 // swiftlint:disable force_cast

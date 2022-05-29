@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 private let userDefaultsNicknameKey = "nickname"
 private let userdefaultsEmojiKey = "emoji"
@@ -15,11 +16,11 @@ protocol PlayerProfileViewModelDelegate: AnyObject {
     func detailsUpdatedSuccessfully()
     
     func detailsUpdateFailed(with error: Error)
-    
-    func shouldToggleLoading(enabled: Bool)
 }
 
 final class PlayerProfileViewModel {
+    
+    @Published var shouldToggleLoading: Bool = false
     
     let api: SportsAPI
     var emoijs = [String]()
@@ -42,9 +43,9 @@ final class PlayerProfileViewModel {
     }
     
     func registerProfileDetails(nickname: String, emoji: String) {
-        delegate?.shouldToggleLoading(enabled: true)
+        shouldToggleLoading = true
         api.registerPlayerProfile(nickname: nickname, emoji: emoji) { [unowned self] error in
-            self.delegate?.shouldToggleLoading(enabled: true)
+            self.shouldToggleLoading = false
             if let error = error {
                 self.delegate?.detailsUpdateFailed(with: error)
             } else {

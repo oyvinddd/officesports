@@ -27,6 +27,8 @@ enum OSError: LocalizedError {
     
     case nicknameTooLong
     
+    case invalidNickname
+    
     case invalidInvite
     
     var errorDescription: String? {
@@ -49,6 +51,8 @@ enum OSError: LocalizedError {
             return "Nickname is too short"
         case .nicknameTooLong:
             return "Nickname is too long"
+        case .invalidNickname:
+            return "Nickname cannot contain spaces"
         case .invalidInvite:
             return "You cannot invite yourself to a match dumbass!"
         }

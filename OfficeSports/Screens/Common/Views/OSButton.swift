@@ -20,6 +20,12 @@ final class OSButton: UIButton {
         case secondaryInverted
     }
     
+    var showLoading: Bool = false {
+        didSet {
+            toggleLoading(showLoading)
+        }
+    }
+    
     private let type: OSButtonType
     
     init(_ title: String, type: OSButtonType) {

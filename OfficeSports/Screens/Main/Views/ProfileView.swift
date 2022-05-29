@@ -248,6 +248,7 @@ final class ProfileView: UIView {
             .receive(on: DispatchQueue.main)
             .assign(to: \.text, on: profileEmjoiLabel)
             .store(in: &subscribers)
+        // TODO: also update profile background color whenever the nickname changes
     }
     
     // MARK: - Button Handling
