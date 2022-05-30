@@ -16,9 +16,7 @@ final class PlacementTableViewCell: UITableViewCell {
     }()
     
     private lazy var profileImageWrap: UIView = {
-        let view = UIView.createView(.red)
-        view.applyCornerRadius(23)
-        return view
+        return UIView.createView(.black, cornerRadius: 23)
     }()
     
     private lazy var profileEmojiLabel: UILabel = {

@@ -137,7 +137,6 @@ final class ProfileView: UIView {
         setupChildViews()
         setupObservables()
         configureForSport(.foosball)
-        backgroundColor = .red
     }
     
     required init?(coder: NSCoder) {
@@ -236,7 +235,7 @@ final class ProfileView: UIView {
             totalScoreLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 16),
             totalScoreLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
             totalScoreLabel.topAnchor.constraint(equalTo: nicknameLabel.bottomAnchor, constant: 6),
-            totalScoreLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
+            totalScoreLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20)
         ])
     }
     

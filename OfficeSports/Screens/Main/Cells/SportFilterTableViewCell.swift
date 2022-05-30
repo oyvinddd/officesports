@@ -20,9 +20,7 @@ protocol SportFilterDelegate: AnyObject {
 final class SportFilterTableViewCell: UITableViewCell {
     
     private lazy var contentWrap: UIView = {
-        let view = UIView.createView(.white)
-        view.applyCornerRadius(15)
-        return view
+        return UIView.createView(.white, cornerRadius: 15)
     }()
     
     private lazy var leftButton: UIButton = {

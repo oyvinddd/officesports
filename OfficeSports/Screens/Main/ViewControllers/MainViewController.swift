@@ -32,6 +32,7 @@ final class MainViewController: UIViewController {
     
     private lazy var outerScrollView: UIScrollView = {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(scrollViewTapped))
+        tapGestureRecognizer.cancelsTouchesInView = false
         let scrollView = UIScrollView.createScrollView(.clear, delegate: self)
         scrollView.addGestureRecognizer(tapGestureRecognizer)
         return scrollView
