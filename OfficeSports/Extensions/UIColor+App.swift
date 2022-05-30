@@ -51,13 +51,17 @@ extension UIColor {
             
             static let primaryForeground = UIColor.OS.General.main
             
-            static let primaryInverted = UIColor(hex: 0xFFFFFF)
+            static let primaryInverted = UIColor.OS.General.main
             
-            static let primaryInvertedForeground = UIColor(hex: 0x000000)
+            static let primaryInvertedForeground = UIColor(hex: 0xFFFFFF)
             
             static let secondary = UIColor(hex: 0xFFFFFF)
             
-            static let secondaryInverted = UIColor(hex: 0xFFFFFF)
+            static let secondaryForeground = UIColor.OS.General.main
+            
+            static let secondaryInverted = UIColor.clear
+            
+            static let secondaryInvertedForeground = UIColor.OS.General.main
         }
         
         enum Profile {

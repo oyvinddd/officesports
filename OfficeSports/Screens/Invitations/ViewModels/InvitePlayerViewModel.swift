@@ -16,7 +16,7 @@ protocol InvitePlayerViewModelDelegate: AnyObject {
 
 final class InvitePlayerViewModel {
     
-    @Published var shouldToggleLoading: Bool = false
+    @Published var shouldShowLoading: Bool = false
     
     private let api: SportsAPI
     
@@ -27,9 +27,9 @@ final class InvitePlayerViewModel {
     }
     
     func invitePlayer(_ player: OSPlayer, sport: OSSport) {
-        shouldToggleLoading = true
+        shouldShowLoading = true
         api.invitePlayer(player, sport: sport) { [unowned self] error in
-            shouldToggleLoading = false
+            shouldShowLoading = false
             guard let error = error else {
                 self.delegate?.invitePlayerSuccess()
                 return

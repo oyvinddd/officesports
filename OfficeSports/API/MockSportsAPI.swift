@@ -79,6 +79,10 @@ final class MockSportsAPI: SportsAPI {
         result(nil)
     }
     
+    func getPlayerProfile(result: @escaping ((OSPlayer?, Error?) -> Void)) {
+        result(OSAccount.current.player!, nil)
+    }
+    
     func deleteAccount(result: @escaping ((Error?) -> Void)) {
         result(nil)
     }

@@ -77,9 +77,15 @@ final class InvitePlayerViewController: UIViewController {
         return label
     }()
     
-    private lazy var inviteButton: UIButton = {
-        let button = UIButton.createButton(UIColor.OS.General.main, .white, title: "Invite to match")
+    private lazy var inviteButton: OSButton = {
+        let button = OSButton("Invite to match", type: .primaryInverted)
         button.addTarget(self, action: #selector(inviteButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var closeButton: OSButton = {
+        let button = OSButton("Close", type: .secondaryInverted)
+        button.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -123,9 +129,9 @@ final class InvitePlayerViewController: UIViewController {
         configureUI()
         
         // setup subscribers
-        viewModel.$shouldToggleLoading
+        viewModel.$shouldShowLoading
             .receive(on: DispatchQueue.main)
-            .assign(to: \.isHidden, on: inviteButton)
+            .assign(to: \.showLoading, on: inviteButton)
             .store(in: &subscribers)
     }
     
@@ -143,6 +149,7 @@ final class InvitePlayerViewController: UIViewController {
         contentWrap.addSubview(nicknameLabel)
         contentWrap.addSubview(playerDetailsLabel)
         contentWrap.addSubview(inviteButton)
+        contentWrap.addSubview(closeButton)
         profileImageWrap.addSubview(profileImageBackground)
         
         NSLayoutConstraint.pinToView(profileImageBackground, profileEmjoiLabel)
@@ -180,8 +187,12 @@ final class InvitePlayerViewController: UIViewController {
             inviteButton.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
             inviteButton.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
             inviteButton.topAnchor.constraint(equalTo: playerDetailsLabel.bottomAnchor, constant: 32),
-            inviteButton.bottomAnchor.constraint(equalTo: contentWrap.safeAreaLayoutGuide.bottomAnchor, constant: -16),
-            inviteButton.heightAnchor.constraint(equalToConstant: 50)
+            inviteButton.heightAnchor.constraint(equalToConstant: 50),
+            closeButton.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
+            closeButton.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
+            closeButton.topAnchor.constraint(equalTo: inviteButton.bottomAnchor, constant: 16),
+            closeButton.bottomAnchor.constraint(equalTo: contentWrap.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            closeButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     
@@ -191,6 +202,7 @@ final class InvitePlayerViewController: UIViewController {
         nicknameLabel.text = player.nickname
         let stats = player.statsForSport(sport)
         playerDetailsLabel.text = "\(stats.totalScore) pts • \(stats.totalMatches) matches"
+        inviteButton.setTitle("Invite to \(sport.humanReadableName) match", for: .normal)
     }
     
     private func toggleDialog(enabled: Bool) {
@@ -228,8 +240,12 @@ final class InvitePlayerViewController: UIViewController {
         toggleDialog(enabled: false)
     }
     
-    @objc private func inviteButtonTapped(_ sender: UIButton) {
+    @objc private func inviteButtonTapped(_ sender: OSButton) {
         viewModel.invitePlayer(player, sport: sport)
+    }
+    
+    @objc private func closeButtonTapped(_ sender: OSButton) {
+        dismiss()
     }
 }
 

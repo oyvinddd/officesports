@@ -45,7 +45,7 @@ final class OSButton: UIButton {
             tintColor = UIColor.OS.Button.primaryInvertedForeground
         case .secondaryInverted:
             backgroundColor = UIColor.OS.Button.secondaryInverted
-            setTitleColor(UIColor.OS.Button.secondaryInverted, for: .normal)
+            setTitleColor(UIColor.OS.Button.secondaryInvertedForeground, for: .normal)
         }
         //        setTitleColor(color, for: .normal)
         //        setTitleColor(color, for: .selected)

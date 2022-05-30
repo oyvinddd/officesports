@@ -96,6 +96,21 @@ final class FirebaseSportsAPI: SportsAPI {
         }
     }
     
+    func getPlayerProfile(result: @escaping ((OSPlayer?, Error?) -> Void)) {
+        guard let uid = OSAccount.current.userId else {
+            result(nil, OSError.unauthorized)
+            return
+        }
+        playersCollection.document(uid).getDocument(as: OSPlayer.self) { fbResult in
+            switch fbResult {
+            case .success(let player):
+                result(player, nil)
+            case .failure(let error):
+                result(nil, error)
+            }
+        }
+    }
+    
     func deleteAccount(result: @escaping ((Error?) -> Void)) {
         fatalError("Delete account endpoint has not been implementet yet!")
     }
