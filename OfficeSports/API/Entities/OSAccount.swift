@@ -57,11 +57,11 @@ final class OSAccount {
     }
     
     func qrCodePayloadForSport(_ sport: OSSport) -> OSCodePayload? {
-        guard let uid = userId, let nickname = nickname else {
+        guard let uid = userId else {
             print("Unable to get user ID since user is not logged in.")
             return nil
         }
-        return OSCodePayload(userId: uid, nickname: nickname, sport: sport)
+        return OSCodePayload(userId: uid, sport: sport)
     }
     
     func loadProfileDetails() -> (String?, String?) {

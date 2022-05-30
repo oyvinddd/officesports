@@ -33,6 +33,12 @@ final class InvitePlayerViewController: UIViewController {
         return view
     }()
     
+    private lazy var dialogHandle: UIView = {
+        let view = UIView.createView(UIColor.OS.Text.subtitle, cornerRadius: 3)
+        view.alpha = 0.8
+        return view
+    }()
+    
     private lazy var contentWrap: UIView = {
         return UIView.createView(.clear)
     }()
@@ -132,6 +138,7 @@ final class InvitePlayerViewController: UIViewController {
         view.addSubview(backgroundView)
         view.addSubview(dialogView)
         dialogView.addSubview(contentWrap)
+        dialogView.addSubview(dialogHandle)
         contentWrap.addSubview(profileImageWrap)
         contentWrap.addSubview(nicknameLabel)
         contentWrap.addSubview(playerDetailsLabel)
@@ -148,9 +155,13 @@ final class InvitePlayerViewController: UIViewController {
             dialogView.leftAnchor.constraint(equalTo: view.leftAnchor),
             dialogView.rightAnchor.constraint(equalTo: view.rightAnchor),
             dialogBottomConstraint,
+            dialogHandle.centerXAnchor.constraint(equalTo: dialogView.centerXAnchor),
+            dialogHandle.topAnchor.constraint(equalTo: dialogView.topAnchor, constant: 10),
+            dialogHandle.widthAnchor.constraint(equalToConstant: 40),
+            dialogHandle.heightAnchor.constraint(equalToConstant: 6),
             contentWrap.leftAnchor.constraint(equalTo: dialogView.leftAnchor),
             contentWrap.rightAnchor.constraint(equalTo: dialogView.rightAnchor),
-            contentWrap.topAnchor.constraint(equalTo: dialogView.topAnchor),
+            contentWrap.topAnchor.constraint(equalTo: dialogHandle.topAnchor, constant: 8),
             contentWrap.bottomAnchor.constraint(equalTo: dialogView.safeAreaLayoutGuide.bottomAnchor),
             profileImageWrap.widthAnchor.constraint(equalToConstant: profileImageDiameter),
             profileImageWrap.topAnchor.constraint(equalTo: contentWrap.topAnchor, constant: 32),

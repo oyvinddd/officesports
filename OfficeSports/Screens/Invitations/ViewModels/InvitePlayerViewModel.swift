@@ -28,11 +28,8 @@ final class InvitePlayerViewModel {
     
     func invitePlayer(_ player: OSPlayer, sport: OSSport) {
         shouldToggleLoading = true
-        //delegate?.shouldToggleLoading(enabled: true)
         api.invitePlayer(player, sport: sport) { [unowned self] error in
-            
             shouldToggleLoading = false
-            //self.delegate?.shouldToggleLoading(enabled: false)
             guard let error = error else {
                 self.delegate?.invitePlayerSuccess()
                 return

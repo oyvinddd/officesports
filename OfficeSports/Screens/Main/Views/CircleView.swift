@@ -12,9 +12,8 @@ private let contentWrapRadius: CGFloat = (100 - 6 * 2) / 2
 final class CircleView: UIView {
     
     private lazy var contentWrap: UIView = {
-        let view = UIView.createView(.red)
+        let view = UIView.createView(.red, cornerRadius: contentWrapRadius)
         view.applyGradient([UIColor.yellow, UIColor.red])
-        view.applyCornerRadius(contentWrapRadius)
         return view
     }()
     

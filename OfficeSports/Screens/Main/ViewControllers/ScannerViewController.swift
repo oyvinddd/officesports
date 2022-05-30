@@ -207,7 +207,7 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
 
             var payload: OSCodePayload?
             do {
-                let data = stringValue.data(using: .utf8)! // FIXME: don't force unwrap
+                let data = stringValue.data(using: .utf8)!
                 payload = try JSONDecoder().decode(OSCodePayload.self, from: data)
             } catch let error {
                 print(error.localizedDescription)

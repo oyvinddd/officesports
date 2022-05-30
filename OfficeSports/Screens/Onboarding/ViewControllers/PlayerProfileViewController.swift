@@ -228,25 +228,15 @@ extension PlayerProfileViewController: PlayerProfileViewModelDelegate {
 // swiftlint:disable force_cast
 extension PlayerProfileViewController {
     
-    @objc
-    dynamic func keyboardWillShow(
-        _ notification: NSNotification
-    ) {
-        animateWithKeyboard(notification: notification) {
-            (keyboardFrame) in
-            let constant =  keyboardFrame.height / 2//(self.view.frame.size.height - keyboardFrame.height) * 100 / self.view.frame.size.height
-            //self.textFieldTrailingConstraint?.constant = constant
+    @objc dynamic func keyboardWillShow(_ notification: NSNotification) {
+        animateWithKeyboard(notification: notification) { keyboardFrame in
+            let constant =  keyboardFrame.height / 2
             self.centerYConstraint?.constant = -constant
         }
     }
     
-    @objc
-    dynamic func keyboardWillHide(
-        _ notification: NSNotification
-    ) {
-        animateWithKeyboard(notification: notification) {
-            (keyboardFrame) in
-            //self.textFieldTrailingConstraint?.constant = 20
+    @objc dynamic func keyboardWillHide(_ notification: NSNotification) {
+        animateWithKeyboard(notification: notification) { _ in
             self.centerYConstraint?.constant = 0
         }
     }

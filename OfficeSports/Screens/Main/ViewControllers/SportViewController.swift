@@ -129,7 +129,7 @@ extension SportViewController: UIScrollViewDelegate {
 extension SportViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //tableView.deselectRow(at: indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
         if showScoreboard {
             // TODO: refactor this code to somewhere else
             let player = viewModel.scoreboard[indexPath.row]

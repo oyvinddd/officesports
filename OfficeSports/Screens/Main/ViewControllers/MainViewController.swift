@@ -167,10 +167,17 @@ final class MainViewController: UIViewController {
         innerScrollView.scrollRectToVisible(viewController.view.frame, animated: animated)
     }
     
+    private func isShowingViewController(_ viewController: UIViewController) -> Bool {
+        return innerScrollView.contentOffset.x == viewController.view.frame.minX
+    }
+    
     @objc private func scrollViewTapped(_ sender: UITapGestureRecognizer) {
         let touchPoint = sender.location(ofTouch: 0, in: view)
+        if isShowingViewController(foosballViewController)
+            || isShowingViewController(tableTennisViewController) {
+            profileView.handleTouch(point: touchPoint)
+        }
         scannerViewController.handleTouch(point: touchPoint)
-        profileView.handleTouch(point: touchPoint)
     }
 }
 
