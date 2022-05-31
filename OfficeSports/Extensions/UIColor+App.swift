@@ -130,6 +130,7 @@ extension UIColor {
             ]
         }
         
+        // https://www.youtube.com/watch?v=87-E8ios_qo&ab_channel=Marthin
         static func hashedProfileColor(_ input: String) -> UIColor {
             let hashedIndex = input.count << 5 % profileColors.count
             return profileColors[abs(hashedIndex)]
