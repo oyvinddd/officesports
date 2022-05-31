@@ -6,13 +6,13 @@ const METHOD_NOT_ALLOWED = 405;
 // // https://firebase.google.com/docs/functions/typescript
 //
 export const winMatch = functions.https.onRequest((request, response) => {
-  functions.logger.info("Hello logs!", {structuredData: true});
+  functions.logger.info("Hello logs!", { structuredData: true });
 
   const isPost = request.method === "POST";
   if (!isPost) {
     response.sendStatus(METHOD_NOT_ALLOWED);
   }
 
-  const {winnerId, loserId}: { winnerId: string; loserId: string } =
+  const { winnerId, loserId }: { winnerId: string; loserId: string } =
     request.body;
 });
