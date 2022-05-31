@@ -34,6 +34,7 @@
 		8E38B57C283C39A2009E0387 /* UserDefaultsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B57B283C39A2009E0387 /* UserDefaultsHelper.swift */; };
 		8E38B57E283C3D01009E0387 /* AchievementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B57D283C3D01009E0387 /* AchievementsViewController.swift */; };
 		8E38B582283C5895009E0387 /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B581283C5895009E0387 /* PreferencesViewController.swift */; };
+		8E6995D52844E0CE001355D2 /* LocalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6995D42844E0CE001355D2 /* LocalNotificationManager.swift */; };
 		8E6B33E028426DFB00E73EDD /* ScannerFrameLinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6B33DF28426DFB00E73EDD /* ScannerFrameLinesView.swift */; };
 		8E6DF2992834CEB20009ACA1 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 8E6DF2982834CEB20009ACA1 /* FirebaseFirestore */; };
 		8E6DF29B2834CEB20009ACA1 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8E6DF29A2834CEB20009ACA1 /* FirebaseFirestoreSwift */; };
@@ -109,6 +110,7 @@
 		8E38B57B283C39A2009E0387 /* UserDefaultsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsHelper.swift; sourceTree = "<group>"; };
 		8E38B57D283C3D01009E0387 /* AchievementsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsViewController.swift; sourceTree = "<group>"; };
 		8E38B581283C5895009E0387 /* PreferencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesViewController.swift; sourceTree = "<group>"; };
+		8E6995D42844E0CE001355D2 /* LocalNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManager.swift; sourceTree = "<group>"; };
 		8E6B33DF28426DFB00E73EDD /* ScannerFrameLinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerFrameLinesView.swift; sourceTree = "<group>"; };
 		8E70C111282ABA4E009A9452 /* NSLayoutConstraint+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Util.swift"; sourceTree = "<group>"; };
 		8E70C113282ABC56009A9452 /* SportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportViewController.swift; sourceTree = "<group>"; };
@@ -394,6 +396,7 @@
 			children = (
 				8E7D9A7E282BEF66007BCDE0 /* CodeGen.swift */,
 				8E38B57B283C39A2009E0387 /* UserDefaultsHelper.swift */,
+				8E6995D42844E0CE001355D2 /* LocalNotificationManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -620,6 +623,7 @@
 				8E973322283231F40012E236 /* SettingsViewModel.swift in Sources */,
 				8EE558352847B0B400199CC6 /* OSSport.swift in Sources */,
 				8EA21271283EF18A00B37315 /* OSButton.swift in Sources */,
+				8E6995D52844E0CE001355D2 /* LocalNotificationManager.swift in Sources */,
 				8E38B576283BC5AD009E0387 /* Bundle+Version.swift in Sources */,
 				8E70C117282ABD3E009A9452 /* FloatingMenu.swift in Sources */,
 				8EE61FF3282AB79C00C01289 /* MainViewController.swift in Sources */,
