@@ -1,4 +1,4 @@
-import type { Stats } from "./Stats";
+import type {Stats} from "./Stats";
 
 export type Player = {
   userId: string;

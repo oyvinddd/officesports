@@ -13,5 +13,7 @@ const getPlayerCollection = () => getCollection<Player>("players");
 // const getInviteCollection = () => getCollection("invites");
 
 export const getPlayer = (id: string): Player | undefined => {
-  getPlayerCollection().where("userId", "==", id).;
+  getPlayerCollection().where("userId", "==", id);
+
+  return;
 };

@@ -1,4 +1,4 @@
-import { Sport } from "./Sport";
+import {Sport} from "./Sport";
 
 export type Stats = {
   sport: Sport;
