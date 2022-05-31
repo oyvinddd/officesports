@@ -244,11 +244,14 @@ final class ProfileView: UIView {
             .receive(on: DispatchQueue.main)
             .assign(to: \.text, on: nicknameLabel)
             .store(in: &subscribers)
+        OSAccount.current.$nickname.map({ UIColor.OS.hashedProfileColor($0!) })
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.backgroundColor, on: profileImageBackground)
+            .store(in: &subscribers)
         OSAccount.current.$emoji
             .receive(on: DispatchQueue.main)
             .assign(to: \.text, on: profileEmjoiLabel)
             .store(in: &subscribers)
-        // TODO: also update profile background color whenever the nickname changes
     }
     
     // MARK: - Button Handling
