@@ -15,9 +15,12 @@ jobs:
 
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
+        with:
+          working-directory: functions
 
       - name: Check format
         run: npm run format
+        working-directory: functions
 
   check-lint:
     name: Check lint
@@ -30,9 +33,12 @@ jobs:
 
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
+        with:
+          working-directory: functions
 
       - name: Check lint
         run: npm run lint
+        working-directory: functions
 
   test:
     name: Test
@@ -45,9 +51,12 @@ jobs:
 
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
+        with:
+          working-directory: functions
 
       - name: Test
         run: npm t
+        working-directory: functions
 
   build:
     name: Build
@@ -60,6 +69,9 @@ jobs:
 
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
+        with:
+          working-directory: functions
 
       - name: Build
         run: npm run build
+        working-directory: functions
