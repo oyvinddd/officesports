@@ -105,40 +105,40 @@ final class ScannerViewController: UIViewController {
     
     private func startCaptureSession() {
         // exit early if camera has not been enabled by the user or if it is already active
-        guard AVCaptureDevice.authorizationStatus(for: .video) == .authorized || !cameraIsActive else {
+        let hasAuthorizedCamera = AVCaptureDevice.authorizationStatus(for: .video) == .authorized
+        guard hasAuthorizedCamera && !cameraIsActive else {
             return
         }
-        
         // initialize and configure capture session
-        captureSession = AVCaptureSession()
-        captureSession.beginConfiguration()
-        captureSession.commitConfiguration()
+        self.captureSession = AVCaptureSession()
+        self.captureSession.beginConfiguration()
+        self.captureSession.commitConfiguration()
         
-        guard let videoInput = createVideoInput(), captureSession.canAddInput(videoInput) else {
+        guard let videoInput = self.createVideoInput(), self.captureSession.canAddInput(videoInput) else {
             return
         }
-        captureSession.addInput(videoInput)
+        self.captureSession.addInput(videoInput)
         
         let metadataOutput = AVCaptureMetadataOutput()
         
-        if captureSession.canAddOutput(metadataOutput) {
-            captureSession.addOutput(metadataOutput)
+        if self.captureSession.canAddOutput(metadataOutput) {
+            self.captureSession.addOutput(metadataOutput)
             
-            metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
+            metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.global(qos: .userInitiated))
             metadataOutput.metadataObjectTypes = [.qr]
         } else {
-            // failed()
             return
         }
-        
         // init the camera view in the UI
-        previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        previewLayer.frame = view.layer.bounds
-        previewLayer.videoGravity = .resizeAspectFill
-        cameraView.layer.addSublayer(previewLayer)
+        self.previewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
+        self.previewLayer.frame = self.view.layer.bounds
+        self.previewLayer.videoGravity = .resizeAspectFill
+        self.cameraView.layer.addSublayer(self.previewLayer)
         
         // start the capture session (blocking)
-        captureSession.startRunning()
+        DispatchQueue.global(qos: .background).async {
+            self.captureSession.startRunning()
+        }
     }
     
     func handleTouch(point: CGPoint) {
@@ -204,7 +204,7 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
         if !viewModel.isBusy, let metadataObject = metadataObjects.first {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
             guard let stringValue = readableObject.stringValue else { return }
-
+            
             var payload: OSCodePayload?
             do {
                 let data = stringValue.data(using: .utf8)!

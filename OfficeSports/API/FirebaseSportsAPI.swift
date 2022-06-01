@@ -19,7 +19,7 @@ private let fbMatchesCollection = "matches"
 private let fbInvitesCollection = "invites"
 
 final class FirebaseSportsAPI: SportsAPI {
-
+    
     private let database = Firestore.firestore()
     
     private var playersCollection: CollectionReference {
@@ -139,17 +139,7 @@ final class FirebaseSportsAPI: SportsAPI {
     }
     
     func registerMatch(_ registration: OSMatchRegistration, result: @escaping ((Error?) -> Void)) {
-        guard registration.winnerId != registration.loserId else {
-            result(OSError.invalidOpponent)
-            return
-        }
-        
-        database.runTransaction { [unowned self] (transaction, errorPointer) in
-            
-            self.playersCollection.document(registration.loserId)
-            
-        } completion: { (object, error) in
-        }
+        fatalError("registerMatch has not been implemented yet!")
     }
     
     func invitePlayer(_ player: OSPlayer, sport: OSSport, result: @escaping (Error?) -> Void) {
