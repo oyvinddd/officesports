@@ -23,7 +23,7 @@ final class ScannerFrameLinesView: UIView {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .clear
-        alpha = 0.7
+        alpha = 0.6
     }
     
     required init?(coder: NSCoder) {
