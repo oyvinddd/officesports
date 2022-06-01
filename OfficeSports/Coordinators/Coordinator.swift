@@ -74,10 +74,6 @@ final class Coordinator {
         parent.present(viewController, animated: animated)
     }
     
-    func presentViewController(from parent: UIViewController, payload: Any) {
-        // TODO: ...
-    }
-    
     private func updateRootViewController(animated: Bool) {
         guard let window = window else {
             fatalError("Application window doesn't exist.")

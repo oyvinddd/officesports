@@ -25,15 +25,14 @@ final class FloatingMenu: UIView {
     
     private lazy var selectedView: UIView = {
         let wrapper = UIView.createView(.clear)
-        let inner = UIView.createView(UIColor.OS.General.main)
-        inner.applyCornerRadius(6)
+        let inner = UIView.createView(UIColor.OS.General.main, cornerRadius: 6)
         inner.alpha = 0.2
         NSLayoutConstraint.pinToView(wrapper, inner, padding: 4)
         return wrapper
     }()
     
     private lazy var stackView: UIStackView = {
-        return UIStackView.createStackView(.clear, axis: .horizontal, spacing: 4)
+        return UIStackView.createStackView(.clear, axis: .horizontal)
     }()
     
     private lazy var mbScanner: MenuButton = {
@@ -43,15 +42,13 @@ final class FloatingMenu: UIView {
     }()
     
     private lazy var mbFoosball: MenuButton = {
-        let image = UIImage(named: "Soccer")!.withRenderingMode(.alwaysTemplate)
-        let button = MenuButton(.clear, image: image)
+        let button = MenuButton(.clear, image: UIImage(named: "Soccer")!.withRenderingMode(.alwaysTemplate))
         button.addTarget(self, action: #selector(foosballButtonTapped), for: .touchUpInside)
         return button
     }()
     
     private lazy var mbTableTennis: MenuButton = {
-        let image = UIImage(named: "TableTennis")!.withRenderingMode(.alwaysTemplate)
-        let button = MenuButton(.clear, image: image)
+        let button = MenuButton(.clear, image: UIImage(named: "TableTennis")!.withRenderingMode(.alwaysTemplate))
         button.addTarget(self, action: #selector(tableTennisButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -95,31 +92,29 @@ final class FloatingMenu: UIView {
     
     func adjustselectionFromInnerScrollView(_ scrollView: UIScrollView) {
         // get the current content offset in percent whenever users is scrolling the scroll view
-        var xOffsetPercent = scrollView.contentOffset.x * 100 / scrollView.contentSize.width
-        if xOffsetPercent > 75 {
-            xOffsetPercent = 75
-        }
+        let xOffsetPercent = scrollView.contentOffset.x * 100 / scrollView.contentSize.width
         selectedViewLeftConstraint!.constant = xOffsetPercent * (3/4) * frame.width / 100 + (frame.width / 4)
     }
     
     private func setupChildViews() {
         addSubview(selectedView)
         
-        selectedViewLeftConstraint = selectedView.leftAnchor.constraint(equalTo: leftAnchor)
-        NSLayoutConstraint.activate([
-            selectedView.topAnchor.constraint(equalTo: topAnchor),
-            selectedView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            selectedView.widthAnchor.constraint(equalTo: selectedView.heightAnchor),
-            selectedViewLeftConstraint!,
-            selectedView.centerYAnchor.constraint(equalTo: centerYAnchor)
-        ])
-        
-        NSLayoutConstraint.pinToView(self, stackView, padding: 4)
+        NSLayoutConstraint.pinToView(self, stackView)
         
         stackView.addArrangedSubview(mbScanner)
         stackView.addArrangedSubview(mbFoosball)
         stackView.addArrangedSubview(mbTableTennis)
         stackView.addArrangedSubview(mbInvites)
+        
+        selectedViewLeftConstraint = selectedView.leftAnchor.constraint(equalTo: leftAnchor)
+        
+        NSLayoutConstraint.activate([
+            selectedView.topAnchor.constraint(equalTo: topAnchor),
+            selectedView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            selectedView.widthAnchor.constraint(equalTo: mbScanner.widthAnchor),
+            selectedViewLeftConstraint!,
+            selectedView.centerYAnchor.constraint(equalTo: centerYAnchor)
+        ])
     }
     
     private func configureUI() {

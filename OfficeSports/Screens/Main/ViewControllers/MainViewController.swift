@@ -174,7 +174,8 @@ final class MainViewController: UIViewController {
     @objc private func scrollViewTapped(_ sender: UITapGestureRecognizer) {
         let touchPoint = sender.location(ofTouch: 0, in: view)
         if isShowingViewController(foosballViewController)
-            || isShowingViewController(tableTennisViewController) {
+            || isShowingViewController(tableTennisViewController)
+            || isShowingViewController(invitesViewController) {
             profileView.handleTouch(point: touchPoint)
         }
         scannerViewController.handleTouch(point: touchPoint)
