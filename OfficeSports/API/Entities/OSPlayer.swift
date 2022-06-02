@@ -6,8 +6,11 @@
 //
 
 import Foundation
+import FirebaseFirestoreSwift
 
-struct OSPlayer: Codable {
+struct OSPlayer: Identifiable, Codable {
+    
+    @DocumentID public var id: String?
     
     var userId: String
     

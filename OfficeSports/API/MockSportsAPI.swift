@@ -75,7 +75,7 @@ final class MockSportsAPI: SportsAPI {
         result(nil)
     }
     
-    func registerPlayerProfile(nickname: String, emoji: String, result: @escaping ((Error?) -> Void)) {
+    func createPlayerProfile(nickname: String, emoji: String, result: @escaping ((Error?) -> Void)) {
         result(nil)
     }
     

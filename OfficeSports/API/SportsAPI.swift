@@ -15,7 +15,8 @@ protocol SportsAPI {
     
     func deleteAccount(result: @escaping ((Error?) -> Void))
     
-    func registerPlayerProfile(nickname: String, emoji: String, result: @escaping ((Error?) -> Void))
+    @available(*, renamed: "createPlayerProfile()")
+    func createPlayerProfile(nickname: String, emoji: String, result: @escaping ((Error?) -> Void))
     
     @available(*, renamed: "getPlayerProfile()")
     func getPlayerProfile(result: @escaping ((OSPlayer?, Error?) -> Void))
@@ -31,6 +32,4 @@ protocol SportsAPI {
     func invitePlayer(_ player: OSPlayer, sport: OSSport, result: @escaping ((Error?) -> Void))
     
     func getActiveInvites(result: @escaping (([OSInvite], Error?) -> Void))
-    
-//    func getPlayerProfile() async throws -> OSPlayer
 }

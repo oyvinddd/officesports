@@ -44,7 +44,7 @@ final class PlayerProfileViewModel {
     
     func registerProfileDetails(nickname: String, emoji: String) {
         shouldToggleLoading = true
-        api.registerPlayerProfile(nickname: nickname, emoji: emoji) { [unowned self] error in
+        api.createPlayerProfile(nickname: nickname, emoji: emoji) { [unowned self] error in
             self.shouldToggleLoading = false
             if let error = error {
                 self.delegate?.detailsUpdateFailed(with: error)

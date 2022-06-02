@@ -50,7 +50,6 @@
 		8E70C12D282AD01A009A9452 /* UIView+Visuals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C12C282AD01A009A9452 /* UIView+Visuals.swift */; };
 		8E70C12F282AD0AE009A9452 /* UITableView+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C12E282AD0AE009A9452 /* UITableView+Util.swift */; };
 		8E70C132282AD1F0009A9452 /* SportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C131282AD1F0009A9452 /* SportViewModel.swift */; };
-		8E70C134282AD279009A9452 /* OSSport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C133282AD279009A9452 /* OSSport.swift */; };
 		8E70C136282ADF7A009A9452 /* OSAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C135282ADF7A009A9452 /* OSAccount.swift */; };
 		8E70C138282AEE2F009A9452 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C137282AEE2F009A9452 /* WelcomeViewController.swift */; };
 		8E70C13A282AEE7E009A9452 /* SportsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C139282AEE7E009A9452 /* SportsAPI.swift */; };
@@ -67,6 +66,7 @@
 		8EC84E8E282BD5B10093C9A0 /* PlayerProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC84E8D282BD5B10093C9A0 /* PlayerProfileViewController.swift */; };
 		8EDFA363282E418000A51292 /* CompoundField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDFA362282E418000A51292 /* CompoundField.swift */; };
 		8EE32D68283E8D88009AD89C /* plistinject in Resources */ = {isa = PBXBuildFile; fileRef = 8EE32D67283E8D88009AD89C /* plistinject */; };
+		8EE558352847B0B400199CC6 /* OSSport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE558342847B0B400199CC6 /* OSSport.swift */; };
 		8EE61FEF282AB79C00C01289 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE61FEE282AB79C00C01289 /* AppDelegate.swift */; };
 		8EE61FF3282AB79C00C01289 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE61FF2282AB79C00C01289 /* MainViewController.swift */; };
 		8EE61FF8282AB79D00C01289 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EE61FF7282AB79D00C01289 /* Assets.xcassets */; };
@@ -119,7 +119,6 @@
 		8E70C12C282AD01A009A9452 /* UIView+Visuals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Visuals.swift"; sourceTree = "<group>"; };
 		8E70C12E282AD0AE009A9452 /* UITableView+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Util.swift"; sourceTree = "<group>"; };
 		8E70C131282AD1F0009A9452 /* SportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportViewModel.swift; sourceTree = "<group>"; };
-		8E70C133282AD279009A9452 /* OSSport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSSport.swift; sourceTree = "<group>"; };
 		8E70C135282ADF7A009A9452 /* OSAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSAccount.swift; sourceTree = "<group>"; };
 		8E70C137282AEE2F009A9452 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		8E70C139282AEE7E009A9452 /* SportsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportsAPI.swift; sourceTree = "<group>"; };
@@ -138,6 +137,7 @@
 		8EC84E8D282BD5B10093C9A0 /* PlayerProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerProfileViewController.swift; sourceTree = "<group>"; };
 		8EDFA362282E418000A51292 /* CompoundField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundField.swift; sourceTree = "<group>"; };
 		8EE32D67283E8D88009AD89C /* plistinject */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = plistinject; sourceTree = "<group>"; };
+		8EE558342847B0B400199CC6 /* OSSport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSSport.swift; sourceTree = "<group>"; };
 		8EE61FEB282AB79C00C01289 /* OfficeSports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OfficeSports.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EE61FEE282AB79C00C01289 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8EE61FF2282AB79C00C01289 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -324,7 +324,6 @@
 			children = (
 				8E70C11E282AC499009A9452 /* OSMatch.swift */,
 				8E70C120282AC510009A9452 /* OSPlayer.swift */,
-				8E70C133282AD279009A9452 /* OSSport.swift */,
 				8E70C135282ADF7A009A9452 /* OSAccount.swift */,
 				8E31E23D283649230085238C /* OSInvite.swift */,
 				8EF1387A2837CF3A001D8DA6 /* OSCodePayload.swift */,
@@ -333,6 +332,7 @@
 				8E38B577283BC9F1009E0387 /* OSError.swift */,
 				8E38B579283BCBC8009E0387 /* OSMatchRegistration.swift */,
 				8E25B0F7283CD3F100FE2FB3 /* OSStats.swift */,
+				8EE558342847B0B400199CC6 /* OSSport.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -594,7 +594,6 @@
 				8E38B57E283C3D01009E0387 /* AchievementsViewController.swift in Sources */,
 				8E7D9A7F282BEF66007BCDE0 /* CodeGen.swift in Sources */,
 				8EF13879283791AE001D8DA6 /* MockSportsAPI.swift in Sources */,
-				8E70C134282AD279009A9452 /* OSSport.swift in Sources */,
 				8E70C11F282AC499009A9452 /* OSMatch.swift in Sources */,
 				8E3293E4283D8E8800B7CCDC /* InvitePlayerViewController.swift in Sources */,
 				8E287F56283B1013005BBE28 /* UIButton+Loading.swift in Sources */,
@@ -606,6 +605,7 @@
 				8EF1387F2837FDD3001D8DA6 /* ScannerViewModel.swift in Sources */,
 				8E70C121282AC510009A9452 /* OSPlayer.swift in Sources */,
 				8E973322283231F40012E236 /* SettingsViewModel.swift in Sources */,
+				8EE558352847B0B400199CC6 /* OSSport.swift in Sources */,
 				8EA21271283EF18A00B37315 /* OSButton.swift in Sources */,
 				8E38B576283BC5AD009E0387 /* Bundle+Version.swift in Sources */,
 				8E70C117282ABD3E009A9452 /* FloatingMenu.swift in Sources */,

@@ -25,4 +25,30 @@ enum OSSport: Int, Codable {
             return "unknown sport"
         }
     }
+    
+    var description: String {
+        return humanReadableName
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let rawValue = try container.decode(Int.self)
+        self = OSSport.getSportType(rawValue)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(description)
+    }
+    
+    static func getSportType(_ number: Int) -> OSSport {
+        switch number {
+        case 0:
+            return .foosball
+        case 1:
+            return .tableTennis
+        default:
+            return .unknown
+        }
+    }
 }

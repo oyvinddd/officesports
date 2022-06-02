@@ -83,17 +83,22 @@ final class FirebaseSportsAPI: SportsAPI {
         }
     }
     
-    func registerPlayerProfile(nickname: String, emoji: String, result: @escaping ((Error?) -> Void)) {
+    func createPlayerProfile(nickname: String, emoji: String, result: @escaping ((Error?) -> Void)) {
         guard let uid = OSAccount.current.userId else {
             result(OSError.unauthorized)
             return
         }
         
         let data: [String: Any] = ["nickname": nickname, "emoji": emoji]
-        
+
         playersCollection.document(uid).setData(data, mergeFields: Array(data.keys)) { error in
             result(error)
         }
+        
+        /*
+        playersCollection.document(uid).setData(from: OSPlayer.self) { error in
+            
+        }*/
     }
     
     func getPlayerProfile(result: @escaping ((OSPlayer?, Error?) -> Void)) {
