@@ -75,8 +75,11 @@ final class MockSportsAPI: SportsAPI {
         result(nil)
     }
     
-    func createPlayerProfile(nickname: String, emoji: String, result: @escaping ((Error?) -> Void)) {
-        result(nil)
+    func createPlayerProfile(nickname: String, emoji: String, result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
+        let foosballStats = OSStats(id: nil, sport: .foosball, totalScore: 0, totalMatches: 0)
+        let tableTennisStats = OSStats(id: nil, sport: .tableTennis, totalScore: 0, totalMatches: 0)
+        let player = OSPlayer(id: "id#1337", userId: "", nickname: nickname, emoji: emoji, foosballStats: foosballStats, tableTennisStats: tableTennisStats)
+        result(.success(player))
     }
     
     func getPlayerProfile(result: @escaping ((OSPlayer?, Error?) -> Void)) {
@@ -118,5 +121,16 @@ final class MockSportsAPI: SportsAPI {
     func getActiveInvites(result: @escaping (([OSInvite], Error?) -> Void)) {
         let invite = OSInvite(date: Date(), sport: .foosball, inviterId: "id#1", inviteeId: "id#2", inviteeNickname: "heimegut")
         result([invite], nil)
+    }
+}
+
+// MARK: - Confirm to the async/await versions of the API methods
+
+extension MockSportsAPI {
+    
+    func createPlayerProfile(nickname: String, emoji: String) async throws -> OSPlayer {
+        let foosballStats = OSStats(id: nil, sport: .foosball, totalScore: 0, totalMatches: 0)
+        let tableTennisStats = OSStats(id: nil, sport: .tableTennis, totalScore: 0, totalMatches: 0)
+        return OSPlayer(id: nil, userId: "id#123", nickname: nickname, emoji: emoji, foosballStats: foosballStats, tableTennisStats: tableTennisStats)
     }
 }

@@ -83,22 +83,19 @@ final class FirebaseSportsAPI: SportsAPI {
         }
     }
     
-    func createPlayerProfile(nickname: String, emoji: String, result: @escaping ((Error?) -> Void)) {
+    func createPlayerProfile(nickname: String, emoji: String, result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
         guard let uid = OSAccount.current.userId else {
-            result(OSError.unauthorized)
+            result(.failure(OSError.unauthorized))
             return
         }
-        
-        let data: [String: Any] = ["nickname": nickname, "emoji": emoji]
 
-        playersCollection.document(uid).setData(data, mergeFields: Array(data.keys)) { error in
-            result(error)
-        }
+//        playersCollection.document(uid).setData(data, mergeFields: Array(data.keys)) { error in
+//            result(error)
+//        }
         
-        /*
-        playersCollection.document(uid).setData(from: OSPlayer.self) { error in
-            
-        }*/
+//        playersCollection.document(uid).setData(from: OSPlayer.self) { error in
+//
+//        }
     }
     
     func getPlayerProfile(result: @escaping ((OSPlayer?, Error?) -> Void)) {
@@ -229,5 +226,18 @@ final class FirebaseSportsAPI: SportsAPI {
             }
         }
         return matches
+    }
+}
+
+// MARK: - Conform to the async/await versions of the API methods
+
+extension FirebaseSportsAPI {
+    
+    func createPlayerProfile(nickname: String, emoji: String) async throws -> OSPlayer {
+        return try await withCheckedThrowingContinuation({ continuation in
+            createPlayerProfile(nickname: nickname, emoji: emoji) { result in
+                continuation.resume(with: result)
+            }
+        })
     }
 }

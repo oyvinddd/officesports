@@ -42,17 +42,24 @@ final class PlayerProfileViewModel {
         }
     }
     
-    func registerProfileDetails(nickname: String, emoji: String) {
-        shouldToggleLoading = true
-        api.createPlayerProfile(nickname: nickname, emoji: emoji) { [unowned self] error in
-            self.shouldToggleLoading = false
-            if let error = error {
-                self.delegate?.detailsUpdateFailed(with: error)
-            } else {
-                self.saveProfileDetails(nickname: nickname, emoji: emoji)
-                self.delegate?.detailsUpdatedSuccessfully()
-            }
+    func registerProfileDetails(nickname: String, emoji: String) async {
+        do {
+            _ = try await api.createPlayerProfile(nickname: nickname, emoji: emoji)
+        } catch let error {
+            
         }
+        /*
+         shouldToggleLoading = true
+         api.createPlayerProfile(nickname: nickname, emoji: emoji) { [unowned self] error in
+         self.shouldToggleLoading = false
+         if let error = error {
+         self.delegate?.detailsUpdateFailed(with: error)
+         } else {
+         self.saveProfileDetails(nickname: nickname, emoji: emoji)
+         self.delegate?.detailsUpdatedSuccessfully()
+         }
+         }
+         */
     }
     
     private func saveProfileDetails(nickname: String, emoji: String) {
