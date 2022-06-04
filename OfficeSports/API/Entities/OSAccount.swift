@@ -38,10 +38,9 @@ final class OSAccount {
                 let emoji = emoji else {
             return nil
         }
-        let foosballStats = OSStats(sport: .foosball, totalScore: 0, totalMatches: 10)
-        let tableTennisStats = OSStats(sport: .tableTennis, totalScore: 12, totalMatches: 40)
+        let foosballStats = OSStats(sport: .foosball, score: 0, matchesPlayed: 10)
+        let tableTennisStats = OSStats(sport: .tableTennis, score: 12, matchesPlayed: 40)
         return OSPlayer(
-            userId: uid,
             nickname: nickname,
             emoji: emoji,
             foosballStats: foosballStats,

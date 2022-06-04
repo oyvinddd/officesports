@@ -12,8 +12,6 @@ struct OSPlayer: Identifiable, Codable {
     
     @DocumentID public var id: String?
     
-    var userId: String
-    
     var nickname: String
     
     var emoji: String
@@ -27,6 +25,6 @@ struct OSPlayer: Identifiable, Codable {
     }
     
     func scoreForSport(_ sport: OSSport) -> Int {
-        return statsForSport(sport).totalScore
+        return statsForSport(sport).score
     }
 }

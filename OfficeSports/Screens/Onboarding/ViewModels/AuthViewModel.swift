@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 @objc protocol AuthViewModelDelegate: AnyObject {
     

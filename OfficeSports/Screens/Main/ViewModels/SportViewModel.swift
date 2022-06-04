@@ -22,7 +22,9 @@ protocol SportViewModelDelegate: AnyObject {
 
 final class SportViewModel {
     
-    var scoreboard = [OSPlayer]()
+    @Published var scoreboard = [OSPlayer]()
+    @Published var showLoading = false
+    
     var recentMatches = [OSMatch]()
     let sport: OSSport
     
@@ -36,8 +38,16 @@ final class SportViewModel {
     }
     
     func fetchScoreboard() {
+        Task {
+            do {
+                scoreboard = try await api.getScoreboard(sport: sport)
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        }
+        /*
         delegate?.shouldToggleLoading(enabled: true)
-        api.getScoreboard(sport: sport) { [unowned self] (scoreboard, error) in
+        api.getScoreboard(sport: sport) { [unowned self] result in
             self.delegate?.shouldToggleLoading(enabled: false)
             if let error = error {
                 self.delegate?.didFetchScoreboard(with: error)
@@ -46,6 +56,7 @@ final class SportViewModel {
                 self.delegate?.fetchedScoreboardSuccessfully()
             }
         }
+        */
     }
     
     func fetchRecentMatches() {

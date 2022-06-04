@@ -14,7 +14,7 @@ struct OSStats: Identifiable, Codable {
     
     var sport: OSSport
     
-    var totalScore: Int
+    var score: Int
     
-    var totalMatches: Int
+    var matchesPlayed: Int
 }

@@ -98,17 +98,17 @@ final class FirebaseSportsAPI: SportsAPI {
 //        }
     }
     
-    func getPlayerProfile(result: @escaping ((OSPlayer?, Error?) -> Void)) {
+    func getPlayerProfile(result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
         guard let uid = OSAccount.current.userId else {
-            result(nil, OSError.unauthorized)
+            result(.failure(OSError.unauthorized))
             return
         }
         playersCollection.document(uid).getDocument(as: OSPlayer.self) { fbResult in
             switch fbResult {
             case .success(let player):
-                result(player, nil)
+                result(.success(player))
             case .failure(let error):
-                result(nil, error)
+                result(.failure(error))
             }
         }
     }
@@ -117,14 +117,14 @@ final class FirebaseSportsAPI: SportsAPI {
         fatalError("Delete account endpoint has not been implementet yet!")
     }
     
-    func getScoreboard(sport: OSSport, result: @escaping (([OSPlayer], Error?) -> Void)) {
+    func getScoreboard(sport: OSSport, result: @escaping ((Result<[OSPlayer], Error>) -> Void)) {
         playersCollection.limit(to: maxResultsInScoreboard).getDocuments { (snapshot, error) in
             guard let error = error else {
                 let players = self.playersFromDocuments(snapshot!.documents)
-                result(players, nil)
+                result(.success(players))
                 return
             }
-            result([], error)
+            result(.failure(error))
         }
     }
     
@@ -149,13 +149,13 @@ final class FirebaseSportsAPI: SportsAPI {
             result(OSError.unauthorized)
             return
         }
-        guard uid != player.userId else {
+        guard uid != player.id, let inviteeId = player.id else {
             result(OSError.invalidInvite)
             return
         }
         
         let invitesCollection = database.collection(fbInvitesCollection)
-        let invite = OSInvite(date: Date(), sport: sport, inviterId: uid, inviteeId: player.userId, inviteeNickname: player.nickname)
+        let invite = OSInvite(date: Date(), sport: sport, inviterId: uid, inviteeId: inviteeId, inviteeNickname: player.nickname)
         
         do {
             let data = try Firestore.Encoder().encode(invite)
@@ -206,8 +206,8 @@ final class FirebaseSportsAPI: SportsAPI {
                 let player = try document.data(as: OSPlayer.self)
                 players.append(player)
             } catch let error {
-                print(error.localizedDescription)
-                return []
+                print(error)
+                continue
             }
         }
         return players
@@ -236,6 +236,22 @@ extension FirebaseSportsAPI {
     func createPlayerProfile(nickname: String, emoji: String) async throws -> OSPlayer {
         return try await withCheckedThrowingContinuation({ continuation in
             createPlayerProfile(nickname: nickname, emoji: emoji) { result in
+                continuation.resume(with: result)
+            }
+        })
+    }
+    
+    func getPlayerProfile() async throws -> OSPlayer {
+        return try await withCheckedThrowingContinuation({ continuation in
+            getPlayerProfile { result in
+                continuation.resume(with: result)
+            }
+        })
+    }
+    
+    func getScoreboard(sport: OSSport) async throws -> [OSPlayer] {
+        return try await withCheckedThrowingContinuation({ continuation in
+            getScoreboard(sport: sport) { result in
                 continuation.resume(with: result)
             }
         })

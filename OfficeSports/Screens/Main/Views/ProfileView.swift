@@ -148,7 +148,7 @@ final class ProfileView: UIView {
             sportImageWrap.alpha = 1
             codeImageView.image = foosballCodeImage
             sportImageBackground.backgroundColor = UIColor.OS.Sport.foosball
-            let foosballScore = account.player?.statsForSport(.foosball).totalScore ?? 0
+            let foosballScore = account.player?.statsForSport(.foosball).score ?? 0
             totalScoreLabel.text = "\(foosballScore) pts"
             foosballEmojiLabel.alpha = 1
             tableTennisEmojiLabel.alpha = 0
@@ -156,7 +156,7 @@ final class ProfileView: UIView {
             sportImageWrap.alpha = 1
             codeImageView.image = tableTennisCodeImage
             sportImageBackground.backgroundColor = UIColor.OS.Sport.tableTennis
-            let tableTennisScore = account.player?.statsForSport(.tableTennis).totalScore ?? 0
+            let tableTennisScore = account.player?.statsForSport(.tableTennis).score ?? 0
             totalScoreLabel.text = "\(tableTennisScore) pts"
             foosballEmojiLabel.alpha = 0
             tableTennisEmojiLabel.alpha = 1

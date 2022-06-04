@@ -201,7 +201,7 @@ final class InvitePlayerViewController: UIViewController {
         profileEmjoiLabel.text = player.emoji
         nicknameLabel.text = player.nickname
         let stats = player.statsForSport(sport)
-        playerDetailsLabel.text = "\(stats.totalScore) pts • \(stats.totalMatches) matches"
+        playerDetailsLabel.text = "\(stats.score) pts • \(stats.matchesPlayed) matches"
         inviteButton.setTitle("Invite to \(sport.humanReadableName) match", for: .normal)
     }
     

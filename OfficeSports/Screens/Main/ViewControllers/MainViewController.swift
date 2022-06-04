@@ -61,12 +61,12 @@ final class MainViewController: UIViewController {
     }()
     
     private lazy var foosballViewController: SportViewController = {
-        let viewModel = SportViewModel(api: MockSportsAPI(), sport: .foosball)
+        let viewModel = SportViewModel(api: FirebaseSportsAPI(), sport: .foosball)
         return SportViewController(viewModel: viewModel, delegate: self)
     }()
     
     private lazy var tableTennisViewController: SportViewController = {
-        let viewModel = SportViewModel(api: MockSportsAPI(), sport: .tableTennis)
+        let viewModel = SportViewModel(api: FirebaseSportsAPI(), sport: .tableTennis)
         return SportViewController(viewModel: viewModel, delegate: self)
     }()
     

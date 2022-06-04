@@ -190,7 +190,7 @@ final class PlayerProfileViewController: UIViewController {
     @objc private func continueButtonTapped(_ sender: UIButton) {
         do {
             let nickname = try processAndValidateNickname(nicknameField.text)
-            viewModel.registerProfileDetails(nickname: nickname, emoji: selectedEmoji)
+            //viewModel.registerProfileDetails(nickname: nickname, emoji: selectedEmoji)
         } catch let error {
             Coordinator.global.showMessage(OSMessage(error.localizedDescription, .failure))
         }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 protocol SportViewControllerDelegate: AnyObject {
     
@@ -33,6 +34,8 @@ final class SportViewController: UIViewController {
     
     weak var delegate: SportViewControllerDelegate?
     
+    private var subscribers: [AnyCancellable] = []
+    
     private let viewModel: SportViewModel
     private var showScoreboard: Bool = true
     
@@ -50,7 +53,8 @@ final class SportViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupChildViews()
-        view.backgroundColor = .clear
+        setupObservers()
+        configureUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -72,6 +76,19 @@ final class SportViewController: UIViewController {
     
     private func setupChildViews() {
         NSLayoutConstraint.pinToView(view, tableView)
+    }
+    
+    private func setupObservers() {
+        viewModel.$scoreboard
+            .receive(on: DispatchQueue.main)
+            .sink(receiveValue: { [weak self] _ in
+                self?.tableView.reloadData()
+            })
+            .store(in: &subscribers)
+    }
+    
+    private func configureUI() {
+        view.backgroundColor = .clear
     }
     
     @objc private func refreshPulled(_ sender: UIRefreshControl) {
