@@ -221,8 +221,8 @@ final class FirebaseSportsAPI: SportsAPI {
                 let match = try document.data(as: OSMatch.self)
                 matches.append(match)
             } catch let error {
-                print(error.localizedDescription)
-                return []
+                print(error)
+                continue
             }
         }
         return matches

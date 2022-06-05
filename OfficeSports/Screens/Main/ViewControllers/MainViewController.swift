@@ -168,6 +168,9 @@ final class MainViewController: UIViewController {
     }
     
     private func isShowingViewController(_ viewController: UIViewController) -> Bool {
+        if outerScrollView.contentOffset.x > 0 && viewController.isKind(of: ScannerViewController.self) {
+            return true
+        }
         return innerScrollView.contentOffset.x == viewController.view.frame.minX
     }
     
@@ -187,6 +190,10 @@ final class MainViewController: UIViewController {
 extension MainViewController: ProfileViewDelegate {
     
     func profilePictureTapped() {
+        // prevent showing of QR code if user is on the invites screen
+        guard !isShowingViewController(invitesViewController) else {
+            return
+        }
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         profileView.displayQrCode(seconds: 2.5)
     }
