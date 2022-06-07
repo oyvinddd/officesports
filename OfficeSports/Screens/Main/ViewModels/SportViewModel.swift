@@ -42,7 +42,7 @@ final class SportViewModel {
             do {
                 scoreboard = try await api.getScoreboard(sport: sport)
             } catch let error {
-                print(error.localizedDescription)
+                print(error)
             }
         }
         /*
@@ -60,6 +60,14 @@ final class SportViewModel {
     }
     
     func fetchRecentMatches() {
+        Task {
+            do {
+                recentMatches = try await api.getMatchHistory(sport: sport)
+            } catch let error {
+                print(error)
+            }
+        }
+        /*
         delegate?.shouldToggleLoading(enabled: true)
         api.getMatchHistory(sport: sport) { [unowned self] (matchHistory, error) in
             self.delegate?.shouldToggleLoading(enabled: false)
@@ -70,5 +78,6 @@ final class SportViewModel {
                 self.delegate?.fetchedRecentMatchesSuccessfully()
             }
         }
+         */
     }
 }

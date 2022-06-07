@@ -170,7 +170,7 @@ final class ScannerViewController: UIViewController {
         do {
             return try AVCaptureDeviceInput(device: videoCaptureDevice)
         } catch let error {
-            print(error.localizedDescription)
+            print(error)
             return nil
         }
     }
@@ -210,7 +210,7 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
                 let data = stringValue.data(using: .utf8)!
                 payload = try JSONDecoder().decode(OSCodePayload.self, from: data)
             } catch let error {
-                print(error.localizedDescription)
+                print(error)
                 return
             }
             

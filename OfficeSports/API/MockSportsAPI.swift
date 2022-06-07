@@ -104,23 +104,23 @@ final class MockSportsAPI: SportsAPI {
         result(.success(sortedScoreboard))
     }
     
-    func getMatchHistory(sport: OSSport, result: @escaping (([OSMatch], Error?) -> Void)) {
+    func getMatchHistory(sport: OSSport, result: @escaping ((Result<[OSMatch], Error>) -> Void)) {
         var filteredMatches: [OSMatch] = []
         if sport == .foosball {
             filteredMatches = matches.filter({ $0.sport == .foosball })
         } else if sport == .tableTennis {
             filteredMatches = matches.filter({ $0.sport == .tableTennis })
         }
-        result(filteredMatches, nil)
+        result(.success(filteredMatches))
     }
     
     func invitePlayer(_ player: OSPlayer, sport: OSSport, result: @escaping (Error?) -> Void) {
         result(nil)
     }
     
-    func getActiveInvites(result: @escaping (([OSInvite], Error?) -> Void)) {
+    func getActiveInvites(result: @escaping ((Result<[OSInvite], Error>) -> Void)) {
         let invite = OSInvite(date: Date(), sport: .foosball, inviterId: "id#1", inviteeId: "id#2", inviteeNickname: "heimegut")
-        result([invite], nil)
+        result(.success([invite]))
     }
 }
 
@@ -147,6 +147,22 @@ extension MockSportsAPI {
     func getScoreboard(sport: OSSport) async throws -> [OSPlayer] {
         return try await withCheckedThrowingContinuation({ continuation in
             getScoreboard(sport: sport) { result in
+                continuation.resume(with: result)
+            }
+        })
+    }
+    
+    func getMatchHistory(sport: OSSport) async throws -> [OSMatch] {
+        return try await withCheckedThrowingContinuation({ continuation in
+            getMatchHistory(sport: sport) { result in
+                continuation.resume(with: result)
+            }
+        })
+    }
+    
+    func  getActiveInvites() async throws -> [OSInvite] {
+        return try await withCheckedThrowingContinuation({ continuation in
+            getActiveInvites { result in
                 continuation.resume(with: result)
             }
         })

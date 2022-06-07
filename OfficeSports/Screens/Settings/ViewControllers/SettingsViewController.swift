@@ -107,25 +107,12 @@ final class SettingsViewController: UIViewController {
         dialogView.addSubview(contentWrapView)
         contentWrapView.addSubview(stackView)
         
-        let profileButton = createSettingsButton("person", "Update player profile")
-        let preferencesButton = createSettingsButton("checklist", "Preferences")
-        let aboutButton = createSettingsButton("info.circle", "About")
-        let signOutButton = createSettingsButton("power", "Sign out")
+        let profileButton = createSettingsButton("person", "Update player profile", #selector(profileButtonTapped))
+        let preferencesButton = createSettingsButton("checklist", "Preferences", #selector(preferencesButtonTapped))
+        let aboutButton = createSettingsButton("info.circle", "About", #selector(aboutButtonTapped))
+        let signOutButton = createSettingsButton("power", "Sign out", #selector(signOutButtonTapped))
         
-        let recognizer1 = UITapGestureRecognizer(target: self, action: #selector(profileButtonTapped))
-        let recognizer2 = UITapGestureRecognizer(target: self, action: #selector(signOutButtonTapped))
-        let recognizer3 = UITapGestureRecognizer(target: self, action: #selector(preferencesButtonTapped))
-        let recognizer4 = UITapGestureRecognizer(target: self, action: #selector(aboutButtonTapped))
-        
-        profileButton.addGestureRecognizer(recognizer1)
-        preferencesButton.addGestureRecognizer(recognizer3)
-        signOutButton.addGestureRecognizer(recognizer2)
-        aboutButton.addGestureRecognizer(recognizer4)
-        
-        stackView.addArrangedSubview(profileButton)
-        stackView.addArrangedSubview(preferencesButton)
-        stackView.addArrangedSubview(aboutButton)
-        stackView.addArrangedSubview(signOutButton)
+        stackView.addArrangedSubviews(profileButton, preferencesButton, aboutButton, signOutButton)
         
         NSLayoutConstraint.activate([
             backgroundView.leftAnchor.constraint(equalTo: view.leftAnchor),
@@ -169,10 +156,16 @@ final class SettingsViewController: UIViewController {
             }
     }
     
-    private func createSettingsButton(_ systemIconName: String, _ title: String) -> SettingsButton {
+    private func createSettingsButton(_ systemIconName: String, _ title: String, _ sel: Selector) -> SettingsButton {
         let config = UIImage.SymbolConfiguration(pointSize: 17, weight: .semibold, scale: .medium)
         let buttonIcon = UIImage(systemName: systemIconName, withConfiguration: config)!
-        return SettingsButton(buttonIcon, title)
+        
+        let button = SettingsButton(buttonIcon, title)
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: sel)
+        button.addGestureRecognizer(tapGestureRecognizer)
+        
+        return button
     }
     
     private func toggleBackgroundView(enabled: Bool) {

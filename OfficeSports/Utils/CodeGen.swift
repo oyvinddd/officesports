@@ -38,7 +38,7 @@ struct CodeGen {
                 return generateQRCode(from: jsonString)
             }
         } catch let error {
-            print(error.localizedDescription)
+            print(error)
             return nil
         }
         return nil

@@ -19,6 +19,7 @@
 		8E24F4592834A75900BC808B /* MessageWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E24F4582834A75900BC808B /* MessageWindow.swift */; };
 		8E25B0F8283CD3F100FE2FB3 /* OSStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E25B0F7283CD3F100FE2FB3 /* OSStats.swift */; };
 		8E287F56283B1013005BBE28 /* UIButton+Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E287F55283B1013005BBE28 /* UIButton+Loading.swift */; };
+		8E2D0CC1284FB374006FDE2E /* UIStackView+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2D0CC0284FB374006FDE2E /* UIStackView+Convenience.swift */; };
 		8E2EE769283675EF0096659D /* InviteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2EE768283675EF0096659D /* InviteTableViewCell.swift */; };
 		8E2EE76B2836783C0096659D /* FirebaseSportsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2EE76A2836783C0096659D /* FirebaseSportsAPI.swift */; };
 		8E31E23E283649230085238C /* OSInvite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E31E23D283649230085238C /* OSInvite.swift */; };
@@ -90,6 +91,7 @@
 		8E24F4582834A75900BC808B /* MessageWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageWindow.swift; sourceTree = "<group>"; };
 		8E25B0F7283CD3F100FE2FB3 /* OSStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSStats.swift; sourceTree = "<group>"; };
 		8E287F55283B1013005BBE28 /* UIButton+Loading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Loading.swift"; sourceTree = "<group>"; };
+		8E2D0CC0284FB374006FDE2E /* UIStackView+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Convenience.swift"; sourceTree = "<group>"; };
 		8E2EE768283675EF0096659D /* InviteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteTableViewCell.swift; sourceTree = "<group>"; };
 		8E2EE76A2836783C0096659D /* FirebaseSportsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseSportsAPI.swift; sourceTree = "<group>"; };
 		8E31E23D283649230085238C /* OSInvite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSInvite.swift; sourceTree = "<group>"; };
@@ -304,6 +306,7 @@
 				8E287F55283B1013005BBE28 /* UIButton+Loading.swift */,
 				8E38B573283B97C8009E0387 /* UIColor+CoreImage.swift */,
 				8E38B575283BC5AD009E0387 /* Bundle+Version.swift */,
+				8E2D0CC0284FB374006FDE2E /* UIStackView+Convenience.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -635,6 +638,7 @@
 				8E70C132282AD1F0009A9452 /* SportViewModel.swift in Sources */,
 				8E6B33E028426DFB00E73EDD /* ScannerFrameLinesView.swift in Sources */,
 				8E230887282D575D00AF60EB /* AuthViewModel.swift in Sources */,
+				8E2D0CC1284FB374006FDE2E /* UIStackView+Convenience.swift in Sources */,
 				8E70C136282ADF7A009A9452 /* OSAccount.swift in Sources */,
 				8E230889282D788D00AF60EB /* EmojiPickerViewController.swift in Sources */,
 				8E70C126282ACCB5009A9452 /* ProfileView.swift in Sources */,
