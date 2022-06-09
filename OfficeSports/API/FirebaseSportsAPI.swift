@@ -67,9 +67,10 @@ final class FirebaseSportsAPI: SportsAPI {
     }
     
     func getScoreboard(sport: OSSport, result: @escaping ((Result<[OSPlayer], Error>) -> Void)) {
-        playersCollection.limit(to: maxResultsInScoreboard).getDocuments { (snapshot, error) in
+        let fieldPath = sport == .foosball ? "foosballStats.score" : "tableTennisStats.score"
+        playersCollection.order(by: fieldPath, descending: true).limit(to: maxResultsInScoreboard).getDocuments { (snapshot, error) in
             guard let error = error else {
-                let players = self.playersFromDocuments(snapshot!.documents)
+                let players = self.playersFromDocuments(snapshot!.documents, sport: sport)
                 result(.success(players))
                 return
             }
@@ -146,11 +147,15 @@ final class FirebaseSportsAPI: SportsAPI {
     // ##   PRIVATE HELPER FUNCTIONS   ##
     // ##################################
     
-    private func playersFromDocuments(_ documents: [QueryDocumentSnapshot]) -> [OSPlayer] {
+    private func playersFromDocuments(_ documents: [QueryDocumentSnapshot], sport: OSSport) -> [OSPlayer] {
         // https://peterfriese.dev/posts/firestore-codable-the-comprehensive-guide/
+        let requiredField = sport == .foosball ? "foosballStats" : "tableTennisStats"
         var players = [OSPlayer]()
         
         for document in documents {
+            guard document.get(requiredField) != nil else {
+                continue
+            }
             do {
                 let player = try document.data(as: OSPlayer.self)
                 players.append(player)
