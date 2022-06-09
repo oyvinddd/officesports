@@ -34,16 +34,14 @@ final class SportViewController: UIViewController {
     
     weak var delegate: SportViewControllerDelegate?
     
-    private var subscribers: [AnyCancellable] = []
-    
     private let viewModel: SportViewModel
+    private var subscribers: [AnyCancellable] = []
     private var showScoreboard: Bool = true
     
     init(viewModel: SportViewModel, delegate: SportViewControllerDelegate?) {
         self.viewModel = viewModel
         self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
-        viewModel.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -52,8 +50,8 @@ final class SportViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupSubscribers()
         setupChildViews()
-        setupObservers()
         configureUI()
     }
     
@@ -78,11 +76,21 @@ final class SportViewController: UIViewController {
         NSLayoutConstraint.pinToView(view, tableView)
     }
     
-    private func setupObservers() {
-        viewModel.$scoreboard
+    private func setupSubscribers() {
+        viewModel.$state
             .receive(on: DispatchQueue.main)
-            .sink(receiveValue: { [weak self] _ in
-                self?.tableView.reloadData()
+            .sink(receiveValue: { [unowned self] state in
+                switch state {
+                case .scoreboardSuccess, .recentMatchesSuccess:
+                    self.tableView.refreshControl?.endRefreshing()
+                case .failure(let error):
+                    self.tableView.refreshControl?.endRefreshing()
+                    Coordinator.global.showMessage(OSMessage(error.localizedDescription, .failure))
+                default:
+                    // do nothing
+                    break
+                }
+                self.tableView.reloadData()
             })
             .store(in: &subscribers)
     }
@@ -151,34 +159,9 @@ extension SportViewController: UITableViewDelegate {
             // TODO: refactor this code to somewhere else
             let player = viewModel.scoreboard[indexPath.row]
             let viewModel = InvitePlayerViewModel(api: FirebaseSportsAPI())
-            let viewController = InvitePlayerViewController(viewModel: viewModel, player: player, sport: self.viewModel.sport)
+            let viewController = PlayerDetailsViewController(viewModel: viewModel, player: player, sport: self.viewModel.sport)
             present(viewController, animated: false)
         }
-    }
-}
-
-// MARK: - Sport View Model Delegate
-
-extension SportViewController: SportViewModelDelegate {
-    
-    func fetchedScoreboardSuccessfully() {
-        tableView.reloadData()
-    }
-    
-    func didFetchScoreboard(with error: Error) {
-        Coordinator.global.showMessage(OSMessage(error.localizedDescription, .failure))
-    }
-    
-    func fetchedRecentMatchesSuccessfully() {
-        // tableView.reloadData()
-    }
-    
-    func didFetchRecentMatches(with error: Error) {
-        Coordinator.global.showMessage(OSMessage(error.localizedDescription, .failure))
-    }
-    
-    func shouldToggleLoading(enabled: Bool) {
-        tableView.refreshControl?.endRefreshing()
     }
 }
 

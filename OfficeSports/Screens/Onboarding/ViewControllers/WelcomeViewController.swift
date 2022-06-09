@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import Combine
 
 final class WelcomeViewController: UIViewController {
-
+    
     private lazy var welcomeLabel: UILabel = {
         let label = UILabel.createLabel(.white, alignment: .center)
         label.font = UIFont.boldSystemFont(ofSize: 34)
@@ -45,12 +46,11 @@ final class WelcomeViewController: UIViewController {
     }()
     
     private let viewModel: AuthViewModel
+    private var subscribers: [AnyCancellable] = []
     
     init(viewModel: AuthViewModel) {
         self.viewModel = viewModel
-        
         super.init(nibName: nil, bundle: nil)
-        viewModel.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -59,8 +59,28 @@ final class WelcomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupSubscribers()
         setupChildViews()
-        view.backgroundColor = UIColor.OS.General.main
+        configureUI()
+    }
+    
+    private func setupSubscribers() {
+        viewModel.$state
+            .receive(on: DispatchQueue.main)
+            .sink { [unowned self] foo in
+                switch foo {
+                case .loading:
+                    self.signInButton.toggleLoading(true)
+                case .signInSuccess:
+                    Coordinator.global.checkAndHandleAppState()
+                case .signInFailure(let error):
+                    self.signInButton.toggleLoading(false)
+                    Coordinator.global.showMessage(OSMessage(error.localizedDescription, .failure))
+                default:
+                    // do nothing
+                    return
+                }
+            }.store(in: &subscribers)
     }
     
     private func setupChildViews() {
@@ -92,24 +112,11 @@ final class WelcomeViewController: UIViewController {
         ])
     }
     
+    private func configureUI() {
+        view.backgroundColor = UIColor.OS.General.main
+    }
+    
     @objc private func signInButtonTapped(_ sender: UIButton) {
         viewModel.signIn(from: self)
-    }
-}
-
-// MARK: - Auth View Model Delegate Conformance
-
-extension WelcomeViewController: AuthViewModelDelegate {
-
-    func signedInSuccessfully() {
-        Coordinator.global.checkAndHandleAppState()
-    }
-    
-    func signInFailed(with error: Error) {
-        Coordinator.global.showMessage(OSMessage(error.localizedDescription, .failure))
-    }
-    
-    func shouldToggleLoading(enabled: Bool) {
-        signInButton.toggleLoading(enabled)
     }
 }

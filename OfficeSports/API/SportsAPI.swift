@@ -30,8 +30,6 @@ protocol SportsAPI {
     
     // MARK: - Async/await API
     
-    //func signIn(viewController: UIViewController) async throws
-    
     func createPlayerProfile(nickname: String, emoji: String) async throws -> OSPlayer
     
     func getPlayerProfile() async throws -> OSPlayer
@@ -41,6 +39,4 @@ protocol SportsAPI {
     func getMatchHistory(sport: OSSport) async throws -> [OSMatch]
     
     func getActiveInvites() async throws -> [OSInvite]
-    
-    //func registerMatch(registration: OSMatchRegistration)
 }

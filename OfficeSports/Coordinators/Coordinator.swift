@@ -113,7 +113,7 @@ final class Coordinator {
 extension Coordinator {
     
     var welcomeViewController: WelcomeViewController {
-        let viewModel = AuthViewModel(api: GoogleAuthAPI(), delegate: nil)
+        let viewModel = AuthViewModel(api: GoogleAuthAPI())
         return WelcomeViewController(viewModel: viewModel)
     }
     

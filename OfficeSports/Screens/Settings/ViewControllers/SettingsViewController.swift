@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 private let kBackgroundMaxFade: CGFloat = 0.6
 private let kBackgroundMinFade: CGFloat = 0
@@ -71,13 +72,15 @@ final class SettingsViewController: UIViewController {
     }()
     
     private lazy var viewModel: AuthViewModel = {
-        return AuthViewModel(api: GoogleAuthAPI(), delegate: self)
+        return AuthViewModel(api: GoogleAuthAPI())
     }()
     
     private let dialogHideConstant: CGFloat = 0
     private var dialogShowConstant: CGFloat {
         return -dialogView.frame.height
     }
+    
+    private var subscribers: [AnyCancellable] = []
     
     init(with contentView: UIView? = nil, cornerRadius: CGFloat = 20) {
         super.init(nibName: nil, bundle: nil)
@@ -92,12 +95,30 @@ final class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .clear
+        setupSubscribers()
         setupChildViews()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         toggleDialog(enabled: true)
+    }
+    
+    private func setupSubscribers() {
+        viewModel.$state
+            .receive(on: DispatchQueue.main)
+            .sink { state in
+                switch state {
+                case .signOutSuccess:
+                    Coordinator.global.changeAppState(.unauthorized)
+                case .signOutFailure(let error):
+                    Coordinator.global.showMessage(OSMessage(error.localizedDescription, .failure))
+                default:
+                    // do nothing
+                    break
+                }
+            }
+            .store(in: &subscribers)
     }
     
     private func setupChildViews() {
@@ -198,23 +219,6 @@ final class SettingsViewController: UIViewController {
     
     @objc private func backgroundTapped(_ sender: UITapGestureRecognizer) {
         toggleDialog(enabled: false)
-    }
-}
-
-// MARK: - Auth View Model Delegate Conformance
-
-extension SettingsViewController: AuthViewModelDelegate {
-    
-    func signedOutSuccessfully() {
-        Coordinator.global.changeAppState(.unauthorized)
-    }
-    
-    func signOutFailed(with error: Error) {
-        Coordinator.global.showMessage(OSMessage("Error signing out", .failure))
-    }
-    
-    func shouldToggleLoading(enabled: Bool) {
-        // do nothing
     }
 }
 

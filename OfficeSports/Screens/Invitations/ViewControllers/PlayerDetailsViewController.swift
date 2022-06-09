@@ -1,5 +1,5 @@
 //
-//  InvitePlayerViewController.swift
+//  PlayerDetailsViewController.swift
 //  Office Sports
 //
 //  Created by Øyvind Hauge on 25/05/2022.
@@ -16,7 +16,7 @@ private let kAnimDelay: TimeInterval = 0
 private let profileImageDiameter: CGFloat = 100
 private let profileImageRadius: CGFloat = profileImageDiameter / 2
 
-final class InvitePlayerViewController: UIViewController {
+final class PlayerDetailsViewController: UIViewController {
     
     private lazy var backgroundView: UIView = {
         let view = UIView.createView(.black)
@@ -125,19 +125,21 @@ final class InvitePlayerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupSubscribers()
         setupChildViews()
         configureUI()
-        
-        // setup subscribers
-        viewModel.$shouldShowLoading
-            .receive(on: DispatchQueue.main)
-            .assign(to: \.showLoading, on: inviteButton)
-            .store(in: &subscribers)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         toggleDialog(enabled: true)
+    }
+    
+    private func setupSubscribers() {
+        viewModel.$shouldShowLoading
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.showLoading, on: inviteButton)
+            .store(in: &subscribers)
     }
     
     private func setupChildViews() {
@@ -245,13 +247,13 @@ final class InvitePlayerViewController: UIViewController {
     }
     
     @objc private func closeButtonTapped(_ sender: OSButton) {
-        dismiss()
+        toggleDialog(enabled: false)
     }
 }
 
 // MARK: - Invite Player Delegate Conformance
 
-extension InvitePlayerViewController: InvitePlayerViewModelDelegate {
+extension PlayerDetailsViewController: InvitePlayerViewModelDelegate {
     
     func invitePlayerSuccess() {
         let message = OSMessage("You have invited \(player.nickname) to a game of \(sport.humanReadableName)", .success)
