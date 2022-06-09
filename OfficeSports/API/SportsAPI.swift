@@ -9,6 +9,13 @@ import UIKit
 
 protocol SportsAPI {
     
+    @available(*, renamed: "signIn(viewController:)")
+    func signIn(_ viewController: UIViewController, result: @escaping (Result<Bool, Error>) -> Void)
+    
+    func signOut() -> Error?
+    
+    func deleteAccount(result: @escaping ((Error?) -> Void))
+    
     @available(*, renamed: "createOrUpdatePlayerProfile(nickname:emoji:)")
     func createOrUpdatePlayerProfile(nickname: String, emoji: String, result: @escaping (Result<OSPlayer, Error>) -> Void)
     
@@ -29,6 +36,8 @@ protocol SportsAPI {
     func getActiveInvites(result: @escaping ((Result<[OSInvite], Error>) -> Void))
     
     // MARK: - Async/await API
+    
+    func signIn(viewController: UIViewController) async throws -> Bool
     
     func createOrUpdatePlayerProfile(nickname: String, emoji: String) async throws -> OSPlayer
     

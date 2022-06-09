@@ -21,9 +21,9 @@ final class AuthViewModel {
     
     @Published private(set) var state: State = .idle
     
-    private let api: AuthAPI
+    private let api: SportsAPI
     
-    init(api: AuthAPI) {
+    init(api: SportsAPI) {
         self.api = api
     }
     

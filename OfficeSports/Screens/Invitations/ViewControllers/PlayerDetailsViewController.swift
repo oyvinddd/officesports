@@ -257,7 +257,7 @@ final class PlayerDetailsViewController: UIViewController {
 extension PlayerDetailsViewController: InvitePlayerViewModelDelegate {
     
     func invitePlayerSuccess() {
-        let message = OSMessage("You have invited \(player.nickname) to a game of \(sport.humanReadableName)", .success)
+        let message = OSMessage("You have invited \(player.nickname) to a game of \(sport.humanReadableName) ⚔️", .success)
         Coordinator.global.send(message)
         toggleDialog(enabled: false)
     }
