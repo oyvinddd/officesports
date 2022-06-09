@@ -5,9 +5,7 @@
 //  Created by Øyvind Hauge on 19/05/2022.
 //
 
-import GoogleSignIn
 import FirebaseCore
-import FirebaseAuth
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
@@ -32,55 +30,6 @@ final class FirebaseSportsAPI: SportsAPI {
     
     private var invitesCollection: CollectionReference {
         database.collection(fbInvitesCollection)
-    }
-    
-    func signIn(_ viewController: UIViewController, result: @escaping ((Error?) -> Void)) {
-        guard let clientID = FirebaseApp.app()?.options.clientID else {
-            return
-        }
-        
-        // Create Google Sign In configuration object.
-        let config = GIDConfiguration(clientID: clientID)
-        
-        // Start the sign in flow!
-        GIDSignIn.sharedInstance.signIn(with: config, presenting: viewController) { (user, error) in
-            if let error = error {
-                result(error)
-                return
-            }
-            
-            guard let authentication = user?.authentication, let idToken = authentication.idToken else {
-                result(OSError.missingToken)
-                return
-            }
-            let credentials = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: authentication.accessToken)
-            
-            Auth.auth().signIn(with: credentials) { (_, error) in
-                result(error)
-            }
-        }
-    }
-    
-    func signOut() -> Error? {
-        do {
-            try Auth.auth().signOut()
-        } catch let error {
-            return error
-        }
-        return nil
-    }
-    
-    func checkNicknameAvailability(_ nickname: String, result: @escaping ((Error?) -> Void)) {
-        let query = playersCollection.whereField("nickname", isEqualTo: nickname.lowercased())
-        
-        query.getDocuments { (snapshot, error) in
-            if let error = error {
-                result(error)
-            } else {
-                let count = snapshot!.documents.count
-                result(count > 0 ? OSError.nicknameTaken : nil)
-            }
-        }
     }
     
     func createPlayerProfile(nickname: String, emoji: String, result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
@@ -111,10 +60,6 @@ final class FirebaseSportsAPI: SportsAPI {
                 result(.failure(error))
             }
         }
-    }
-    
-    func deleteAccount(result: @escaping ((Error?) -> Void)) {
-        fatalError("Delete account endpoint has not been implementet yet!")
     }
     
     func getScoreboard(sport: OSSport, result: @escaping ((Result<[OSPlayer], Error>) -> Void)) {

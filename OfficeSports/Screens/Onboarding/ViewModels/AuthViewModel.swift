@@ -25,9 +25,9 @@ final class AuthViewModel {
     
     weak var delegate: AuthViewModelDelegate?
     
-    private let api: SportsAPI
+    private let api: AuthAPI
     
-    init(api: SportsAPI, delegate: AuthViewModelDelegate?) {
+    init(api: AuthAPI, delegate: AuthViewModelDelegate?) {
         self.delegate = delegate
         self.api = api
     }

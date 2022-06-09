@@ -57,23 +57,8 @@ final class MockSportsAPI: SportsAPI {
         ]
     }()
     
-    private var signedIn = false
     private var profileEmoji = "🙃"
     private var profileNickname = "oyvindhauge"
-    
-    func signIn(_ viewController: UIViewController, result: @escaping ((Error?) -> Void)) {
-        signedIn = true
-        result(nil)
-    }
-    
-    func signOut() -> Error? {
-        signedIn = false
-        return nil
-    }
-    
-    func checkNicknameAvailability(_ nickname: String, result: @escaping ((Error?) -> Void)) {
-        result(nil)
-    }
     
     func createPlayerProfile(nickname: String, emoji: String, result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
         let foosballStats = OSStats(id: nil, sport: .foosball, score: 0, matchesPlayed: 0)

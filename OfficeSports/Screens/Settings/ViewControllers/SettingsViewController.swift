@@ -71,7 +71,7 @@ final class SettingsViewController: UIViewController {
     }()
     
     private lazy var viewModel: AuthViewModel = {
-        return AuthViewModel(api: FirebaseSportsAPI(), delegate: self)
+        return AuthViewModel(api: GoogleAuthAPI(), delegate: self)
     }()
     
     private let dialogHideConstant: CGFloat = 0
