@@ -11,9 +11,9 @@ final class MockAuthAPI: AuthAPI {
     
     private var signedIn = false
     
-    func signIn(_ viewController: UIViewController, result: @escaping ((Error?) -> Void)) {
+    func signIn(_ viewController: UIViewController, result: @escaping (Result<Bool, Error>) -> Void) {
         signedIn = true
-        result(nil)
+        result(.success(true))
     }
     
     func signOut() -> Error? {
@@ -23,5 +23,18 @@ final class MockAuthAPI: AuthAPI {
     
     func deleteAccount(result: @escaping ((Error?) -> Void)) {
         result(nil)
+    }
+}
+
+// MARK: - Confirm to the async/await versions of the API methods
+
+extension MockAuthAPI {
+    
+    func signIn(viewController: UIViewController) async throws -> Bool {
+        return try await withCheckedThrowingContinuation({ continuation in
+            signIn(viewController) { result in
+                continuation.resume(with: result)
+            }
+        })
     }
 }

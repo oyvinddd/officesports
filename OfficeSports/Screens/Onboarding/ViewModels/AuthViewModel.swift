@@ -33,6 +33,7 @@ final class AuthViewModel {
     }
     
     func signIn(from viewController: UIViewController) {
+        /*
         delegate?.shouldToggleLoading(enabled: true)
         api.signIn(viewController) { [unowned self] error in
             self.delegate?.shouldToggleLoading(enabled: false)
@@ -42,6 +43,7 @@ final class AuthViewModel {
             }
             delegate?.signInFailed?(with: error)
         }
+        */
     }
     
     func signOut() {

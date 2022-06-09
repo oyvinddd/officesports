@@ -12,7 +12,7 @@ import GoogleSignIn
 
 final class GoogleAuthAPI: AuthAPI {
     
-    func signIn(_ viewController: UIViewController, result: @escaping ((Error?) -> Void)) {
+    func signIn(_ viewController: UIViewController, result: @escaping (Result<Bool, Error>) -> Void) {
         guard let clientID = FirebaseApp.app()?.options.clientID else {
             return
         }
@@ -23,18 +23,22 @@ final class GoogleAuthAPI: AuthAPI {
         // Start the sign in flow!
         GIDSignIn.sharedInstance.signIn(with: config, presenting: viewController) { (user, error) in
             if let error = error {
-                result(error)
+                result(.failure(error))
                 return
             }
             
             guard let authentication = user?.authentication, let idToken = authentication.idToken else {
-                result(OSError.missingToken)
+                result(.failure(OSError.missingToken))
                 return
             }
             let credentials = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: authentication.accessToken)
             
             Auth.auth().signIn(with: credentials) { (_, error) in
-                result(error)
+                if let error = error {
+                    result(.failure(error))
+                } else {
+                    result(.success(true))
+                }
             }
         }
     }
@@ -50,5 +54,18 @@ final class GoogleAuthAPI: AuthAPI {
     
     func deleteAccount(result: @escaping ((Error?) -> Void)) {
         fatalError("Delete account endpoint has not been implementet yet!")
+    }
+}
+
+// MARK: - Conform to the async/await API
+
+extension GoogleAuthAPI {
+    
+    func signIn(viewController: UIViewController) async throws -> Bool {
+        return try await withCheckedThrowingContinuation({ continuation in
+            signIn(viewController) { result in
+                continuation.resume(with: result)
+            }
+        })
     }
 }
