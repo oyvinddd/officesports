@@ -9,7 +9,7 @@ import UIKit
 
 protocol SportsAPI {
     
-    @available(*, renamed: "createPlayerProfile(nickname:emoji:)")
+    @available(*, renamed: "createOrUpdatePlayerProfile(nickname:emoji:)")
     func createOrUpdatePlayerProfile(nickname: String, emoji: String, result: @escaping (Result<OSPlayer, Error>) -> Void)
     
     @available(*, renamed: "getPlayerProfile()")
