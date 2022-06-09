@@ -202,9 +202,10 @@ final class PlayerDetailsViewController: UIViewController {
         view.backgroundColor = .clear
         profileEmjoiLabel.text = player.emoji
         nicknameLabel.text = player.nickname
-        let stats = player.statsForSport(sport)
-        playerDetailsLabel.text = "\(stats.score) pts • \(stats.matchesPlayed) matches"
-        inviteButton.setTitle("Invite to \(sport.humanReadableName) match", for: .normal)
+        if let stats = player.statsForSport(sport) {
+            playerDetailsLabel.text = "\(stats.score) pts • \(stats.matchesPlayed) matches"
+            inviteButton.setTitle("Invite to \(sport.humanReadableName) match", for: .normal)
+        }
     }
     
     private func toggleDialog(enabled: Bool) {
@@ -257,11 +258,11 @@ extension PlayerDetailsViewController: InvitePlayerViewModelDelegate {
     
     func invitePlayerSuccess() {
         let message = OSMessage("You have invited \(player.nickname) to a game of \(sport.humanReadableName)", .success)
-        Coordinator.global.showMessage(message)
+        Coordinator.global.send(message)
         toggleDialog(enabled: false)
     }
     
     func invitePlayerFailed(with error: Error) {
-        Coordinator.global.showMessage(OSMessage(error.localizedDescription, .failure))
+        Coordinator.global.send(OSMessage(error.localizedDescription, .failure))
     }
 }

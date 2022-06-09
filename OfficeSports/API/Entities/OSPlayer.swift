@@ -16,15 +16,15 @@ struct OSPlayer: Identifiable, Codable {
     
     var emoji: String
     
-    var foosballStats: OSStats
+    var foosballStats: OSStats?
     
-    var tableTennisStats: OSStats
+    var tableTennisStats: OSStats?
     
-    func statsForSport(_ sport: OSSport) -> OSStats {
+    func statsForSport(_ sport: OSSport) -> OSStats? {
         sport == .foosball ? foosballStats : tableTennisStats
     }
     
-    func scoreForSport(_ sport: OSSport) -> Int {
-        return statsForSport(sport).score
+    func scoreForSport(_ sport: OSSport) -> Int? {
+        return statsForSport(sport)?.score
     }
 }

@@ -75,7 +75,7 @@ final class WelcomeViewController: UIViewController {
                     Coordinator.global.checkAndHandleAppState()
                 case .signInFailure(let error):
                     self.signInButton.toggleLoading(false)
-                    Coordinator.global.showMessage(OSMessage(error.localizedDescription, .failure))
+                    Coordinator.global.send(OSMessage(error.localizedDescription, .failure))
                 default:
                     // do nothing
                     return

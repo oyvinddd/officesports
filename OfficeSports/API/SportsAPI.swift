@@ -10,7 +10,7 @@ import UIKit
 protocol SportsAPI {
     
     @available(*, renamed: "createPlayerProfile(nickname:emoji:)")
-    func createPlayerProfile(nickname: String, emoji: String, result: @escaping (Result<OSPlayer, Error>) -> Void)
+    func createOrUpdatePlayerProfile(nickname: String, emoji: String, result: @escaping (Result<OSPlayer, Error>) -> Void)
     
     @available(*, renamed: "getPlayerProfile()")
     func getPlayerProfile(result: @escaping ((Result<OSPlayer, Error>) -> Void))
@@ -30,7 +30,7 @@ protocol SportsAPI {
     
     // MARK: - Async/await API
     
-    func createPlayerProfile(nickname: String, emoji: String) async throws -> OSPlayer
+    func createOrUpdatePlayerProfile(nickname: String, emoji: String) async throws -> OSPlayer
     
     func getPlayerProfile() async throws -> OSPlayer
     

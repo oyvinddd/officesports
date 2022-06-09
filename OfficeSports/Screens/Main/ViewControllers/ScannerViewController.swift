@@ -232,12 +232,12 @@ extension ScannerViewController: ScannerViewModelDelegate {
     
     func matchRegistrationSuccess() {
         let message = OSMessage("Match result registered. Congratulations on your victory! 🥳", .success)
-        Coordinator.global.showMessage(message)
+        Coordinator.global.send(message)
     }
     
     func matchRegistrationFailed(error: Error) {
         let message = OSMessage(error.localizedDescription, .failure)
-        Coordinator.global.showMessage(message)
+        Coordinator.global.send(message)
     }
     
     func shouldToggleLoading(enabled: Bool) {

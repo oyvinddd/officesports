@@ -60,7 +60,7 @@ final class MockSportsAPI: SportsAPI {
     private var profileEmoji = "🙃"
     private var profileNickname = "oyvindhauge"
     
-    func createPlayerProfile(nickname: String, emoji: String, result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
+    func createOrUpdatePlayerProfile(nickname: String, emoji: String, result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
         let foosballStats = OSStats(id: nil, sport: .foosball, score: 0, matchesPlayed: 0)
         let tableTennisStats = OSStats(id: nil, sport: .tableTennis, score: 0, matchesPlayed: 0)
         let player = OSPlayer(id: "id#1337", nickname: nickname, emoji: emoji, foosballStats: foosballStats, tableTennisStats: tableTennisStats)
@@ -82,9 +82,9 @@ final class MockSportsAPI: SportsAPI {
     func getScoreboard(sport: OSSport, result: @escaping ((Result<[OSPlayer], Error>) -> Void)) {
         var sortedScoreboard: [OSPlayer] = []
         if sport == .foosball {
-            sortedScoreboard = scoreboard.sorted(by: { $0.foosballStats.score > $1.foosballStats.score })
+            sortedScoreboard = scoreboard.sorted(by: { $0.foosballStats!.score > $1.foosballStats!.score })
         } else if sport == .tableTennis {
-            sortedScoreboard = scoreboard.sorted(by: { $0.tableTennisStats.score > $1.tableTennisStats.score })
+            sortedScoreboard = scoreboard.sorted(by: { $0.tableTennisStats!.score > $1.tableTennisStats!.score })
         }
         result(.success(sortedScoreboard))
     }
@@ -113,9 +113,9 @@ final class MockSportsAPI: SportsAPI {
 
 extension MockSportsAPI {
     
-    func createPlayerProfile(nickname: String, emoji: String) async throws -> OSPlayer {
+    func createOrUpdatePlayerProfile(nickname: String, emoji: String) async throws -> OSPlayer {
         return try await withCheckedThrowingContinuation({ continuation in
-            createPlayerProfile(nickname: nickname, emoji: emoji) { result in
+            createOrUpdatePlayerProfile(nickname: nickname, emoji: emoji) { result in
                 continuation.resume(with: result)
             }
         })

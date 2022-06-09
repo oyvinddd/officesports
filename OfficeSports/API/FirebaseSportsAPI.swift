@@ -32,19 +32,23 @@ final class FirebaseSportsAPI: SportsAPI {
         database.collection(fbInvitesCollection)
     }
     
-    func createPlayerProfile(nickname: String, emoji: String, result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
+    func createOrUpdatePlayerProfile(nickname: String, emoji: String, result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
         guard let uid = OSAccount.current.userId else {
             result(.failure(OSError.unauthorized))
             return
         }
-
-//        playersCollection.document(uid).setData(data, mergeFields: Array(data.keys)) { error in
-//            result(error)
-//        }
         
-//        playersCollection.document(uid).setData(from: OSPlayer.self) { error in
-//
-//        }
+        let fields = ["nickname", "emoji"]
+        let data = ["nickname": nickname, "emoji": emoji]
+        let player = OSPlayer(nickname: nickname, emoji: emoji)
+        
+        playersCollection.document(uid).setData(data, mergeFields: fields) { error in
+            guard let error = error else {
+                result(.success(player))
+                return
+            }
+            result(.failure(error))
+        }
     }
     
     func getPlayerProfile(result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
@@ -178,9 +182,9 @@ final class FirebaseSportsAPI: SportsAPI {
 
 extension FirebaseSportsAPI {
     
-    func createPlayerProfile(nickname: String, emoji: String) async throws -> OSPlayer {
+    func createOrUpdatePlayerProfile(nickname: String, emoji: String) async throws -> OSPlayer {
         return try await withCheckedThrowingContinuation({ continuation in
-            createPlayerProfile(nickname: nickname, emoji: emoji) { result in
+            createOrUpdatePlayerProfile(nickname: nickname, emoji: emoji) { result in
                 continuation.resume(with: result)
             }
         })

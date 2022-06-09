@@ -85,7 +85,7 @@ final class SportViewController: UIViewController {
                     self.tableView.refreshControl?.endRefreshing()
                 case .failure(let error):
                     self.tableView.refreshControl?.endRefreshing()
-                    Coordinator.global.showMessage(OSMessage(error.localizedDescription, .failure))
+                    Coordinator.global.send(OSMessage(error.localizedDescription, .failure))
                 default:
                     // do nothing
                     break

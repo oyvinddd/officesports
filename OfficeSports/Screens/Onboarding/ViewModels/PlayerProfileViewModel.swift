@@ -8,33 +8,33 @@
 import Foundation
 import Combine
 
+private let nicknameMinLength = 3
+private let nicknameMaxLength = 20
+
 private let userDefaultsNicknameKey = "nickname"
 private let userdefaultsEmojiKey = "emoji"
 
-protocol PlayerProfileViewModelDelegate: AnyObject {
-    
-    func detailsUpdatedSuccessfully()
-    
-    func detailsUpdateFailed(with error: Error)
-}
-
 final class PlayerProfileViewModel {
     
-    @Published var shouldToggleLoading: Bool = false
+    enum State {
+        case idle
+        case loading
+        case success(OSPlayer)
+        case failure(Error)
+    }
     
-    let api: SportsAPI
-    var emoijs = [String]()
+    @Published private(set) var state: State = .idle
+    
+    private let api: SportsAPI
+    private(set) var emoijs = [String]()
     
     var randomEmoji: String {
         let randomIndex = Int.random(in: 0..<emoijs.count)
         return emoijs[randomIndex]
     }
     
-    weak var delegate: PlayerProfileViewModelDelegate?
-    
-    init(api: SportsAPI, delegate: PlayerProfileViewModelDelegate? = nil) {
+    init(api: SportsAPI) {
         self.api = api
-        self.delegate = delegate
         do {
             self.emoijs = try loadEmojisFromFile(filename: "emojis")
         } catch let error {
@@ -42,24 +42,37 @@ final class PlayerProfileViewModel {
         }
     }
     
-    func registerProfileDetails(nickname: String, emoji: String) async {
-        do {
-            _ = try await api.createPlayerProfile(nickname: nickname, emoji: emoji)
-        } catch let error {
-            
+    func processAndValidateNickname(_ nickname: String?) throws -> String {
+        guard let nickname = nickname else {
+            throw OSError.nicknameMissing
         }
-        /*
-         shouldToggleLoading = true
-         api.createPlayerProfile(nickname: nickname, emoji: emoji) { [unowned self] error in
-         self.shouldToggleLoading = false
-         if let error = error {
-         self.delegate?.detailsUpdateFailed(with: error)
-         } else {
-         self.saveProfileDetails(nickname: nickname, emoji: emoji)
-         self.delegate?.detailsUpdatedSuccessfully()
-         }
-         }
-         */
+        let trimmedNickname = nickname.trimmingCharacters(in: .whitespacesAndNewlines)
+        let lowercasedNickname = trimmedNickname.lowercased()
+        
+        if lowercasedNickname.rangeOfCharacter(from: .whitespacesAndNewlines) != nil {
+            throw OSError.invalidNickname
+        }
+        if lowercasedNickname.count < nicknameMinLength {
+            throw OSError.nicknameTooShort
+        }
+        if lowercasedNickname.count > nicknameMaxLength {
+            throw OSError.nicknameTooLong
+        }
+        return lowercasedNickname
+    }
+    
+    func registerProfileDetails(nickname: String, emoji: String) {
+        state = .loading
+        
+        Task {
+            do {
+                let player = try await api.createOrUpdatePlayerProfile(nickname: nickname, emoji: emoji)
+                saveProfileDetails(nickname: nickname, emoji: emoji)
+                state = .success(player)
+            } catch let error {
+                state = .failure(error)
+            }
+        }
     }
     
     private func saveProfileDetails(nickname: String, emoji: String) {

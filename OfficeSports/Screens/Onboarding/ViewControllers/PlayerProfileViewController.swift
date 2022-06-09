@@ -8,9 +8,6 @@
 import UIKit
 import Combine
 
-private let nicknameMinLength = 3
-private let nicknameMaxLength = 20
-
 private let profileImageDiameter: CGFloat = 110
 private let profileImageRadius: CGFloat = profileImageDiameter / 2
 
@@ -81,7 +78,6 @@ final class PlayerProfileViewController: UIViewController {
         self.viewModel = viewModel
         self.selectedEmoji = OSAccount.current.emoji ?? viewModel.randomEmoji
         super.init(nibName: nil, bundle: nil)
-        viewModel.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -90,7 +86,7 @@ final class PlayerProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupObservables()
+        setupSubscribers()
         setupChildViews()
         configureUI()
         
@@ -101,7 +97,7 @@ final class PlayerProfileViewController: UIViewController {
             name: UIResponder.keyboardWillShowNotification,
             object: nil
         )
-
+        
         // Subscribe to Keyboard Will Hide notifications
         NotificationCenter.default.addObserver(
             self,
@@ -161,38 +157,39 @@ final class PlayerProfileViewController: UIViewController {
         profileImageBackground.backgroundColor = UIColor.OS.hashedProfileColor(nickname ?? "")
     }
     
-    private func setupObservables() {
-        viewModel.$shouldToggleLoading
+    private func setupSubscribers() {
+        viewModel.$state
             .receive(on: DispatchQueue.main)
-            .assign(to: \.showLoading, on: continueButton)
-            .store(in: &subscribers)
-    }
-    
-    private func processAndValidateNickname(_ nickname: String?) throws -> String {
-        guard let nickname = nickname else {
-            throw OSError.nicknameMissing
-        }
-        let trimmedNickname = nickname.trimmingCharacters(in: .whitespacesAndNewlines)
-        let lowercasedNickname = trimmedNickname.lowercased()
-        
-        if lowercasedNickname.rangeOfCharacter(from: .whitespacesAndNewlines) != nil {
-            throw OSError.invalidNickname
-        }
-        if lowercasedNickname.count < nicknameMinLength {
-            throw OSError.nicknameTooShort
-        }
-        if lowercasedNickname.count > nicknameMaxLength {
-            throw OSError.nicknameTooLong
-        }
-        return lowercasedNickname
+            .sink { [unowned self] state in
+                switch state {
+                case .loading:
+                    continueButton.toggleLoading(true)
+                case .success:
+                    continueButton.toggleLoading(false)
+                    Coordinator.global.send(OSMessage("Successfully updated player details! 🤝", .success))
+                    // we check if vc was presented modally so
+                    // that we know where to send the user next
+                    guard presentingViewController != nil else {
+                        Coordinator.global.changeAppState(.authorized)
+                        return
+                    }
+                    dismiss(animated: true)
+                case .failure(let error):
+                    continueButton.toggleLoading(false)
+                    Coordinator.global.send(OSMessage(error.localizedDescription, .failure))
+                default:
+                    // do nothing
+                    return
+                }
+            }.store(in: &subscribers)
     }
     
     @objc private func continueButtonTapped(_ sender: UIButton) {
         do {
-            let nickname = try processAndValidateNickname(nicknameField.text)
-            //viewModel.registerProfileDetails(nickname: nickname, emoji: selectedEmoji)
+            let nickname = try viewModel.processAndValidateNickname(nicknameField.text)
+            viewModel.registerProfileDetails(nickname: nickname, emoji: selectedEmoji)
         } catch let error {
-            Coordinator.global.showMessage(OSMessage(error.localizedDescription, .failure))
+            Coordinator.global.send(OSMessage(error.localizedDescription, .failure))
         }
     }
     
@@ -202,26 +199,6 @@ final class PlayerProfileViewController: UIViewController {
     
     @objc private func nicknameFieldChanged(_ sender: UITextField) {
         profileImageBackground.backgroundColor = UIColor.OS.hashedProfileColor(sender.text!)
-    }
-}
-
-// MARK: - Nickname View Model Delegate Conformance
-
-extension PlayerProfileViewController: PlayerProfileViewModelDelegate {
-    
-    func detailsUpdatedSuccessfully() {
-        Coordinator.global.showMessage(OSMessage("Successfully updated player details! 🤝", .success))
-        // we check if vc was presented modally so
-        // that we know where to send the user next
-        guard presentingViewController != nil else {
-            Coordinator.global.changeAppState(.authorized)
-            return
-        }
-        dismiss(animated: true)
-    }
-    
-    func detailsUpdateFailed(with error: Error) {
-        Coordinator.global.showMessage(OSMessage(error.localizedDescription, .failure))
     }
 }
 
@@ -257,7 +234,7 @@ extension PlayerProfileViewController {
         let curveKey = UIResponder.keyboardAnimationCurveUserInfoKey
         let curveValue = notification.userInfo![curveKey] as! Int
         let curve = UIView.AnimationCurve(rawValue: curveValue)!
-
+        
         // Create a property animator to manage the animation
         let animator = UIViewPropertyAnimator(
             duration: duration,

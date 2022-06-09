@@ -112,7 +112,7 @@ final class SettingsViewController: UIViewController {
                 case .signOutSuccess:
                     Coordinator.global.changeAppState(.unauthorized)
                 case .signOutFailure(let error):
-                    Coordinator.global.showMessage(OSMessage(error.localizedDescription, .failure))
+                    Coordinator.global.send(OSMessage(error.localizedDescription, .failure))
                 default:
                     // do nothing
                     break
