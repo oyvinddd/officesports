@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 private let kBackgroundMaxFade: CGFloat = 0.6
 private let kBackgroundMinFade: CGFloat = 0
@@ -71,13 +72,15 @@ final class SettingsViewController: UIViewController {
     }()
     
     private lazy var viewModel: AuthViewModel = {
-        return AuthViewModel(api: FirebaseSportsAPI(), delegate: self)
+        return AuthViewModel(api: GoogleAuthAPI())
     }()
     
     private let dialogHideConstant: CGFloat = 0
     private var dialogShowConstant: CGFloat {
         return -dialogView.frame.height
     }
+    
+    private var subscribers: [AnyCancellable] = []
     
     init(with contentView: UIView? = nil, cornerRadius: CGFloat = 20) {
         super.init(nibName: nil, bundle: nil)
@@ -92,12 +95,30 @@ final class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .clear
+        setupSubscribers()
         setupChildViews()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         toggleDialog(enabled: true)
+    }
+    
+    private func setupSubscribers() {
+        viewModel.$state
+            .receive(on: DispatchQueue.main)
+            .sink { state in
+                switch state {
+                case .signOutSuccess:
+                    Coordinator.global.changeAppState(.unauthorized)
+                case .signOutFailure(let error):
+                    Coordinator.global.send(OSMessage(error.localizedDescription, .failure))
+                default:
+                    // do nothing
+                    break
+                }
+            }
+            .store(in: &subscribers)
     }
     
     private func setupChildViews() {
@@ -107,25 +128,12 @@ final class SettingsViewController: UIViewController {
         dialogView.addSubview(contentWrapView)
         contentWrapView.addSubview(stackView)
         
-        let profileButton = createSettingsButton("person", "Update player profile")
-        let preferencesButton = createSettingsButton("checklist", "Preferences")
-        let aboutButton = createSettingsButton("info.circle", "About")
-        let signOutButton = createSettingsButton("power", "Sign out")
+        let profileButton = createSettingsButton("person", "Update player profile", #selector(profileButtonTapped))
+        let preferencesButton = createSettingsButton("checklist", "Preferences", #selector(preferencesButtonTapped))
+        let aboutButton = createSettingsButton("info.circle", "About", #selector(aboutButtonTapped))
+        let signOutButton = createSettingsButton("power", "Sign out", #selector(signOutButtonTapped))
         
-        let recognizer1 = UITapGestureRecognizer(target: self, action: #selector(profileButtonTapped))
-        let recognizer2 = UITapGestureRecognizer(target: self, action: #selector(signOutButtonTapped))
-        let recognizer3 = UITapGestureRecognizer(target: self, action: #selector(preferencesButtonTapped))
-        let recognizer4 = UITapGestureRecognizer(target: self, action: #selector(aboutButtonTapped))
-        
-        profileButton.addGestureRecognizer(recognizer1)
-        preferencesButton.addGestureRecognizer(recognizer3)
-        signOutButton.addGestureRecognizer(recognizer2)
-        aboutButton.addGestureRecognizer(recognizer4)
-        
-        stackView.addArrangedSubview(profileButton)
-        stackView.addArrangedSubview(preferencesButton)
-        stackView.addArrangedSubview(aboutButton)
-        stackView.addArrangedSubview(signOutButton)
+        stackView.addArrangedSubviews(profileButton, preferencesButton, aboutButton, signOutButton)
         
         NSLayoutConstraint.activate([
             backgroundView.leftAnchor.constraint(equalTo: view.leftAnchor),
@@ -169,10 +177,16 @@ final class SettingsViewController: UIViewController {
             }
     }
     
-    private func createSettingsButton(_ systemIconName: String, _ title: String) -> SettingsButton {
+    private func createSettingsButton(_ systemIconName: String, _ title: String, _ sel: Selector) -> SettingsButton {
         let config = UIImage.SymbolConfiguration(pointSize: 17, weight: .semibold, scale: .medium)
         let buttonIcon = UIImage(systemName: systemIconName, withConfiguration: config)!
-        return SettingsButton(buttonIcon, title)
+        
+        let button = SettingsButton(buttonIcon, title)
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: sel)
+        button.addGestureRecognizer(tapGestureRecognizer)
+        
+        return button
     }
     
     private func toggleBackgroundView(enabled: Bool) {
@@ -205,23 +219,6 @@ final class SettingsViewController: UIViewController {
     
     @objc private func backgroundTapped(_ sender: UITapGestureRecognizer) {
         toggleDialog(enabled: false)
-    }
-}
-
-// MARK: - Auth View Model Delegate Conformance
-
-extension SettingsViewController: AuthViewModelDelegate {
-    
-    func signedOutSuccessfully() {
-        Coordinator.global.changeAppState(.unauthorized)
-    }
-    
-    func signOutFailed(with error: Error) {
-        Coordinator.global.showMessage(OSMessage("Error signing out", .failure))
-    }
-    
-    func shouldToggleLoading(enabled: Bool) {
-        // do nothing
     }
 }
 

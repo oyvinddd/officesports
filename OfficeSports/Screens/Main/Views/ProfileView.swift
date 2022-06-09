@@ -12,8 +12,9 @@ private let profileImageDiameter: CGFloat = 128
 private let sportImageDiameter: CGFloat = 60
 private let profileImageRadius: CGFloat = profileImageDiameter / 2
 private let sportImageRadius: CGFloat = sportImageDiameter / 2
-private let codeTransitionDuration: TimeInterval = 0.3  // seconds
-private let codeHideDelayDuration: TimeInterval = 2     // seconds
+private let codeTransitionDuration: TimeInterval = 0.3          // seconds
+private let codeHideDelayDuration: TimeInterval = 2             // seconds
+private let emojiFadeTransitionDuration: TimeInterval = 0.2     // seconds
 
 protocol ProfileViewDelegate: AnyObject {
     
@@ -144,24 +145,38 @@ final class ProfileView: UIView {
     }
     
     func configureForSport(_ sport: OSSport) {
-        if sport == .foosball {
-            sportImageWrap.alpha = 1
+        var sportImageWrapAlpha: CGFloat = 1
+        var sportImageBackgroundColor = UIColor.OS.Sport.foosball
+        var foosballEmojiAlpha: CGFloat = 1
+        var tableTennisEmojiAlpha: CGFloat = 1
+        var totalScore = ""
+        
+        switch sport {
+        case .foosball:
+            sportImageWrapAlpha = 1
             codeImageView.image = foosballCodeImage
-            sportImageBackground.backgroundColor = UIColor.OS.Sport.foosball
-            let foosballScore = account.player?.statsForSport(.foosball).totalScore ?? 0
-            totalScoreLabel.text = "\(foosballScore) pts"
-            foosballEmojiLabel.alpha = 1
-            tableTennisEmojiLabel.alpha = 0
-        } else if sport == .tableTennis {
-            sportImageWrap.alpha = 1
+            sportImageBackgroundColor = UIColor.OS.Sport.foosball
+            let foosballScore = account.player?.statsForSport(.foosball)?.score ?? 0
+            totalScore = "\(foosballScore) pts"
+            foosballEmojiAlpha = 1
+            tableTennisEmojiAlpha = 0
+        case .tableTennis:
+            sportImageWrapAlpha = 1
             codeImageView.image = tableTennisCodeImage
-            sportImageBackground.backgroundColor = UIColor.OS.Sport.tableTennis
-            let tableTennisScore = account.player?.statsForSport(.tableTennis).totalScore ?? 0
-            totalScoreLabel.text = "\(tableTennisScore) pts"
-            foosballEmojiLabel.alpha = 0
-            tableTennisEmojiLabel.alpha = 1
-        } else {
-            sportImageWrap.alpha = 0
+            sportImageBackgroundColor = UIColor.OS.Sport.tableTennis
+            let tableTennisScore = account.player?.statsForSport(.tableTennis)?.score ?? 0
+            totalScore = "\(tableTennisScore) pts"
+            foosballEmojiAlpha = 0
+            tableTennisEmojiAlpha = 1
+        default:
+            sportImageWrapAlpha = 0
+        }
+        UIView.animate(withDuration: emojiFadeTransitionDuration, delay: 0) {
+            self.sportImageWrap.alpha = sportImageWrapAlpha
+            self.sportImageBackground.backgroundColor = sportImageBackgroundColor
+            self.totalScoreLabel.text = totalScore
+            self.foosballEmojiLabel.alpha = foosballEmojiAlpha
+            self.tableTennisEmojiLabel.alpha = tableTennisEmojiAlpha
         }
     }
     

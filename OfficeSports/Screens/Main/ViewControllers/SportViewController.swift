@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 protocol SportViewControllerDelegate: AnyObject {
     
@@ -34,13 +35,13 @@ final class SportViewController: UIViewController {
     weak var delegate: SportViewControllerDelegate?
     
     private let viewModel: SportViewModel
+    private var subscribers: [AnyCancellable] = []
     private var showScoreboard: Bool = true
     
     init(viewModel: SportViewModel, delegate: SportViewControllerDelegate?) {
         self.viewModel = viewModel
         self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
-        viewModel.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -49,8 +50,9 @@ final class SportViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupSubscribers()
         setupChildViews()
-        view.backgroundColor = .clear
+        configureUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -72,6 +74,29 @@ final class SportViewController: UIViewController {
     
     private func setupChildViews() {
         NSLayoutConstraint.pinToView(view, tableView)
+    }
+    
+    private func setupSubscribers() {
+        viewModel.$state
+            .receive(on: DispatchQueue.main)
+            .sink(receiveValue: { [unowned self] state in
+                switch state {
+                case .scoreboardSuccess, .recentMatchesSuccess:
+                    self.tableView.refreshControl?.endRefreshing()
+                case .failure(let error):
+                    self.tableView.refreshControl?.endRefreshing()
+                    Coordinator.global.send(OSMessage(error.localizedDescription, .failure))
+                default:
+                    // do nothing
+                    break
+                }
+                self.tableView.reloadData()
+            })
+            .store(in: &subscribers)
+    }
+    
+    private func configureUI() {
+        view.backgroundColor = .clear
     }
     
     @objc private func refreshPulled(_ sender: UIRefreshControl) {
@@ -131,37 +156,11 @@ extension SportViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if showScoreboard {
-            // TODO: refactor this code to somewhere else
             let player = viewModel.scoreboard[indexPath.row]
             let viewModel = InvitePlayerViewModel(api: FirebaseSportsAPI())
-            let viewController = InvitePlayerViewController(viewModel: viewModel, player: player, sport: self.viewModel.sport)
+            let viewController = PlayerDetailsViewController(viewModel: viewModel, player: player, sport: self.viewModel.sport)
             present(viewController, animated: false)
         }
-    }
-}
-
-// MARK: - Sport View Model Delegate
-
-extension SportViewController: SportViewModelDelegate {
-    
-    func fetchedScoreboardSuccessfully() {
-        tableView.reloadData()
-    }
-    
-    func didFetchScoreboard(with error: Error) {
-        Coordinator.global.showMessage(OSMessage(error.localizedDescription, .failure))
-    }
-    
-    func fetchedRecentMatchesSuccessfully() {
-        // tableView.reloadData()
-    }
-    
-    func didFetchRecentMatches(with error: Error) {
-        Coordinator.global.showMessage(OSMessage(error.localizedDescription, .failure))
-    }
-    
-    func shouldToggleLoading(enabled: Bool) {
-        tableView.refreshControl?.endRefreshing()
     }
 }
 

@@ -21,9 +21,11 @@ final class MyInvitesViewModel {
     
     func getActiveInvites() {
         self.showLoading = true
-        api.getActiveInvites { [unowned self] (invites, error) in
-            if let error = error {
-                
+        Task {
+            do {
+                invites = try await api.getActiveInvites()
+            } catch let error {
+                print(error)
             }
         }
     }

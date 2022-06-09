@@ -49,7 +49,7 @@ final class Coordinator {
         currentState = state
     }
     
-    func showMessage(_ message: OSMessage) {
+    func send(_ message: OSMessage) {
         messageWindow.showMessage(message)
     }
     
@@ -113,12 +113,12 @@ final class Coordinator {
 extension Coordinator {
     
     var welcomeViewController: WelcomeViewController {
-        let viewModel = AuthViewModel(api: FirebaseSportsAPI(), delegate: nil)
+        let viewModel = AuthViewModel(api: GoogleAuthAPI())
         return WelcomeViewController(viewModel: viewModel)
     }
     
     var playerProfileViewController: PlayerProfileViewController {
-        let viewModel = PlayerProfileViewModel(api: FirebaseSportsAPI(), delegate: nil)
+        let viewModel = PlayerProfileViewModel(api: FirebaseSportsAPI())
         return PlayerProfileViewController(viewModel: viewModel)
     }
     

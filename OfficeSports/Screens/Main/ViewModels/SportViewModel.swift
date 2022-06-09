@@ -7,26 +7,22 @@
 
 import Foundation
 
-protocol SportViewModelDelegate: AnyObject {
-    
-    func fetchedScoreboardSuccessfully()
-    
-    func didFetchScoreboard(with error: Error)
-    
-    func fetchedRecentMatchesSuccessfully()
-    
-    func didFetchRecentMatches(with error: Error)
-    
-    func shouldToggleLoading(enabled: Bool)
-}
-
 final class SportViewModel {
     
-    var scoreboard = [OSPlayer]()
-    var recentMatches = [OSMatch]()
+    enum State {
+        case idle
+        case loading
+        case scoreboardSuccess
+        case recentMatchesSuccess
+        case failure(Error)
+    }
+    
+    @Published private(set) var state: State = .idle
+    
     let sport: OSSport
     
-    weak var delegate: SportViewModelDelegate?
+    private(set) var scoreboard = [OSPlayer]()
+    private(set) var recentMatches = [OSMatch]()
     
     private let api: SportsAPI
     
@@ -36,27 +32,27 @@ final class SportViewModel {
     }
     
     func fetchScoreboard() {
-        delegate?.shouldToggleLoading(enabled: true)
-        api.getScoreboard(sport: sport) { [unowned self] (scoreboard, error) in
-            self.delegate?.shouldToggleLoading(enabled: false)
-            if let error = error {
-                self.delegate?.didFetchScoreboard(with: error)
-            } else {
-                self.scoreboard = scoreboard
-                self.delegate?.fetchedScoreboardSuccessfully()
+        state = .loading
+        
+        Task {
+            do {
+                scoreboard = try await api.getScoreboard(sport: sport)
+                state = .scoreboardSuccess
+            } catch let error {
+                state = .failure(error)
             }
         }
     }
     
     func fetchRecentMatches() {
-        delegate?.shouldToggleLoading(enabled: true)
-        api.getMatchHistory(sport: sport) { [unowned self] (matchHistory, error) in
-            self.delegate?.shouldToggleLoading(enabled: false)
-            if let error = error {
-                self.delegate?.didFetchRecentMatches(with: error)
-            } else {
-                self.recentMatches = matchHistory
-                self.delegate?.fetchedRecentMatchesSuccessfully()
+        state = .loading
+        
+        Task {
+            do {
+                recentMatches = try await api.getMatchHistory(sport: sport)
+                state = .recentMatchesSuccess
+            } catch let error {
+                state = .failure(error)
             }
         }
     }
