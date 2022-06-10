@@ -46,7 +46,7 @@ final class WelcomeViewController: UIViewController {
     }()
     
     private let viewModel: AuthViewModel
-    private var subscribers: [AnyCancellable] = []
+    private var subscribers = Set<AnyCancellable>()
     
     init(viewModel: AuthViewModel) {
         self.viewModel = viewModel
@@ -67,8 +67,8 @@ final class WelcomeViewController: UIViewController {
     private func setupSubscribers() {
         viewModel.$state
             .receive(on: DispatchQueue.main)
-            .sink { [unowned self] foo in
-                switch foo {
+            .sink { [unowned self] state in
+                switch state {
                 case .loading:
                     self.signInButton.toggleLoading(true)
                 case .signInSuccess:

@@ -136,7 +136,7 @@ final class ProfileView: UIView {
         profileEmjoiLabel.text = account.emoji
         nicknameLabel.text = account.nickname?.lowercased()
         setupChildViews()
-        setupObservables()
+        setupSubscribers()
         configureForSport(.foosball)
     }
     
@@ -254,18 +254,26 @@ final class ProfileView: UIView {
         ])
     }
     
-    private func setupObservables() {
-        OSAccount.current.$nickname
+    private func setupSubscribers() {
+        OSAccount.current.$player
             .receive(on: DispatchQueue.main)
+            .map({ $0!.nickname })
             .assign(to: \.text, on: nicknameLabel)
             .store(in: &subscribers)
-        OSAccount.current.$nickname.map({ UIColor.OS.hashedProfileColor($0!) })
+        OSAccount.current.$player
             .receive(on: DispatchQueue.main)
+            .map({ UIColor.OS.hashedProfileColor($0!.nickname) })
             .assign(to: \.backgroundColor, on: profileImageBackground)
             .store(in: &subscribers)
-        OSAccount.current.$emoji
+        OSAccount.current.$player
             .receive(on: DispatchQueue.main)
+            .map({ $0!.emoji })
             .assign(to: \.text, on: profileEmjoiLabel)
+            .store(in: &subscribers)
+        OSAccount.current.$player
+            .receive(on: DispatchQueue.main)
+            .map({ "\($0?.foosballStats?.score ?? 0) pts" })
+            .assign(to: \.text, on: totalScoreLabel)
             .store(in: &subscribers)
     }
     

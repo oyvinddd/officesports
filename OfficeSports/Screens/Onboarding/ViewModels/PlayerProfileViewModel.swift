@@ -9,10 +9,7 @@ import Foundation
 import Combine
 
 private let nicknameMinLength = 3
-private let nicknameMaxLength = 20
-
-private let userDefaultsNicknameKey = "nickname"
-private let userdefaultsEmojiKey = "emoji"
+private let nicknameMaxLength = 22
 
 final class PlayerProfileViewModel {
     
@@ -67,22 +64,13 @@ final class PlayerProfileViewModel {
         Task {
             do {
                 let player = try await api.createOrUpdatePlayerProfile(nickname: nickname, emoji: emoji)
-                saveProfileDetails(nickname: nickname, emoji: emoji)
+                _ = UserDefaultsHelper.savePlayerProfile(player)
+                OSAccount.current.player = player
                 state = .success(player)
             } catch let error {
                 state = .failure(error)
             }
         }
-    }
-    
-    private func saveProfileDetails(nickname: String, emoji: String) {
-        // store profile details in user defaults
-        let standardDefaults = UserDefaults.standard
-        standardDefaults.set(nickname, forKey: userDefaultsNicknameKey)
-        standardDefaults.set(emoji, forKey: userdefaultsEmojiKey)
-        // update the profile details on the current account
-        OSAccount.current.nickname = nickname
-        OSAccount.current.emoji = emoji
     }
     
     private func loadEmojisFromFile(filename: String) throws -> [String] {
