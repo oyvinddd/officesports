@@ -23,12 +23,17 @@ final class InviteTableViewCell: UITableViewCell {
         return label
     }()
     
-    private lazy var timestampLabel: UILabel = {
-        return UILabel.createLabel(UIColor.OS.Text.subtitle, text: "2 hours a go")
+    private lazy var playerLabel: UILabel = {
+        let label = UILabel.createLabel(UIColor.OS.Text.normal)
+        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.numberOfLines = 1
+        return label
     }()
     
-    private lazy var playerLabel: UILabel = {
-        return UILabel.createLabel(UIColor.OS.Text.normal, text: "Somebody invited you!")
+    private lazy var timestampLabel: UILabel = {
+        let label = UILabel.createLabel(UIColor.OS.Text.subtitle, text: "2 hours a go")
+        label.font = UIFont.boldSystemFont(ofSize: 16)
+        return label
     }()
     
     init() {
@@ -50,6 +55,7 @@ final class InviteTableViewCell: UITableViewCell {
         applyCornerRadius(isFirstElement: isFirst, isLastElement: isLast)
         sportImageWrap.backgroundColor = UIColor.OS.colorForSport(invite.sport)
         sportEmojiLabel.text = invite.sport == .foosball ? "⚽️" : "🏓"
+        playerLabel.text = "Invite from \(invite.inviteeNickname)!"
     }
     
     private func setupChildViews() {
@@ -70,12 +76,12 @@ final class InviteTableViewCell: UITableViewCell {
             sportImageWrap.bottomAnchor.constraint(equalTo: contentWrap.bottomAnchor, constant: -16),
             sportImageWrap.heightAnchor.constraint(equalToConstant: 46),
             sportImageWrap.widthAnchor.constraint(equalTo: sportImageWrap.heightAnchor),
-            timestampLabel.leftAnchor.constraint(equalTo: sportImageWrap.rightAnchor, constant: 16),
-            timestampLabel.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: 16),
-            timestampLabel.topAnchor.constraint(equalTo: sportImageWrap.topAnchor),
             playerLabel.leftAnchor.constraint(equalTo: sportImageWrap.rightAnchor, constant: 16),
-            playerLabel.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: 16),
-            playerLabel.bottomAnchor.constraint(equalTo: sportImageWrap.bottomAnchor)
+            playerLabel.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
+            playerLabel.topAnchor.constraint(equalTo: sportImageWrap.topAnchor),
+            timestampLabel.leftAnchor.constraint(equalTo: sportImageWrap.rightAnchor, constant: 16),
+            timestampLabel.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
+            timestampLabel.bottomAnchor.constraint(equalTo: sportImageWrap.bottomAnchor)
         ])
     }
     
