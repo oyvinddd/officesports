@@ -10,6 +10,10 @@ import FirebaseFirestoreSwift
 
 struct OSPlayer: Identifiable, Codable {
     
+    enum CodingKeys: String, CodingKey {
+        case nickname, emoji, foosballStats, tableTennisStats
+    }
+    
     @DocumentID public var id: String?
     
     var nickname: String
@@ -27,4 +31,8 @@ struct OSPlayer: Identifiable, Codable {
     func scoreForSport(_ sport: OSSport) -> Int? {
         return statsForSport(sport)?.score
     }
+    
+//    func encode(to encoder: Encoder) throws {
+//
+//    }
 }

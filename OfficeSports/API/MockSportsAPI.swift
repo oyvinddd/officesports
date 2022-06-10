@@ -59,6 +59,21 @@ final class MockSportsAPI: SportsAPI {
     
     private var profileEmoji = "🙃"
     private var profileNickname = "oyvindhauge"
+    private var signedIn = false
+    
+    func signIn(_ viewController: UIViewController, result: @escaping (Result<Bool, Error>) -> Void) {
+        signedIn = true
+        result(.success(true))
+    }
+    
+    func signOut() -> Error? {
+        signedIn = false
+        return nil
+    }
+    
+    func deleteAccount(result: @escaping ((Error?) -> Void)) {
+        result(nil)
+    }
     
     func createOrUpdatePlayerProfile(nickname: String, emoji: String, result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
         let foosballStats = OSStats(id: nil, sport: .foosball, score: 0, matchesPlayed: 0)
@@ -69,10 +84,6 @@ final class MockSportsAPI: SportsAPI {
     
     func getPlayerProfile(result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
         result(.success(OSAccount.current.player!))
-    }
-    
-    func deleteAccount(result: @escaping ((Error?) -> Void)) {
-        result(nil)
     }
     
     func registerMatch(_ registration: OSMatchRegistration, result: @escaping ((Error?) -> Void)) {
@@ -112,6 +123,14 @@ final class MockSportsAPI: SportsAPI {
 // MARK: - Confirm to the async/await versions of the API methods
 
 extension MockSportsAPI {
+    
+    func signIn(viewController: UIViewController) async throws -> Bool {
+        return try await withCheckedThrowingContinuation({ continuation in
+            signIn(viewController) { result in
+                continuation.resume(with: result)
+            }
+        })
+    }
     
     func createOrUpdatePlayerProfile(nickname: String, emoji: String) async throws -> OSPlayer {
         return try await withCheckedThrowingContinuation({ continuation in

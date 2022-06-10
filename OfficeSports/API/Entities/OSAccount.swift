@@ -8,9 +8,6 @@
 import Foundation
 import FirebaseAuth
 
-private let userDefaultsNicknameKey = "nickname"
-private let userdefaultsEmojiKey = "emoji"
-
 final class OSAccount {
     
     static let current = OSAccount()
@@ -24,13 +21,20 @@ final class OSAccount {
     }
     
     var hasValidProfileDetails: Bool {
-        return nickname != nil && emoji != nil
+        return player != nil
     }
     
-    @Published var nickname: String?
+    var nickname: String? {
+        return player?.nickname
+    }
     
-    @Published var emoji: String?
+    var emoji: String? {
+        return player?.emoji
+    }
     
+    @Published var player: OSPlayer?
+    
+    /*
     var player: OSPlayer? {
         guard signedIn,
                 let uid = userId,
@@ -47,11 +51,10 @@ final class OSAccount {
             tableTennisStats: tableTennisStats
         )
     }
+    */
     
     init() {
-        let (nick, emoji) = loadProfileDetails()
-        self.nickname = nick
-        self.emoji = emoji
+        player = UserDefaultsHelper.loadPlayerProfile()
         printStatus()
     }
     
@@ -63,13 +66,6 @@ final class OSAccount {
         return OSCodePayload(userId: uid, sport: sport)
     }
     
-    func loadProfileDetails() -> (String?, String?) {
-        let standardDefaults = UserDefaults.standard
-        let nickname = standardDefaults.object(forKey: userDefaultsNicknameKey) as? String
-        let emoji = standardDefaults.object(forKey: userdefaultsEmojiKey) as? String
-        return (nickname, emoji)
-    }
-    
     func printStatus() {
         let currentUser = Auth.auth().currentUser
         let signedIn = currentUser != nil
@@ -77,8 +73,8 @@ final class OSAccount {
         print(
             "🔐 Signed in: [\(signedIn)]\n" +
             "🎁 User ID: [\(userId)]\n" +
-            "🧸 Nickname: [\(nickname ?? "None")]\n" +
-            "🙃 Emoji: [\(emoji ?? "None")]"
+            "🧸 Nickname: [\(player?.nickname ?? "None")]\n" +
+            "🙃 Emoji: [\(player?.emoji ?? "None")]"
         )
     }
 }

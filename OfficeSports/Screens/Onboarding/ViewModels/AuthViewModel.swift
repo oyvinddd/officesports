@@ -21,17 +21,27 @@ final class AuthViewModel {
     
     @Published private(set) var state: State = .idle
     
-    private let api: AuthAPI
+    private let api: SportsAPI
     
-    init(api: AuthAPI) {
+    init(api: SportsAPI) {
         self.api = api
     }
     
     func signIn(from viewController: UIViewController) {
         state = .loading
+        
         Task {
             do {
                 _ = try await api.signIn(viewController: viewController)
+                
+                do {
+                    let player = try await api.getPlayerProfile()
+                    _ = UserDefaultsHelper.savePlayerProfile(player)
+                    OSAccount.current.player = player
+                } catch {
+                    // do nothing
+                }
+                
                 state = .signInSuccess
             } catch let error {
                 state = .signInFailure(error)
