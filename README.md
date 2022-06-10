@@ -1,10 +1,10 @@
 ## Office Sports
 
-![Office Sports screens](https://github.com/oyvinddd/officesports/blob/main/officesports-screens.png "Office Sports screens")
+![Office Sports screens](https://github.com/oyvinddd/officesports/blob/main/Images/office-sports-screens.png "Office Sports screens")
 
 ### Introduction
 
-Office Sports is an app where users can challenge colleagues to either a foosball or a table tennis match. Using the app, players can register match results and view the scoreboard as well as recent matches.
+Office Sports is an app where users can keep track of scores against colleagues in foosball or table tennis. Using the app, players can register match results (by scannig the opponents QR code) and view the scoreboard as well as recent matches. Users are also able to invite other players to a match directly inside the app.
 
 ### Technical Details
 
