@@ -110,8 +110,9 @@ final class MockSportsAPI: SportsAPI {
         result(.success(filteredMatches))
     }
     
-    func invitePlayer(_ player: OSPlayer, sport: OSSport, result: @escaping (Error?) -> Void) {
-        result(nil)
+    func invitePlayer(_ player: OSPlayer, sport: OSSport, result: @escaping ((Result<OSInvite, Error>) -> Void)) {
+        let invite = OSInvite(date: Date(), sport: .foosball, inviterId: "id#1", inviteeId: "id#2", inviteeNickname: "heimegut")
+        result(.success(invite))
     }
     
     func getActiveInvites(result: @escaping ((Result<[OSInvite], Error>) -> Void)) {
@@ -159,6 +160,14 @@ extension MockSportsAPI {
     func getMatchHistory(sport: OSSport) async throws -> [OSMatch] {
         return try await withCheckedThrowingContinuation({ continuation in
             getMatchHistory(sport: sport) { result in
+                continuation.resume(with: result)
+            }
+        })
+    }
+    
+    func invitePlayer(_ player: OSPlayer, sport: OSSport) async throws -> OSInvite {
+        return try await withCheckedThrowingContinuation({ continuation in
+            invitePlayer(player, sport: sport) { result in
                 continuation.resume(with: result)
             }
         })

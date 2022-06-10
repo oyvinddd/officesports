@@ -140,26 +140,30 @@ final class FirebaseSportsAPI: SportsAPI {
         fatalError("registerMatch has not been implemented yet!")
     }
     
-    func invitePlayer(_ player: OSPlayer, sport: OSSport, result: @escaping (Error?) -> Void) {
+    func invitePlayer(_ player: OSPlayer, sport: OSSport, result: @escaping ((Result<OSInvite, Error>) -> Void)) {
         guard let uid = OSAccount.current.userId else {
-            result(OSError.unauthorized)
+            result(.failure(OSError.unauthorized))
             return
         }
         guard uid != player.id, let inviteeId = player.id else {
-            result(OSError.invalidInvite)
+            result(.failure(OSError.invalidInvite))
             return
         }
         
-        let invitesCollection = database.collection(fbInvitesCollection)
         let invite = OSInvite(date: Date(), sport: sport, inviterId: uid, inviteeId: inviteeId, inviteeNickname: player.nickname)
         
         do {
             let data = try Firestore.Encoder().encode(invite)
+            
             invitesCollection.addDocument(data: data) { error in
-                result(error)
+                guard let error = error else {
+                    result(.success(invite))
+                    return
+                }
+                result(.failure(error))
             }
         } catch let error {
-            result(error)
+            result(.failure(error))
         }
     }
     
@@ -203,7 +207,8 @@ final class FirebaseSportsAPI: SportsAPI {
                 continue
             }
             do {
-                let player = try document.data(as: OSPlayer.self)
+                var player = try document.data(as: OSPlayer.self)
+                player.id = document.documentID
                 players.append(player)
             } catch let error {
                 print(error)
@@ -268,6 +273,14 @@ extension FirebaseSportsAPI {
     func getMatchHistory(sport: OSSport) async throws -> [OSMatch] {
         return try await withCheckedThrowingContinuation({ continuation in
             getMatchHistory(sport: sport) { result in
+                continuation.resume(with: result)
+            }
+        })
+    }
+    
+    func invitePlayer(_ player: OSPlayer, sport: OSSport) async throws -> OSInvite {
+        return try await withCheckedThrowingContinuation({ continuation in
+            invitePlayer(player, sport: sport) { result in
                 continuation.resume(with: result)
             }
         })

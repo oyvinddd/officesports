@@ -6,8 +6,11 @@
 //
 
 import Foundation
+import FirebaseFirestoreSwift
 
-struct OSInvite: Codable {
+struct OSInvite: Identifiable, Codable {
+    
+    @DocumentID public var id: String?
     
     var date: Date
     

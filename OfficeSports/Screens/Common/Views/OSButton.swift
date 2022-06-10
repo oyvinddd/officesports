@@ -20,16 +20,36 @@ final class OSButton: UIButton {
         case secondaryInverted
     }
     
-    var showLoading: Bool = false {
+    enum OSButtonState {
+        
+        case normal
+        
+        case loading
+        
+        case disabled
+    }
+    
+    var buttonState: OSButtonState {
         didSet {
-            toggleLoading(showLoading)
+            switch buttonState {
+            case .normal:
+                toggleLoading(false)
+                toggleDisabled(false)
+            case .loading:
+                toggleLoading(true)
+                toggleDisabled(false)
+            case .disabled:
+                toggleLoading(false)
+                toggleDisabled(true)
+            }
         }
     }
     
     private let type: OSButtonType
     
-    init(_ title: String, type: OSButtonType) {
+    init(_ title: String, type: OSButtonType, state: OSButtonState = .normal) {
         self.type = type
+        self.buttonState = state
         super.init(frame: .zero)
         switch type {
         case .primary:
@@ -67,5 +87,10 @@ final class OSButton: UIButton {
         didSet {
             alpha = isHighlighted ? 0.8 : 1
         }
+    }
+    
+    private func toggleDisabled(_ disabled: Bool) {
+        isUserInteractionEnabled = !disabled
+        alpha = disabled ? 0.5 : 1
     }
 }

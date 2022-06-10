@@ -104,11 +104,11 @@ final class PlayerDetailsViewController: UIViewController {
         return -dialogView.frame.height
     }
     
-    private var subscribers: [AnyCancellable] = []
-    
     private let viewModel: InvitePlayerViewModel
     private let player: OSPlayer
     private let sport: OSSport
+    
+    private var subscribers = Set<AnyCancellable>()
     
     init(viewModel: InvitePlayerViewModel, player: OSPlayer, sport: OSSport) {
         self.viewModel = viewModel
@@ -116,7 +116,6 @@ final class PlayerDetailsViewController: UIViewController {
         self.sport = sport
         super.init(nibName: nil, bundle: nil)
         modalPresentationStyle = .overFullScreen
-        self.viewModel.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -136,14 +135,23 @@ final class PlayerDetailsViewController: UIViewController {
     }
     
     private func setupSubscribers() {
-        viewModel.$shouldShowLoading
-            .receive(on: DispatchQueue.main)
-            .assign(to: \.showLoading, on: inviteButton)
-            .store(in: &subscribers)
+        viewModel.$state.receive(on: DispatchQueue.main).sink { [unowned self] state in
+            switch state {
+            case .success(let invite):
+                let message = OSMessage("You have invited \(invite.inviteeNickname) to a game of \(self.sport.humanReadableName) ⚔️", .success)
+                Coordinator.global.send(message)
+                self.toggleDialog(enabled: false)
+            case .failure(let error):
+                Coordinator.global.send(OSMessage(error.localizedDescription, .failure))
+            default:
+                break
+            }
+        }.store(in: &subscribers)
     }
     
     private func setupChildViews() {
-        view.addSubview(backgroundView)
+        NSLayoutConstraint.pinToView(view, backgroundView)
+        
         view.addSubview(dialogView)
         dialogView.addSubview(contentWrap)
         dialogView.addSubview(dialogHandle)
@@ -157,10 +165,6 @@ final class PlayerDetailsViewController: UIViewController {
         NSLayoutConstraint.pinToView(profileImageBackground, profileEmjoiLabel)
         
         NSLayoutConstraint.activate([
-            backgroundView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            backgroundView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            backgroundView.topAnchor.constraint(equalTo: view.topAnchor),
-            backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             dialogView.leftAnchor.constraint(equalTo: view.leftAnchor),
             dialogView.rightAnchor.constraint(equalTo: view.rightAnchor),
             dialogBottomConstraint,
@@ -209,18 +213,14 @@ final class PlayerDetailsViewController: UIViewController {
     }
     
     private func toggleDialog(enabled: Bool) {
-        if enabled {
-            dialogBottomConstraint.constant = dialogShowConstant
-        } else {
-            dialogBottomConstraint.constant = dialogHideConstant
-        }
+        dialogBottomConstraint.constant = enabled ? dialogShowConstant : dialogHideConstant
         toggleBackgroundView(enabled: enabled)
         UIView.animate(
             withDuration: kAnimDuration,
             delay: kAnimDelay,
             options: [.curveEaseOut]) {
                 self.view.layoutIfNeeded()
-            } completion: {_ in
+            } completion: { [unowned self] _ in
                 if !enabled {
                     self.dismiss()
                 }
@@ -249,20 +249,5 @@ final class PlayerDetailsViewController: UIViewController {
     
     @objc private func closeButtonTapped(_ sender: OSButton) {
         toggleDialog(enabled: false)
-    }
-}
-
-// MARK: - Invite Player Delegate Conformance
-
-extension PlayerDetailsViewController: InvitePlayerViewModelDelegate {
-    
-    func invitePlayerSuccess() {
-        let message = OSMessage("You have invited \(player.nickname) to a game of \(sport.humanReadableName) ⚔️", .success)
-        Coordinator.global.send(message)
-        toggleDialog(enabled: false)
-    }
-    
-    func invitePlayerFailed(with error: Error) {
-        Coordinator.global.send(OSMessage(error.localizedDescription, .failure))
     }
 }

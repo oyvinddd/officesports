@@ -7,34 +7,36 @@
 
 import Foundation
 
-protocol InvitePlayerViewModelDelegate: AnyObject {
-    
-    func invitePlayerSuccess()
-    
-    func invitePlayerFailed(with error: Error)
-}
-
 final class InvitePlayerViewModel {
     
-    @Published var shouldShowLoading: Bool = false
+    enum State {
+        
+        case idle
+        
+        case loading
+        
+        case success(OSInvite)
+        
+        case failure(Error)
+    }
+    
+    @Published private(set) var state: State = .idle
     
     private let api: SportsAPI
     
-    weak var delegate: InvitePlayerViewModelDelegate?
-    
-    init(api: SportsAPI, delegate: InvitePlayerViewModelDelegate? = nil) {
+    init(api: SportsAPI) {
         self.api = api
     }
     
     func invitePlayer(_ player: OSPlayer, sport: OSSport) {
-        shouldShowLoading = true
-        api.invitePlayer(player, sport: sport) { [unowned self] error in
-            shouldShowLoading = false
-            guard let error = error else {
-                self.delegate?.invitePlayerSuccess()
-                return
+        state = .loading
+        Task {
+            do {
+                let invite = try await api.invitePlayer(player, sport: sport)
+                state = .success(invite)
+            } catch let error {
+                state = .failure(error)
             }
-            self.delegate?.invitePlayerFailed(with: error)
         }
     }
 }

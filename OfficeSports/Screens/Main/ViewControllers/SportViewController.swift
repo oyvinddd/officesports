@@ -156,10 +156,7 @@ extension SportViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if showScoreboard {
-            let player = viewModel.scoreboard[indexPath.row]
-            let viewModel = InvitePlayerViewModel(api: FirebaseSportsAPI())
-            let viewController = PlayerDetailsViewController(viewModel: viewModel, player: player, sport: self.viewModel.sport)
-            present(viewController, animated: false)
+            Coordinator.global.presentPlayerDetails(viewModel.scoreboard[indexPath.row], sport: viewModel.sport)
         }
     }
 }

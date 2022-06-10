@@ -34,16 +34,16 @@ final class Coordinator {
     
     func checkAndHandleAppState() {
         if !account.signedIn {
-            currentState = .unauthorized
+            changeAppState(.unauthorized)
         } else if !account.hasValidProfileDetails {
-            currentState = .missingProfileDetails
+            changeAppState(.missingProfileDetails)
         } else {
-            currentState = .authorized
+            changeAppState(.authorized)
         }
     }
     
     func changeAppState(_ state: AppState) {
-        guard state != currentState else {
+        guard state != currentState || window?.rootViewController == nil else {
             return
         }
         currentState = state
@@ -72,6 +72,12 @@ final class Coordinator {
     func presentEmojiPicker(from parent: UIViewController, emojis: [String], animated: Bool = true) {
         let viewController = EmojiPickerViewController(emojis: emojis)
         parent.present(viewController, animated: animated)
+    }
+    
+    func presentPlayerDetails(_ player: OSPlayer, sport: OSSport) {
+        let viewModel = InvitePlayerViewModel(api: FirebaseSportsAPI())
+        let viewController = PlayerDetailsViewController(viewModel: viewModel, player: player, sport: sport)
+        window?.rootViewController?.present(viewController, animated: false)
     }
     
     private func updateRootViewController(animated: Bool) {
