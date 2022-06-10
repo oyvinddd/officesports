@@ -34,25 +34,6 @@ final class OSAccount {
     
     @Published var player: OSPlayer?
     
-    /*
-    var player: OSPlayer? {
-        guard signedIn,
-                let uid = userId,
-                let nickname = nickname,
-                let emoji = emoji else {
-            return nil
-        }
-        let foosballStats = OSStats(sport: .foosball, score: 0, matchesPlayed: 10)
-        let tableTennisStats = OSStats(sport: .tableTennis, score: 12, matchesPlayed: 40)
-        return OSPlayer(
-            nickname: nickname,
-            emoji: emoji,
-            foosballStats: foosballStats,
-            tableTennisStats: tableTennisStats
-        )
-    }
-    */
-    
     init() {
         player = UserDefaultsHelper.loadPlayerProfile()
         printStatus()

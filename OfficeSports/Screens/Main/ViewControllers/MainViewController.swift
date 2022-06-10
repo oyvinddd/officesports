@@ -154,6 +154,7 @@ final class MainViewController: UIViewController {
         let contentInset = UIEdgeInsets(top: topInset, left: 0, bottom: bottomInset, right: 0)
         foosballViewController.applyContentInsetToTableView(contentInset)
         tableTennisViewController.applyContentInsetToTableView(contentInset)
+        invitesViewController.applyContentInsetToTableView(contentInset)
     }
     
     private func scrollToViewController(_ viewController: UIViewController, animated: Bool = false) {

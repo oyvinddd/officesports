@@ -20,7 +20,6 @@
 		8E25B0F8283CD3F100FE2FB3 /* OSStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E25B0F7283CD3F100FE2FB3 /* OSStats.swift */; };
 		8E287F56283B1013005BBE28 /* UIButton+Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E287F55283B1013005BBE28 /* UIButton+Loading.swift */; };
 		8E2D0CC1284FB374006FDE2E /* UIStackView+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2D0CC0284FB374006FDE2E /* UIStackView+Convenience.swift */; };
-		8E2EE769283675EF0096659D /* InviteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2EE768283675EF0096659D /* InviteTableViewCell.swift */; };
 		8E2EE76B2836783C0096659D /* FirebaseSportsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2EE76A2836783C0096659D /* FirebaseSportsAPI.swift */; };
 		8E31E23E283649230085238C /* OSInvite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E31E23D283649230085238C /* OSInvite.swift */; };
 		8E31E24028364A6F0085238C /* MyInvitesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E31E23F28364A6F0085238C /* MyInvitesViewController.swift */; };
@@ -74,6 +73,7 @@
 		8EE61FF8282AB79D00C01289 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EE61FF7282AB79D00C01289 /* Assets.xcassets */; };
 		8EE61FFB282AB79D00C01289 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EE61FF9282AB79D00C01289 /* LaunchScreen.storyboard */; };
 		8EE7939628366B660025AB78 /* Encodable+Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE7939528366B660025AB78 /* Encodable+Dictionary.swift */; };
+		8EED8C2C28535D7D002CEA99 /* InviteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EED8C2B28535D7D002CEA99 /* InviteTableViewCell.swift */; };
 		8EF13879283791AE001D8DA6 /* MockSportsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF13878283791AE001D8DA6 /* MockSportsAPI.swift */; };
 		8EF1387B2837CF3A001D8DA6 /* OSCodePayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1387A2837CF3A001D8DA6 /* OSCodePayload.swift */; };
 		8EF1387D2837EEEC001D8DA6 /* MatchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1387C2837EEEC001D8DA6 /* MatchTableViewCell.swift */; };
@@ -93,7 +93,6 @@
 		8E25B0F7283CD3F100FE2FB3 /* OSStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSStats.swift; sourceTree = "<group>"; };
 		8E287F55283B1013005BBE28 /* UIButton+Loading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Loading.swift"; sourceTree = "<group>"; };
 		8E2D0CC0284FB374006FDE2E /* UIStackView+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Convenience.swift"; sourceTree = "<group>"; };
-		8E2EE768283675EF0096659D /* InviteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteTableViewCell.swift; sourceTree = "<group>"; };
 		8E2EE76A2836783C0096659D /* FirebaseSportsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseSportsAPI.swift; sourceTree = "<group>"; };
 		8E31E23D283649230085238C /* OSInvite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSInvite.swift; sourceTree = "<group>"; };
 		8E31E23F28364A6F0085238C /* MyInvitesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInvitesViewController.swift; sourceTree = "<group>"; };
@@ -149,6 +148,7 @@
 		8EE61FFA282AB79D00C01289 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8EE61FFC282AB79D00C01289 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8EE7939528366B660025AB78 /* Encodable+Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Encodable+Dictionary.swift"; sourceTree = "<group>"; };
+		8EED8C2B28535D7D002CEA99 /* InviteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteTableViewCell.swift; sourceTree = "<group>"; };
 		8EF13878283791AE001D8DA6 /* MockSportsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSportsAPI.swift; sourceTree = "<group>"; };
 		8EF1387A2837CF3A001D8DA6 /* OSCodePayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSCodePayload.swift; sourceTree = "<group>"; };
 		8EF1387C2837EEEC001D8DA6 /* MatchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchTableViewCell.swift; sourceTree = "<group>"; };
@@ -210,7 +210,6 @@
 		8E230870282CFC7D00AF60EB /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				8E70C122282AC92B009A9452 /* Cells */,
 				8E230871282CFC8500AF60EB /* ViewControllers */,
 				8E70C130282AD1DE009A9452 /* ViewModels */,
 				8E70C115282ABCB9009A9452 /* Views */,
@@ -270,6 +269,7 @@
 		8E3293E1283D8E5600B7CCDC /* Invitations */ = {
 			isa = PBXGroup;
 			children = (
+				8EED8C2A28535D67002CEA99 /* Views */,
 				8E3293E5283D8E8F00B7CCDC /* ViewModels */,
 				8E3293E2283D8E6000B7CCDC /* ViewControllers */,
 			);
@@ -316,6 +316,9 @@
 		8E70C115282ABCB9009A9452 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				8E70C123282AC949009A9452 /* PlacementTableViewCell.swift */,
+				8E230877282D191C00AF60EB /* SportFilterTableViewCell.swift */,
+				8EF1387C2837EEEC001D8DA6 /* MatchTableViewCell.swift */,
 				8E70C116282ABD3E009A9452 /* FloatingMenu.swift */,
 				8E70C125282ACCB5009A9452 /* ProfileView.swift */,
 				8E9849C7282BCDC80020266B /* CircleView.swift */,
@@ -340,17 +343,6 @@
 				8EE558342847B0B400199CC6 /* OSSport.swift */,
 			);
 			path = Entities;
-			sourceTree = "<group>";
-		};
-		8E70C122282AC92B009A9452 /* Cells */ = {
-			isa = PBXGroup;
-			children = (
-				8E70C123282AC949009A9452 /* PlacementTableViewCell.swift */,
-				8E230877282D191C00AF60EB /* SportFilterTableViewCell.swift */,
-				8E2EE768283675EF0096659D /* InviteTableViewCell.swift */,
-				8EF1387C2837EEEC001D8DA6 /* MatchTableViewCell.swift */,
-			);
-			path = Cells;
 			sourceTree = "<group>";
 		};
 		8E70C127282ACD10009A9452 /* API */ = {
@@ -471,6 +463,14 @@
 				8E23086A282CFC2B00AF60EB /* Settings */,
 			);
 			path = Screens;
+			sourceTree = "<group>";
+		};
+		8EED8C2A28535D67002CEA99 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8EED8C2B28535D7D002CEA99 /* InviteTableViewCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -605,7 +605,6 @@
 				8E287F56283B1013005BBE28 /* UIButton+Loading.swift in Sources */,
 				8E70C11C282AC3F2009A9452 /* ScannerViewController.swift in Sources */,
 				8E38B574283B97C8009E0387 /* UIColor+CoreImage.swift in Sources */,
-				8E2EE769283675EF0096659D /* InviteTableViewCell.swift in Sources */,
 				8E3293E7283D8FBA00B7CCDC /* InvitePlayerViewModel.swift in Sources */,
 				8EF1387D2837EEEC001D8DA6 /* MatchTableViewCell.swift in Sources */,
 				8EF1387F2837FDD3001D8DA6 /* ScannerViewModel.swift in Sources */,
@@ -658,6 +657,7 @@
 				8EDFA363282E418000A51292 /* CompoundField.swift in Sources */,
 				8E70C114282ABC56009A9452 /* SportViewController.swift in Sources */,
 				8E38B578283BC9F1009E0387 /* OSError.swift in Sources */,
+				8EED8C2C28535D7D002CEA99 /* InviteTableViewCell.swift in Sources */,
 				8E70C138282AEE2F009A9452 /* WelcomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

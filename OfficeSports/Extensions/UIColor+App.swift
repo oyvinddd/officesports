@@ -130,6 +130,17 @@ extension UIColor {
             ]
         }
         
+        static func colorForSport(_ sport: OSSport) -> UIColor {
+            switch sport {
+            case .foosball:
+                return UIColor.OS.Sport.foosball
+            case .tableTennis:
+                return UIColor.OS.Sport.tableTennis
+            case .unknown:
+                return UIColor.black
+            }
+        }
+        
         // https://www.youtube.com/watch?v=87-E8ios_qo&ab_channel=Marthin
         static func hashedProfileColor(_ input: String) -> UIColor {
             let hashedIndex = input.count << 5 % profileColors.count

@@ -10,8 +10,13 @@ import Combine
 
 final class MyInvitesViewModel {
     
-    @Published var showLoading: Bool = false
-    @Published var invites: [OSInvite] = []
+    enum State {
+        case idle, loading, success, failure(Error)
+    }
+    
+    @Published private(set) var state: State = .idle
+    
+    private(set) var invites = [OSInvite]()
     
     private let api: SportsAPI
     
@@ -20,12 +25,13 @@ final class MyInvitesViewModel {
     }
     
     func getActiveInvites() {
-        self.showLoading = true
+        state = .loading
         Task {
             do {
                 invites = try await api.getActiveInvites()
+                state = .success
             } catch let error {
-                print(error)
+                state = .failure(error)
             }
         }
     }

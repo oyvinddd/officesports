@@ -66,7 +66,7 @@ final class SportViewController: UIViewController {
         scrollTableViewToTop(animated: false)
     }
     
-    func scrollTableViewToTop(animated: Bool) {
+    private func scrollTableViewToTop(animated: Bool) {
         // scroll table view all the way to the top, taking
         // into consideration the custom content inset of the table
         tableView.scrollToTop(animated: animated)
@@ -85,7 +85,7 @@ final class SportViewController: UIViewController {
                     self.tableView.refreshControl?.endRefreshing()
                 case .failure(let error):
                     self.tableView.refreshControl?.endRefreshing()
-                    Coordinator.global.send(OSMessage(error.localizedDescription, .failure))
+                    Coordinator.global.send(error)
                 default:
                     // do nothing
                     break

@@ -53,6 +53,11 @@ final class Coordinator {
         messageWindow.showMessage(message)
     }
     
+    func send(_ error: Error) {
+        let message = OSMessage(error.localizedDescription, .failure)
+        messageWindow.showMessage(message)
+    }
+    
     func presentPlayerProfile(from viewController: UIViewController) {
         viewController.present(playerProfileViewController, animated: true)
     }

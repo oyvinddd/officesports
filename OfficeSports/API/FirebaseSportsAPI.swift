@@ -175,21 +175,19 @@ final class FirebaseSportsAPI: SportsAPI {
         
         let query = invitesCollection.whereField("inviterId", isEqualTo: uid)
         
-        query.getDocuments { (querySnapshot, error) in
-            guard let error = error else {
-                var invites = [OSInvite]()
-                for document in querySnapshot!.documents {
-                    do {
-                        let invite = try document.data(as: OSInvite.self)
-                        invites.append(invite)
-                    } catch let error {
-                        result(.failure(error))
-                    }
-                }
-                result(.success(invites))
+        query.getDocuments { (snapshot, error) in
+            if let error = error {
+                result(.failure(error))
                 return
             }
-            result(.failure(error))
+            guard let documents = snapshot?.documents else {
+                result(.success([]))
+                return
+            }
+            let invites = documents.compactMap { documentSnapshot -> OSInvite? in
+                return try? documentSnapshot.data(as: OSInvite.self)
+            }
+            result(.success(invites))
         }
     }
     

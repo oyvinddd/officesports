@@ -1,0 +1,100 @@
+//
+//  InviteTableViewCell.swift
+//  OfficeSports
+//
+//  Created by Øyvind Hauge on 10/06/2022.
+//
+
+import UIKit
+
+final class InviteTableViewCell: UITableViewCell {
+    
+    private lazy var contentWrap: UIView = {
+        return UIView.createView(.white)
+    }()
+    
+    private lazy var sportImageWrap: UIView = {
+        return UIView.createView(.black, cornerRadius: 23)
+    }()
+    
+    private lazy var sportEmojiLabel: UILabel = {
+        let label = UILabel.createLabel(.black, alignment: .center)
+        label.font = UIFont.systemFont(ofSize: 30)
+        return label
+    }()
+    
+    private lazy var timestampLabel: UILabel = {
+        return UILabel.createLabel(UIColor.OS.Text.subtitle, text: "2 hours a go")
+    }()
+    
+    private lazy var playerLabel: UILabel = {
+        return UILabel.createLabel(UIColor.OS.Text.normal, text: "Somebody invited you!")
+    }()
+    
+    init() {
+        super.init(style: .default, reuseIdentifier: String(describing: InviteTableViewCell.self))
+    }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        backgroundColor = .clear
+        selectionStyle = .none
+        setupChildViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    func configure(with invite: OSInvite, _ isFirst: Bool, _ isLast: Bool) {
+        applyCornerRadius(isFirstElement: isFirst, isLastElement: isLast)
+        sportImageWrap.backgroundColor = UIColor.OS.colorForSport(invite.sport)
+        sportEmojiLabel.text = invite.sport == .foosball ? "⚽️" : "🏓"
+    }
+    
+    private func setupChildViews() {
+        contentView.addSubview(contentWrap)
+        contentWrap.addSubview(sportImageWrap)
+        contentWrap.addSubview(timestampLabel)
+        contentWrap.addSubview(playerLabel)
+        
+        NSLayoutConstraint.pinToView(sportImageWrap, sportEmojiLabel)
+        
+        NSLayoutConstraint.activate([
+            contentWrap.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16),
+            contentWrap.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16),
+            contentWrap.topAnchor.constraint(equalTo: contentView.topAnchor),
+            contentWrap.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            sportImageWrap.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
+            sportImageWrap.topAnchor.constraint(equalTo: contentWrap.topAnchor, constant: 16),
+            sportImageWrap.bottomAnchor.constraint(equalTo: contentWrap.bottomAnchor, constant: -16),
+            sportImageWrap.heightAnchor.constraint(equalToConstant: 46),
+            sportImageWrap.widthAnchor.constraint(equalTo: sportImageWrap.heightAnchor),
+            timestampLabel.leftAnchor.constraint(equalTo: sportImageWrap.rightAnchor, constant: 16),
+            timestampLabel.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: 16),
+            timestampLabel.topAnchor.constraint(equalTo: sportImageWrap.topAnchor),
+            playerLabel.leftAnchor.constraint(equalTo: sportImageWrap.rightAnchor, constant: 16),
+            playerLabel.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: 16),
+            playerLabel.bottomAnchor.constraint(equalTo: sportImageWrap.bottomAnchor)
+        ])
+    }
+    
+    private func applyCornerRadius(isFirstElement: Bool, isLastElement: Bool) {
+        guard isFirstElement || isLastElement else {
+            contentWrap.layer.maskedCorners = []
+            return
+        }
+        
+        var mask = CACornerMask()
+        if isFirstElement {
+            mask.insert(.layerMaxXMinYCorner)
+            mask.insert(.layerMinXMinYCorner)
+        }
+        if isLastElement {
+            mask.insert(.layerMinXMaxYCorner)
+            mask.insert(.layerMaxXMaxYCorner)
+        }
+        contentWrap.layer.cornerRadius = 15
+        contentWrap.layer.maskedCorners = mask
+    }
+}
