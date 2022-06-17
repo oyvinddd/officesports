@@ -1,8 +1,9 @@
 import * as functions from "firebase-functions";
-import { getPlayer } from "./helpers/firebase.helpers";
+import { addMatch, getPlayer, updatePlayer } from "./helpers/firebase.helpers";
 import { Sport } from "./types/Sport";
-import { calculate } from "elo-rating";
+import EloRating from "elo-rating";
 import { Match } from "./types/Match";
+import { setEmptyPlayerStats } from "./helpers/player.helpers";
 
 const BAD_REQUEST = 400;
 const METHOD_NOT_ALLOWED = 405;
@@ -28,6 +29,7 @@ export const winMatch = functions.https.onRequest(async (request, response) => {
   }: { winnerId: string; loserId: string; sport: Sport } = request.body;
 
   const winner = await getPlayer(winnerId);
+
   const loser = await getPlayer(loserId);
 
   console.log({ winnerId, loserId, sport, body: request.body, winner, loser });
@@ -37,23 +39,28 @@ export const winMatch = functions.https.onRequest(async (request, response) => {
     return;
   }
 
-  if (sport === Sport.Unknown) {
+  setEmptyPlayerStats(winner, initialScore);
+  setEmptyPlayerStats(loser, initialScore);
+
+  if (sport === Sport.Unknown || sport > 1) {
     response.sendStatus(BAD_REQUEST);
     return;
   }
 
+  const isFoosball = sport === Sport.Foosball;
+  const isTableTennis = sport === Sport.TableTennis;
+
   const oldWinnerScore =
-    (sport === Sport.Foosball
+    (isFoosball
       ? winner.foosballStats?.score
       : winner.tableTennisStats?.score) ?? initialScore;
 
   const oldLoserScore =
-    (sport === Sport.Foosball
-      ? loser.foosballStats?.score
-      : loser.tableTennisStats?.score) ?? initialScore;
+    (isFoosball ? loser.foosballStats?.score : loser.tableTennisStats?.score) ??
+    initialScore;
 
   const { playerRating: newWinnerScore, opponentRating: newLoserScore } =
-    calculate(oldWinnerScore, oldLoserScore);
+    EloRating.calculate(oldWinnerScore, oldLoserScore);
 
   console.log({ newWinnerScore, newLoserScore });
 
@@ -66,9 +73,34 @@ export const winMatch = functions.https.onRequest(async (request, response) => {
     loserDelta: newLoserScore - oldLoserScore,
   };
 
-  // TODO: Store match in db
-  // TODO: Store updated winner score
-  // TODO: Store updated loser score
+  addMatch(match);
+
+  if (isFoosball) {
+    if (!winner.foosballStats || !loser.foosballStats) {
+      throw new Error("Missing foosball stats");
+    }
+
+    winner.foosballStats.matchesPlayed += 1;
+    winner.foosballStats.score = newWinnerScore;
+
+    loser.foosballStats.matchesPlayed += 1;
+    loser.foosballStats.score = newLoserScore;
+  }
+
+  if (isTableTennis) {
+    if (!winner.tableTennisStats || !loser.tableTennisStats) {
+      throw new Error("Missing foosball stats");
+    }
+
+    winner.tableTennisStats.matchesPlayed += 1;
+    winner.tableTennisStats.score = newWinnerScore;
+
+    loser.tableTennisStats.matchesPlayed += 1;
+    loser.tableTennisStats.score = newLoserScore;
+  }
+
+  updatePlayer(winner);
+  updatePlayer(loser);
 
   response.send(match);
 });

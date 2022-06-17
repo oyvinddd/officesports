@@ -20,11 +20,13 @@
   },
   "main": "lib/index.js",
   "dependencies": {
+    "elo-rank": "^1.0.4",
     "elo-rating": "^1.0.1",
     "firebase-admin": "^11.0.0",
     "firebase-functions": "^3.21.2"
   },
   "devDependencies": {
+    "@types/elo-rank": "^1.0.1",
     "@typescript-eslint/eslint-plugin": "^5.28.0",
     "@typescript-eslint/parser": "^5.28.0",
     "eslint": "^8.17.0",
