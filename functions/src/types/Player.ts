@@ -4,6 +4,6 @@ export type Player = {
   userId: string;
   nickname: string;
   emoji: string;
-  foosballStats: Stats;
-  tableTennisStats: Stats;
+  foosballStats?: Stats;
+  tableTennisStats?: Stats;
 };

@@ -1,7 +1,7 @@
-import { Sport } from "./Sport";
+import type { Sport } from "./Sport";
 
 export type Stats = {
   sport: Sport;
-  totalScore: number;
-  totalMatches: number;
+  score: number;
+  matchesPlayed: number;
 };
