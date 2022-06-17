@@ -9,6 +9,8 @@ import Foundation
 
 enum OSError: LocalizedError {
     
+    case unknown
+    
     case unauthorized
     
     case missingToken
@@ -33,6 +35,8 @@ enum OSError: LocalizedError {
     
     var errorDescription: String? {
         switch self {
+        case .unknown:
+            return "Something went wrong"
         case .unauthorized:
             return "Unauthorized"
         case .missingToken:

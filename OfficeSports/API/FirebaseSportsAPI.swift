@@ -11,6 +11,9 @@ import FirebaseAuth
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
+private let fbCloudFuncBaseUrl = "https://us-central1-officesports-5d7ac.cloudfunctions.net"
+private let fbCloudFuncRegisterMatchUrl = "/winMatch"
+
 private let maxResultsInScoreboard = 200
 private let maxResultsInRecentMatches = 100
 
@@ -137,7 +140,32 @@ final class FirebaseSportsAPI: SportsAPI {
     }
     
     func registerMatch(_ registration: OSMatchRegistration, result: @escaping ((Result<OSMatch, Error>) -> Void)) {
-        fatalError("registerMatch has not been implemented yet!")
+        // build http request
+        var request = URLRequest(url: URL(string: "\(fbCloudFuncBaseUrl)\(fbCloudFuncRegisterMatchUrl)")!)
+        request.httpMethod = "POST"
+        request.httpBody = try? JSONEncoder().encode(registration)
+        // execute request
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                result(.failure(error))
+                return
+            }
+            guard let urlResponse = response as? HTTPURLResponse, let data = data else {
+                result(.failure(OSError.unknown))
+                return
+            }
+            guard 200 ..< 300 ~= urlResponse.statusCode else {
+                result(.failure(OSError.unknown))
+                return
+            }
+            
+            do {
+                let match = try JSONDecoder().decode(OSMatch.self, from: data)
+                result(.success(match))
+            } catch let error {
+                result(.failure(error))
+            }
+        }
     }
     
     func invitePlayer(_ player: OSPlayer, sport: OSSport, result: @escaping ((Result<OSInvite, Error>) -> Void)) {

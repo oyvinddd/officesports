@@ -223,6 +223,8 @@ final class ScannerViewController: UIViewController {
     }
 }
 
+// MARK: - Metadata Output Objects Delegate
+
 extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
     
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
@@ -242,10 +244,14 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
             print("Barcode found: \(stringValue)")
             
-            guard let winnerId = OSAccount.current.userId, let payload = payload else {
+            guard let winnerId = OSAccount.current.userId, let loserCodePayload = payload else {
                 return
             }
-            let registration = OSMatchRegistration(sport: .foosball, winnerId: winnerId, loserId: payload.userId)
+            // extract the sport and the user ID of the loser from the scanned QR code
+            let sport = loserCodePayload.sport
+            let loserId = loserCodePayload.userId
+            // call function on the view model to register match result in the backend
+            let registration = OSMatchRegistration(sport: sport, winnerId: winnerId, loserId: loserId)
             viewModel.registerMatch(registration)
         }
     }
