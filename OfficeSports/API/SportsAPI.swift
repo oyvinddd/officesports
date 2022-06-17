@@ -22,7 +22,8 @@ protocol SportsAPI {
     @available(*, renamed: "getPlayerProfile()")
     func getPlayerProfile(result: @escaping ((Result<OSPlayer, Error>) -> Void))
     
-    func registerMatch(_ registration: OSMatchRegistration, result: @escaping ((Error?) -> Void))
+    @available(*, renamed: "registerMatch(registration:)")
+    func registerMatch(_ registration: OSMatchRegistration, result: @escaping ((Result<OSMatch, Error>) -> Void))
     
     @available(*, renamed: "getScoreboard(sport:)")
     func getScoreboard(sport: OSSport, result: @escaping ((Result<[OSPlayer], Error>) -> Void))
@@ -43,6 +44,8 @@ protocol SportsAPI {
     func createOrUpdatePlayerProfile(nickname: String, emoji: String) async throws -> OSPlayer
     
     func getPlayerProfile() async throws -> OSPlayer
+    
+    func registerMatch(registration: OSMatchRegistration) async throws -> OSMatch
     
     func getScoreboard(sport: OSSport) async throws -> [OSPlayer]
     

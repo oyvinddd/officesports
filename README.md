@@ -8,7 +8,7 @@ Office Sports is an app where users can keep track of scores against colleagues 
 
 ### Technical Details
 
-The app is written in Swift 5 and all UI is built programmatically. Screens will gradually be refactored to SwiftUI. Firebase (Firestore) is used as the backend and users sign in using their Google accounts. An MVVM (model-view-viewmodel) architecture is used for structring the code.
+The app is written in Swift 5 and all UI is built programmatically. Screens will gradually be refactored to SwiftUI. [Firebase](https://firebase.google.com) (Firestore) is used as the backend and users sign in using their Google accounts. An MVVM (model-view-viewmodel) architecture is used for structring the code.
 
 ### Dependencies
 

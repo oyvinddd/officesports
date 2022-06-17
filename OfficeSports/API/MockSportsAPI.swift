@@ -86,8 +86,12 @@ final class MockSportsAPI: SportsAPI {
         result(.success(OSAccount.current.player!))
     }
     
-    func registerMatch(_ registration: OSMatchRegistration, result: @escaping ((Error?) -> Void)) {
-        result(nil)
+    func registerMatch(_ registration: OSMatchRegistration, result: @escaping ((Result<OSMatch, Error>) -> Void)) {
+        let winner = OSAccount.current.player
+        let foosballStats = OSStats(id: nil, sport: .foosball, score: 0, matchesPlayed: 0)
+        let tableTennisStats = OSStats(id: nil, sport: .tableTennis, score: 0, matchesPlayed: 0)
+        let loser = OSPlayer(id: "id#1337", nickname: "salmaaan", emoji: "🌹", foosballStats: foosballStats, tableTennisStats: tableTennisStats)
+        result(.success(OSMatch(date: Date(), sport: registration.sport, winner: winner!, loser: loser, loserDelta: 14, winnerDelta: 12)))
     }
     
     func getScoreboard(sport: OSSport, result: @escaping ((Result<[OSPlayer], Error>) -> Void)) {
@@ -144,6 +148,14 @@ extension MockSportsAPI {
     func getPlayerProfile() async throws -> OSPlayer {
         return try await withCheckedThrowingContinuation({ continuation in
             getPlayerProfile { result in
+                continuation.resume(with: result)
+            }
+        })
+    }
+    
+    func registerMatch(registration: OSMatchRegistration) async throws -> OSMatch {
+        return try await withCheckedThrowingContinuation({ continuation in
+            registerMatch(registration) { result in
                 continuation.resume(with: result)
             }
         })

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 import AVFoundation
 
 final class ScannerViewController: UIViewController {
@@ -47,15 +48,15 @@ final class ScannerViewController: UIViewController {
         captureSession != nil && captureSession.isRunning
     }
     
-    private let viewModel: ScannerViewModel
+    private let viewModel: RegisterMatchViewModel
+    private var subscribers = Set<AnyCancellable>()
     
     private var captureSession: AVCaptureSession!
     private var previewLayer: AVCaptureVideoPreviewLayer!
     
-    init(viewModel: ScannerViewModel) {
+    init(viewModel: RegisterMatchViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        self.viewModel.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -64,8 +65,28 @@ final class ScannerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupSubscribers()
         setupChildViews()
-        view.backgroundColor = UIColor.OS.General.main
+        configureUI()
+    }
+    
+    private func setupSubscribers() {
+        viewModel.$state
+            .receive(on: DispatchQueue.main)
+            .sink { [unowned self] state in
+                switch state {
+                case .loading:
+                    break
+                case .success(let match):
+                    let message = OSMessage("Congratulations! You gained \(match.winnerDelta) points from your win against \(match.loser.nickname)", .success)
+                    Coordinator.global.send(message)
+                case .failure(let error):
+                    Coordinator.global.send(error)
+                case .idle:
+                    break
+                }
+            }
+            .store(in: &subscribers)
     }
     
     private func setupChildViews() {
@@ -97,6 +118,10 @@ final class ScannerViewController: UIViewController {
         ])
     }
     
+    private func configureUI() {
+        view.backgroundColor = UIColor.OS.General.main
+    }
+    
     private func stopCaptureSession() {
         if captureSession != nil && captureSession.isRunning {
             captureSession.stopRunning()
@@ -110,33 +135,33 @@ final class ScannerViewController: UIViewController {
             return
         }
         // initialize and configure capture session
-        self.captureSession = AVCaptureSession()
-        self.captureSession.beginConfiguration()
-        self.captureSession.commitConfiguration()
+        captureSession = AVCaptureSession()
+        captureSession.beginConfiguration()
+        captureSession.commitConfiguration()
         
-        guard let videoInput = self.createVideoInput(), self.captureSession.canAddInput(videoInput) else {
+        guard let videoInput = createVideoInput(), captureSession.canAddInput(videoInput) else {
             return
         }
-        self.captureSession.addInput(videoInput)
+        captureSession.addInput(videoInput)
         
         let metadataOutput = AVCaptureMetadataOutput()
-        
-        if self.captureSession.canAddOutput(metadataOutput) {
-            self.captureSession.addOutput(metadataOutput)
-            
-            metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.global(qos: .userInitiated))
-            metadataOutput.metadataObjectTypes = [.qr]
-        } else {
+        guard captureSession.canAddOutput(metadataOutput) else {
             return
         }
-        // init the camera view in the UI
-        self.previewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
-        self.previewLayer.frame = self.view.layer.bounds
-        self.previewLayer.videoGravity = .resizeAspectFill
-        self.cameraView.layer.addSublayer(self.previewLayer)
         
-        // start the capture session (blocking)
-        DispatchQueue.global(qos: .background).async {
+        captureSession.addOutput(metadataOutput)
+        
+        metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.global(qos: .userInitiated))
+        metadataOutput.metadataObjectTypes = [.qr]
+        
+        // init the camera view in the UI
+        previewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
+        previewLayer.frame = self.view.layer.bounds
+        previewLayer.videoGravity = .resizeAspectFill
+        cameraView.layer.addSublayer(self.previewLayer)
+        
+        // start the capture session
+        DispatchQueue.global(qos: .background).async { [unowned self] in
             self.captureSession.startRunning()
         }
     }
@@ -201,7 +226,7 @@ final class ScannerViewController: UIViewController {
 extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
     
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
-        if !viewModel.isBusy, let metadataObject = metadataObjects.first {
+        if viewModel.isReady, let metadataObject = metadataObjects.first {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
             guard let stringValue = readableObject.stringValue else { return }
             
@@ -223,23 +248,5 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
             let registration = OSMatchRegistration(sport: .foosball, winnerId: winnerId, loserId: payload.userId)
             viewModel.registerMatch(registration)
         }
-    }
-}
-
-// MARK: - Scanner View Model Delegate
-
-extension ScannerViewController: ScannerViewModelDelegate {
-    
-    func matchRegistrationSuccess() {
-        let message = OSMessage("Match result registered. Congratulations on your victory! 🥳", .success)
-        Coordinator.global.send(message)
-    }
-    
-    func matchRegistrationFailed(error: Error) {
-        let message = OSMessage(error.localizedDescription, .failure)
-        Coordinator.global.send(message)
-    }
-    
-    func shouldToggleLoading(enabled: Bool) {
     }
 }

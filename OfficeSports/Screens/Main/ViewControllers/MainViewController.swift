@@ -51,7 +51,7 @@ final class MainViewController: UIViewController {
     }()
     
     private lazy var scannerViewController: ScannerViewController = {
-        let viewModel = ScannerViewModel(api: FirebaseSportsAPI())
+        let viewModel = RegisterMatchViewModel(api: FirebaseSportsAPI())
         return ScannerViewController(viewModel: viewModel)
     }()
     

@@ -77,7 +77,7 @@
 		8EF13879283791AE001D8DA6 /* MockSportsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF13878283791AE001D8DA6 /* MockSportsAPI.swift */; };
 		8EF1387B2837CF3A001D8DA6 /* OSCodePayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1387A2837CF3A001D8DA6 /* OSCodePayload.swift */; };
 		8EF1387D2837EEEC001D8DA6 /* MatchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1387C2837EEEC001D8DA6 /* MatchTableViewCell.swift */; };
-		8EF1387F2837FDD3001D8DA6 /* ScannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1387E2837FDD3001D8DA6 /* ScannerViewModel.swift */; };
+		8EF1387F2837FDD3001D8DA6 /* RegisterMatchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1387E2837FDD3001D8DA6 /* RegisterMatchViewModel.swift */; };
 		8EF418A4283CFF39005CAE09 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF418A3283CFF39005CAE09 /* AboutViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -152,7 +152,7 @@
 		8EF13878283791AE001D8DA6 /* MockSportsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSportsAPI.swift; sourceTree = "<group>"; };
 		8EF1387A2837CF3A001D8DA6 /* OSCodePayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSCodePayload.swift; sourceTree = "<group>"; };
 		8EF1387C2837EEEC001D8DA6 /* MatchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchTableViewCell.swift; sourceTree = "<group>"; };
-		8EF1387E2837FDD3001D8DA6 /* ScannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerViewModel.swift; sourceTree = "<group>"; };
+		8EF1387E2837FDD3001D8DA6 /* RegisterMatchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterMatchViewModel.swift; sourceTree = "<group>"; };
 		8EF418A3283CFF39005CAE09 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -361,7 +361,7 @@
 			children = (
 				8E70C131282AD1F0009A9452 /* SportViewModel.swift */,
 				8E973321283231F40012E236 /* SettingsViewModel.swift */,
-				8EF1387E2837FDD3001D8DA6 /* ScannerViewModel.swift */,
+				8EF1387E2837FDD3001D8DA6 /* RegisterMatchViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -607,7 +607,7 @@
 				8E38B574283B97C8009E0387 /* UIColor+CoreImage.swift in Sources */,
 				8E3293E7283D8FBA00B7CCDC /* InvitePlayerViewModel.swift in Sources */,
 				8EF1387D2837EEEC001D8DA6 /* MatchTableViewCell.swift in Sources */,
-				8EF1387F2837FDD3001D8DA6 /* ScannerViewModel.swift in Sources */,
+				8EF1387F2837FDD3001D8DA6 /* RegisterMatchViewModel.swift in Sources */,
 				8E70C121282AC510009A9452 /* OSPlayer.swift in Sources */,
 				8E973322283231F40012E236 /* SettingsViewModel.swift in Sources */,
 				8EE558352847B0B400199CC6 /* OSSport.swift in Sources */,

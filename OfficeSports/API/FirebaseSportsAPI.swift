@@ -136,7 +136,7 @@ final class FirebaseSportsAPI: SportsAPI {
         }
     }
     
-    func registerMatch(_ registration: OSMatchRegistration, result: @escaping ((Error?) -> Void)) {
+    func registerMatch(_ registration: OSMatchRegistration, result: @escaping ((Result<OSMatch, Error>) -> Void)) {
         fatalError("registerMatch has not been implemented yet!")
     }
     
@@ -173,7 +173,14 @@ final class FirebaseSportsAPI: SportsAPI {
             return
         }
         
-        let query = invitesCollection.whereField("inviterId", isEqualTo: uid)
+        // 24 hourse from now
+        let calendar = Calendar.current
+        let date = calendar.date(byAdding: .hour, value: -24, to: Date())!
+        
+        // find invites the current user has sent that are not older than 24 hours
+        let query = invitesCollection
+            .whereField("inviterId", isEqualTo: uid)
+            .whereField("date", isGreaterThan: date)
         
         query.getDocuments { (snapshot, error) in
             if let error = error {
@@ -255,6 +262,14 @@ extension FirebaseSportsAPI {
     func getPlayerProfile() async throws -> OSPlayer {
         return try await withCheckedThrowingContinuation({ continuation in
             getPlayerProfile { result in
+                continuation.resume(with: result)
+            }
+        })
+    }
+    
+    func registerMatch(registration: OSMatchRegistration) async throws -> OSMatch {
+        return try await withCheckedThrowingContinuation({ continuation in
+            registerMatch(registration) { result in
                 continuation.resume(with: result)
             }
         })
