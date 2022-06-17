@@ -1,0 +1,69 @@
+name: Validate and publish functions
+
+on:
+  - push
+
+jobs:
+  check-format:
+    name: Check format
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm i --legacy-peer-deps --prefix functions
+
+      - name: Check format
+        run: npm run format
+        working-directory: functions
+
+  check-lint:
+    name: Check lint
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm i --legacy-peer-deps --prefix functions
+
+      - name: Check lint
+        run: npm run lint
+        working-directory: functions
+
+  test:
+    name: Test
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm i --legacy-peer-deps --prefix functions
+
+      - name: Test
+        run: npm t
+        working-directory: functions
+
+  build:
+    name: Build
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm i --legacy-peer-deps --prefix functions
+
+      - name: Build
+        run: npm run build
+        working-directory: functions

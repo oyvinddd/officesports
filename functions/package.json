@@ -1,0 +1,42 @@
+{
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "lint:fix": "npm run lint -- --fix",
+    "format": "prettier . --check",
+    "format:fix": "prettier . --write",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "delete": "firebase functions:delete helloWorld",
+    "logs": "firebase functions:log",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "elo-rank": "^1.0.4",
+    "elo-rating": "^1.0.1",
+    "firebase-admin": "^11.0.0",
+    "firebase-functions": "^3.21.2"
+  },
+  "devDependencies": {
+    "@types/elo-rank": "^1.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.28.0",
+    "@typescript-eslint/parser": "^5.28.0",
+    "eslint": "^8.17.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.26.0",
+    "firebase-functions-test": "^2.2.0",
+    "prettier": "^2.7.1",
+    "prettier-config": "github:boyum/prettier-config",
+    "typescript": "^4.7.3"
+  },
+  "private": true,
+  "prettier": "prettier-config"
+}
