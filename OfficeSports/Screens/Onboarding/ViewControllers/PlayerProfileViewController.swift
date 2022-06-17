@@ -43,7 +43,7 @@ final class PlayerProfileViewController: UIViewController {
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(profileEmojiTapped))
         let label = UILabel.createLabel(.black, alignment: .center)
         label.addGestureRecognizer(tapRecognizer)
-        label.font = UIFont.systemFont(ofSize: 63)
+        label.font = UIFont.systemFont(ofSize: 68)
         label.isUserInteractionEnabled = true
         return label
     }()

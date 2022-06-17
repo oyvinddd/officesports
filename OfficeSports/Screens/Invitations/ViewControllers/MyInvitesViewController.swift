@@ -24,7 +24,6 @@ final class MyInvitesViewController: UIViewController {
     }()
     
     private let viewModel: MyInvitesViewModel
-    
     private var subscribers = Set<AnyCancellable>()
     
     init(viewModel: MyInvitesViewModel) {
@@ -40,12 +39,12 @@ final class MyInvitesViewController: UIViewController {
         super.viewDidLoad()
         setupSubscribers()
         setupChildViews()
-        view.backgroundColor = .clear
+        configureUI()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        viewModel.getActiveInvites()
+        //viewModel.getActiveInvites()
     }
     
     func applyContentInsetToTableView(_ contentInset: UIEdgeInsets) {
@@ -82,6 +81,10 @@ final class MyInvitesViewController: UIViewController {
     private func setupChildViews() {
         NSLayoutConstraint.pinToView(view, tableView)
         NSLayoutConstraint.pinToView(view, emptyContentLabel, padding: 32)
+    }
+    
+    private func configureUI() {
+        view.backgroundColor = .clear
     }
 }
 

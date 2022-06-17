@@ -142,10 +142,12 @@ final class FirebaseSportsAPI: SportsAPI {
     func registerMatch(_ registration: OSMatchRegistration, result: @escaping ((Result<OSMatch, Error>) -> Void)) {
         // build http request
         var request = URLRequest(url: URL(string: "\(fbCloudFuncBaseUrl)\(fbCloudFuncRegisterMatchUrl)")!)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
         request.httpBody = try? JSONEncoder().encode(registration)
+        
         // execute request
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let error = error {
                 result(.failure(error))
                 return
@@ -166,6 +168,7 @@ final class FirebaseSportsAPI: SportsAPI {
                 result(.failure(error))
             }
         }
+        task.resume()
     }
     
     func invitePlayer(_ player: OSPlayer, sport: OSSport, result: @escaping ((Result<OSInvite, Error>) -> Void)) {
