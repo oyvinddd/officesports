@@ -11,6 +11,9 @@ import FirebaseAuth
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
+private let fbCloudFuncBaseUrl = "https://us-central1-officesports-5d7ac.cloudfunctions.net"
+private let fbCloudFuncRegisterMatchUrl = "/winMatch"
+
 private let maxResultsInScoreboard = 200
 private let maxResultsInRecentMatches = 100
 
@@ -136,8 +139,33 @@ final class FirebaseSportsAPI: SportsAPI {
         }
     }
     
-    func registerMatch(_ registration: OSMatchRegistration, result: @escaping ((Error?) -> Void)) {
-        fatalError("registerMatch has not been implemented yet!")
+    func registerMatch(_ registration: OSMatchRegistration, result: @escaping ((Result<OSMatch, Error>) -> Void)) {
+        // build http request
+        var request = URLRequest(url: URL(string: "\(fbCloudFuncBaseUrl)\(fbCloudFuncRegisterMatchUrl)")!)
+        request.httpMethod = "POST"
+        request.httpBody = try? JSONEncoder().encode(registration)
+        // execute request
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                result(.failure(error))
+                return
+            }
+            guard let urlResponse = response as? HTTPURLResponse, let data = data else {
+                result(.failure(OSError.unknown))
+                return
+            }
+            guard 200 ..< 300 ~= urlResponse.statusCode else {
+                result(.failure(OSError.unknown))
+                return
+            }
+            
+            do {
+                let match = try JSONDecoder().decode(OSMatch.self, from: data)
+                result(.success(match))
+            } catch let error {
+                result(.failure(error))
+            }
+        }
     }
     
     func invitePlayer(_ player: OSPlayer, sport: OSSport, result: @escaping ((Result<OSInvite, Error>) -> Void)) {
@@ -173,7 +201,14 @@ final class FirebaseSportsAPI: SportsAPI {
             return
         }
         
-        let query = invitesCollection.whereField("inviterId", isEqualTo: uid)
+        // 24 hourse from now
+        let calendar = Calendar.current
+        let date = calendar.date(byAdding: .hour, value: -24, to: Date())!
+        
+        // find invites the current user has sent that are not older than 24 hours
+        let query = invitesCollection
+            .whereField("inviterId", isEqualTo: uid)
+            .whereField("date", isGreaterThan: date)
         
         query.getDocuments { (snapshot, error) in
             if let error = error {
@@ -255,6 +290,14 @@ extension FirebaseSportsAPI {
     func getPlayerProfile() async throws -> OSPlayer {
         return try await withCheckedThrowingContinuation({ continuation in
             getPlayerProfile { result in
+                continuation.resume(with: result)
+            }
+        })
+    }
+    
+    func registerMatch(registration: OSMatchRegistration) async throws -> OSMatch {
+        return try await withCheckedThrowingContinuation({ continuation in
+            registerMatch(registration) { result in
                 continuation.resume(with: result)
             }
         })
