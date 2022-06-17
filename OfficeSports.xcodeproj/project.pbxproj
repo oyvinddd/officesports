@@ -802,7 +802,8 @@
 				DEVELOPMENT_TEAM = 2SMFLM66R9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OfficeSports/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "The application needs to access the camera in order to register scores.";
+				INFOPLIST_KEY_CFBundleDisplayName = "Office Sports";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Office Sports needs access to the camera in order to scan QR codes";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -813,7 +814,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2.2;
+				MARKETING_VERSION = 0.2.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tietoevry.officesports;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development com.tietoevry.officesports";
@@ -835,7 +836,8 @@
 				DEVELOPMENT_TEAM = 2SMFLM66R9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OfficeSports/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "The application needs to access the camera in order to register scores.";
+				INFOPLIST_KEY_CFBundleDisplayName = "Office Sports";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Office Sports needs access to the camera in order to scan QR codes";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -846,7 +848,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2.2;
+				MARKETING_VERSION = 0.2.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tietoevry.officesports;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development com.tietoevry.officesports";
