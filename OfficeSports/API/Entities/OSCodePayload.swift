@@ -11,5 +11,7 @@ struct OSCodePayload: Codable {
     
     var userId: String
     
+    var nickname: String
+    
     var sport: OSSport
 }

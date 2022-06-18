@@ -85,7 +85,7 @@ final class PlayerDetailsViewController: UIViewController {
     
     private lazy var closeButton: OSButton = {
         let button = OSButton("Close", type: .secondaryInverted)
-        button.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -247,7 +247,7 @@ final class PlayerDetailsViewController: UIViewController {
         viewModel.invitePlayer(player, sport: sport)
     }
     
-    @objc private func closeButtonTapped(_ sender: OSButton) {
+    @objc private func cancelButtonTapped(_ sender: OSButton) {
         toggleDialog(enabled: false)
     }
 }
