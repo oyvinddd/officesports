@@ -65,6 +65,7 @@ final class ScannerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        determineCameraStatus()
         setupSubscribers()
         setupChildViews()
         configureUI()
@@ -122,9 +123,27 @@ final class ScannerViewController: UIViewController {
         view.backgroundColor = UIColor.OS.General.main
     }
     
+    private func determineCameraStatus() {
+        let cameraIsActive = AVCaptureDevice.authorizationStatus(for: .video) == .authorized
+        cameraView.isHidden = !cameraIsActive
+        frameLinesView.isHidden = !cameraIsActive
+        infoMessageView.isHidden = !cameraIsActive
+    }
+    
     private func stopCaptureSession() {
         if captureSession != nil && captureSession.isRunning {
             captureSession.stopRunning()
+        }
+    }
+    
+    private func requestCameraAccess() {
+        AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
+            DispatchQueue.main.async { [weak self] in
+                self?.determineCameraStatus()
+                if granted {
+                    self?.startCaptureSession()
+                }
+            }
         }
     }
     
@@ -205,18 +224,11 @@ final class ScannerViewController: UIViewController {
         switch authorizationStatus {
         case .authorized:
             startCaptureSession()
-        case .notDetermined:
-            AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
-                if granted {
-                    self?.startCaptureSession()
-                }
-            }
-        case .denied:
-            // user has previously denied access
-            return
+        case .denied, .notDetermined:
+            requestCameraAccess()
         case .restricted:
-            // user can't grant access due to restriction
-            return
+            // user can't grant access due to restriction on the OS level
+            print("Camera usage is restricted for this device")
         @unknown default:
             fatalError("Unknown camera status")
         }
