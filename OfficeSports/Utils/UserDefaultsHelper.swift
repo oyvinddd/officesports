@@ -8,6 +8,7 @@
 import Foundation
 
 private let userDefaultsPlayerKey = "player"
+private let userDefaultsInviteTimestampKey = "inviteTimestamp"
 
 struct UserDefaultsHelper {
     
@@ -30,6 +31,17 @@ struct UserDefaultsHelper {
             return decodedPlayer
         }
         return nil
+    }
+    
+    static func saveInviteTimestamp(_ timestamp: Date) {
+        let defaults = UserDefaults.standard
+        defaults.set(timestamp.timeIntervalSince1970, forKey: userDefaultsInviteTimestampKey)
+    }
+    
+    static func loadInviteTimestamp() -> Date? {
+        let defaults = UserDefaults.standard
+        let timestampDouble = defaults.double(forKey: userDefaultsInviteTimestampKey)
+        return Date(timeIntervalSince1970: timestampDouble)
     }
     
     static func clearProfileDetails() {

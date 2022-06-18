@@ -140,6 +140,11 @@ final class FirebaseSportsAPI: SportsAPI {
     }
     
     func registerMatch(_ registration: OSMatchRegistration, result: @escaping ((Result<OSMatch, Error>) -> Void)) {
+        guard registration.winnerId != registration.loserId else {
+            result(.failure(OSError.invalidOpponent))
+            return
+        }
+        
         // build http request
         var request = URLRequest(url: URL(string: "\(fbCloudFuncBaseUrl)\(fbCloudFuncRegisterMatchUrl)")!)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
