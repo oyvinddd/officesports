@@ -49,8 +49,7 @@ final class ScannerViewController: UIViewController {
     
     private var captureSession: AVCaptureSession!
     private var previewLayer: AVCaptureVideoPreviewLayer!
-    
-    private var isBusy: Bool = false
+    private var isShowingMatchRegistration: Bool = false
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -217,7 +216,7 @@ final class ScannerViewController: UIViewController {
 extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
     
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
-        if !isBusy, let metadataObject = metadataObjects.first {
+        if !isShowingMatchRegistration, let metadataObject = metadataObjects.first {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
             guard let stringValue = readableObject.stringValue else { return }
             
@@ -236,7 +235,7 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
             guard let payload = payload else {
                 return
             }
-            isBusy = true
+            isShowingMatchRegistration = true
             DispatchQueue.main.async {
                 Coordinator.global.presentRegisterMatch(payload: payload, delegate: self)
             }
@@ -246,12 +245,10 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
 
 extension ScannerViewController: RegisterMatchDelegate {
     
-    func didRegisterMatchResult() {
-        Coordinator.global.resetMainScrollViews() // FXME: this is currently not working
-        isBusy = false
-    }
-    
-    func didCancelMatchRegistration() {
-        isBusy = false
+    func dismissedMatchRegistration(match: OSMatch?) {
+        isShowingMatchRegistration = false
+        if match != nil {
+            // TODO: automatically close the camera view
+        }
     }
 }

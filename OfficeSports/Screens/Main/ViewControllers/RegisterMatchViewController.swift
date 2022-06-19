@@ -14,8 +14,7 @@ private let kAnimDuration: TimeInterval = 0.15
 private let kAnimDelay: TimeInterval = 0
 
 protocol RegisterMatchDelegate: AnyObject {
-    func didRegisterMatchResult()
-    func didCancelMatchRegistration()
+    func dismissedMatchRegistration(match: OSMatch?)
 }
 
 final class RegisterMatchViewController: UIViewController {
@@ -119,8 +118,8 @@ final class RegisterMatchViewController: UIViewController {
                     let message = OSMessage("Congratulations! You gained \(match.winnerDelta) points from your win against \(match.loser.nickname)", .success)
                     Coordinator.global.send(message)
                     self.registerButton.buttonState = .normal
-                    self.toggleDialog(enabled: false) { [weak self] in
-                        self?.delegate?.didRegisterMatchResult()
+                    self.toggleDialog(enabled: false) { [unowned self] in
+                        self.delegate?.dismissedMatchRegistration(match: match)
                     }
                 case .failure(let error):
                     Coordinator.global.send(error)
@@ -203,7 +202,9 @@ final class RegisterMatchViewController: UIViewController {
     // MARK: - Button Handling
     
     @objc private func backgroundTapped(_ sender: UITapGestureRecognizer) {
-        toggleDialog(enabled: false)
+        toggleDialog(enabled: false) { [unowned self] in
+            self.delegate?.dismissedMatchRegistration(match: nil)
+        }
     }
     
     @objc private func registerButtonTapped(_ sender: OSButton) {
@@ -215,8 +216,8 @@ final class RegisterMatchViewController: UIViewController {
     }
     
     @objc private func cancelButtonTapped(_ sender: OSButton) {
-        toggleDialog(enabled: false) { [weak self] in
-            self?.delegate?.didCancelMatchRegistration()
+        toggleDialog(enabled: false) { [unowned self] in
+            self.delegate?.dismissedMatchRegistration(match: nil)
         }
     }
 }
