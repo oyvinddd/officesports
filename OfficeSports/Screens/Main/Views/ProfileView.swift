@@ -174,6 +174,8 @@ final class ProfileView: UIView {
             tableTennisEmojiAlpha = 1
         default:
             sportImageWrapAlpha = 0
+            foosballEmojiAlpha = 0
+            tableTennisEmojiAlpha = 0
         }
         UIView.animate(withDuration: emojiFadeTransitionDuration, delay: 0) {
             self.sportImageWrap.alpha = sportImageWrapAlpha
