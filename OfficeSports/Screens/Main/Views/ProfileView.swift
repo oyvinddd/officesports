@@ -115,7 +115,14 @@ final class ProfileView: UIView {
         return label
     }()
     
-    private lazy var totalScoreLabel: UILabel = {
+    private lazy var foosballScoreLabel: UILabel = {
+        let label = UILabel.createLabel(UIColor.OS.Text.subtitle, alignment: .center)
+        label.font = UIFont.systemFont(ofSize: 24)
+        label.numberOfLines = 1
+        return label
+    }()
+    
+    private lazy var tableTennisScoreLabel: UILabel = {
         let label = UILabel.createLabel(UIColor.OS.Text.subtitle, alignment: .center)
         label.font = UIFont.systemFont(ofSize: 24)
         label.numberOfLines = 1
@@ -128,16 +135,18 @@ final class ProfileView: UIView {
     private var account: OSAccount
     private var isDisplayingCode: Bool = false
     
-    init(account: OSAccount, delegate: ProfileViewDelegate?) {
+    init(account: OSAccount, initialSport: OSSport, delegate: ProfileViewDelegate?) {
         self.account = account
         self.delegate = delegate
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         profileEmjoiLabel.text = account.emoji
         nicknameLabel.text = account.nickname?.lowercased()
-        setupChildViews()
+        foosballScoreLabel.text = "\(account.player?.foosballStats?.score ?? 0) pts"
+        tableTennisScoreLabel.text = "\(account.player?.tableTennisStats?.score ?? 0) pts"
         setupSubscribers()
-        configureForSport(.foosball)
+        setupChildViews()
+        configureForSport(initialSport)
     }
     
     required init?(coder: NSCoder) {
@@ -149,23 +158,18 @@ final class ProfileView: UIView {
         var sportImageBackgroundColor = UIColor.OS.Sport.foosball
         var foosballEmojiAlpha: CGFloat = 1
         var tableTennisEmojiAlpha: CGFloat = 1
-        var totalScore = ""
         
         switch sport {
         case .foosball:
             sportImageWrapAlpha = 1
             codeImageView.image = foosballCodeImage
             sportImageBackgroundColor = UIColor.OS.Sport.foosball
-            let foosballScore = account.player?.statsForSport(.foosball)?.score ?? 0
-            totalScore = "\(foosballScore) pts"
             foosballEmojiAlpha = 1
             tableTennisEmojiAlpha = 0
         case .tableTennis:
             sportImageWrapAlpha = 1
             codeImageView.image = tableTennisCodeImage
             sportImageBackgroundColor = UIColor.OS.Sport.tableTennis
-            let tableTennisScore = account.player?.statsForSport(.tableTennis)?.score ?? 0
-            totalScore = "\(tableTennisScore) pts"
             foosballEmojiAlpha = 0
             tableTennisEmojiAlpha = 1
         default:
@@ -174,9 +178,10 @@ final class ProfileView: UIView {
         UIView.animate(withDuration: emojiFadeTransitionDuration, delay: 0) {
             self.sportImageWrap.alpha = sportImageWrapAlpha
             self.sportImageBackground.backgroundColor = sportImageBackgroundColor
-            self.totalScoreLabel.text = totalScore
             self.foosballEmojiLabel.alpha = foosballEmojiAlpha
+            self.foosballScoreLabel.alpha = foosballEmojiAlpha
             self.tableTennisEmojiLabel.alpha = tableTennisEmojiAlpha
+            self.tableTennisScoreLabel.alpha = tableTennisEmojiAlpha
         }
     }
     
@@ -208,6 +213,34 @@ final class ProfileView: UIView {
         }
     }
     
+    private func setupSubscribers() {
+        OSAccount.current.$player
+            .receive(on: DispatchQueue.main)
+            .map({ $0!.nickname })
+            .assign(to: \.text, on: nicknameLabel)
+            .store(in: &subscribers)
+        OSAccount.current.$player
+            .receive(on: DispatchQueue.main)
+            .map({ UIColor.OS.hashedProfileColor($0!.nickname) })
+            .assign(to: \.backgroundColor, on: profileImageBackground)
+            .store(in: &subscribers)
+        OSAccount.current.$player
+            .receive(on: DispatchQueue.main)
+            .map({ $0!.emoji })
+            .assign(to: \.text, on: profileEmjoiLabel)
+            .store(in: &subscribers)
+        OSAccount.current.$player
+            .receive(on: DispatchQueue.main)
+            .map({ "\($0?.foosballStats?.score ?? 0) pts" })
+            .assign(to: \.text, on: foosballScoreLabel)
+            .store(in: &subscribers)
+        OSAccount.current.$player
+            .receive(on: DispatchQueue.main)
+            .map({ "\($0?.tableTennisStats?.score ?? 0) pts" })
+            .assign(to: \.text, on: tableTennisScoreLabel)
+            .store(in: &subscribers)
+    }
+    
     private func setupChildViews() {
         addSubview(settingsButton)
         addSubview(codeImageWrap)
@@ -215,7 +248,8 @@ final class ProfileView: UIView {
         profileImageWrap.addSubview(profileImageBackground)
         addSubview(sportImageWrap)
         addSubview(nicknameLabel)
-        addSubview(totalScoreLabel)
+        addSubview(foosballScoreLabel)
+        addSubview(tableTennisScoreLabel)
         
         NSLayoutConstraint.pinToView(codeImageWrap, codeImageView, padding: 6)
         NSLayoutConstraint.pinToView(profileImageBackground, profileEmjoiLabel)
@@ -247,34 +281,15 @@ final class ProfileView: UIView {
             nicknameLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 16),
             nicknameLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
             nicknameLabel.topAnchor.constraint(equalTo: sportImageWrap.bottomAnchor, constant: 16),
-            totalScoreLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 16),
-            totalScoreLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
-            totalScoreLabel.topAnchor.constraint(equalTo: nicknameLabel.bottomAnchor, constant: 6),
-            totalScoreLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20)
+            foosballScoreLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 16),
+            foosballScoreLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
+            foosballScoreLabel.topAnchor.constraint(equalTo: nicknameLabel.bottomAnchor, constant: 6),
+            foosballScoreLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
+            tableTennisScoreLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 16),
+            tableTennisScoreLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
+            tableTennisScoreLabel.topAnchor.constraint(equalTo: nicknameLabel.bottomAnchor, constant: 6),
+            tableTennisScoreLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20)
         ])
-    }
-    
-    private func setupSubscribers() {
-        OSAccount.current.$player
-            .receive(on: DispatchQueue.main)
-            .map({ $0!.nickname })
-            .assign(to: \.text, on: nicknameLabel)
-            .store(in: &subscribers)
-        OSAccount.current.$player
-            .receive(on: DispatchQueue.main)
-            .map({ UIColor.OS.hashedProfileColor($0!.nickname) })
-            .assign(to: \.backgroundColor, on: profileImageBackground)
-            .store(in: &subscribers)
-        OSAccount.current.$player
-            .receive(on: DispatchQueue.main)
-            .map({ $0!.emoji })
-            .assign(to: \.text, on: profileEmjoiLabel)
-            .store(in: &subscribers)
-        OSAccount.current.$player
-            .receive(on: DispatchQueue.main)
-            .map({ "\($0?.foosballStats?.score ?? 0) pts" })
-            .assign(to: \.text, on: totalScoreLabel)
-            .store(in: &subscribers)
     }
     
     // MARK: - Button Handling

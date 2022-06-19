@@ -7,8 +7,15 @@
 
 import UIKit
 
-enum AppState: Int, RawRepresentable {
-    case authorized, unauthorized, missingOrg, missingProfileDetails
+enum AppState {
+    
+    case authorized
+    
+    case unauthorized
+    
+    case missingOrg
+    
+    case missingProfileDetails
 }
 
 final class Coordinator {
@@ -92,7 +99,7 @@ final class Coordinator {
     }
     
     func resetMainScrollViews() {
-        mainViewController.resetScrollViewsToInitialPosition()
+        containerViewController.resetScrollViewsToInitialPosition()
     }
     
     private func updateRootViewController(animated: Bool) {
@@ -102,7 +109,7 @@ final class Coordinator {
         var viewController: UIViewController?
         switch currentState {
         case .authorized:
-            viewController = mainViewController
+            viewController = containerViewController
         case .missingProfileDetails:
             viewController = playerProfileViewController
         case .missingOrg:
@@ -143,8 +150,9 @@ extension Coordinator {
         return PlayerProfileViewController(viewModel: viewModel)
     }
     
-    var mainViewController: ContainerViewController {
-        return ContainerViewController()
+    var containerViewController: ContainerViewController {
+        let viewModel = PlayerProfileViewModel(api: FirebaseSportsAPI())
+        return ContainerViewController(viewModel: viewModel)
     }
     
     var settingsViewController: SettingsViewController {

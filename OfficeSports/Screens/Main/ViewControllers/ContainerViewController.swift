@@ -27,7 +27,7 @@ final class ContainerViewController: UIViewController {
     }()
     
     private lazy var profileView: ProfileView = {
-        return ProfileView(account: OSAccount.current, delegate: self)
+        return ProfileView(account: OSAccount.current, initialSport: .foosball, delegate: self)
     }()
     
     private lazy var outerScrollView: UIScrollView = {
@@ -54,11 +54,6 @@ final class ContainerViewController: UIViewController {
         return ScannerViewController()
     }()
     
-    private lazy var invitesViewController: MyInvitesViewController = {
-        let viewModel = MyInvitesViewModel(api: FirebaseSportsAPI())
-        return MyInvitesViewController(viewModel: viewModel)
-    }()
-    
     private lazy var foosballViewController: SportViewController = {
         let viewModel = SportViewModel(api: FirebaseSportsAPI(), sport: .foosball)
         return SportViewController(viewModel: viewModel, delegate: self)
@@ -68,6 +63,22 @@ final class ContainerViewController: UIViewController {
         let viewModel = SportViewModel(api: FirebaseSportsAPI(), sport: .tableTennis)
         return SportViewController(viewModel: viewModel, delegate: self)
     }()
+    
+    private lazy var invitesViewController: MyInvitesViewController = {
+        let viewModel = MyInvitesViewModel(api: FirebaseSportsAPI())
+        return MyInvitesViewController(viewModel: viewModel)
+    }()
+    
+    private let viewModel: PlayerProfileViewModel
+    
+    init(viewModel: PlayerProfileViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -234,6 +245,11 @@ extension ContainerViewController: FloatingMenuDelegate {
 extension ContainerViewController: SportViewControllerDelegate {
     
     func tableViewDidScroll(_ contentOffset: CGPoint) {
+        // TODO: fade profile view as table view scrolls on top of it
+    }
+    
+    func didFetchSportsData() {
+        viewModel.getPlayerProfile()
     }
 }
 

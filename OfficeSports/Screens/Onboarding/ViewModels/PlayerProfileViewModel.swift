@@ -14,13 +14,19 @@ private let nicknameMaxLength = 22
 final class PlayerProfileViewModel {
     
     enum State {
+        
         case idle
+        
         case loading
+        
         case success(OSPlayer)
+        
         case failure(Error)
+        
     }
     
     @Published private(set) var state: State = .idle
+    @Published private(set) var player: OSPlayer?
     
     private let api: SportsAPI
     private(set) var emoijs = [String]()
@@ -58,12 +64,26 @@ final class PlayerProfileViewModel {
         return lowercasedNickname
     }
     
-    func registerProfileDetails(nickname: String, emoji: String) {
+    func registerPlayerProfile(nickname: String, emoji: String) {
         state = .loading
         
         Task {
             do {
                 let player = try await api.createOrUpdatePlayerProfile(nickname: nickname, emoji: emoji)
+                _ = UserDefaultsHelper.savePlayerProfile(player)
+                OSAccount.current.player = player
+                state = .success(player)
+            } catch let error {
+                state = .failure(error)
+            }
+        }
+    }
+    
+    func getPlayerProfile() {
+        state = .loading
+        Task {
+            do {
+                let player = try await api.getPlayerProfile()
                 _ = UserDefaultsHelper.savePlayerProfile(player)
                 OSAccount.current.player = player
                 state = .success(player)

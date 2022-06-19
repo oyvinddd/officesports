@@ -11,6 +11,8 @@ import Combine
 protocol SportViewControllerDelegate: AnyObject {
     
     func tableViewDidScroll(_ contentOffset: CGPoint)
+    
+    func didFetchSportsData()
 }
 
 final class SportViewController: UIViewController {
@@ -81,7 +83,10 @@ final class SportViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [unowned self] state in
                 switch state {
-                case .scoreboardSuccess, .recentMatchesSuccess:
+                case .scoreboardSuccess:
+                    self.tableView.refreshControl?.endRefreshing()
+                    self.delegate?.didFetchSportsData()
+                case .recentMatchesSuccess:
                     self.tableView.refreshControl?.endRefreshing()
                 case .failure(let error):
                     self.tableView.refreshControl?.endRefreshing()

@@ -35,6 +35,7 @@ final class AuthViewModel {
                 _ = try await api.signIn(viewController: viewController)
                 
                 do {
+                    // TODO: https://www.appypie.com/combining-network-requests-with-combine-and-swift
                     let player = try await api.getPlayerProfile()
                     _ = UserDefaultsHelper.savePlayerProfile(player)
                     OSAccount.current.player = player
