@@ -1,13 +1,14 @@
-import * as functions from "firebase-functions";
-import { addMatch, getPlayer, updatePlayer } from "./helpers/firebase.helpers";
-import { Sport } from "./types/Sport";
 import EloRating from "elo-rating";
-import { Match } from "./types/Match";
-import { setEmptyPlayerStats } from "./helpers/player.helpers";
-import { sendErrorStatus, validateWinMatchBody } from "./helpers/api.helpers";
+import * as functions from "firebase-functions";
 import HttpStatus from "http-status-enum";
-import { WinMatchBody } from "./types/WinMatchBody";
+import { sendErrorStatus } from "./helpers/api.helpers";
+import { addMatch, getPlayer, updatePlayer } from "./helpers/firebase.helpers";
+import { setEmptyPlayerStats } from "./helpers/player.helpers";
+import { validateWinMatchBody } from "./helpers/validation.helpers";
 import { ErrorCodes } from "./types/ErrorCodes";
+import { Match } from "./types/Match";
+import { Sport } from "./types/Sport";
+import { WinMatchBody } from "./types/WinMatchBody";
 
 const initialScore = 1200;
 
