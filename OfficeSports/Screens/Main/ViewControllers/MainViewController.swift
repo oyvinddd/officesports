@@ -51,8 +51,7 @@ final class MainViewController: UIViewController {
     }()
     
     private lazy var scannerViewController: ScannerViewController = {
-        let viewModel = RegisterMatchViewModel(api: FirebaseSportsAPI())
-        return ScannerViewController(viewModel: viewModel)
+        return ScannerViewController()
     }()
     
     private lazy var invitesViewController: MyInvitesViewController = {
@@ -80,6 +79,10 @@ final class MainViewController: UIViewController {
         super.viewDidAppear(animated)
         scrollToViewController(foosballViewController)
         configureTableViewInsets()
+    }
+    
+    func resetScrollViewsToInitialPosition() {
+        scrollToViewController(foosballViewController, animated: true)
     }
     
     private func setupChildViews() {

@@ -16,6 +16,8 @@ private let kAnimDelay: TimeInterval = 0
 private let profileImageDiameter: CGFloat = 100
 private let profileImageRadius: CGFloat = profileImageDiameter / 2
 
+private let inviteThreshold: TimeInterval = 60 * 15 // 15 minutes
+
 final class PlayerDetailsViewController: UIViewController {
     
     private lazy var backgroundView: UIView = {
@@ -85,7 +87,7 @@ final class PlayerDetailsViewController: UIViewController {
     
     private lazy var closeButton: OSButton = {
         let button = OSButton("Close", type: .secondaryInverted)
-        button.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -137,14 +139,19 @@ final class PlayerDetailsViewController: UIViewController {
     private func setupSubscribers() {
         viewModel.$state.receive(on: DispatchQueue.main).sink { [unowned self] state in
             switch state {
+            case .loading:
+                self.inviteButton.buttonState = .loading
             case .success(let invite):
                 let message = OSMessage("You have invited \(invite.inviteeNickname) to a game of \(self.sport.humanReadableName) ⚔️", .success)
                 Coordinator.global.send(message)
+                UserDefaultsHelper.saveInviteTimestamp(Date())
                 self.toggleDialog(enabled: false)
+                self.inviteButton.buttonState = .normal
             case .failure(let error):
-                Coordinator.global.send(OSMessage(error.localizedDescription, .failure))
+                Coordinator.global.send(error)
+                self.inviteButton.buttonState = .normal
             default:
-                break
+                self.inviteButton.buttonState = .normal
             }
         }.store(in: &subscribers)
     }
@@ -237,6 +244,15 @@ final class PlayerDetailsViewController: UIViewController {
         dismiss(animated: false, completion: nil)
     }
     
+    private func isAllowedToInvitePlayer() -> Bool {
+        guard let lastInviteTimestamp = UserDefaultsHelper.loadInviteTimestamp() else {
+            // if there currently is no timestamp stored, locally we are able to invite players
+            return true
+        }
+        let intervalSinceLast = Date().timeIntervalSince(lastInviteTimestamp)
+        return intervalSinceLast >= inviteThreshold
+    }
+    
     // MARK: - Button Handling
     
     @objc private func backgroundTapped(_ sender: UITapGestureRecognizer) {
@@ -244,10 +260,14 @@ final class PlayerDetailsViewController: UIViewController {
     }
     
     @objc private func inviteButtonTapped(_ sender: OSButton) {
+        guard isAllowedToInvitePlayer() else {
+            Coordinator.global.send(OSError.inviteNotAllowed)
+            return
+        }
         viewModel.invitePlayer(player, sport: sport)
     }
     
-    @objc private func closeButtonTapped(_ sender: OSButton) {
+    @objc private func cancelButtonTapped(_ sender: OSButton) {
         toggleDialog(enabled: false)
     }
 }

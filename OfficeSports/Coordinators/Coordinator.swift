@@ -85,6 +85,16 @@ final class Coordinator {
         window?.rootViewController?.present(viewController, animated: false)
     }
     
+    func presentRegisterMatch(payload: OSCodePayload, delegate: RegisterMatchDelegate?) {
+        let viewModel = RegisterMatchViewModel(api: FirebaseSportsAPI())
+        let viewController = RegisterMatchViewController(viewModel: viewModel, payload: payload, delegate: delegate)
+        window?.rootViewController?.present(viewController, animated: false)
+    }
+    
+    func resetMainScrollViews() {
+        mainViewController.resetScrollViewsToInitialPosition()
+    }
+    
     private func updateRootViewController(animated: Bool) {
         guard let window = window else {
             fatalError("Application window doesn't exist.")

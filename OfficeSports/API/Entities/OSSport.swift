@@ -38,7 +38,7 @@ enum OSSport: Int, Codable {
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
-        try container.encode(description)
+        try container.encode(rawValue)
     }
     
     static func getSportType(_ number: Int) -> OSSport {

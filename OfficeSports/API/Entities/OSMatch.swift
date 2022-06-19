@@ -9,7 +9,7 @@ import Foundation
 
 struct OSMatch: Codable {
     
-    var date: Date
+    var date: String
     
     var sport: OSSport
     

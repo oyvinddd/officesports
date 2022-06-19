@@ -33,6 +33,8 @@ enum OSError: LocalizedError {
     
     case invalidInvite
     
+    case inviteNotAllowed
+    
     var errorDescription: String? {
         switch self {
         case .unknown:
@@ -59,6 +61,8 @@ enum OSError: LocalizedError {
             return "Nickname cannot contain spaces"
         case .invalidInvite:
             return "You cannot invite yourself to a match dumbass!"
+        case .inviteNotAllowed:
+            return "You need to wait 15 minutes between every time you invite someone to a match"
         }
     }
 }

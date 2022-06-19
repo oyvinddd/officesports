@@ -14,7 +14,7 @@ private let profileImageRadius: CGFloat = profileImageDiameter / 2
 private let sportImageRadius: CGFloat = sportImageDiameter / 2
 private let codeTransitionDuration: TimeInterval = 0.3          // seconds
 private let codeHideDelayDuration: TimeInterval = 2             // seconds
-private let emojiFadeTransitionDuration: TimeInterval = 0.2     // seconds
+private let emojiFadeTransitionDuration: TimeInterval = 0.15    // seconds
 
 protocol ProfileViewDelegate: AnyObject {
     

@@ -51,9 +51,9 @@ final class MockSportsAPI: SportsAPI {
     
     private lazy var matches: [OSMatch] = {
         return [
-            OSMatch(date: Date(), sport: .foosball, winner: players[0], loser: players[2], loserDelta: -16, winnerDelta: 16),
-            OSMatch(date: Date(), sport: .foosball, winner: players[1], loser: players[0], loserDelta: -16, winnerDelta: 9),
-            OSMatch(date: Date(), sport: .tableTennis, winner: players[4], loser: players[7], loserDelta: -8, winnerDelta: 12)
+//            OSMatch(date: Date(), sport: .foosball, winner: players[0], loser: players[2], loserDelta: -16, winnerDelta: 16),
+//            OSMatch(date: Date(), sport: .foosball, winner: players[1], loser: players[0], loserDelta: -16, winnerDelta: 9),
+//            OSMatch(date: Date(), sport: .tableTennis, winner: players[4], loser: players[7], loserDelta: -8, winnerDelta: 12)
         ]
     }()
     
@@ -87,11 +87,12 @@ final class MockSportsAPI: SportsAPI {
     }
     
     func registerMatch(_ registration: OSMatchRegistration, result: @escaping ((Result<OSMatch, Error>) -> Void)) {
-        let winner = OSAccount.current.player
-        let foosballStats = OSStats(id: nil, sport: .foosball, score: 0, matchesPlayed: 0)
-        let tableTennisStats = OSStats(id: nil, sport: .tableTennis, score: 0, matchesPlayed: 0)
-        let loser = OSPlayer(id: "id#1337", nickname: "salmaaan", emoji: "🌹", foosballStats: foosballStats, tableTennisStats: tableTennisStats)
-        result(.success(OSMatch(date: Date(), sport: registration.sport, winner: winner!, loser: loser, loserDelta: 14, winnerDelta: 12)))
+//        let winner = OSAccount.current.player
+//        let foosballStats = OSStats(id: nil, sport: .foosball, score: 0, matchesPlayed: 0)
+//        let tableTennisStats = OSStats(id: nil, sport: .tableTennis, score: 0, matchesPlayed: 0)
+//        let loser = OSPlayer(id: "id#1337", nickname: "salmaaan", emoji: "🌹", foosballStats: foosballStats, tableTennisStats: tableTennisStats)
+//        let match = OSMatch(date: Date(), sport: registration.sport, winner: winner!, loser: loser, loserDelta: 14, winnerDelta: 12)
+//        result(.success(match))
     }
     
     func getScoreboard(sport: OSSport, result: @escaping ((Result<[OSPlayer], Error>) -> Void)) {

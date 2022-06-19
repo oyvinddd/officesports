@@ -99,6 +99,15 @@ final class SportViewController: UIViewController {
         view.backgroundColor = .clear
     }
     
+    private func reloadDataWithAnimation() {
+        UIView.transition(with: tableView,
+                          duration: 0.35,
+                          options: .transitionCrossDissolve,
+                          animations: { [unowned self] in
+            self.tableView.reloadData()
+        }, completion: nil)
+    }
+    
     @objc private func refreshPulled(_ sender: UIRefreshControl) {
         viewModel.fetchRecentMatches()
         viewModel.fetchScoreboard()

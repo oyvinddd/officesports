@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Combine
 import AVFoundation
 
 final class ScannerViewController: UIViewController {
@@ -48,14 +47,12 @@ final class ScannerViewController: UIViewController {
         captureSession != nil && captureSession.isRunning
     }
     
-    private let viewModel: RegisterMatchViewModel
-    private var subscribers = Set<AnyCancellable>()
-    
     private var captureSession: AVCaptureSession!
     private var previewLayer: AVCaptureVideoPreviewLayer!
     
-    init(viewModel: RegisterMatchViewModel) {
-        self.viewModel = viewModel
+    private var isBusy: Bool = false
+    
+    init() {
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -65,28 +62,9 @@ final class ScannerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupSubscribers()
+        determineCameraStatus()
         setupChildViews()
         configureUI()
-    }
-    
-    private func setupSubscribers() {
-        viewModel.$state
-            .receive(on: DispatchQueue.main)
-            .sink { [unowned self] state in
-                switch state {
-                case .loading:
-                    break
-                case .success(let match):
-                    let message = OSMessage("Congratulations! You gained \(match.winnerDelta) points from your win against \(match.loser.nickname)", .success)
-                    Coordinator.global.send(message)
-                case .failure(let error):
-                    Coordinator.global.send(error)
-                case .idle:
-                    break
-                }
-            }
-            .store(in: &subscribers)
     }
     
     private func setupChildViews() {
@@ -122,9 +100,27 @@ final class ScannerViewController: UIViewController {
         view.backgroundColor = UIColor.OS.General.main
     }
     
+    private func determineCameraStatus() {
+        let cameraIsActive = AVCaptureDevice.authorizationStatus(for: .video) == .authorized
+        cameraView.isHidden = !cameraIsActive
+        frameLinesView.isHidden = !cameraIsActive
+        infoMessageView.isHidden = !cameraIsActive
+    }
+    
     private func stopCaptureSession() {
         if captureSession != nil && captureSession.isRunning {
             captureSession.stopRunning()
+        }
+    }
+    
+    private func requestCameraAccess() {
+        AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
+            DispatchQueue.main.async { [weak self] in
+                self?.determineCameraStatus()
+                if granted {
+                    self?.startCaptureSession()
+                }
+            }
         }
     }
     
@@ -205,18 +201,11 @@ final class ScannerViewController: UIViewController {
         switch authorizationStatus {
         case .authorized:
             startCaptureSession()
-        case .notDetermined:
-            AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
-                if granted {
-                    self?.startCaptureSession()
-                }
-            }
-        case .denied:
-            // user has previously denied access
-            return
+        case .denied, .notDetermined:
+            requestCameraAccess()
         case .restricted:
-            // user can't grant access due to restriction
-            return
+            // user can't grant access due to restriction on the OS level
+            print("Camera usage is restricted for this device")
         @unknown default:
             fatalError("Unknown camera status")
         }
@@ -228,7 +217,7 @@ final class ScannerViewController: UIViewController {
 extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
     
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
-        if viewModel.isReady, let metadataObject = metadataObjects.first {
+        if !isBusy, let metadataObject = metadataObjects.first {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
             guard let stringValue = readableObject.stringValue else { return }
             
@@ -244,15 +233,25 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
             print("Barcode found: \(stringValue)")
             
-            guard let winnerId = OSAccount.current.userId, let loserCodePayload = payload else {
+            guard let payload = payload else {
                 return
             }
-            // extract the sport and the user ID of the loser from the scanned QR code
-            let sport = loserCodePayload.sport
-            let loserId = loserCodePayload.userId
-            // call function on the view model to register match result in the backend
-            let registration = OSMatchRegistration(sport: sport, winnerId: winnerId, loserId: loserId)
-            viewModel.registerMatch(registration)
+            isBusy = true
+            DispatchQueue.main.async {
+                Coordinator.global.presentRegisterMatch(payload: payload, delegate: self)
+            }
         }
+    }
+}
+
+extension ScannerViewController: RegisterMatchDelegate {
+    
+    func didRegisterMatchResult() {
+        Coordinator.global.resetMainScrollViews() // FXME: this is currently not working
+        isBusy = false
+    }
+    
+    func didCancelMatchRegistration() {
+        isBusy = false
     }
 }

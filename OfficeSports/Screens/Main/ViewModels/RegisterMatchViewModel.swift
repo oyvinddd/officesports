@@ -21,15 +21,6 @@ final class RegisterMatchViewModel {
     
     @Published private(set) var state: State = .idle
     
-    var isReady: Bool {
-        switch state {
-        case .idle:
-            return true
-        default:
-            return false
-        }
-    }
-    
     private let api: SportsAPI
     
     init(api: SportsAPI) {
