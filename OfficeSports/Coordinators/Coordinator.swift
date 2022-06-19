@@ -143,8 +143,8 @@ extension Coordinator {
         return PlayerProfileViewController(viewModel: viewModel)
     }
     
-    var mainViewController: MainViewController {
-        return MainViewController()
+    var mainViewController: ContainerViewController {
+        return ContainerViewController()
     }
     
     var settingsViewController: SettingsViewController {

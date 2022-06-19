@@ -246,7 +246,7 @@ final class PlayerDetailsViewController: UIViewController {
     
     private func isAllowedToInvitePlayer() -> Bool {
         guard let lastInviteTimestamp = UserDefaultsHelper.loadInviteTimestamp() else {
-            // if there currently is no timestamp stored, locally we are able to invite players
+            // if there currently is no timestamp stored locally we are able to invite players
             return true
         }
         let intervalSinceLast = Date().timeIntervalSince(lastInviteTimestamp)

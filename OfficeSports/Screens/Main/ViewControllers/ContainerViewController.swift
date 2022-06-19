@@ -1,5 +1,5 @@
 //
-//  MainViewController.swift
+//  ContainerViewController.swift
 //  Office Sports
 //
 //  Created by Øyvind Hauge on 10/05/2022.
@@ -10,7 +10,7 @@ import UIKit
 private let scannerFadeDuration: TimeInterval = 0.2 // seconds
 private let scannerDelayDuration: TimeInterval = 0  // seconds
 
-final class MainViewController: UIViewController {
+final class ContainerViewController: UIViewController {
     
     private lazy var cameraPlaceholderView: UIView = {
         return UIView.createView(.clear)
@@ -191,7 +191,7 @@ final class MainViewController: UIViewController {
 
 // MARK: - Profile View Delegate Conformance
 
-extension MainViewController: ProfileViewDelegate {
+extension ContainerViewController: ProfileViewDelegate {
     
     func profilePictureTapped() {
         // prevent showing of QR code if user is on the invites screen
@@ -210,7 +210,7 @@ extension MainViewController: ProfileViewDelegate {
 
 // MARK: - Floating Menu Delegate Conformance
 
-extension MainViewController: FloatingMenuDelegate {
+extension ContainerViewController: FloatingMenuDelegate {
     
     func scannerButtonTapped() {
         scrollToViewController(scannerViewController, animated: true)
@@ -231,7 +231,7 @@ extension MainViewController: FloatingMenuDelegate {
 
 // MARK: - Sport View Controller Delegate Conformance
 
-extension MainViewController: SportViewControllerDelegate {
+extension ContainerViewController: SportViewControllerDelegate {
     
     func tableViewDidScroll(_ contentOffset: CGPoint) {
     }
@@ -239,7 +239,7 @@ extension MainViewController: SportViewControllerDelegate {
 
 // MARK: - Scroll View Delegate Conformance
 
-extension MainViewController: UIScrollViewDelegate {
+extension ContainerViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView == outerScrollView {

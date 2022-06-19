@@ -39,9 +39,8 @@ final class AuthViewModel {
                     _ = UserDefaultsHelper.savePlayerProfile(player)
                     OSAccount.current.player = player
                 } catch {
-                    // do nothing
+                    // this just mean that the user hasn't registered a player profile yet, so just move along
                 }
-                
                 state = .signInSuccess
             } catch let error {
                 state = .signInFailure(error)

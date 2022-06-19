@@ -69,7 +69,7 @@
 		8EE32D68283E8D88009AD89C /* plistinject in Resources */ = {isa = PBXBuildFile; fileRef = 8EE32D67283E8D88009AD89C /* plistinject */; };
 		8EE558352847B0B400199CC6 /* OSSport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE558342847B0B400199CC6 /* OSSport.swift */; };
 		8EE61FEF282AB79C00C01289 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE61FEE282AB79C00C01289 /* AppDelegate.swift */; };
-		8EE61FF3282AB79C00C01289 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE61FF2282AB79C00C01289 /* MainViewController.swift */; };
+		8EE61FF3282AB79C00C01289 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE61FF2282AB79C00C01289 /* ContainerViewController.swift */; };
 		8EE61FF8282AB79D00C01289 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EE61FF7282AB79D00C01289 /* Assets.xcassets */; };
 		8EE61FFB282AB79D00C01289 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EE61FF9282AB79D00C01289 /* LaunchScreen.storyboard */; };
 		8EE7939628366B660025AB78 /* Encodable+Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE7939528366B660025AB78 /* Encodable+Dictionary.swift */; };
@@ -144,7 +144,7 @@
 		8EE558342847B0B400199CC6 /* OSSport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSSport.swift; sourceTree = "<group>"; };
 		8EE61FEB282AB79C00C01289 /* OfficeSports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OfficeSports.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EE61FEE282AB79C00C01289 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		8EE61FF2282AB79C00C01289 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		8EE61FF2282AB79C00C01289 /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		8EE61FF7282AB79D00C01289 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8EE61FFA282AB79D00C01289 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8EE61FFC282AB79D00C01289 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -224,7 +224,7 @@
 			children = (
 				8E70C11B282AC3F2009A9452 /* ScannerViewController.swift */,
 				8E70C113282ABC56009A9452 /* SportViewController.swift */,
-				8EE61FF2282AB79C00C01289 /* MainViewController.swift */,
+				8EE61FF2282AB79C00C01289 /* ContainerViewController.swift */,
 				8E38B57D283C3D01009E0387 /* AchievementsViewController.swift */,
 				8E38B581283C5895009E0387 /* PreferencesViewController.swift */,
 				8EF418A3283CFF39005CAE09 /* AboutViewController.swift */,
@@ -618,7 +618,7 @@
 				8E6995D52844E0CE001355D2 /* LocalNotificationManager.swift in Sources */,
 				8E38B576283BC5AD009E0387 /* Bundle+Version.swift in Sources */,
 				8E70C117282ABD3E009A9452 /* FloatingMenu.swift in Sources */,
-				8EE61FF3282AB79C00C01289 /* MainViewController.swift in Sources */,
+				8EE61FF3282AB79C00C01289 /* ContainerViewController.swift in Sources */,
 				8EC84E8E282BD5B10093C9A0 /* PlayerProfileViewController.swift in Sources */,
 				8E23086F282CFC6B00AF60EB /* SettingsViewController.swift in Sources */,
 				8E38B582283C5895009E0387 /* PreferencesViewController.swift in Sources */,
