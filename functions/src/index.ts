@@ -1,51 +1,67 @@
-import * as functions from "firebase-functions";
-import { addMatch, getPlayer, updatePlayer } from "./helpers/firebase.helpers";
-import { Sport } from "./types/Sport";
 import EloRating from "elo-rating";
-import { Match } from "./types/Match";
+import * as functions from "firebase-functions";
+import HttpStatus from "http-status-enum";
+import { sendErrorStatus } from "./helpers/api.helpers";
+import { addMatch, getPlayer, updatePlayer } from "./helpers/firebase.helpers";
 import { setEmptyPlayerStats } from "./helpers/player.helpers";
-
-const BAD_REQUEST = 400;
-const METHOD_NOT_ALLOWED = 405;
+import { validateWinMatchBody } from "./helpers/validation.helpers";
+import { ErrorCodes } from "./types/ErrorCodes";
+import { Match } from "./types/Match";
+import { Sport } from "./types/Sport";
+import { WinMatchBody } from "./types/WinMatchBody";
 
 const initialScore = 1200;
 
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
-//
 export const winMatch = functions.https.onRequest(async (request, response) => {
   functions.logger.info("Hello logs!", { structuredData: true });
 
   const isPost = request.method === "POST";
   if (!isPost) {
-    response.sendStatus(METHOD_NOT_ALLOWED);
+    sendErrorStatus(response, HttpStatus.METHOD_NOT_ALLOWED, [
+      {
+        errorCode: ErrorCodes.WinMatchMethodNotAllowed,
+        message: `Method '${request.method}' is not allowed`,
+      },
+    ]);
     return;
   }
 
-  const {
-    winnerId,
-    loserId,
-    sport,
-  }: { winnerId: string; loserId: string; sport: Sport } = request.body;
+  const bodyErrors = validateWinMatchBody(request.body);
+  if (bodyErrors) {
+    sendErrorStatus(response, HttpStatus.BAD_REQUEST, bodyErrors);
+  }
+
+  const { winnerId, loserId, sport }: WinMatchBody = request.body;
+
+  console.log({ body: request.body });
 
   const winner = await getPlayer(winnerId);
-
   const loser = await getPlayer(loserId);
 
-  console.log({ winnerId, loserId, sport, body: request.body, winner, loser });
+  console.log({ winnerId, loserId, sport, winner, loser });
 
-  if (!winner || !loser) {
-    response.sendStatus(BAD_REQUEST);
+  if (!winner) {
+    sendErrorStatus(response, HttpStatus.BAD_REQUEST, [
+      {
+        errorCode: ErrorCodes.WinnerNotFound,
+        message: `Player with id '${winnerId} not found`,
+      },
+    ]);
+    return;
+  }
+
+  if (!loser) {
+    sendErrorStatus(response, HttpStatus.BAD_REQUEST, [
+      {
+        errorCode: ErrorCodes.LoserNotFound,
+        message: `Player with id '${loserId} not found`,
+      },
+    ]);
     return;
   }
 
   setEmptyPlayerStats(winner, initialScore);
   setEmptyPlayerStats(loser, initialScore);
-
-  if (sport === Sport.Unknown || sport > 1) {
-    response.sendStatus(BAD_REQUEST);
-    return;
-  }
 
   const isFoosball = sport === Sport.Foosball;
   const isTableTennis = sport === Sport.TableTennis;
