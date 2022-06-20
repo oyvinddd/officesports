@@ -13,67 +13,16 @@ final class MatchTableViewCell: UITableViewCell {
         return UIView.createView(.white)
     }()
     
-    private lazy var winnerProfileImageWrap: UIView = {
-        let view = UIView.createView(.red)
-        view.applyCornerRadius(23)
-        return view
-    }()
-    
-    private lazy var winnerProfileEmojiLabel: UILabel = {
-        let label = UILabel.createLabel(.black, alignment: .center)
-        label.font = UIFont.systemFont(ofSize: 28)
+    private lazy var matchDateLabel: UILabel = {
+        let label = UILabel.createLabel(UIColor.OS.Text.subtitle)
+        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.numberOfLines = 1
         return label
     }()
     
-    private lazy var winnerNicknameLabel: UILabel = {
+    private lazy var matchResultLabel: UILabel = {
         let label = UILabel.createLabel(UIColor.OS.Text.normal)
         label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
-        return label
-    }()
-    
-    private lazy var loserProfileImageWrap: UIView = {
-        let view = UIView.createView(.red)
-        view.applyCornerRadius(23)
-        return view
-    }()
-    
-    private lazy var loserProfileEmojiLabel: UILabel = {
-        let label = UILabel.createLabel(.black, alignment: .center)
-        label.font = UIFont.systemFont(ofSize: 28)
-        return label
-    }()
-    
-    private lazy var loserNicknameLabel: UILabel = {
-        let label = UILabel.createLabel(UIColor.OS.Text.normal, alignment: .right)
-        label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
-        return label
-    }()
-    
-    private lazy var winnerDeltaLabel: UILabel = {
-        let label = UILabel.createLabel(.white, alignment: .center)
-        label.font = UIFont.systemFont(ofSize: 13, weight: .bold)
-        label.backgroundColor = UIColor.OS.Status.success
-        label.applyCornerRadius(5)
-        return label
-    }()
-    
-    private lazy var loserDeltaLabel: UILabel = {
-        let label = UILabel.createLabel(.white, alignment: .center)
-        label.font = UIFont.systemFont(ofSize: 13, weight: .bold)
-        label.backgroundColor = UIColor.OS.Status.failure
-        return label
-    }()
-    
-    private lazy var dateLabel: UILabel = {
-        return UILabel.createLabel(UIColor.OS.Text.subtitle)
-    }()
-    
-    private lazy var versusLabel: UILabel = {
-        let label = UILabel.createLabel(UIColor.OS.Text.normal, alignment: .center, text: "VS")
-        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        label.backgroundColor = UIColor.OS.Text.subtitle
-        label.layer.masksToBounds = true
-        label.layer.cornerRadius = 10
         return label
     }()
     
@@ -114,35 +63,21 @@ final class MatchTableViewCell: UITableViewCell {
     
     private func setupChildViews() {
         contentView.addSubview(contentWrap)
-        contentWrap.addSubview(winnerNicknameLabel)
-        contentWrap.addSubview(winnerDeltaLabel)
-        contentWrap.addSubview(loserNicknameLabel)
-        contentWrap.addSubview(loserDeltaLabel)
-        contentWrap.addSubview(versusLabel)
+        contentWrap.addSubview(matchDateLabel)
+        contentWrap.addSubview(matchResultLabel)
         
         NSLayoutConstraint.activate([
             contentWrap.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16),
             contentWrap.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16),
             contentWrap.topAnchor.constraint(equalTo: contentView.topAnchor),
             contentWrap.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            winnerNicknameLabel.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
-            winnerNicknameLabel.rightAnchor.constraint(equalTo: versusLabel.leftAnchor, constant: -8),
-            winnerNicknameLabel.topAnchor.constraint(equalTo: contentWrap.topAnchor, constant: 16),
-            winnerDeltaLabel.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
-            winnerDeltaLabel.bottomAnchor.constraint(equalTo: contentWrap.bottomAnchor, constant: -16),
-            winnerDeltaLabel.topAnchor.constraint(equalTo: winnerNicknameLabel.bottomAnchor, constant: 4),
-            winnerDeltaLabel.heightAnchor.constraint(equalToConstant: 20),
-            loserNicknameLabel.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
-            loserNicknameLabel.leftAnchor.constraint(equalTo: versusLabel.rightAnchor, constant: 8),
-            loserNicknameLabel.topAnchor.constraint(equalTo: contentWrap.topAnchor, constant: 16),
-            loserDeltaLabel.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
-            loserDeltaLabel.topAnchor.constraint(equalTo: loserNicknameLabel.bottomAnchor, constant: 4),
-            loserDeltaLabel.bottomAnchor.constraint(equalTo: contentWrap.bottomAnchor, constant: -16),
-            loserDeltaLabel.heightAnchor.constraint(equalToConstant: 20),
-            versusLabel.centerXAnchor.constraint(equalTo: contentWrap.centerXAnchor),
-            versusLabel.centerYAnchor.constraint(equalTo: contentWrap.centerYAnchor),
-            versusLabel.widthAnchor.constraint(equalToConstant: 40),
-            versusLabel.heightAnchor.constraint(equalToConstant: 20)
+            matchDateLabel.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
+            matchDateLabel.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
+            matchDateLabel.topAnchor.constraint(equalTo: contentWrap.topAnchor, constant: 16),
+            matchResultLabel.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
+            matchResultLabel.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
+            matchResultLabel.topAnchor.constraint(equalTo: matchDateLabel.bottomAnchor, constant: 4),
+            matchResultLabel.bottomAnchor.constraint(equalTo: contentWrap.bottomAnchor, constant: -16)
         ])
     }
     
@@ -155,9 +90,24 @@ final class MatchTableViewCell: UITableViewCell {
         guard let match = match else {
             return
         }
-        winnerNicknameLabel.text = match.winner.nickname.lowercased()
-        winnerDeltaLabel.text = "+\(match.winnerDelta)"
-        loserNicknameLabel.text = match.loser.nickname.lowercased()
-        loserDeltaLabel.text = "\(match.loserDelta)"
+        let winner = match.winner.nickname
+        let wDelta = match.winnerDelta
+        let loser = match.loser.nickname
+        let lDelta = match.loserDelta
+        let originalStr = "\(winner) (+\(wDelta)) won against \(loser) (\(lDelta))"
+        
+        let attrStr = NSMutableAttributedString(string: originalStr)
+        let rangeOfWinner = NSString(string: originalStr).range(of: winner)
+        let rangeOfLoser = NSString(string: originalStr).range(of: loser)
+        let rangeOfWdt = NSString(string: originalStr).range(of: "+\(wDelta)", options: .caseInsensitive)
+        let rangeOfLdt = NSString(string: originalStr).range(of: "\(lDelta)", options: .caseInsensitive)
+        
+        attrStr.addAttribute(.font, value: UIFont.systemFont(ofSize: 18, weight: .bold), range: rangeOfWinner)
+        attrStr.addAttribute(.font, value: UIFont.systemFont(ofSize: 18, weight: .bold), range: rangeOfLoser)
+        attrStr.addAttribute(.foregroundColor, value: UIColor.OS.Status.success, range: rangeOfWdt)
+        attrStr.addAttribute(.foregroundColor, value: UIColor.OS.Status.failure, range: rangeOfLdt)
+        
+        matchDateLabel.text = match.dateToString()
+        matchResultLabel.attributedText = attrStr
     }
 }

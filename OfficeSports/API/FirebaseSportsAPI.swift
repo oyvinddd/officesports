@@ -117,7 +117,11 @@ final class FirebaseSportsAPI: SportsAPI {
     
     func getScoreboard(sport: OSSport, result: @escaping ((Result<[OSPlayer], Error>) -> Void)) {
         let fieldPath = sport == .foosball ? "foosballStats.score" : "tableTennisStats.score"
-        playersCollection.order(by: fieldPath, descending: true).limit(to: maxResultsInScoreboard).getDocuments { (snapshot, error) in
+        let query = playersCollection
+            .order(by: fieldPath, descending: true)
+            .limit(to: maxResultsInScoreboard)
+        
+        query.getDocuments { (snapshot, error) in
             guard let error = error else {
                 let players = self.playersFromDocuments(snapshot!.documents, sport: sport)
                 result(.success(players))
@@ -128,7 +132,11 @@ final class FirebaseSportsAPI: SportsAPI {
     }
     
     func getMatchHistory(sport: OSSport, result: @escaping ((Result<[OSMatch], Error>) -> Void)) {
-        let query = matchesCollection.limit(to: maxResultsInRecentMatches).whereField("sport", isEqualTo: sport.rawValue)
+        let query = matchesCollection
+            .whereField("sport", isEqualTo: sport.rawValue)
+            .order(by: "date", descending: true)
+            .limit(to: maxResultsInRecentMatches)
+        
         query.getDocuments { [unowned self] (snapshot, error) in
             guard let error = error else {
                 let matches = matchesFromDocuments(snapshot!.documents)
