@@ -50,7 +50,7 @@ enum OSError: LocalizedError {
         case .invalidQrCode:
             return "The QR code is not valid"
         case .invalidOpponent:
-            return "You cannot register a match result against yourself dumbass!"
+            return "You cannot register a match result against yourself dumbass! 🤦🏻‍♂️"
         case .nicknameMissing:
             return "Nickname is missing"
         case .nicknameTooShort:
@@ -60,9 +60,9 @@ enum OSError: LocalizedError {
         case .invalidNickname:
             return "Nickname cannot contain spaces"
         case .invalidInvite:
-            return "You cannot invite yourself to a match dumbass!"
+            return "You cannot invite yourself to a match dumbass! 🤦🏻‍♂️"
         case .inviteNotAllowed:
-            return "You need to wait 15 minutes between every time you invite someone to a match"
+            return "You need to wait 15 minutes between every time you invite someone to a match 🕑"
         }
     }
 }
