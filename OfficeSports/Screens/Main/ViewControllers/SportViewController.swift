@@ -95,7 +95,7 @@ final class SportViewController: UIViewController {
                     // do nothing
                     break
                 }
-                self.tableView.reloadData()
+                self.reloadData()
             })
             .store(in: &subscribers)
     }
@@ -104,13 +104,12 @@ final class SportViewController: UIViewController {
         view.backgroundColor = .clear
     }
     
-    private func reloadDataWithAnimation() {
-        UIView.transition(with: tableView,
-                          duration: 0.35,
-                          options: .transitionCrossDissolve,
-                          animations: { [unowned self] in
-            self.tableView.reloadData()
-        }, completion: nil)
+    private func reloadData(animated: Bool = true) {
+        if animated {
+            self.tableView.reloadSections(IndexSet(integer: 1), with: .fade)
+        } else {
+            tableView.reloadData()
+        }
     }
     
     @objc private func refreshPulled(_ sender: UIRefreshControl) {
@@ -181,11 +180,11 @@ extension SportViewController: SportFilterDelegate {
     
     func leftButtonTapped() {
         showScoreboard = true
-        tableView.reloadData()
+        reloadData()
     }
     
     func rightButtonTapped() {
         showScoreboard = false
-        tableView.reloadData()
+        reloadData()
     }
 }
