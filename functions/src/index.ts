@@ -82,7 +82,7 @@ export const winMatch = functions.https.onRequest(async (request, response) => {
   console.log({ newWinnerScore, newLoserScore });
 
   const match: Match = {
-    date: new firebase.firestore.Timestamp(Date.now() / 1000, 0),
+    date: new firebase.firestore.Timestamp(Math.floor(Date.now() / 1000), 0),
     sport,
     winner,
     loser,
