@@ -7,7 +7,7 @@
 
 import UIKit
 
-private let leftButtonTitle = "Leaderboard"
+private let leftButtonTitle = "Scoreboard"
 private let rightButtonTitle = "Recent matches"
 
 protocol SportFilterDelegate: AnyObject {
