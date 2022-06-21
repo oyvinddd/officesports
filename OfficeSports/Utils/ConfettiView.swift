@@ -10,16 +10,18 @@ import QuartzCore
 
 final class ConfettiView: UIView {
     
-    var emitter: CAEmitterLayer!
-    var intensity: Float = 0.7
-    var colors: [UIColor] = [UIColor(red: 0.95, green: 0.40, blue: 0.27, alpha: 1),
+    private var emitter: CAEmitterLayer!
+    private var intensity: Float
+    private var colors = [UIColor(red: 0.95, green: 0.40, blue: 0.27, alpha: 1),
                              UIColor(red: 1.00, green: 0.78, blue: 0.36, alpha: 1),
                              UIColor(red: 0.48, green: 0.78, blue: 0.64, alpha: 1),
                              UIColor(red: 0.30, green: 0.76, blue: 0.85, alpha: 1),
                              UIColor(red: 0.58, green: 0.39, blue: 0.55, alpha: 1)]
     
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(intensity: Float) {
+        self.intensity = intensity
+        super.init(frame: .zero)
+        translatesAutoresizingMaskIntoConstraints = false
     }
     
     required init?(coder: NSCoder) {

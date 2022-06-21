@@ -14,14 +14,14 @@ private let messageDisplayDuration: TimeInterval = 2.5  // seconds
 
 final class MessageWindow: UIWindow {
     
-    private lazy var messageViewController: MessageViewController = {
-        return MessageViewController()
+    private lazy var windowViewController: WindowViewController = {
+        return WindowViewController()
     }()
     
     init() {
         super.init(frame: UIScreen.main.bounds)
         translatesAutoresizingMaskIntoConstraints = false
-        rootViewController = messageViewController
+        rootViewController = windowViewController
         windowLevel = .alert
         makeKeyAndVisible()
     }
@@ -38,13 +38,26 @@ final class MessageWindow: UIWindow {
     }
     
     func showMessage(_ message: OSMessage, seconds: Int = 3) {
-        messageViewController.createAndShowMessageView(message: message, seconds: seconds)
+        windowViewController.createAndShowMessageView(message: message, seconds: seconds)
+    }
+    
+    func showConfetti(seconds: Float) {
+        windowViewController.showConfetti(seconds: seconds)
     }
 }
 
-final class MessageViewController: UIViewController {
+final class WindowViewController: UIViewController {
+    
+    private lazy var confettiView: ConfettiView = {
+        return ConfettiView(intensity: 1)
+    }()
     
     private var isShowingMessage: Bool = false
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        NSLayoutConstraint.pinToView(view, confettiView)
+    }
     
     func createAndShowMessageView(message: OSMessage, seconds: Int = 3) {
         // only show one message at a time
@@ -70,6 +83,15 @@ final class MessageViewController: UIViewController {
                         messageView.removeFromSuperview()
                     }
             }
+    }
+    
+    func showConfetti(seconds: Float) {
+        confettiView.startConfetti()
+        
+        let interval = TimeInterval(seconds)
+        Timer.scheduledTimer(withTimeInterval: interval, repeats: false) { [weak self] _ in
+            self?.confettiView.stopConfetti()
+        }
     }
     
     private func createAndPlaceMessageView(message: OSMessage) -> MessageView {
