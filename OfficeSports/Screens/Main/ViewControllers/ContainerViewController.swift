@@ -210,7 +210,7 @@ extension ContainerViewController: ProfileViewDelegate {
             return
         }
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-        profileView.displayQrCode(seconds: 2.5)
+        profileView.displayQrCode(seconds: 3)
     }
     
     func settingsButtonTapped() {
@@ -222,7 +222,7 @@ extension ContainerViewController: ProfileViewDelegate {
 // MARK: - Floating Menu Delegate Conformance
 
 extension ContainerViewController: FloatingMenuDelegate {
-    
+
     func scannerButtonTapped() {
         scrollToViewController(scannerViewController, animated: true)
     }
@@ -237,6 +237,14 @@ extension ContainerViewController: FloatingMenuDelegate {
     
     func invitesButtonTapped() {
         scrollToViewController(invitesViewController, animated: true)
+    }
+    
+    func foosballButtonDoubleTapped() {
+        profileView.displayQrCode(seconds: 3)
+    }
+    
+    func tableTennisButtonDoubleTapped() {
+        profileView.displayQrCode(seconds: 3)
     }
 }
 

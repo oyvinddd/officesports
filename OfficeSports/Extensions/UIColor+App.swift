@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CommonCrypto
 
 // swiftlint:disable type_name nesting
 extension UIColor {
@@ -116,20 +117,6 @@ extension UIColor {
             static let color25 = UIColor(hex: 0x9A65D5)
         }
         
-        static var profileColors: [UIColor] {
-            return [
-                UIColor.OS.Profile.color1, UIColor.OS.Profile.color2, UIColor.OS.Profile.color3,
-                UIColor.OS.Profile.color4, UIColor.OS.Profile.color5, UIColor.OS.Profile.color6,
-                UIColor.OS.Profile.color7, UIColor.OS.Profile.color8, UIColor.OS.Profile.color9,
-                UIColor.OS.Profile.color10, UIColor.OS.Profile.color11, UIColor.OS.Profile.color12,
-                UIColor.OS.Profile.color13, UIColor.OS.Profile.color14, UIColor.OS.Profile.color15,
-                UIColor.OS.Profile.color16, UIColor.OS.Profile.color17, UIColor.OS.Profile.color18,
-                UIColor.OS.Profile.color19, UIColor.OS.Profile.color20, UIColor.OS.Profile.color21,
-                UIColor.OS.Profile.color22, UIColor.OS.Profile.color23, UIColor.OS.Profile.color24,
-                UIColor.OS.Profile.color25
-            ]
-        }
-        
         static func colorForSport(_ sport: OSSport) -> UIColor {
             switch sport {
             case .foosball:
@@ -141,10 +128,69 @@ extension UIColor {
             }
         }
         
-        // https://www.youtube.com/watch?v=87-E8ios_qo&ab_channel=Marthin
         static func hashedProfileColor(_ input: String) -> UIColor {
-            let hashedIndex = input.count << 5 % profileColors.count
-            return profileColors[abs(hashedIndex)]
+            let csum = Checksum.hash(data: input.data(using: .utf8)!, using: .md5)
+            
+            let index = csum.index(csum.startIndex, offsetBy: 6)
+            let mySubstring = csum.prefix(upTo: index)
+            
+            let hueHex = Int(mySubstring, radix: 16)!
+            let max: Float = 16777216
+            let hue = Float(hueHex)/max
+            
+            return UIColor(hue: CGFloat(hue), saturation: 0.5, brightness: 0.6, alpha: 1)
+        }
+    }
+}
+
+struct Checksum {
+    private init() {}
+
+    static func hash(data: Data, using algorithm: HashAlgorithm) -> String {
+        /// Creates an array of unsigned 8 bit integers that contains zeros equal in amount to the digest length
+        var digest = [UInt8](repeating: 0, count: algorithm.digestLength())
+
+        /// Call corresponding digest calculation
+        data.withUnsafeBytes {
+            algorithm.digestCalculation(data: $0.baseAddress, len: UInt32(data.count), digestArray: &digest)
+        }
+
+        var hashString = ""
+        /// Unpack each byte in the digest array and add them to the hashString
+        for byte in digest {
+            hashString += String(format: "%02x", UInt8(byte))
+        }
+
+        return hashString
+    }
+
+    /**
+    * Hash using CommonCrypto
+    * API exposed from CommonCrypto-60118.50.1:
+    * https://opensource.apple.com/source/CommonCrypto/CommonCrypto-60118.50.1/include/CommonDigest.h.auto.html
+    **/
+    enum HashAlgorithm {
+        case md5
+        case sha256
+
+        func digestLength() -> Int {
+            switch self {
+            case .md5:
+                return Int(CC_MD5_DIGEST_LENGTH)
+            case .sha256:
+                return Int(CC_SHA256_DIGEST_LENGTH)
+            }
+        }
+
+        /// CC_[HashAlgorithm] performs a digest calculation and places the result in the caller-supplied buffer for digest
+        /// Calls the given closure with a pointer to the underlying unsafe bytes of the data's contiguous storage.
+        func digestCalculation(data: UnsafeRawPointer!, len: UInt32, digestArray: UnsafeMutablePointer<UInt8>!) {
+            switch self {
+            case .md5:
+                CC_MD5(data, len, digestArray)
+            case .sha256:
+                CC_SHA256(data, len, digestArray)
+            }
         }
     }
 }

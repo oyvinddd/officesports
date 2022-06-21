@@ -248,6 +248,7 @@ extension ScannerViewController: RegisterMatchDelegate {
     func dismissedMatchRegistration(match: OSMatch?) {
         isShowingMatchRegistration = false
         if match != nil {
+            Coordinator.global.showConfetti(seconds: 5)
             // TODO: automatically close the camera view
         }
     }

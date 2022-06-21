@@ -102,6 +102,10 @@ final class Coordinator {
         containerViewController.resetScrollViewsToInitialPosition()
     }
     
+    func showConfetti(seconds: Float) {
+        messageWindow.showConfetti(seconds: seconds)
+    }
+    
     private func updateRootViewController(animated: Bool) {
         guard let window = window else {
             fatalError("Application window doesn't exist.")
