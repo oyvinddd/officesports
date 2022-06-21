@@ -224,7 +224,7 @@ final class FirebaseSportsAPI: SportsAPI {
         // find invites the current user has sent that are not older than 24 hours
         let query = invitesCollection
             .whereField("inviterId", isEqualTo: uid)
-            .whereField("date", isGreaterThan: date)
+            //.whereField("date", isGreaterThan: date)
         
         query.getDocuments { (snapshot, error) in
             if let error = error {

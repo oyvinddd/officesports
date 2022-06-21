@@ -75,6 +75,7 @@
 		8EE61FFB282AB79D00C01289 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EE61FF9282AB79D00C01289 /* LaunchScreen.storyboard */; };
 		8EE7939628366B660025AB78 /* Encodable+Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE7939528366B660025AB78 /* Encodable+Dictionary.swift */; };
 		8EED8C2C28535D7D002CEA99 /* InviteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EED8C2B28535D7D002CEA99 /* InviteTableViewCell.swift */; };
+		8EEEAB74286268DB001D8BF5 /* InviteFilterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEEAB73286268DB001D8BF5 /* InviteFilterTableViewCell.swift */; };
 		8EF13879283791AE001D8DA6 /* MockSportsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF13878283791AE001D8DA6 /* MockSportsAPI.swift */; };
 		8EF1387B2837CF3A001D8DA6 /* OSCodePayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1387A2837CF3A001D8DA6 /* OSCodePayload.swift */; };
 		8EF1387D2837EEEC001D8DA6 /* MatchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1387C2837EEEC001D8DA6 /* MatchTableViewCell.swift */; };
@@ -152,6 +153,7 @@
 		8EE61FFC282AB79D00C01289 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8EE7939528366B660025AB78 /* Encodable+Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Encodable+Dictionary.swift"; sourceTree = "<group>"; };
 		8EED8C2B28535D7D002CEA99 /* InviteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteTableViewCell.swift; sourceTree = "<group>"; };
+		8EEEAB73286268DB001D8BF5 /* InviteFilterTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteFilterTableViewCell.swift; sourceTree = "<group>"; };
 		8EF13878283791AE001D8DA6 /* MockSportsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSportsAPI.swift; sourceTree = "<group>"; };
 		8EF1387A2837CF3A001D8DA6 /* OSCodePayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSCodePayload.swift; sourceTree = "<group>"; };
 		8EF1387C2837EEEC001D8DA6 /* MatchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchTableViewCell.swift; sourceTree = "<group>"; };
@@ -475,6 +477,7 @@
 			isa = PBXGroup;
 			children = (
 				8EED8C2B28535D7D002CEA99 /* InviteTableViewCell.swift */,
+				8EEEAB73286268DB001D8BF5 /* InviteFilterTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -651,6 +654,7 @@
 				8E230887282D575D00AF60EB /* AuthViewModel.swift in Sources */,
 				8E2D0CC1284FB374006FDE2E /* UIStackView+Convenience.swift in Sources */,
 				8E70C136282ADF7A009A9452 /* OSAccount.swift in Sources */,
+				8EEEAB74286268DB001D8BF5 /* InviteFilterTableViewCell.swift in Sources */,
 				8E230889282D788D00AF60EB /* EmojiPickerViewController.swift in Sources */,
 				8E70C126282ACCB5009A9452 /* ProfileView.swift in Sources */,
 				8EAB6DA6282BE4B500FA1362 /* Coordinator.swift in Sources */,

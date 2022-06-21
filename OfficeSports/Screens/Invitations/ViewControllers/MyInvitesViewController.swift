@@ -19,6 +19,7 @@ final class MyInvitesViewController: UIViewController {
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView.createTableView(.clear, dataSource: self)
+        tableView.registerCell(InviteFilterTableViewCell.self)
         tableView.registerCell(InviteTableViewCell.self)
         return tableView
     }()
@@ -44,7 +45,7 @@ final class MyInvitesViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        //viewModel.getActiveInvites()
+        viewModel.getActiveInvites()
     }
     
     func applyContentInsetToTableView(_ contentInset: UIEdgeInsets) {
@@ -92,15 +93,39 @@ final class MyInvitesViewController: UIViewController {
 
 extension MyInvitesViewController: UITableViewDataSource {
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.invites.count
+        return section == 0 ? 1 : viewModel.invites.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCell(for: InviteFilterTableViewCell.self, for: indexPath)
+            //cell.toggleLeftButton(enabled: showScoreboard)
+            cell.delegate = self
+            return cell
+        }
+        
         let cell = tableView.dequeueReusableCell(for: InviteTableViewCell.self, for: indexPath)
         let isFirst = indexPath.row == 0
         let isLast = indexPath.row == viewModel.invites.count - 1
         cell.configure(with: viewModel.invites[indexPath.row], isFirst, isLast)
         return cell
+    }
+}
+
+// MARK: - Invite Filter Delegate Conformance
+
+extension MyInvitesViewController: InviteFilterDelegate {
+    
+    func leftButtonTapped() {
+        
+    }
+    
+    func rightButtonTapped() {
+        
     }
 }
