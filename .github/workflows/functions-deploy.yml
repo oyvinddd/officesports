@@ -18,7 +18,6 @@ jobs:
       - name: Install dependencies
         run: npm i --legacy-peer-deps --prefix functions
 
-      - name: Deploy
-        if: ${{ github.ref == 'refs/heads/main' }}
-        run: npm run deploy
-        working-directory: functions
+      # - name: Deploy
+      #   if: ${{ github.ref == 'refs/heads/main' }}
+      #   run: npm run deploy --prefix functions
