@@ -10,10 +10,6 @@ import FirebaseFirestore
 
 struct OSMatch: Codable {
     
-//    enum CodingKeys: String, CodingKey {
-//        case sport, winner, loser, loserDelta, winnerDelta
-//    }
-    
     private static var dateFormatter: DateFormatter {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
