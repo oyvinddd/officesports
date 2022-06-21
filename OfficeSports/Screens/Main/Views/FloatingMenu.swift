@@ -19,6 +19,10 @@ protocol FloatingMenuDelegate: AnyObject {
     func tableTennisButtonTapped()
     
     func invitesButtonTapped()
+    
+    func foosballButtonDoubleTapped()
+    
+    func tableTennisButtonDoubleTapped()
 }
 
 final class FloatingMenu: UIView {
@@ -44,12 +48,14 @@ final class FloatingMenu: UIView {
     private lazy var mbFoosball: MenuButton = {
         let button = MenuButton(.clear, image: UIImage(named: "Soccer")!.withRenderingMode(.alwaysTemplate))
         button.addTarget(self, action: #selector(foosballButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(foosballButtonDoubleTapped), for: .touchDownRepeat)
         return button
     }()
     
     private lazy var mbTableTennis: MenuButton = {
         let button = MenuButton(.clear, image: UIImage(named: "TableTennis")!.withRenderingMode(.alwaysTemplate))
         button.addTarget(self, action: #selector(tableTennisButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(tableTennisButtonDoubleTapped), for: .touchDownRepeat)
         return button
     }()
     
@@ -143,6 +149,14 @@ final class FloatingMenu: UIView {
     @objc private func invitesButtonTapped(_ sender: MenuButton) {
         feedbackGenerator.impactOccurred()
         delegate?.invitesButtonTapped()
+    }
+    
+    @objc private func foosballButtonDoubleTapped(_ sender: MenuButton) {
+        delegate?.foosballButtonDoubleTapped()
+    }
+    
+    @objc private func tableTennisButtonDoubleTapped(_ sender: MenuButton) {
+        delegate?.tableTennisButtonDoubleTapped()
     }
 }
 

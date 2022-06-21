@@ -133,7 +133,7 @@ final class ProfileView: UIView {
     
     private var subscribers = Set<AnyCancellable>()
     private var account: OSAccount
-    private var isDisplayingCode: Bool = false
+    private var isDisplayingQrCode: Bool = false
     
     init(account: OSAccount, initialSport: OSSport, delegate: ProfileViewDelegate?) {
         self.account = account
@@ -161,13 +161,13 @@ final class ProfileView: UIView {
         
         switch sport {
         case .foosball:
-            sportImageWrapAlpha = 1
+            sportImageWrapAlpha = isDisplayingQrCode ? 0 : 1
             codeImageView.image = foosballCodeImage
             sportImageBackgroundColor = UIColor.OS.Sport.foosball
             foosballEmojiAlpha = 1
             tableTennisEmojiAlpha = 0
         case .tableTennis:
-            sportImageWrapAlpha = 1
+            sportImageWrapAlpha = isDisplayingQrCode ? 0 : 1
             codeImageView.image = tableTennisCodeImage
             sportImageBackgroundColor = UIColor.OS.Sport.tableTennis
             foosballEmojiAlpha = 0
@@ -188,10 +188,10 @@ final class ProfileView: UIView {
     }
     
     func displayQrCode(seconds: Float) {
-        guard !isDisplayingCode else {
+        guard !isDisplayingQrCode else {
             return
         }
-        isDisplayingCode = true
+        isDisplayingQrCode = true
         UIView.animate(withDuration: codeTransitionDuration, delay: 0, options: [.curveEaseOut]) { [weak self] in
             self?.profileImageWrap.alpha = 0
             self?.sportImageWrap.alpha = 0
@@ -202,7 +202,7 @@ final class ProfileView: UIView {
                 self?.sportImageWrap.alpha = 1
                 self?.codeImageWrap.alpha = 0
             } completion: { [weak self] _ in
-                self?.isDisplayingCode = false
+                self?.isDisplayingQrCode = false
             }
         }
     }
