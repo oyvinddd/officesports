@@ -25,6 +25,15 @@ protocol ProfileViewDelegate: AnyObject {
 
 final class ProfileView: UIView {
     
+    private lazy var totalWinsView: UIView = {
+        let view = UIView.createView(UIColor.OS.Text.normal, cornerRadius: 5)
+        view.alpha = 0.8
+        let label = UILabel.createLabel(.white, alignment: .center, text: "🏆 x 0")
+        label.font = UIFont.boldSystemFont(ofSize: 15)
+        NSLayoutConstraint.pinToView(view, label, padding: 6)
+        return view
+    }()
+    
     private lazy var settingsButton: UIButton = {
         let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .semibold, scale: .large)
         let image = UIImage(systemName: "gearshape.fill", withConfiguration: config)
@@ -244,6 +253,7 @@ final class ProfileView: UIView {
     }
     
     private func setupChildViews() {
+        addSubview(totalWinsView)
         addSubview(settingsButton)
         addSubview(codeImageWrap)
         addSubview(profileImageWrap)
@@ -260,6 +270,8 @@ final class ProfileView: UIView {
         NSLayoutConstraint.pinToView(sportImageBackground, tableTennisEmojiLabel)
         
         NSLayoutConstraint.activate([
+            totalWinsView.leftAnchor.constraint(equalTo: leftAnchor, constant: 22),
+            totalWinsView.centerYAnchor.constraint(equalTo: settingsButton.centerYAnchor),
             settingsButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
             settingsButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 10),
             settingsButton.widthAnchor.constraint(equalToConstant: 50),

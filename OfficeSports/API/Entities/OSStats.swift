@@ -17,4 +17,7 @@ struct OSStats: Identifiable, Codable {
     var score: Int
     
     var matchesPlayed: Int
+    
+    // TODO:
+    //var totalWins: Int
 }
