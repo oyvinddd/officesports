@@ -210,7 +210,7 @@ extension ContainerViewController: ProfileViewDelegate {
             return
         }
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-        profileView.displayQrCode(seconds: 2.5)
+        profileView.displayQrCode(seconds: 3)
     }
     
     func settingsButtonTapped() {

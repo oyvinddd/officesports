@@ -10,13 +10,17 @@ import FirebaseFirestore
 
 struct OSMatch: Codable {
     
+    enum CodingKeys: String, CodingKey {
+        case sport, winner, loser, loserDelta, winnerDelta
+    }
+    
     private static var dateFormatter: DateFormatter {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
         return dateFormatter
     }
     
-    var date: Timestamp
+    var date: Timestamp?
     
     var sport: OSSport
     
@@ -29,6 +33,9 @@ struct OSMatch: Codable {
     var winnerDelta: Int
     
     func dateToString() -> String {
+        guard let date = date else {
+            return ""
+        }
         return OSMatch.dateFormatter.string(from: date.dateValue())
     }
 }

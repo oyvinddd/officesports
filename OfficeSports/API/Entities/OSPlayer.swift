@@ -50,7 +50,7 @@ struct OSPlayer: Identifiable, Codable {
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        //id = try? container.decode(String.self, forKey: .id)
+        // id = try? container.decode(String.self, forKey: .id)
         nickname = try container.decode(String.self, forKey: .nickname)
         emoji = try container.decode(String.self, forKey: .emoji)
         foosballStats = try? container.decode(OSStats.self, forKey: .foosballStats)
