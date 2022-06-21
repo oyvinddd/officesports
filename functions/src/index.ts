@@ -119,5 +119,7 @@ export const winMatch = functions.https.onRequest(async (request, response) => {
   updatePlayer(winner);
   updatePlayer(loser);
 
+  console.log({ match });
+
   response.send(match);
 });
