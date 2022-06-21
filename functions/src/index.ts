@@ -1,4 +1,5 @@
 import EloRating from "elo-rating";
+import * as firebase from "firebase-admin";
 import * as functions from "firebase-functions";
 import HttpStatus from "http-status-enum";
 import { sendErrorStatus } from "./helpers/api.helpers";
@@ -81,7 +82,7 @@ export const winMatch = functions.https.onRequest(async (request, response) => {
   console.log({ newWinnerScore, newLoserScore });
 
   const match: Match = {
-    date: new Date().toISOString(),
+    date: new firebase.firestore.Timestamp(Date.now() / 1000, 0),
     sport,
     winner,
     loser,
