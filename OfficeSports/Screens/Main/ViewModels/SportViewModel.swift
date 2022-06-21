@@ -31,6 +31,11 @@ final class SportViewModel {
         self.sport = sport
     }
     
+    func fetchSportData() {
+        fetchScoreboard()
+        fetchRecentMatches()
+    }
+    
     func fetchScoreboard() {
         state = .loading
         

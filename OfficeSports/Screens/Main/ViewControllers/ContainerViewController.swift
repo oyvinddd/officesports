@@ -92,8 +92,10 @@ final class ContainerViewController: UIViewController {
         configureTableViewInsets()
     }
     
-    func resetScrollViewsToInitialPosition() {
+    func resetScrollViewsAndReloadData() {
         scrollToViewController(foosballViewController, animated: true)
+        foosballViewController.reloadSportData()
+        tableTennisViewController.reloadSportData()
     }
     
     private func setupChildViews() {

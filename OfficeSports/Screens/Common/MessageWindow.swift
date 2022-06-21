@@ -7,16 +7,14 @@
 
 import UIKit
 
-private let messageMaxOpacity: CGFloat = 0.85
+private let messageMaxOpacity: CGFloat = 0.9
 private let messageMinOpacity: CGFloat = 0
 private let messageAnimateDuration: TimeInterval = 0.2  // seconds
-private let messageDisplayDuration: TimeInterval = 2.5  // seconds
+private let messageDisplayDuration: TimeInterval = 3.5  // seconds
 
 final class MessageWindow: UIWindow {
     
-    private lazy var windowViewController: WindowViewController = {
-        return WindowViewController()
-    }()
+    private var windowViewController = WindowViewController()
     
     init() {
         super.init(frame: UIScreen.main.bounds)
@@ -118,6 +116,7 @@ private final class MessageView: UIView {
     private lazy var messageLabel: UILabel = {
         let label = UILabel.createLabel(.white, alignment: .left)
         label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.numberOfLines = 5
         return label
     }()
     

@@ -59,13 +59,16 @@ final class SportViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.fetchRecentMatches()
-        viewModel.fetchScoreboard()
+        viewModel.fetchSportData()
     }
     
     func applyContentInsetToTableView(_ contentInset: UIEdgeInsets) {
         tableView.contentInset = contentInset
         scrollTableViewToTop(animated: false)
+    }
+    
+    func reloadSportData() {
+        viewModel.fetchSportData()
     }
     
     private func scrollTableViewToTop(animated: Bool) {
@@ -113,8 +116,7 @@ final class SportViewController: UIViewController {
     }
     
     @objc private func refreshPulled(_ sender: UIRefreshControl) {
-        viewModel.fetchRecentMatches()
-        viewModel.fetchScoreboard()
+        viewModel.fetchSportData()
     }
 }
 

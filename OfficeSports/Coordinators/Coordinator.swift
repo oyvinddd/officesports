@@ -34,6 +34,20 @@ final class Coordinator {
         didSet { updateRootViewController(animated: true) }
     }
     
+    private lazy var welcomeViewController: WelcomeViewController = {
+        let viewModel = AuthViewModel(api: FirebaseSportsAPI())
+        return WelcomeViewController(viewModel: viewModel)
+    }()
+    
+    private lazy var containerViewController: ContainerViewController = {
+       return ContainerViewController(viewModel: PlayerProfileViewModel(api: FirebaseSportsAPI()))
+    }()
+    
+    private lazy var playerProfileViewController: PlayerProfileViewController = {
+        let viewModel = PlayerProfileViewModel(api: FirebaseSportsAPI())
+        return PlayerProfileViewController(viewModel: viewModel)
+    }()
+    
     init(account: OSAccount, window: UIWindow?) {
         self.account = account
         self.window = window
@@ -70,15 +84,15 @@ final class Coordinator {
     }
     
     func presentSettings(from viewController: UIViewController) {
-        viewController.present(settingsViewController, animated: false)
+        viewController.present(SettingsViewController(), animated: false)
     }
     
     func presentPreferences(from viewController: UIViewController) {
-        viewController.present(preferencesViewController, animated: true)
+        viewController.present(PreferencesViewController(), animated: true)
     }
     
     func presentAbout(from viewController: UIViewController) {
-        viewController.present(aboutViewController, animated: true)
+        viewController.present(AboutViewController(), animated: true)
     }
     
     func presentEmojiPicker(from parent: UIViewController, emojis: [String], animated: Bool = true) {
@@ -98,12 +112,11 @@ final class Coordinator {
         window?.rootViewController?.present(viewController, animated: false)
     }
     
-    func resetMainScrollViews() {
-        containerViewController.resetScrollViewsToInitialPosition()
-    }
-    
-    func showConfetti(seconds: Float) {
-        messageWindow.showConfetti(seconds: seconds)
+    func resetUIAfterMatchRegistration() {
+        // initial position meaning outer scroll view shows sports
+        // part (not the camera) and inner scroll view shows foosball screen
+        containerViewController.resetScrollViewsAndReloadData()
+        messageWindow.showConfetti(seconds: 5)
     }
     
     private func updateRootViewController(animated: Bool) {
@@ -114,9 +127,7 @@ final class Coordinator {
         switch currentState {
         case .authorized:
             viewController = containerViewController
-        case .missingProfileDetails:
-            viewController = playerProfileViewController
-        case .missingOrg:
+        case .missingProfileDetails, .missingOrg:
             viewController = playerProfileViewController
         case .unauthorized:
             viewController = welcomeViewController
@@ -137,37 +148,5 @@ final class Coordinator {
                 completion: nil
             )
         }
-    }
-}
-
-// MARK: - Main Application View Controllers
-
-extension Coordinator {
-    
-    var welcomeViewController: WelcomeViewController {
-        let viewModel = AuthViewModel(api: FirebaseSportsAPI())
-        return WelcomeViewController(viewModel: viewModel)
-    }
-    
-    var playerProfileViewController: PlayerProfileViewController {
-        let viewModel = PlayerProfileViewModel(api: FirebaseSportsAPI())
-        return PlayerProfileViewController(viewModel: viewModel)
-    }
-    
-    var containerViewController: ContainerViewController {
-        let viewModel = PlayerProfileViewModel(api: FirebaseSportsAPI())
-        return ContainerViewController(viewModel: viewModel)
-    }
-    
-    var settingsViewController: SettingsViewController {
-        return SettingsViewController()
-    }
-    
-    var preferencesViewController: PreferencesViewController {
-        return PreferencesViewController()
-    }
-    
-    var aboutViewController: AboutViewController {
-        return AboutViewController()
     }
 }

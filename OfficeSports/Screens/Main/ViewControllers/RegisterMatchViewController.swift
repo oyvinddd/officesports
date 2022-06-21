@@ -115,7 +115,7 @@ final class RegisterMatchViewController: UIViewController {
                 case .loading:
                     self.registerButton.buttonState = .loading
                 case .success(let match):
-                    let message = OSMessage("Congratulations! You gained \(match.winnerDelta) points from your win against \(match.loser.nickname)", .success)
+                    let message = OSMessage("Congratulations! You gained \(match.winnerDelta) points from your win against \(match.loser.nickname) 🤟", .success)
                     Coordinator.global.send(message)
                     self.registerButton.buttonState = .normal
                     self.toggleDialog(enabled: false) { [unowned self] in
