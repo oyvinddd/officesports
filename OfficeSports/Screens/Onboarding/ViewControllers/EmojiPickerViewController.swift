@@ -11,7 +11,7 @@ final class EmojiPickerViewController: UIViewController {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel.createLabel(UIColor.OS.Text.normal, text: "Pick an emoji")
-        label.font = UIFont.boldSystemFont(ofSize: 24)
+        label.font = UIFont.boldSystemFont(ofSize: 26)
         return label
     }()
     
@@ -60,9 +60,9 @@ final class EmojiPickerViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
-            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 16),
+            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
             closeButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
-            closeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 16),
+            closeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
             closeButton.widthAnchor.constraint(equalToConstant: 32),
             closeButton.heightAnchor.constraint(equalTo: closeButton.widthAnchor),
             collectionView.leftAnchor.constraint(equalTo: view.leftAnchor),

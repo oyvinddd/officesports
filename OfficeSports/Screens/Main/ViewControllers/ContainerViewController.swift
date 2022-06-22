@@ -27,7 +27,9 @@ final class ContainerViewController: UIViewController {
     }()
     
     private lazy var profileView: ProfileView = {
-        return ProfileView(account: OSAccount.current, initialSport: .foosball, delegate: self)
+        let screenIndex = UserDefaultsHelper.loadDefaultScreen()
+        let initialSport = screenIndex == 2 ? OSSport.tableTennis : OSSport.foosball
+        return ProfileView(account: OSAccount.current, initialSport: initialSport, delegate: self)
     }()
     
     private lazy var outerScrollView: UIScrollView = {
@@ -88,7 +90,7 @@ final class ContainerViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        scrollToViewController(foosballViewController)
+        showDefaultViewController(animated: false)
         configureTableViewInsets()
     }
     
@@ -189,6 +191,18 @@ final class ContainerViewController: UIViewController {
             return true
         }
         return innerScrollView.contentOffset.x == viewController.view.frame.minX
+    }
+    
+    private func showDefaultViewController(animated: Bool) {
+        let defaultIndex = UserDefaultsHelper.loadDefaultScreen()
+        switch defaultIndex {
+        case 0: // scanner screen
+            scrollToViewController(scannerViewController, animated: animated)
+        case 1: // foosball screen
+            scrollToViewController(foosballViewController, animated: animated)
+        default: // table tennis screen
+            scrollToViewController(tableTennisViewController, animated: animated)
+        }
     }
     
     @objc private func scrollViewTapped(_ sender: UITapGestureRecognizer) {

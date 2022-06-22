@@ -9,13 +9,14 @@ import Foundation
 
 private let userDefaultsPlayerKey = "player"
 private let userDefaultsInviteTimestampKey = "inviteTimestamp"
+private let userDefaultsDefaultScreenKey = "defaultScreen"
 
 struct UserDefaultsHelper {
     
+    private static let defaults = UserDefaults.standard
+    
     static func savePlayerProfile(_ player: OSPlayer) -> Bool {
         let encoder = JSONEncoder()
-        let defaults = UserDefaults.standard
-        
         if let encodedPlayer = try? encoder.encode(player) {
             defaults.set(encodedPlayer, forKey: userDefaultsPlayerKey)
             return true
@@ -24,7 +25,6 @@ struct UserDefaultsHelper {
     }
     
     static func loadPlayerProfile() -> OSPlayer? {
-        let defaults = UserDefaults.standard
         if let encodedPlayer = defaults.object(forKey: userDefaultsPlayerKey) as? Data {
             let decoder = JSONDecoder()
             let decodedPlayer = try? decoder.decode(OSPlayer.self, from: encodedPlayer)
@@ -34,14 +34,29 @@ struct UserDefaultsHelper {
     }
     
     static func saveInviteTimestamp(_ timestamp: Date) {
-        let defaults = UserDefaults.standard
         defaults.set(timestamp.timeIntervalSince1970, forKey: userDefaultsInviteTimestampKey)
     }
     
     static func loadInviteTimestamp() -> Date? {
-        let defaults = UserDefaults.standard
         let timestampDouble = defaults.double(forKey: userDefaultsInviteTimestampKey)
         return Date(timeIntervalSince1970: timestampDouble)
+    }
+    
+    static func saveDefaultScreen(index: Int) {
+        var validIndex = index
+        if validIndex < 0 {
+            validIndex = 0
+        } else if validIndex > 2 {
+            validIndex = 2
+        }
+        defaults.set(validIndex, forKey: userDefaultsDefaultScreenKey)
+    }
+    
+    static func loadDefaultScreen() -> Int {
+        if let defaultScreenIndex = defaults.value(forKey: userDefaultsDefaultScreenKey) as? Int {
+            return defaultScreenIndex
+        }
+        return 1 // 1 = foosball screen is the fallback
     }
     
     static func clearProfileDetails() {
