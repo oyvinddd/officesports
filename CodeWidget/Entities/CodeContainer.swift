@@ -10,6 +10,8 @@ import Foundation
 struct CodeContainer {
     
     var nickname: String
+    
+    var userId: String? = UserDefaults.CodeWidget.loadCodePayload()?.userId
 }
 
 extension CodeContainer {

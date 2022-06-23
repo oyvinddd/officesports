@@ -44,6 +44,7 @@
 		8E3F337C286520310061CD6B /* OSCodePayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1387A2837CF3A001D8DA6 /* OSCodePayload.swift */; };
 		8E3F337D2865203F0061CD6B /* OSSport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE558342847B0B400199CC6 /* OSSport.swift */; };
 		8E3F337E2865210C0061CD6B /* UserDefaults+CodeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3F337A28651F340061CD6B /* UserDefaults+CodeWidget.swift */; };
+		8E3F337F286531430061CD6B /* CodeGen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D9A7E282BEF66007BCDE0 /* CodeGen.swift */; };
 		8E457B942860C03D00F9D133 /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E457B932860C03D00F9D133 /* ConfettiView.swift */; };
 		8E6995D52844E0CE001355D2 /* LocalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6995D42844E0CE001355D2 /* LocalNotificationManager.swift */; };
 		8E6B33E028426DFB00E73EDD /* ScannerFrameLinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6B33DF28426DFB00E73EDD /* ScannerFrameLinesView.swift */; };
@@ -738,6 +739,7 @@
 				8E3F33712864E37C0061CD6B /* CodeContainer.swift in Sources */,
 				8E3F33642864E1720061CD6B /* CodeWidget.swift in Sources */,
 				8E3F337D2865203F0061CD6B /* OSSport.swift in Sources */,
+				8E3F337F286531430061CD6B /* CodeGen.swift in Sources */,
 				8E3F337E2865210C0061CD6B /* UserDefaults+CodeWidget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -48,14 +48,18 @@ final class ProfileView: UIView {
         guard let payload = OSAccount.current.qrCodePayloadForSport(.tableTennis) else {
             return nil
         }
-        return CodeGen.generateQRCode(from: payload)
+        let color = UIColor.OS.Text.normal
+        let backgroundColor = UIColor.white
+        return CodeGen.generateQRCode(from: payload, color: color, backgroundColor: backgroundColor)
     }()
     
     private lazy var foosballCodeImage: UIImage? = {
         guard let payload = OSAccount.current.qrCodePayloadForSport(.foosball) else {
             return nil
         }
-        return CodeGen.generateQRCode(from: payload)
+        let color = UIColor.OS.Text.normal
+        let backgroundColor = UIColor.white
+        return CodeGen.generateQRCode(from: payload, color: color, backgroundColor: backgroundColor)
     }()
     
     private lazy var codeImageView: UIImageView = {
