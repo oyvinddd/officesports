@@ -59,11 +59,6 @@
 		8E7D0AC72838D7A1006D6DF7 /* UICollectionView+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D0AC62838D7A1006D6DF7 /* UICollectionView+Util.swift */; };
 		8E7D0ACC28391A9E006D6DF7 /* emojis.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8E7D0ACB28391A9E006D6DF7 /* emojis.csv */; };
 		8E7D9A7F282BEF66007BCDE0 /* CodeGen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D9A7E282BEF66007BCDE0 /* CodeGen.swift */; };
-		8E7F45BD2862948100473557 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E7F45BC2862948100473557 /* WidgetKit.framework */; };
-		8E7F45BF2862948100473557 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E7F45BE2862948100473557 /* SwiftUI.framework */; };
-		8E7F45C22862948100473557 /* QRCodeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7F45C12862948100473557 /* QRCodeWidget.swift */; };
-		8E7F45C42862948200473557 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E7F45C32862948200473557 /* Assets.xcassets */; };
-		8E7F45C82862948200473557 /* QRCodeWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 8E7F45BA2862948100473557 /* QRCodeWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8E973322283231F40012E236 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E973321283231F40012E236 /* SettingsViewModel.swift */; };
 		8E9849C8282BCDC80020266B /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9849C7282BCDC80020266B /* CircleView.swift */; };
 		8E9C7289283AB3C800974DAA /* OSOrganization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9C7288283AB3C800974DAA /* OSOrganization.swift */; };
@@ -89,16 +84,6 @@
 		8EF9DD47285DE32900088A60 /* RegisterMatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF9DD46285DE32900088A60 /* RegisterMatchViewController.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		8E7F45C62862948200473557 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8EE61FE3282AB79C00C01289 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8E7F45B92862948100473557;
-			remoteInfo = QRCodeWidgetExtension;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		8E7F45C92862948200473557 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -106,7 +91,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				8E7F45C82862948200473557 /* QRCodeWidgetExtension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -163,7 +147,6 @@
 		8E7D0AC62838D7A1006D6DF7 /* UICollectionView+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Util.swift"; sourceTree = "<group>"; };
 		8E7D0ACB28391A9E006D6DF7 /* emojis.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = emojis.csv; sourceTree = "<group>"; };
 		8E7D9A7E282BEF66007BCDE0 /* CodeGen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGen.swift; sourceTree = "<group>"; };
-		8E7F45BA2862948100473557 /* QRCodeWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = QRCodeWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E7F45BC2862948100473557 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		8E7F45BE2862948100473557 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		8E7F45C12862948100473557 /* QRCodeWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeWidget.swift; sourceTree = "<group>"; };
@@ -198,15 +181,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		8E7F45B72862948100473557 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8E7F45BF2862948100473557 /* SwiftUI.framework in Frameworks */,
-				8E7F45BD2862948100473557 /* WidgetKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		8EE61FE8282AB79C00C01289 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -513,7 +487,6 @@
 			isa = PBXGroup;
 			children = (
 				8EE61FEB282AB79C00C01289 /* OfficeSports.app */,
-				8E7F45BA2862948100473557 /* QRCodeWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -559,23 +532,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8E7F45B92862948100473557 /* QRCodeWidgetExtension */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 8E7F45CC2862948200473557 /* Build configuration list for PBXNativeTarget "QRCodeWidgetExtension" */;
-			buildPhases = (
-				8E7F45B62862948100473557 /* Sources */,
-				8E7F45B72862948100473557 /* Frameworks */,
-				8E7F45B82862948100473557 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = QRCodeWidgetExtension;
-			productName = QRCodeWidgetExtension;
-			productReference = 8E7F45BA2862948100473557 /* QRCodeWidgetExtension.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
 		8EE61FEA282AB79C00C01289 /* OfficeSports */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8EE61FFF282AB79D00C01289 /* Build configuration list for PBXNativeTarget "OfficeSports" */;
@@ -590,7 +546,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				8E7F45C72862948200473557 /* PBXTargetDependency */,
 			);
 			name = OfficeSports;
 			packageProductDependencies = (
@@ -613,9 +568,6 @@
 				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1330;
 				TargetAttributes = {
-					8E7F45B92862948100473557 = {
-						CreatedOnToolsVersion = 13.4.1;
-					};
 					8EE61FEA282AB79C00C01289 = {
 						CreatedOnToolsVersion = 13.3.1;
 					};
@@ -640,20 +592,11 @@
 			projectRoot = "";
 			targets = (
 				8EE61FEA282AB79C00C01289 /* OfficeSports */,
-				8E7F45B92862948100473557 /* QRCodeWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		8E7F45B82862948100473557 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8E7F45C42862948200473557 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		8EE61FE9282AB79C00C01289 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -707,14 +650,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		8E7F45B62862948100473557 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8E7F45C22862948100473557 /* QRCodeWidget.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		8EE61FE7282AB79C00C01289 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -789,14 +724,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		8E7F45C72862948200473557 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8E7F45B92862948100473557 /* QRCodeWidgetExtension */;
-			targetProxy = 8E7F45C62862948200473557 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
 		8EE61FF9282AB79D00C01289 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -809,64 +736,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		8E7F45CA2862948200473557 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2SMFLM66R9;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = QRCodeWidget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = QRCodeWidget;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tietoevry.officesports.qrcodewidget;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-			};
-			name = Debug;
-		};
-		8E7F45CB2862948200473557 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2SMFLM66R9;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = QRCodeWidget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = QRCodeWidget;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tietoevry.officesports.qrcodewidget;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-			};
-			name = Release;
-		};
 		8EE61FFD282AB79D00C01289 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1056,15 +925,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8E7F45CC2862948200473557 /* Build configuration list for PBXNativeTarget "QRCodeWidgetExtension" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				8E7F45CA2862948200473557 /* Debug */,
-				8E7F45CB2862948200473557 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		8EE61FE6282AB79C00C01289 /* Build configuration list for PBXProject "OfficeSports" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

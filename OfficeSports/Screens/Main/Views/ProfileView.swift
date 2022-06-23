@@ -151,8 +151,8 @@ final class ProfileView: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         profileEmjoiLabel.text = account.emoji
         nicknameLabel.text = account.nickname?.lowercased()
-        foosballScoreLabel.text = "\(account.player?.foosballStats?.score ?? 0) pts"
-        tableTennisScoreLabel.text = "\(account.player?.tableTennisStats?.score ?? 0) pts"
+        foosballScoreLabel.text = "\(account.player?.foosballStats?.score ?? 1200) pts"
+        tableTennisScoreLabel.text = "\(account.player?.tableTennisStats?.score ?? 1200) pts"
         setupSubscribers()
         setupChildViews()
         configureForSport(initialSport)
