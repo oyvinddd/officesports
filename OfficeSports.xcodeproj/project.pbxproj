@@ -33,6 +33,13 @@
 		8E38B57C283C39A2009E0387 /* UserDefaultsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B57B283C39A2009E0387 /* UserDefaultsHelper.swift */; };
 		8E38B57E283C3D01009E0387 /* AchievementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B57D283C3D01009E0387 /* AchievementsViewController.swift */; };
 		8E38B582283C5895009E0387 /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B581283C5895009E0387 /* PreferencesViewController.swift */; };
+		8E3F33602864E1720061CD6B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E7F45BC2862948100473557 /* WidgetKit.framework */; };
+		8E3F33612864E1720061CD6B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E7F45BE2862948100473557 /* SwiftUI.framework */; };
+		8E3F33642864E1720061CD6B /* CodeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3F33632864E1720061CD6B /* CodeWidget.swift */; };
+		8E3F33662864E1730061CD6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E3F33652864E1730061CD6B /* Assets.xcassets */; };
+		8E3F336A2864E1730061CD6B /* CodeWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 8E3F335F2864E1720061CD6B /* CodeWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		8E3F33712864E37C0061CD6B /* CodeContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3F336F2864E3460061CD6B /* CodeContainer.swift */; };
+		8E3F33752864E8110061CD6B /* CodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3F33732864E79C0061CD6B /* CodeView.swift */; };
 		8E457B942860C03D00F9D133 /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E457B932860C03D00F9D133 /* ConfettiView.swift */; };
 		8E6995D52844E0CE001355D2 /* LocalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6995D42844E0CE001355D2 /* LocalNotificationManager.swift */; };
 		8E6B33E028426DFB00E73EDD /* ScannerFrameLinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6B33DF28426DFB00E73EDD /* ScannerFrameLinesView.swift */; };
@@ -84,6 +91,16 @@
 		8EF9DD47285DE32900088A60 /* RegisterMatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF9DD46285DE32900088A60 /* RegisterMatchViewController.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		8E3F33682864E1730061CD6B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8EE61FE3282AB79C00C01289 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8E3F335E2864E1720061CD6B;
+			remoteInfo = CodeWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		8E7F45C92862948200473557 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -91,6 +108,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				8E3F336A2864E1730061CD6B /* CodeWidgetExtension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -122,6 +140,12 @@
 		8E38B57B283C39A2009E0387 /* UserDefaultsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsHelper.swift; sourceTree = "<group>"; };
 		8E38B57D283C3D01009E0387 /* AchievementsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsViewController.swift; sourceTree = "<group>"; };
 		8E38B581283C5895009E0387 /* PreferencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesViewController.swift; sourceTree = "<group>"; };
+		8E3F335F2864E1720061CD6B /* CodeWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CodeWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E3F33632864E1720061CD6B /* CodeWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeWidget.swift; sourceTree = "<group>"; };
+		8E3F33652864E1730061CD6B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8E3F33672864E1730061CD6B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8E3F336F2864E3460061CD6B /* CodeContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeContainer.swift; sourceTree = "<group>"; };
+		8E3F33732864E79C0061CD6B /* CodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeView.swift; sourceTree = "<group>"; };
 		8E457B932860C03D00F9D133 /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
 		8E6995D42844E0CE001355D2 /* LocalNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManager.swift; sourceTree = "<group>"; };
 		8E6B33DF28426DFB00E73EDD /* ScannerFrameLinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerFrameLinesView.swift; sourceTree = "<group>"; };
@@ -149,9 +173,6 @@
 		8E7D9A7E282BEF66007BCDE0 /* CodeGen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGen.swift; sourceTree = "<group>"; };
 		8E7F45BC2862948100473557 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		8E7F45BE2862948100473557 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		8E7F45C12862948100473557 /* QRCodeWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeWidget.swift; sourceTree = "<group>"; };
-		8E7F45C32862948200473557 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		8E7F45C52862948200473557 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E973321283231F40012E236 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		8E9849C7282BCDC80020266B /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		8E9C7287283A722600974DAA /* OfficeSports.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OfficeSports.entitlements; sourceTree = "<group>"; };
@@ -181,6 +202,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		8E3F335C2864E1720061CD6B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8E3F33612864E1720061CD6B /* SwiftUI.framework in Frameworks */,
+				8E3F33602864E1720061CD6B /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8EE61FE8282AB79C00C01289 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -319,6 +349,34 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		8E3F33622864E1720061CD6B /* CodeWidget */ = {
+			isa = PBXGroup;
+			children = (
+				8E3F33722864E7870061CD6B /* Views */,
+				8E3F336E2864E2B40061CD6B /* Entities */,
+				8E3F33632864E1720061CD6B /* CodeWidget.swift */,
+				8E3F33652864E1730061CD6B /* Assets.xcassets */,
+				8E3F33672864E1730061CD6B /* Info.plist */,
+			);
+			path = CodeWidget;
+			sourceTree = "<group>";
+		};
+		8E3F336E2864E2B40061CD6B /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				8E3F336F2864E3460061CD6B /* CodeContainer.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		8E3F33722864E7870061CD6B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8E3F33732864E79C0061CD6B /* CodeView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		8E70C110282AB9BB009A9452 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -419,24 +477,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		8E7F45C02862948100473557 /* QRCodeWidget */ = {
-			isa = PBXGroup;
-			children = (
-				8E7F45CD286295D700473557 /* Entities */,
-				8E7F45C12862948100473557 /* QRCodeWidget.swift */,
-				8E7F45C32862948200473557 /* Assets.xcassets */,
-				8E7F45C52862948200473557 /* Info.plist */,
-			);
-			path = QRCodeWidget;
-			sourceTree = "<group>";
-		};
-		8E7F45CD286295D700473557 /* Entities */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Entities;
-			sourceTree = "<group>";
-		};
 		8EA2126F283EF16C00B37315 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -477,7 +517,7 @@
 				8E70C13B282BAF51009A9452 /* README.md */,
 				8E9C728A283AB93C00974DAA /* fastlane */,
 				8EE61FED282AB79C00C01289 /* OfficeSports */,
-				8E7F45C02862948100473557 /* QRCodeWidget */,
+				8E3F33622864E1720061CD6B /* CodeWidget */,
 				8E7F45BB2862948100473557 /* Frameworks */,
 				8EE61FEC282AB79C00C01289 /* Products */,
 			);
@@ -487,6 +527,7 @@
 			isa = PBXGroup;
 			children = (
 				8EE61FEB282AB79C00C01289 /* OfficeSports.app */,
+				8E3F335F2864E1720061CD6B /* CodeWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -532,6 +573,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		8E3F335E2864E1720061CD6B /* CodeWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8E3F336D2864E1730061CD6B /* Build configuration list for PBXNativeTarget "CodeWidgetExtension" */;
+			buildPhases = (
+				8E3F335B2864E1720061CD6B /* Sources */,
+				8E3F335C2864E1720061CD6B /* Frameworks */,
+				8E3F335D2864E1720061CD6B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CodeWidgetExtension;
+			productName = CodeWidgetExtension;
+			productReference = 8E3F335F2864E1720061CD6B /* CodeWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		8EE61FEA282AB79C00C01289 /* OfficeSports */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8EE61FFF282AB79D00C01289 /* Build configuration list for PBXNativeTarget "OfficeSports" */;
@@ -546,6 +604,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				8E3F33692864E1730061CD6B /* PBXTargetDependency */,
 			);
 			name = OfficeSports;
 			packageProductDependencies = (
@@ -568,6 +627,9 @@
 				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1330;
 				TargetAttributes = {
+					8E3F335E2864E1720061CD6B = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
 					8EE61FEA282AB79C00C01289 = {
 						CreatedOnToolsVersion = 13.3.1;
 					};
@@ -592,11 +654,20 @@
 			projectRoot = "";
 			targets = (
 				8EE61FEA282AB79C00C01289 /* OfficeSports */,
+				8E3F335E2864E1720061CD6B /* CodeWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		8E3F335D2864E1720061CD6B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8E3F33662864E1730061CD6B /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8EE61FE9282AB79C00C01289 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -650,6 +721,16 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		8E3F335B2864E1720061CD6B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8E3F33752864E8110061CD6B /* CodeView.swift in Sources */,
+				8E3F33712864E37C0061CD6B /* CodeContainer.swift in Sources */,
+				8E3F33642864E1720061CD6B /* CodeWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8EE61FE7282AB79C00C01289 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -724,6 +805,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		8E3F33692864E1730061CD6B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8E3F335E2864E1720061CD6B /* CodeWidgetExtension */;
+			targetProxy = 8E3F33682864E1730061CD6B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		8EE61FF9282AB79D00C01289 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -736,6 +825,64 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		8E3F336B2864E1730061CD6B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2SMFLM66R9;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CodeWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = CodeWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tietoevry.officesports.CodeWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8E3F336C2864E1730061CD6B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2SMFLM66R9;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CodeWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = CodeWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tietoevry.officesports.CodeWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		8EE61FFD282AB79D00C01289 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -925,6 +1072,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8E3F336D2864E1730061CD6B /* Build configuration list for PBXNativeTarget "CodeWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8E3F336B2864E1730061CD6B /* Debug */,
+				8E3F336C2864E1730061CD6B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		8EE61FE6282AB79C00C01289 /* Build configuration list for PBXProject "OfficeSports" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

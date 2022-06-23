@@ -14,13 +14,8 @@ import GoogleSignIn
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        configureGlobalAppearance()
         FirebaseApp.configure()
-        
-        window = UIWindow(frame: UIScreen.main.bounds)
-        Coordinator.global.window = window
-        Coordinator.global.checkAndHandleAppState()
-        
+        setRootViewControllerAndTakeAction(window: &window)
         return true
     }
     
@@ -32,6 +27,9 @@ import GoogleSignIn
         return GIDSignIn.sharedInstance.handle(url)
     }
     
-    private func configureGlobalAppearance() {
+    func setRootViewControllerAndTakeAction(window: inout UIWindow?) {
+        window = UIWindow(frame: UIScreen.main.bounds)
+        Coordinator.global.window = window
+        Coordinator.global.checkAndHandleAppState()
     }
 }
