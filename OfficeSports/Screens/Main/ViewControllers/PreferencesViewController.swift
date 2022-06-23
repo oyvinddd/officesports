@@ -53,7 +53,7 @@ final class PreferencesViewController: UIViewController {
     }()
     
     private lazy var defaultScreenControl: UISegmentedControl = {
-        let items = ["📸", "⚽️", "🏓"]
+        let items = ["📸", "🏓", "⚽️"]
         let segmentedControl = UISegmentedControl(items: items)
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         segmentedControl.addTarget(self, action: #selector(screenControlTapped), for: .valueChanged)

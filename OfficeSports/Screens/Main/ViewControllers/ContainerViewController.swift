@@ -56,13 +56,13 @@ final class ContainerViewController: UIViewController {
         return ScannerViewController()
     }()
     
-    private lazy var foosballViewController: SportViewController = {
-        let viewModel = SportViewModel(api: FirebaseSportsAPI(), sport: .foosball)
+    private lazy var tableTennisViewController: SportViewController = {
+        let viewModel = SportViewModel(api: FirebaseSportsAPI(), sport: .tableTennis)
         return SportViewController(viewModel: viewModel, delegate: self)
     }()
     
-    private lazy var tableTennisViewController: SportViewController = {
-        let viewModel = SportViewModel(api: FirebaseSportsAPI(), sport: .tableTennis)
+    private lazy var foosballViewController: SportViewController = {
+        let viewModel = SportViewModel(api: FirebaseSportsAPI(), sport: .foosball)
         return SportViewController(viewModel: viewModel, delegate: self)
     }()
     
@@ -95,7 +95,7 @@ final class ContainerViewController: UIViewController {
     }
     
     func resetScrollViewsAndReloadData() {
-        scrollToViewController(foosballViewController, animated: true)
+        scrollToViewController(tableTennisViewController, animated: true)
         foosballViewController.reloadSportData()
         tableTennisViewController.reloadSportData()
     }
@@ -143,25 +143,25 @@ final class ContainerViewController: UIViewController {
     
     private func setupChildViewControllers() {
         scannerViewController.didMove(toParent: self)
-        foosballViewController.didMove(toParent: self)
         tableTennisViewController.didMove(toParent: self)
+        foosballViewController.didMove(toParent: self)
         invitesViewController.didMove(toParent: self)
         
-        let foosballView = foosballViewController.view!
         let tableTennisView = tableTennisViewController.view!
+        let foosballView = foosballViewController.view!
         let invitesView = invitesViewController.view!
         
-        innerStackView.addArrangedSubview(foosballView)
         innerStackView.addArrangedSubview(tableTennisView)
+        innerStackView.addArrangedSubview(foosballView)
         innerStackView.addArrangedSubview(invitesView)
         
         NSLayoutConstraint.activate([
             invitesView.widthAnchor.constraint(equalTo: view.widthAnchor),
             invitesView.heightAnchor.constraint(equalTo: view.heightAnchor),
-            foosballView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            foosballView.heightAnchor.constraint(equalTo: view.heightAnchor),
             tableTennisView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            tableTennisView.heightAnchor.constraint(equalTo: view.heightAnchor)
+            tableTennisView.heightAnchor.constraint(equalTo: view.heightAnchor),
+            foosballView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            foosballView.heightAnchor.constraint(equalTo: view.heightAnchor)
         ])
     }
     
@@ -170,8 +170,8 @@ final class ContainerViewController: UIViewController {
         let topInset = profileView.frame.maxY
         let bottomInset = view.frame.height - floatingMenu.frame.minY + padding
         let contentInset = UIEdgeInsets(top: topInset, left: 0, bottom: bottomInset, right: 0)
-        foosballViewController.applyContentInsetToTableView(contentInset)
         tableTennisViewController.applyContentInsetToTableView(contentInset)
+        foosballViewController.applyContentInsetToTableView(contentInset)
         invitesViewController.applyContentInsetToTableView(contentInset)
     }
     
@@ -198,17 +198,17 @@ final class ContainerViewController: UIViewController {
         switch defaultIndex {
         case 0: // scanner screen
             scrollToViewController(scannerViewController, animated: animated)
-        case 1: // foosball screen
-            scrollToViewController(foosballViewController, animated: animated)
-        default: // table tennis screen
+        case 1: // table tennis screen
             scrollToViewController(tableTennisViewController, animated: animated)
+        default: // foosball screen
+            scrollToViewController(foosballViewController, animated: animated)
         }
     }
     
     @objc private func scrollViewTapped(_ sender: UITapGestureRecognizer) {
         let touchPoint = sender.location(ofTouch: 0, in: view)
-        if isShowingViewController(foosballViewController)
-            || isShowingViewController(tableTennisViewController)
+        if isShowingViewController(tableTennisViewController)
+            || isShowingViewController(foosballViewController)
             || isShowingViewController(invitesViewController) {
             profileView.handleTouch(point: touchPoint)
         }
@@ -303,10 +303,10 @@ extension ContainerViewController: UIScrollViewDelegate {
         let width = scrollView.frame.width
         // update profile view based on inner scroll view content offset
         if scrollView == innerScrollView {
-            if xOffset < width { // foosball screen is showing
-                profileView.configureForSport(.foosball)
-            } else if xOffset < width * 2 { // table tennis screen is showing
+            if xOffset < width { // table tennis screen is showing
                 profileView.configureForSport(.tableTennis)
+            } else if xOffset < width * 2 { // foosball screen is showing
+                profileView.configureForSport(.foosball)
             } else if xOffset >= width * 2 { // invites screen is showing
                 profileView.configureForSport(.unknown)
             }

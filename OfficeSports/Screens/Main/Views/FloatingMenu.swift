@@ -14,15 +14,15 @@ protocol FloatingMenuDelegate: AnyObject {
     
     func scannerButtonTapped()
     
-    func foosballButtonTapped()
-    
     func tableTennisButtonTapped()
+    
+    func foosballButtonTapped()
     
     func invitesButtonTapped()
     
-    func foosballButtonDoubleTapped()
-    
     func tableTennisButtonDoubleTapped()
+    
+    func foosballButtonDoubleTapped()
 }
 
 final class FloatingMenu: UIView {
@@ -45,17 +45,17 @@ final class FloatingMenu: UIView {
         return button
     }()
     
-    private lazy var mbFoosball: MenuButton = {
-        let button = MenuButton(.clear, image: UIImage(named: "Soccer")!.withRenderingMode(.alwaysTemplate))
-        button.addTarget(self, action: #selector(foosballButtonTapped), for: .touchUpInside)
-        button.addTarget(self, action: #selector(foosballButtonDoubleTapped), for: .touchDownRepeat)
-        return button
-    }()
-    
     private lazy var mbTableTennis: MenuButton = {
         let button = MenuButton(.clear, image: UIImage(named: "TableTennis")!.withRenderingMode(.alwaysTemplate))
         button.addTarget(self, action: #selector(tableTennisButtonTapped), for: .touchUpInside)
         button.addTarget(self, action: #selector(tableTennisButtonDoubleTapped), for: .touchDownRepeat)
+        return button
+    }()
+    
+    private lazy var mbFoosball: MenuButton = {
+        let button = MenuButton(.clear, image: UIImage(named: "Soccer")!.withRenderingMode(.alwaysTemplate))
+        button.addTarget(self, action: #selector(foosballButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(foosballButtonDoubleTapped), for: .touchDownRepeat)
         return button
     }()
     
@@ -108,8 +108,8 @@ final class FloatingMenu: UIView {
         NSLayoutConstraint.pinToView(self, stackView)
         
         stackView.addArrangedSubview(mbScanner)
-        stackView.addArrangedSubview(mbFoosball)
         stackView.addArrangedSubview(mbTableTennis)
+        stackView.addArrangedSubview(mbFoosball)
         stackView.addArrangedSubview(mbInvites)
         
         selectedViewLeftConstraint = selectedView.leftAnchor.constraint(equalTo: leftAnchor)
@@ -136,14 +136,14 @@ final class FloatingMenu: UIView {
         delegate?.scannerButtonTapped()
     }
     
-    @objc private func foosballButtonTapped(_ sender: MenuButton) {
-        feedbackGenerator.impactOccurred()
-        delegate?.foosballButtonTapped()
-    }
-    
     @objc private func tableTennisButtonTapped(_ sender: MenuButton) {
         feedbackGenerator.impactOccurred()
         delegate?.tableTennisButtonTapped()
+    }
+    
+    @objc private func foosballButtonTapped(_ sender: MenuButton) {
+        feedbackGenerator.impactOccurred()
+        delegate?.foosballButtonTapped()
     }
     
     @objc private func invitesButtonTapped(_ sender: MenuButton) {
@@ -151,12 +151,12 @@ final class FloatingMenu: UIView {
         delegate?.invitesButtonTapped()
     }
     
-    @objc private func foosballButtonDoubleTapped(_ sender: MenuButton) {
-        delegate?.foosballButtonDoubleTapped()
-    }
-    
     @objc private func tableTennisButtonDoubleTapped(_ sender: MenuButton) {
         delegate?.tableTennisButtonDoubleTapped()
+    }
+    
+    @objc private func foosballButtonDoubleTapped(_ sender: MenuButton) {
+        delegate?.foosballButtonDoubleTapped()
     }
 }
 

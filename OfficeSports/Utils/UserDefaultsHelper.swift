@@ -57,7 +57,7 @@ struct UserDefaultsHelper {
         if let defaultScreenIndex = standardDefaults.value(forKey: userDefaultsDefaultScreenKey) as? Int {
             return defaultScreenIndex
         }
-        return 1 // 1 = foosball screen is the fallback
+        return 1 // 1 = table tennis screen is the fallback
     }
     
     static func clearProfileDetails() {

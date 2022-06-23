@@ -44,15 +44,15 @@ final class ProfileView: UIView {
         return button
     }()
     
-    private lazy var foosballCodeImage: UIImage? = {
-        guard let payload = OSAccount.current.qrCodePayloadForSport(.foosball) else {
+    private lazy var tableTennisCodeImage: UIImage? = {
+        guard let payload = OSAccount.current.qrCodePayloadForSport(.tableTennis) else {
             return nil
         }
         return CodeGen.generateQRCode(from: payload)
     }()
     
-    private lazy var tableTennisCodeImage: UIImage? = {
-        guard let payload = OSAccount.current.qrCodePayloadForSport(.tableTennis) else {
+    private lazy var foosballCodeImage: UIImage? = {
+        guard let payload = OSAccount.current.qrCodePayloadForSport(.foosball) else {
             return nil
         }
         return CodeGen.generateQRCode(from: payload)
