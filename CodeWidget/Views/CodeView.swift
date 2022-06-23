@@ -12,7 +12,9 @@ struct CodeView: View {
     var container: CodeContainer
     
     var body: some View {
-        Text(container.nickname)
+        VStack {
+            Text(container.nickname)
+        }
     }
 }
 
