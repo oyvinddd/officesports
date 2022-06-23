@@ -45,7 +45,7 @@ final class MyInvitesViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        viewModel.getActiveInvites()
+        //viewModel.getActiveInvites()
     }
     
     func applyContentInsetToTableView(_ contentInset: UIEdgeInsets) {
@@ -94,7 +94,7 @@ final class MyInvitesViewController: UIViewController {
 extension MyInvitesViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
