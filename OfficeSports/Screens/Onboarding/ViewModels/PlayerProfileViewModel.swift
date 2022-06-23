@@ -71,6 +71,7 @@ final class PlayerProfileViewModel {
             do {
                 let player = try await api.createOrUpdatePlayerProfile(nickname: nickname, emoji: emoji)
                 _ = UserDefaultsHelper.savePlayerProfile(player)
+                _ = UserDefaults.CodeWidget.saveCodePayloadDetails(player.nickname, player.id)
                 OSAccount.current.player = player
                 state = .success(player)
             } catch let error {
@@ -85,6 +86,7 @@ final class PlayerProfileViewModel {
             do {
                 let player = try await api.getPlayerProfile()
                 _ = UserDefaultsHelper.savePlayerProfile(player)
+                _ = UserDefaults.CodeWidget.saveCodePayloadDetails(player.nickname, player.id)
                 OSAccount.current.player = player
                 state = .success(player)
             } catch let error {

@@ -13,19 +13,20 @@ private let userDefaultsDefaultScreenKey = "defaultScreen"
 
 struct UserDefaultsHelper {
     
-    private static let defaults = UserDefaults.standard
+    private static let standardDefaults = UserDefaults.standard
+    private static let sharedDefaults = UserDefaults(suiteName: "group.com.tietoevry.officesports")!
     
     static func savePlayerProfile(_ player: OSPlayer) -> Bool {
         let encoder = JSONEncoder()
         if let encodedPlayer = try? encoder.encode(player) {
-            defaults.set(encodedPlayer, forKey: userDefaultsPlayerKey)
+            standardDefaults.set(encodedPlayer, forKey: userDefaultsPlayerKey)
             return true
         }
         return false
     }
     
     static func loadPlayerProfile() -> OSPlayer? {
-        if let encodedPlayer = defaults.object(forKey: userDefaultsPlayerKey) as? Data {
+        if let encodedPlayer = standardDefaults.object(forKey: userDefaultsPlayerKey) as? Data {
             let decoder = JSONDecoder()
             let decodedPlayer = try? decoder.decode(OSPlayer.self, from: encodedPlayer)
             return decodedPlayer
@@ -34,11 +35,11 @@ struct UserDefaultsHelper {
     }
     
     static func saveInviteTimestamp(_ timestamp: Date) {
-        defaults.set(timestamp.timeIntervalSince1970, forKey: userDefaultsInviteTimestampKey)
+        standardDefaults.set(timestamp.timeIntervalSince1970, forKey: userDefaultsInviteTimestampKey)
     }
     
     static func loadInviteTimestamp() -> Date? {
-        let timestampDouble = defaults.double(forKey: userDefaultsInviteTimestampKey)
+        let timestampDouble = standardDefaults.double(forKey: userDefaultsInviteTimestampKey)
         return Date(timeIntervalSince1970: timestampDouble)
     }
     
@@ -49,11 +50,11 @@ struct UserDefaultsHelper {
         } else if validIndex > 2 {
             validIndex = 2
         }
-        defaults.set(validIndex, forKey: userDefaultsDefaultScreenKey)
+        standardDefaults.set(validIndex, forKey: userDefaultsDefaultScreenKey)
     }
     
     static func loadDefaultScreen() -> Int {
-        if let defaultScreenIndex = defaults.value(forKey: userDefaultsDefaultScreenKey) as? Int {
+        if let defaultScreenIndex = standardDefaults.value(forKey: userDefaultsDefaultScreenKey) as? Int {
             return defaultScreenIndex
         }
         return 1 // 1 = foosball screen is the fallback
@@ -67,4 +68,9 @@ struct UserDefaultsHelper {
             defaults.removeObject(forKey: key)
         }
     }
+}
+
+struct Foo {
+    var id: String
+    
 }

@@ -89,7 +89,7 @@ final class FirebaseSportsAPI: SportsAPI {
         
         let fields = ["nickname", "emoji"]
         let data = ["nickname": nickname, "emoji": emoji]
-        let player = OSPlayer(nickname: nickname, emoji: emoji)
+        let player = OSPlayer(id: uid, nickname: nickname, emoji: emoji)
         
         playersCollection.document(uid).setData(data, mergeFields: fields) { error in
             guard let error = error else {
@@ -107,7 +107,8 @@ final class FirebaseSportsAPI: SportsAPI {
         }
         playersCollection.document(uid).getDocument(as: OSPlayer.self) { fbResult in
             switch fbResult {
-            case .success(let player):
+            case .success(var player):
+                player.id = uid
                 result(.success(player))
             case .failure(let error):
                 result(.failure(error))

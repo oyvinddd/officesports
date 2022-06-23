@@ -40,6 +40,10 @@
 		8E3F336A2864E1730061CD6B /* CodeWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 8E3F335F2864E1720061CD6B /* CodeWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8E3F33712864E37C0061CD6B /* CodeContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3F336F2864E3460061CD6B /* CodeContainer.swift */; };
 		8E3F33752864E8110061CD6B /* CodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3F33732864E79C0061CD6B /* CodeView.swift */; };
+		8E3F337B28651F340061CD6B /* UserDefaults+CodeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3F337A28651F340061CD6B /* UserDefaults+CodeWidget.swift */; };
+		8E3F337C286520310061CD6B /* OSCodePayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1387A2837CF3A001D8DA6 /* OSCodePayload.swift */; };
+		8E3F337D2865203F0061CD6B /* OSSport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE558342847B0B400199CC6 /* OSSport.swift */; };
+		8E3F337E2865210C0061CD6B /* UserDefaults+CodeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3F337A28651F340061CD6B /* UserDefaults+CodeWidget.swift */; };
 		8E457B942860C03D00F9D133 /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E457B932860C03D00F9D133 /* ConfettiView.swift */; };
 		8E6995D52844E0CE001355D2 /* LocalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6995D42844E0CE001355D2 /* LocalNotificationManager.swift */; };
 		8E6B33E028426DFB00E73EDD /* ScannerFrameLinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6B33DF28426DFB00E73EDD /* ScannerFrameLinesView.swift */; };
@@ -147,6 +151,7 @@
 		8E3F336F2864E3460061CD6B /* CodeContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeContainer.swift; sourceTree = "<group>"; };
 		8E3F33732864E79C0061CD6B /* CodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeView.swift; sourceTree = "<group>"; };
 		8E3F33772864F8600061CD6B /* CodeWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CodeWidgetExtension.entitlements; sourceTree = "<group>"; };
+		8E3F337A28651F340061CD6B /* UserDefaults+CodeWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+CodeWidget.swift"; sourceTree = "<group>"; };
 		8E457B932860C03D00F9D133 /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
 		8E6995D42844E0CE001355D2 /* LocalNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManager.swift; sourceTree = "<group>"; };
 		8E6B33DF28426DFB00E73EDD /* ScannerFrameLinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerFrameLinesView.swift; sourceTree = "<group>"; };
@@ -393,6 +398,7 @@
 				8E38B573283B97C8009E0387 /* UIColor+CoreImage.swift */,
 				8E38B575283BC5AD009E0387 /* Bundle+Version.swift */,
 				8E2D0CC0284FB374006FDE2E /* UIStackView+Convenience.swift */,
+				8E3F337A28651F340061CD6B /* UserDefaults+CodeWidget.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -728,8 +734,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E3F33752864E8110061CD6B /* CodeView.swift in Sources */,
+				8E3F337C286520310061CD6B /* OSCodePayload.swift in Sources */,
 				8E3F33712864E37C0061CD6B /* CodeContainer.swift in Sources */,
 				8E3F33642864E1720061CD6B /* CodeWidget.swift in Sources */,
+				8E3F337D2865203F0061CD6B /* OSSport.swift in Sources */,
+				8E3F337E2865210C0061CD6B /* UserDefaults+CodeWidget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -772,6 +781,7 @@
 				8E70C119282ABD6F009A9452 /* UIKit+Factory.swift in Sources */,
 				8E31E23E283649230085238C /* OSInvite.swift in Sources */,
 				8E70C112282ABA4E009A9452 /* NSLayoutConstraint+Util.swift in Sources */,
+				8E3F337B28651F340061CD6B /* UserDefaults+CodeWidget.swift in Sources */,
 				8E70C12B282ACEAF009A9452 /* UIColor+Hex.swift in Sources */,
 				8E31E24028364A6F0085238C /* MyInvitesViewController.swift in Sources */,
 				8EE7939628366B660025AB78 /* Encodable+Dictionary.swift in Sources */,

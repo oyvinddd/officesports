@@ -16,6 +16,7 @@ import GoogleSignIn
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
         setRootViewControllerAndTakeAction(window: &window)
+        print(UserDefaults.CodeWidget.loadCodePayload() ?? "NOOPEEE!!")
         return true
     }
     

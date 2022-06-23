@@ -38,6 +38,7 @@ final class AuthViewModel {
                     // TODO: https://www.appypie.com/combining-network-requests-with-combine-and-swift
                     let player = try await api.getPlayerProfile()
                     _ = UserDefaultsHelper.savePlayerProfile(player)
+                    _ = UserDefaults.CodeWidget.saveCodePayloadDetails(player.nickname, player.id)
                     OSAccount.current.player = player
                 } catch {
                     // this just mean that the user hasn't registered a player profile yet, so just move along
