@@ -226,7 +226,7 @@ extension ContainerViewController: ProfileViewDelegate {
             return
         }
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-        profileView.displayQrCode(seconds: 3)
+        profileView.displayQrCode()
     }
     
     func settingsButtonTapped() {
@@ -256,11 +256,11 @@ extension ContainerViewController: FloatingMenuDelegate {
     }
     
     func foosballButtonDoubleTapped() {
-        profileView.displayQrCode(seconds: 3)
+        profileView.displayQrCode()
     }
     
     func tableTennisButtonDoubleTapped() {
-        profileView.displayQrCode(seconds: 3)
+        profileView.displayQrCode()
     }
 }
 

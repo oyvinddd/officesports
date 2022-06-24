@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 struct CodeGen {
     
@@ -46,5 +47,22 @@ struct CodeGen {
         colorFilter.setValue(color, forKey: "inputColor0")
         colorFilter.setValue(backgroundColor, forKey: "inputColor1")
         return colorFilter.outputImage
+    }
+}
+
+// MARK: - Fetch QR code from the widget
+
+extension CodeGen {
+    
+    static func loadCodePayloadAndGenerateImage() -> Image? {
+        guard let payload = UserDefaults.CodeWidget.loadCodePayload() else {
+            print("Unable to load code payload since it doesn't exist")
+            return nil
+        }
+        guard let qrCodeImage = generateQRCode(from: payload) else {
+            print("Unable to generate QR code from payload")
+            return nil
+        }
+        return Image(uiImage: qrCodeImage)
     }
 }

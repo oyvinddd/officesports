@@ -34,6 +34,10 @@ final class Coordinator {
         didSet { updateRootViewController(animated: true) }
     }
     
+    private lazy var feedbackGenerator: UINotificationFeedbackGenerator = {
+        return UINotificationFeedbackGenerator()
+    }()
+    
     private lazy var welcomeViewController: WelcomeViewController = {
         let viewModel = AuthViewModel(api: FirebaseSportsAPI())
         return WelcomeViewController(viewModel: viewModel)
@@ -114,9 +118,17 @@ final class Coordinator {
     
     func resetUIAfterMatchRegistration() {
         // initial position meaning outer scroll view shows sports
-        // part (not the camera) and inner scroll view shows foosball screen
+        // part (not the camera) and inner scroll view shows table tennis screen
         containerViewController.resetScrollViewsAndReloadData()
         messageWindow.showConfetti(seconds: 5)
+        vibrateDevice(feedbackType: .success)
+    }
+    
+    func vibrateDevice(feedbackType: UINotificationFeedbackGenerator.FeedbackType) {
+        DispatchQueue.main.async { [unowned self] in
+            self.feedbackGenerator.prepare()
+            self.feedbackGenerator.notificationOccurred(feedbackType)
+        }
     }
     
     private func updateRootViewController(animated: Bool) {

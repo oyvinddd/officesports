@@ -13,7 +13,7 @@ private let sportImageDiameter: CGFloat = 60
 private let profileImageRadius: CGFloat = profileImageDiameter / 2
 private let sportImageRadius: CGFloat = sportImageDiameter / 2
 private let codeTransitionDuration: TimeInterval = 0.3          // seconds
-private let codeHideDelayDuration: TimeInterval = 2             // seconds
+private let codeHideDelayDuration: TimeInterval = 4             // seconds
 private let emojiFadeTransitionDuration: TimeInterval = 0.15    // seconds
 
 protocol ProfileViewDelegate: AnyObject {
@@ -200,7 +200,7 @@ final class ProfileView: UIView {
         }
     }
     
-    func displayQrCode(seconds: Float) {
+    func displayQrCode() {
         guard !isDisplayingQrCode else {
             return
         }
@@ -210,7 +210,7 @@ final class ProfileView: UIView {
             self?.sportImageWrap.alpha = 0
             self?.codeImageWrap.alpha = 1
         } completion: { [weak self] _ in
-            UIView.animate(withDuration: codeTransitionDuration, delay: TimeInterval(seconds), options: [.curveEaseOut]) { [weak self] in
+            UIView.animate(withDuration: codeTransitionDuration, delay: codeHideDelayDuration, options: [.curveEaseOut]) { [weak self] in
                 self?.profileImageWrap.alpha = 1
                 self?.sportImageWrap.alpha = 1
                 self?.codeImageWrap.alpha = 0
