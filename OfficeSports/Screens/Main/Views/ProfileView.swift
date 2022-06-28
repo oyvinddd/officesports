@@ -50,7 +50,7 @@ final class ProfileView: UIView {
         }
         let color = UIColor.OS.Text.normal
         let backgroundColor = UIColor.white
-        return CodeGen.generateQRCode(from: payload, color: color, backgroundColor: backgroundColor)
+        return QRCodeGenerator.generate(from: payload, color: color, backgroundColor: backgroundColor)
     }()
     
     private lazy var foosballCodeImage: UIImage? = {
@@ -59,7 +59,7 @@ final class ProfileView: UIView {
         }
         let color = UIColor.OS.Text.normal
         let backgroundColor = UIColor.white
-        return CodeGen.generateQRCode(from: payload, color: color, backgroundColor: backgroundColor)
+        return QRCodeGenerator.generate(from: payload, color: color, backgroundColor: backgroundColor)
     }()
     
     private lazy var codeImageView: UIImageView = {

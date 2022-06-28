@@ -44,7 +44,7 @@
 		8E3F337C286520310061CD6B /* OSCodePayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1387A2837CF3A001D8DA6 /* OSCodePayload.swift */; };
 		8E3F337D2865203F0061CD6B /* OSSport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE558342847B0B400199CC6 /* OSSport.swift */; };
 		8E3F337E2865210C0061CD6B /* UserDefaults+CodeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3F337A28651F340061CD6B /* UserDefaults+CodeWidget.swift */; };
-		8E3F337F286531430061CD6B /* CodeGen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D9A7E282BEF66007BCDE0 /* CodeGen.swift */; };
+		8E3F337F286531430061CD6B /* QRCodeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D9A7E282BEF66007BCDE0 /* QRCodeGenerator.swift */; };
 		8E457B942860C03D00F9D133 /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E457B932860C03D00F9D133 /* ConfettiView.swift */; };
 		8E6995D52844E0CE001355D2 /* LocalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6995D42844E0CE001355D2 /* LocalNotificationManager.swift */; };
 		8E6B33E028426DFB00E73EDD /* ScannerFrameLinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6B33DF28426DFB00E73EDD /* ScannerFrameLinesView.swift */; };
@@ -70,9 +70,10 @@
 		8E7D0AC52838D5C0006D6DF7 /* EmojiCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D0AC42838D5C0006D6DF7 /* EmojiCollectionViewCell.swift */; };
 		8E7D0AC72838D7A1006D6DF7 /* UICollectionView+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D0AC62838D7A1006D6DF7 /* UICollectionView+Util.swift */; };
 		8E7D0ACC28391A9E006D6DF7 /* emojis.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8E7D0ACB28391A9E006D6DF7 /* emojis.csv */; };
-		8E7D9A7F282BEF66007BCDE0 /* CodeGen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D9A7E282BEF66007BCDE0 /* CodeGen.swift */; };
+		8E7D9A7F282BEF66007BCDE0 /* QRCodeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D9A7E282BEF66007BCDE0 /* QRCodeGenerator.swift */; };
 		8E973322283231F40012E236 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E973321283231F40012E236 /* SettingsViewModel.swift */; };
 		8E9849C8282BCDC80020266B /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9849C7282BCDC80020266B /* CircleView.swift */; };
+		8E9888AA286B115300A97552 /* UIColor+CoreImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B573283B97C8009E0387 /* UIColor+CoreImage.swift */; };
 		8E9C7289283AB3C800974DAA /* OSOrganization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9C7288283AB3C800974DAA /* OSOrganization.swift */; };
 		8E9C728B283AB93C00974DAA /* fastlane in Resources */ = {isa = PBXBuildFile; fileRef = 8E9C728A283AB93C00974DAA /* fastlane */; };
 		8EA21271283EF18A00B37315 /* OSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA21270283EF18A00B37315 /* OSButton.swift */; };
@@ -177,7 +178,7 @@
 		8E7D0AC42838D5C0006D6DF7 /* EmojiCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCollectionViewCell.swift; sourceTree = "<group>"; };
 		8E7D0AC62838D7A1006D6DF7 /* UICollectionView+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Util.swift"; sourceTree = "<group>"; };
 		8E7D0ACB28391A9E006D6DF7 /* emojis.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = emojis.csv; sourceTree = "<group>"; };
-		8E7D9A7E282BEF66007BCDE0 /* CodeGen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGen.swift; sourceTree = "<group>"; };
+		8E7D9A7E282BEF66007BCDE0 /* QRCodeGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeGenerator.swift; sourceTree = "<group>"; };
 		8E7F45BC2862948100473557 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		8E7F45BE2862948100473557 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		8E973321283231F40012E236 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
@@ -468,7 +469,7 @@
 		8E7D9A7D282BEF4F007BCDE0 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				8E7D9A7E282BEF66007BCDE0 /* CodeGen.swift */,
+				8E7D9A7E282BEF66007BCDE0 /* QRCodeGenerator.swift */,
 				8E38B57B283C39A2009E0387 /* UserDefaultsHelper.swift */,
 				8E6995D42844E0CE001355D2 /* LocalNotificationManager.swift */,
 				8E457B932860C03D00F9D133 /* ConfettiView.swift */,
@@ -739,7 +740,8 @@
 				8E3F33712864E37C0061CD6B /* CodeContainer.swift in Sources */,
 				8E3F33642864E1720061CD6B /* CodeWidget.swift in Sources */,
 				8E3F337D2865203F0061CD6B /* OSSport.swift in Sources */,
-				8E3F337F286531430061CD6B /* CodeGen.swift in Sources */,
+				8E3F337F286531430061CD6B /* QRCodeGenerator.swift in Sources */,
+				8E9888AA286B115300A97552 /* UIColor+CoreImage.swift in Sources */,
 				8E3F337E2865210C0061CD6B /* UserDefaults+CodeWidget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -749,7 +751,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E38B57E283C3D01009E0387 /* AchievementsViewController.swift in Sources */,
-				8E7D9A7F282BEF66007BCDE0 /* CodeGen.swift in Sources */,
+				8E7D9A7F282BEF66007BCDE0 /* QRCodeGenerator.swift in Sources */,
 				8EF13879283791AE001D8DA6 /* MockSportsAPI.swift in Sources */,
 				8E70C11F282AC499009A9452 /* OSMatch.swift in Sources */,
 				8E457B942860C03D00F9D133 /* ConfettiView.swift in Sources */,
