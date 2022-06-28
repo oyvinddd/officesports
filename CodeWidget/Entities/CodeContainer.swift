@@ -5,16 +5,15 @@
 //  Created by Øyvind Hauge on 23/06/2022.
 //
 
-import Foundation
+import UIKit
 
 struct CodeContainer {
     
-    var nickname: String
+    static let current = CodeContainer()
     
-    var userId: String? = UserDefaults.CodeWidget.loadCodePayload()?.userId
-}
-
-extension CodeContainer {
-    
-    static let current = CodeContainer(nickname: "0yv!nd")
+    var qrCodeImage: UIImage? = QRCodeGenerator.loadCodePayloadAndGenerateImage() {
+        didSet {
+            print(qrCodeImage ?? "Image not loaded from UD!")
+        }
+    }
 }

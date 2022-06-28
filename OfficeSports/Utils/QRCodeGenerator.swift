@@ -54,7 +54,7 @@ struct QRCodeGenerator {
 
 extension QRCodeGenerator {
     
-    static func loadCodePayloadAndGenerateImage() -> Image? {
+    static func loadCodePayloadAndGenerateImage() -> UIImage? {
         guard let payload = UserDefaults.CodeWidget.loadCodePayload() else {
             print("Unable to load code payload since it doesn't exist")
             return nil
@@ -63,6 +63,6 @@ extension QRCodeGenerator {
             print("Unable to generate QR code from payload")
             return nil
         }
-        return Image(uiImage: qrCodeImage)
+        return qrCodeImage
     }
 }

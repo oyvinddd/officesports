@@ -360,6 +360,7 @@
 		8E3F33622864E1720061CD6B /* CodeWidget */ = {
 			isa = PBXGroup;
 			children = (
+				8E9888AB286B170600A97552 /* Extensions */,
 				8E3F33722864E7870061CD6B /* Views */,
 				8E3F336E2864E2B40061CD6B /* Entities */,
 				8E3F33632864E1720061CD6B /* CodeWidget.swift */,
@@ -484,6 +485,13 @@
 				8E7F45BE2862948100473557 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8E9888AB286B170600A97552 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		8EA2126F283EF16C00B37315 /* Views */ = {

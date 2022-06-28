@@ -12,8 +12,9 @@ struct CodeView: View {
     var container: CodeContainer
     
     var body: some View {
-        VStack {
-            Text(container.nickname)
+        ZStack {
+            Color(.sRGB, red: 106/255, green: 117/255, blue: 239/255, opacity: 1).ignoresSafeArea()
+            Image(uiImage: container.qrCodeImage ?? UIImage())
         }
     }
 }

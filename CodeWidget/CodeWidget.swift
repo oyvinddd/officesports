@@ -14,12 +14,12 @@ struct Provider: TimelineProvider {
         CodeContainerEntry(date: Date(), container: CodeContainer.current)
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (CodeContainerEntry) -> ()) {
+    func getSnapshot(in context: Context, completion: @escaping (CodeContainerEntry) -> Void) {
         let entry = CodeContainerEntry(date: Date(), container: CodeContainer.current)
         completion(entry)
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
         var entries: [CodeContainerEntry] = []
 
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
