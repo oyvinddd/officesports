@@ -28,7 +28,7 @@ final class ContainerViewController: UIViewController {
     
     private lazy var profileView: ProfileView = {
         let screenIndex = UserDefaultsHelper.loadDefaultScreen()
-        let initialSport = screenIndex == 2 ? OSSport.tableTennis : OSSport.foosball
+        let initialSport = screenIndex == 2 ? OSSport.foosball : OSSport.tableTennis
         return ProfileView(account: OSAccount.current, initialSport: initialSport, delegate: self)
     }()
     

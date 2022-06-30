@@ -174,18 +174,19 @@ final class ProfileView: UIView {
         
         switch sport {
         case .foosball:
-            sportImageWrapAlpha = isDisplayingQrCode ? 0 : 1
             codeImageView.image = foosballCodeImage
+            sportImageWrapAlpha = isDisplayingQrCode ? 0 : 1
             sportImageBackgroundColor = UIColor.OS.Sport.foosball
             foosballEmojiAlpha = 1
             tableTennisEmojiAlpha = 0
         case .tableTennis:
-            sportImageWrapAlpha = isDisplayingQrCode ? 0 : 1
             codeImageView.image = tableTennisCodeImage
+            sportImageWrapAlpha = isDisplayingQrCode ? 0 : 1
             sportImageBackgroundColor = UIColor.OS.Sport.tableTennis
             foosballEmojiAlpha = 0
             tableTennisEmojiAlpha = 1
         default:
+            codeImageView.image = tableTennisCodeImage
             sportImageWrapAlpha = 0
             foosballEmojiAlpha = 0
             tableTennisEmojiAlpha = 0
