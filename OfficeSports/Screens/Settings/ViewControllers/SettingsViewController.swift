@@ -128,12 +128,13 @@ final class SettingsViewController: UIViewController {
         dialogView.addSubview(contentWrapView)
         contentWrapView.addSubview(stackView)
         
+        let seasonsButton = createSettingsButton("heart", "Season results", #selector(seasonsButtonTapped))
         let profileButton = createSettingsButton("person", "Update player profile", #selector(profileButtonTapped))
         let preferencesButton = createSettingsButton("checklist", "Preferences", #selector(preferencesButtonTapped))
         let aboutButton = createSettingsButton("info.circle", "About", #selector(aboutButtonTapped))
         let signOutButton = createSettingsButton("power", "Sign out", #selector(signOutButtonTapped))
         
-        stackView.addArrangedSubviews(profileButton, preferencesButton, aboutButton, signOutButton)
+        stackView.addArrangedSubviews(seasonsButton, profileButton, preferencesButton, aboutButton, signOutButton)
         
         NSLayoutConstraint.activate([
             backgroundView.leftAnchor.constraint(equalTo: view.leftAnchor),
@@ -200,6 +201,10 @@ final class SettingsViewController: UIViewController {
     }
     
     // MARK: - Button Handling
+    
+    @objc private func seasonsButtonTapped(_ sender: UITapGestureRecognizer) {
+        //Coordinator.global.presentPlayerProfile(from: self)
+    }
     
     @objc private func profileButtonTapped(_ sender: UITapGestureRecognizer) {
         Coordinator.global.presentPlayerProfile(from: self)
