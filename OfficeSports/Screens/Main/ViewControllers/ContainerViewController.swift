@@ -305,10 +305,14 @@ extension ContainerViewController: UIScrollViewDelegate {
         if scrollView == innerScrollView {
             if xOffset < width { // table tennis screen is showing
                 profileView.configureForSport(.tableTennis)
+                foosballViewController.scrollTableViewToTop(animated: false)
             } else if xOffset < width * 2 { // foosball screen is showing
                 profileView.configureForSport(.foosball)
+                tableTennisViewController.scrollTableViewToTop(animated: false)
             } else if xOffset >= width * 2 { // invites screen is showing
                 profileView.configureForSport(.unknown)
+                tableTennisViewController.scrollTableViewToTop(animated: false)
+                foosballViewController.scrollTableViewToTop(animated: false)
             }
         }
     }

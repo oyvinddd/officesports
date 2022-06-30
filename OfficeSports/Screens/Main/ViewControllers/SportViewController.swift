@@ -71,7 +71,7 @@ final class SportViewController: UIViewController {
         viewModel.fetchSportData()
     }
     
-    private func scrollTableViewToTop(animated: Bool) {
+    func scrollTableViewToTop(animated: Bool) {
         // scroll table view all the way to the top, taking
         // into consideration the custom content inset of the table
         tableView.scrollToTop(animated: animated)
