@@ -45,6 +45,7 @@
 		8E3F337D2865203F0061CD6B /* OSSport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE558342847B0B400199CC6 /* OSSport.swift */; };
 		8E3F337E2865210C0061CD6B /* UserDefaults+CodeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3F337A28651F340061CD6B /* UserDefaults+CodeWidget.swift */; };
 		8E3F337F286531430061CD6B /* QRCodeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D9A7E282BEF66007BCDE0 /* QRCodeGenerator.swift */; };
+		8E43DEFF286E296E00D9B50D /* OSSeasonStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E43DEFE286E296E00D9B50D /* OSSeasonStats.swift */; };
 		8E457B942860C03D00F9D133 /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E457B932860C03D00F9D133 /* ConfettiView.swift */; };
 		8E6995D52844E0CE001355D2 /* LocalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6995D42844E0CE001355D2 /* LocalNotificationManager.swift */; };
 		8E6B33E028426DFB00E73EDD /* ScannerFrameLinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6B33DF28426DFB00E73EDD /* ScannerFrameLinesView.swift */; };
@@ -154,6 +155,7 @@
 		8E3F33732864E79C0061CD6B /* CodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeView.swift; sourceTree = "<group>"; };
 		8E3F33772864F8600061CD6B /* CodeWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CodeWidgetExtension.entitlements; sourceTree = "<group>"; };
 		8E3F337A28651F340061CD6B /* UserDefaults+CodeWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+CodeWidget.swift"; sourceTree = "<group>"; };
+		8E43DEFE286E296E00D9B50D /* OSSeasonStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSSeasonStats.swift; sourceTree = "<group>"; };
 		8E457B932860C03D00F9D133 /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
 		8E6995D42844E0CE001355D2 /* LocalNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManager.swift; sourceTree = "<group>"; };
 		8E6B33DF28426DFB00E73EDD /* ScannerFrameLinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerFrameLinesView.swift; sourceTree = "<group>"; };
@@ -434,6 +436,7 @@
 				8E38B579283BCBC8009E0387 /* OSMatchRegistration.swift */,
 				8E25B0F7283CD3F100FE2FB3 /* OSStats.swift */,
 				8EE558342847B0B400199CC6 /* OSSport.swift */,
+				8E43DEFE286E296E00D9B50D /* OSSeasonStats.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -772,6 +775,7 @@
 				8EF1387F2837FDD3001D8DA6 /* RegisterMatchViewModel.swift in Sources */,
 				8E70C121282AC510009A9452 /* OSPlayer.swift in Sources */,
 				8E973322283231F40012E236 /* SettingsViewModel.swift in Sources */,
+				8E43DEFF286E296E00D9B50D /* OSSeasonStats.swift in Sources */,
 				8EE558352847B0B400199CC6 /* OSSport.swift in Sources */,
 				8EA21271283EF18A00B37315 /* OSButton.swift in Sources */,
 				8E6995D52844E0CE001355D2 /* LocalNotificationManager.swift in Sources */,

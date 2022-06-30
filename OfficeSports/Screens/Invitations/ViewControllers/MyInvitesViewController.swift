@@ -104,7 +104,7 @@ extension MyInvitesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(for: InviteFilterTableViewCell.self, for: indexPath)
-            //cell.toggleLeftButton(enabled: showScoreboard)
+            // cell.toggleLeftButton(enabled: showScoreboard)
             cell.delegate = self
             return cell
         }

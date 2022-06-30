@@ -124,6 +124,10 @@ final class MockSportsAPI: SportsAPI {
         let invite = OSInvite(date: Date(), sport: .foosball, inviterId: "id#1", inviteeId: "id#2", inviteeNickname: "heimegut")
         result(.success([invite]))
     }
+    
+    func getSeasonStats(result: @escaping ((Result<[OSSeasonStats], Error>) -> Void)) {
+        result(.success([OSSeasonStats(date: Date(), winnerNickname: "0yv1nd", numberOfWins: 32)]))
+    }
 }
 
 // MARK: - Confirm to the async/await versions of the API methods
@@ -189,6 +193,14 @@ extension MockSportsAPI {
     func  getActiveInvites() async throws -> [OSInvite] {
         return try await withCheckedThrowingContinuation({ continuation in
             getActiveInvites { result in
+                continuation.resume(with: result)
+            }
+        })
+    }
+    
+    func  getSeasonStats() async throws -> [OSSeasonStats] {
+        return try await withCheckedThrowingContinuation({ continuation in
+            getSeasonStats { result in
                 continuation.resume(with: result)
             }
         })
