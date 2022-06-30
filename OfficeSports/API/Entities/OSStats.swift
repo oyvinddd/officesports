@@ -18,6 +18,5 @@ struct OSStats: Identifiable, Codable {
     
     var matchesPlayed: Int
     
-    // TODO:
-    //var totalWins: Int
+    var seasonWins: Int
 }

@@ -25,12 +25,16 @@ protocol ProfileViewDelegate: AnyObject {
 
 final class ProfileView: UIView {
     
+    private lazy var totalWinsLabel: UILabel = {
+        let label = UILabel.createLabel(.white, alignment: .center, text: "🏆 x 0")
+        label.font = UIFont.boldSystemFont(ofSize: 15)
+        return label
+    }()
+    
     private lazy var totalWinsView: UIView = {
         let view = UIView.createView(UIColor.OS.Text.normal, cornerRadius: 5)
         view.alpha = 0.8
-        let label = UILabel.createLabel(.white, alignment: .center, text: "🏆 x 0")
-        label.font = UIFont.boldSystemFont(ofSize: 15)
-        NSLayoutConstraint.pinToView(view, label, padding: 6)
+        NSLayoutConstraint.pinToView(view, totalWinsLabel, padding: 6)
         return view
     }()
     
@@ -67,8 +71,7 @@ final class ProfileView: UIView {
     }()
     
     private lazy var codeImageWrap: UIView = {
-        let view = UIView.createView(.white)
-        view.applyCornerRadius(5)
+        let view = UIView.createView(.white, cornerRadius: 5)
         view.applyMediumDropShadow(.black)
         view.alpha = 0
         return view
@@ -153,10 +156,17 @@ final class ProfileView: UIView {
         self.delegate = delegate
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
+        
+        let foosballStats = account.player?.foosballStats
+        let tableTennisStats = account.player?.tableTennisStats
+        let fSeasonWins = foosballStats?.seasonWins ?? 0
+        let tSeasonWins = tableTennisStats?.seasonWins ?? 0
+        
         profileEmjoiLabel.text = account.emoji
         nicknameLabel.text = account.nickname?.lowercased()
-        foosballScoreLabel.text = "\(account.player?.foosballStats?.score ?? 1200) pts"
-        tableTennisScoreLabel.text = "\(account.player?.tableTennisStats?.score ?? 1200) pts"
+        totalWinsLabel.text = initialSport == .tableTennis ? "🏆 x \(tSeasonWins)" : "🏆 x \(fSeasonWins)"
+        foosballScoreLabel.text = "\(foosballStats?.score ?? 1200) pts"
+        tableTennisScoreLabel.text = "\(tableTennisStats?.score ?? 1200) pts"
         setupSubscribers()
         setupChildViews()
         configureForSport(initialSport)
@@ -167,6 +177,7 @@ final class ProfileView: UIView {
     }
     
     func configureForSport(_ sport: OSSport) {
+        var totalWinsViewAlpha: CGFloat = 1
         var sportImageWrapAlpha: CGFloat = 1
         var sportImageBackgroundColor = UIColor.OS.Sport.foosball
         var foosballEmojiAlpha: CGFloat = 1
@@ -175,23 +186,27 @@ final class ProfileView: UIView {
         switch sport {
         case .foosball:
             codeImageView.image = foosballCodeImage
+            totalWinsViewAlpha = 1
             sportImageWrapAlpha = isDisplayingQrCode ? 0 : 1
             sportImageBackgroundColor = UIColor.OS.Sport.foosball
             foosballEmojiAlpha = 1
             tableTennisEmojiAlpha = 0
         case .tableTennis:
             codeImageView.image = tableTennisCodeImage
+            totalWinsViewAlpha = 1
             sportImageWrapAlpha = isDisplayingQrCode ? 0 : 1
             sportImageBackgroundColor = UIColor.OS.Sport.tableTennis
             foosballEmojiAlpha = 0
             tableTennisEmojiAlpha = 1
         default:
             codeImageView.image = tableTennisCodeImage
+            totalWinsViewAlpha = 0
             sportImageWrapAlpha = 0
             foosballEmojiAlpha = 0
             tableTennisEmojiAlpha = 0
         }
         UIView.animate(withDuration: emojiFadeTransitionDuration, delay: 0) {
+            self.totalWinsView.alpha = totalWinsViewAlpha
             self.sportImageWrap.alpha = sportImageWrapAlpha
             self.sportImageBackground.backgroundColor = sportImageBackgroundColor
             self.foosballEmojiLabel.alpha = foosballEmojiAlpha
@@ -275,7 +290,7 @@ final class ProfileView: UIView {
         NSLayoutConstraint.pinToView(sportImageBackground, tableTennisEmojiLabel)
         
         NSLayoutConstraint.activate([
-            totalWinsView.leftAnchor.constraint(equalTo: leftAnchor, constant: 22),
+            totalWinsView.leftAnchor.constraint(equalTo: leftAnchor, constant: 24),
             totalWinsView.centerYAnchor.constraint(equalTo: settingsButton.centerYAnchor),
             settingsButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
             settingsButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 10),
