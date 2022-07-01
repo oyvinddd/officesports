@@ -70,6 +70,7 @@
 		8E70C136282ADF7A009A9452 /* OSAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C135282ADF7A009A9452 /* OSAccount.swift */; };
 		8E70C138282AEE2F009A9452 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C137282AEE2F009A9452 /* WelcomeViewController.swift */; };
 		8E70C13A282AEE7E009A9452 /* SportsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C139282AEE7E009A9452 /* SportsAPI.swift */; };
+		8E7C415B286F2F34004C105E /* SeasonResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7C415A286F2F34004C105E /* SeasonResultTableViewCell.swift */; };
 		8E7D0AC52838D5C0006D6DF7 /* EmojiCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D0AC42838D5C0006D6DF7 /* EmojiCollectionViewCell.swift */; };
 		8E7D0AC72838D7A1006D6DF7 /* UICollectionView+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D0AC62838D7A1006D6DF7 /* UICollectionView+Util.swift */; };
 		8E7D0ACC28391A9E006D6DF7 /* emojis.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8E7D0ACB28391A9E006D6DF7 /* emojis.csv */; };
@@ -181,6 +182,7 @@
 		8E70C137282AEE2F009A9452 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		8E70C139282AEE7E009A9452 /* SportsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportsAPI.swift; sourceTree = "<group>"; };
 		8E70C13B282BAF51009A9452 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		8E7C415A286F2F34004C105E /* SeasonResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonResultTableViewCell.swift; sourceTree = "<group>"; };
 		8E7D0AC42838D5C0006D6DF7 /* EmojiCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCollectionViewCell.swift; sourceTree = "<group>"; };
 		8E7D0AC62838D7A1006D6DF7 /* UICollectionView+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Util.swift"; sourceTree = "<group>"; };
 		8E7D0ACB28391A9E006D6DF7 /* emojis.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = emojis.csv; sourceTree = "<group>"; };
@@ -423,6 +425,7 @@
 				8E70C125282ACCB5009A9452 /* ProfileView.swift */,
 				8E9849C7282BCDC80020266B /* CircleView.swift */,
 				8E6B33DF28426DFB00E73EDD /* ScannerFrameLinesView.swift */,
+				8E7C415A286F2F34004C105E /* SeasonResultTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -788,6 +791,7 @@
 				8E6995D52844E0CE001355D2 /* LocalNotificationManager.swift in Sources */,
 				8E38B576283BC5AD009E0387 /* Bundle+Version.swift in Sources */,
 				8E70C117282ABD3E009A9452 /* FloatingMenu.swift in Sources */,
+				8E7C415B286F2F34004C105E /* SeasonResultTableViewCell.swift in Sources */,
 				8EE61FF3282AB79C00C01289 /* ContainerViewController.swift in Sources */,
 				8EC84E8E282BD5B10093C9A0 /* PlayerProfileViewController.swift in Sources */,
 				8E23086F282CFC6B00AF60EB /* SettingsViewController.swift in Sources */,

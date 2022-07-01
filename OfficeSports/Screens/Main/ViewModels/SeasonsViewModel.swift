@@ -22,6 +22,7 @@ final class SeasonsViewModel {
     
     @Published private(set) var state: State = .idle
     
+    private(set) var seasons = [OSSeasonStats]()
     private let api: SportsAPI
     
     init(api: SportsAPI) {
@@ -34,6 +35,7 @@ final class SeasonsViewModel {
         Task {
             do {
                 let stats = try await api.getSeasonStats()
+                self.seasons = stats
                 state = .success(stats)
             } catch let error {
                 state = .failure(error)
