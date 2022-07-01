@@ -2,16 +2,23 @@ import EloRating from "elo-rating";
 import * as firebase from "firebase-admin";
 import * as functions from "firebase-functions";
 import HttpStatus from "http-status-enum";
+import { initialScore } from "./constants";
 import { sendErrorStatus } from "./helpers/api.helpers";
-import { addMatch, getPlayer, updatePlayer } from "./helpers/firebase.helpers";
+import {
+  addMatch,
+  getLeader,
+  getPlayer,
+  incrementTotalSeasonWins,
+  resetScoreboard as resetScoreboards,
+  storeSeason,
+  updatePlayer,
+} from "./helpers/firebase.helpers";
 import { setEmptyPlayerStats } from "./helpers/player.helpers";
 import { validateWinMatchBody } from "./helpers/validation.helpers";
 import { ErrorCodes } from "./types/ErrorCodes";
 import { Match } from "./types/Match";
 import { Sport } from "./types/Sport";
 import { WinMatchBody } from "./types/WinMatchBody";
-
-const initialScore = 1200;
 
 export const winMatch = functions.https.onRequest(async (request, response) => {
   functions.logger.info("Hello logs!", { structuredData: true });
@@ -123,3 +130,28 @@ export const winMatch = functions.https.onRequest(async (request, response) => {
 
   response.send(match);
 });
+
+const resetScoreboardsFunction = async () => {
+  const seasonWinnerFoosball = await getLeader(Sport.Foosball);
+  const seasonWinnerTableTennis = await getLeader(Sport.TableTennis);
+
+  if (seasonWinnerFoosball) {
+    incrementTotalSeasonWins(seasonWinnerFoosball, Sport.Foosball);
+    storeSeason(seasonWinnerFoosball, Sport.Foosball);
+  }
+
+  if (seasonWinnerTableTennis) {
+    incrementTotalSeasonWins(seasonWinnerTableTennis, Sport.TableTennis);
+    storeSeason(seasonWinnerTableTennis, Sport.TableTennis);
+  }
+
+  resetScoreboards(initialScore);
+};
+
+export const resetScoreboardsCron = functions.pubsub
+  .schedule("0 0 1 * *")
+  .onRun(resetScoreboardsFunction);
+
+// export const resetScoreboardsHttp = functions.https.onRequest(
+//   resetScoreboardsFunction,
+// );

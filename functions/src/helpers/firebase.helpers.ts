@@ -1,6 +1,10 @@
 import * as admin from "firebase-admin";
+import { firestore } from "firebase-admin";
 import { Match } from "../types/Match";
 import type { Player } from "../types/Player";
+import { Season } from "../types/Season";
+import { Sport } from "../types/Sport";
+import { getSportStats } from "./player.helpers";
 admin.initializeApp({
   storageBucket: "officesports-5d7ac.appspot.com",
 });
@@ -14,6 +18,7 @@ const getCollection = <Type = admin.firestore.DocumentData>(
 
 const getPlayerCollection = () => getCollection<Player>("players");
 const getMatchCollection = () => getCollection<Match>("matches");
+const getSeasonCollection = () => getCollection<Season>("seasons");
 
 const playerConverter: admin.firestore.FirestoreDataConverter<Player> = {
   fromFirestore: snapshot => ({
@@ -43,6 +48,15 @@ const matchConverter: admin.firestore.FirestoreDataConverter<Match> = {
   toFirestore: match => match,
 };
 
+const seasonConverter: admin.firestore.FirestoreDataConverter<Season> = {
+  fromFirestore: snapshot => ({
+    date: snapshot.get("date"),
+    sport: snapshot.get("sport"),
+    winner: snapshot.get("winner"),
+  }),
+  toFirestore: match => match,
+};
+
 export const getPlayer = async (id: string): Promise<Player | undefined> => {
   const playerSnap = await getPlayerCollection()
     .withConverter(playerConverter)
@@ -67,4 +81,119 @@ export const updatePlayer = async (player: Player): Promise<void> => {
 
 export const addMatch = async (match: Match): Promise<void> => {
   await getMatchCollection().withConverter(matchConverter).add(match);
+};
+
+export const getLeader = async (sport: Sport): Promise<Player | null> => {
+  let orderByField: string;
+
+  switch (sport) {
+    case Sport.Foosball:
+      orderByField = "foosballStats.score";
+      break;
+    case Sport.TableTennis:
+      orderByField = "tableTennisStats.score";
+      break;
+    case Sport.Unknown:
+      throw new Error("Wtf, sport is unknown");
+  }
+
+  const playerSnap = await getPlayerCollection()
+    .limit(2)
+    .orderBy(orderByField, "desc")
+    .withConverter(playerConverter)
+    .get();
+
+  const [firstPlace, secondPlace] = playerSnap.docs;
+
+  const isFoosball = sport === Sport.Foosball;
+  const isTableTennis = sport === Sport.TableTennis;
+
+  if (isFoosball) {
+    const winnerHasPlayedAtLeastOnce =
+      firstPlace.data().foosballStats?.score != null;
+
+    const moreThanOneWinner =
+      firstPlace.data().foosballStats?.score ===
+      secondPlace.data().foosballStats?.score;
+
+    if (!winnerHasPlayedAtLeastOnce || moreThanOneWinner) {
+      return null;
+    }
+  } else if (isTableTennis) {
+    const winnerHasPlayedAtLeastOnce =
+      firstPlace.data().tableTennisStats?.score != null;
+
+    const moreThanOneWinner =
+      firstPlace.data().tableTennisStats?.score ===
+      secondPlace.data().tableTennisStats?.score;
+
+    if (!winnerHasPlayedAtLeastOnce || moreThanOneWinner) {
+      return null;
+    }
+  }
+
+  return firstPlace.data();
+};
+
+export const incrementTotalSeasonWins = async (
+  player: Player,
+  sport: Sport,
+) => {
+  const stats = getSportStats(player, sport);
+  stats.seasonWins += 1;
+
+  if (sport === Sport.Foosball) {
+    player.foosballStats = stats;
+  } else if (sport === Sport.TableTennis) {
+    player.tableTennisStats = stats;
+  }
+
+  updatePlayer(player);
+};
+
+export const getAllPlayers = async (): Promise<Array<Player>> => {
+  const players: Array<Player> = [];
+
+  (await getPlayerCollection().listDocuments()).forEach(async snapshot => {
+    const player = (await snapshot.get()).data();
+    if (player) {
+      players.push(player);
+    }
+  });
+
+  return players;
+};
+
+export const resetScoreboard = async (initialScore: number): Promise<void> => {
+  const allPlayers = await getAllPlayers();
+
+  for (const player of allPlayers) {
+    if (player.foosballStats) {
+      player.foosballStats.score = initialScore;
+    }
+
+    if (player.tableTennisStats) {
+      player.tableTennisStats.score = initialScore;
+    }
+
+    updatePlayer(player);
+  }
+};
+
+export const storeSeason = async (
+  winner: Player,
+  sport: Sport,
+): Promise<void> => {
+  const now = new Date();
+  const seasonStartDate = new Date();
+  seasonStartDate.setMonth(Math.abs((now.getMonth() - 1 + 12) % 12));
+
+  const seasonStartTimestamp = new firestore.Timestamp(
+    seasonStartDate.getTime() / 1000,
+    0,
+  );
+
+  await getSeasonCollection()
+    .withConverter(seasonConverter)
+    .add({ winner, sport, date: seasonStartTimestamp });
 };
