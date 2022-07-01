@@ -83,6 +83,10 @@ final class Coordinator {
         messageWindow.showMessage(message)
     }
     
+    func presentSeasons(from viewController: UIViewController) {
+        viewController.present(SeasonsViewController(), animated: true)
+    }
+    
     func presentPlayerProfile(from viewController: UIViewController) {
         viewController.present(playerProfileViewController, animated: true)
     }
