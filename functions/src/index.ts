@@ -2,16 +2,23 @@ import EloRating from "elo-rating";
 import * as firebase from "firebase-admin";
 import * as functions from "firebase-functions";
 import HttpStatus from "http-status-enum";
+import { initialScore } from "./constants";
 import { sendErrorStatus } from "./helpers/api.helpers";
-import { addMatch, getPlayer, updatePlayer } from "./helpers/firebase.helpers";
+import {
+  addMatch,
+  getLeader,
+  getPlayer,
+  incrementTotalSeasonWins,
+  resetScoreboards,
+  storeSeason,
+  updatePlayer,
+} from "./helpers/firebase.helpers";
 import { setEmptyPlayerStats } from "./helpers/player.helpers";
 import { validateWinMatchBody } from "./helpers/validation.helpers";
 import { ErrorCodes } from "./types/ErrorCodes";
 import { Match } from "./types/Match";
 import { Sport } from "./types/Sport";
 import { WinMatchBody } from "./types/WinMatchBody";
-
-const initialScore = 1200;
 
 export const winMatch = functions.https.onRequest(async (request, response) => {
   functions.logger.info("Hello logs!", { structuredData: true });
@@ -123,3 +130,54 @@ export const winMatch = functions.https.onRequest(async (request, response) => {
 
   response.send(match);
 });
+
+const resetScoreboardsFunction = async () => {
+  const seasonWinnerFoosball = await getLeader(Sport.Foosball);
+  const seasonWinnerTableTennis = await getLeader(Sport.TableTennis);
+
+  console.log("Foosball winner", seasonWinnerFoosball);
+  console.log("Table tennis winner", seasonWinnerTableTennis);
+
+  const now = new Date();
+  const seasonStartDate = new Date();
+  seasonStartDate.setMonth(Math.abs((now.getMonth() - 1 + 12) % 12));
+
+  const timestamp = new firebase.firestore.Timestamp(
+    Math.floor(seasonStartDate.getTime() / 1000),
+    0,
+  );
+
+  console.log("Timestamp:", timestamp);
+
+  if (seasonWinnerFoosball) {
+    console.log("Foosball has season winner. Incrementing total season wins");
+    await incrementTotalSeasonWins(seasonWinnerFoosball, Sport.Foosball);
+
+    console.log("Storing foosball season");
+    await storeSeason(seasonWinnerFoosball, Sport.Foosball, timestamp);
+  }
+
+  if (seasonWinnerTableTennis) {
+    console.log(
+      "Table tennis has season winner. Incrementing total season wins",
+    );
+    await incrementTotalSeasonWins(seasonWinnerTableTennis, Sport.TableTennis);
+
+    console.log("Storing table tennis season");
+    await storeSeason(seasonWinnerTableTennis, Sport.TableTennis, timestamp);
+  }
+
+  console.log("Resetting score boards");
+  await resetScoreboards(initialScore);
+};
+
+export const resetScoreboardsCron = functions.pubsub
+  .schedule("1 of month 00:00")
+  .onRun(async () => {
+    console.log("Resetting score boards");
+
+    await resetScoreboardsFunction();
+
+    console.log("Finished resetting score boards");
+    return null;
+  });
