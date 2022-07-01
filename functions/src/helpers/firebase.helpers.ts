@@ -1,5 +1,4 @@
 import * as admin from "firebase-admin";
-import { firestore } from "firebase-admin";
 import { Match } from "../types/Match";
 import type { Player } from "../types/Player";
 import { Season } from "../types/Season";
@@ -152,48 +151,38 @@ export const incrementTotalSeasonWins = async (
 };
 
 export const getAllPlayers = async (): Promise<Array<Player>> => {
-  const players: Array<Player> = [];
-
-  (await getPlayerCollection().listDocuments()).forEach(async snapshot => {
-    const player = (await snapshot.get()).data();
-    if (player) {
-      players.push(player);
-    }
-  });
-
-  return players;
+  const playerSnapshots = (
+    await getPlayerCollection().withConverter(playerConverter).get()
+  ).docs;
+  return playerSnapshots.map(player => player.data());
 };
 
-export const resetScoreboard = async (initialScore: number): Promise<void> => {
+export const resetScoreboards = async (initialScore: number): Promise<void> => {
   const allPlayers = await getAllPlayers();
+
+  console.log("All players", allPlayers);
 
   for (const player of allPlayers) {
     if (player.foosballStats) {
       player.foosballStats.score = initialScore;
+      player.foosballStats.matchesPlayed = 0;
     }
 
     if (player.tableTennisStats) {
       player.tableTennisStats.score = initialScore;
+      player.tableTennisStats.matchesPlayed = 0;
     }
 
-    updatePlayer(player);
+    await updatePlayer(player);
   }
 };
 
 export const storeSeason = async (
   winner: Player,
   sport: Sport,
+  date: admin.firestore.Timestamp,
 ): Promise<void> => {
-  const now = new Date();
-  const seasonStartDate = new Date();
-  seasonStartDate.setMonth(Math.abs((now.getMonth() - 1 + 12) % 12));
-
-  const seasonStartTimestamp = new firestore.Timestamp(
-    seasonStartDate.getTime() / 1000,
-    0,
-  );
-
   await getSeasonCollection()
     .withConverter(seasonConverter)
-    .add({ winner, sport, date: seasonStartTimestamp });
+    .add({ winner, sport, date });
 };

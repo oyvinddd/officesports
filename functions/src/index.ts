@@ -9,7 +9,7 @@ import {
   getLeader,
   getPlayer,
   incrementTotalSeasonWins,
-  resetScoreboard as resetScoreboards,
+  resetScoreboards,
   storeSeason,
   updatePlayer,
 } from "./helpers/firebase.helpers";
@@ -135,23 +135,49 @@ const resetScoreboardsFunction = async () => {
   const seasonWinnerFoosball = await getLeader(Sport.Foosball);
   const seasonWinnerTableTennis = await getLeader(Sport.TableTennis);
 
+  console.log("Foosball winner", seasonWinnerFoosball);
+  console.log("Table tennis winner", seasonWinnerTableTennis);
+
+  const now = new Date();
+  const seasonStartDate = new Date();
+  seasonStartDate.setMonth(Math.abs((now.getMonth() - 1 + 12) % 12));
+
+  const timestamp = new firebase.firestore.Timestamp(
+    Math.floor(seasonStartDate.getTime() / 1000),
+    0,
+  );
+
+  console.log("Timestamp:", timestamp);
+
   if (seasonWinnerFoosball) {
-    incrementTotalSeasonWins(seasonWinnerFoosball, Sport.Foosball);
-    storeSeason(seasonWinnerFoosball, Sport.Foosball);
+    console.log("Foosball has season winner. Incrementing total season wins");
+    await incrementTotalSeasonWins(seasonWinnerFoosball, Sport.Foosball);
+
+    console.log("Storing foosball season");
+    await storeSeason(seasonWinnerFoosball, Sport.Foosball, timestamp);
   }
 
   if (seasonWinnerTableTennis) {
-    incrementTotalSeasonWins(seasonWinnerTableTennis, Sport.TableTennis);
-    storeSeason(seasonWinnerTableTennis, Sport.TableTennis);
+    console.log(
+      "Table tennis has season winner. Incrementing total season wins",
+    );
+    await incrementTotalSeasonWins(seasonWinnerTableTennis, Sport.TableTennis);
+
+    console.log("Storing table tennis season");
+    await storeSeason(seasonWinnerTableTennis, Sport.TableTennis, timestamp);
   }
 
-  resetScoreboards(initialScore);
+  console.log("Resetting score boards");
+  await resetScoreboards(initialScore);
 };
 
 export const resetScoreboardsCron = functions.pubsub
-  .schedule("0 0 1 * *")
-  .onRun(resetScoreboardsFunction);
+  .schedule("1 of month 00:00")
+  .onRun(async () => {
+    console.log("Resetting score boards");
 
-// export const resetScoreboardsHttp = functions.https.onRequest(
-//   resetScoreboardsFunction,
-// );
+    await resetScoreboardsFunction();
+
+    console.log("Finished resetting score boards");
+    return null;
+  });
