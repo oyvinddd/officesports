@@ -16,6 +16,17 @@ final class SeasonsViewController: UIViewController {
         return tableView
     }()
     
+    private let viewModel: SeasonsViewModel
+    
+    init(viewModel: SeasonsViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupChildViews()
@@ -41,7 +52,9 @@ extension SeasonsViewController: UITableViewDataSource {
 
 private final class SeasonTableViewCell: UITableViewCell {
     
-//    private lazy var
+    private lazy var contentWrap: UIView = {
+        return UIView.createView(.white)
+    }()
     
     private lazy var nicknameLabel: UILabel = {
         return UILabel.createLabel(UIColor.OS.Text.normal)

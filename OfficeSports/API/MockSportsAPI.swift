@@ -126,7 +126,7 @@ final class MockSportsAPI: SportsAPI {
     }
     
     func getSeasonStats(result: @escaping ((Result<[OSSeasonStats], Error>) -> Void)) {
-        result(.success([OSSeasonStats(date: Date(), winnerNickname: "0yv1nd", numberOfWins: 32)]))
+        result(.success([OSSeasonStats(date: Date(), winner: OSAccount.current.player!, sport: .tableTennis)]))
     }
 }
 

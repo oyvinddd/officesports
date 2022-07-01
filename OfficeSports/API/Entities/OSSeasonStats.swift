@@ -11,5 +11,7 @@ struct OSSeasonStats: Codable {
     
     var date: Date
     
-    var winnerNickname: String
+    var winner: OSPlayer
+    
+    var sport: OSSport
 }

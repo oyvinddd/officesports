@@ -203,7 +203,7 @@ final class SettingsViewController: UIViewController {
     // MARK: - Button Handling
     
     @objc private func seasonsButtonTapped(_ sender: UITapGestureRecognizer) {
-        Coordinator.global.presentPlayerProfile(from: self)
+        Coordinator.global.presentSeasons(from: self)
     }
     
     @objc private func profileButtonTapped(_ sender: UITapGestureRecognizer) {
