@@ -25,10 +25,7 @@ export const setEmptyPlayerStats = (
   }
 };
 
-export const getSportStats = (
-  player: Player,
-  sport: Sport,
-): Stats => {
+export const getSportStats = (player: Player, sport: Sport): Stats => {
   switch (sport) {
     case Sport.Foosball:
       return player.foosballStats!;
