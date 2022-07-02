@@ -17,8 +17,7 @@ struct UserDefaultsHelper {
     private static let sharedDefaults = UserDefaults(suiteName: "group.com.tietoevry.officesports")!
     
     static func savePlayerProfile(_ player: OSPlayer) -> Bool {
-        let encoder = JSONEncoder()
-        if let encodedPlayer = try? encoder.encode(player) {
+        if let encodedPlayer = try? JSONEncoder().encode(player) {
             standardDefaults.set(encodedPlayer, forKey: userDefaultsPlayerKey)
             return true
         }
@@ -27,8 +26,7 @@ struct UserDefaultsHelper {
     
     static func loadPlayerProfile() -> OSPlayer? {
         if let encodedPlayer = standardDefaults.object(forKey: userDefaultsPlayerKey) as? Data {
-            let decoder = JSONDecoder()
-            let decodedPlayer = try? decoder.decode(OSPlayer.self, from: encodedPlayer)
+            let decodedPlayer = try? JSONDecoder().decode(OSPlayer.self, from: encodedPlayer)
             return decodedPlayer
         }
         return nil

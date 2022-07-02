@@ -42,10 +42,14 @@ struct OSPlayer: Identifiable, Codable {
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(nickname, forKey: .nickname)
-        try container.encode(emoji, forKey: .emoji)
-        try container.encode(foosballStats, forKey: .foosballStats)
-        try container.encode(tableTennisStats, forKey: .tableTennisStats)
+        do {
+            try container.encode(nickname, forKey: .nickname)
+            try container.encode(emoji, forKey: .emoji)
+            try container.encode(foosballStats, forKey: .foosballStats)
+            try container.encode(tableTennisStats, forKey: .tableTennisStats)
+        } catch let error {
+            print("Error encoding player: \(error)")
+        }
     }
     
     init(from decoder: Decoder) throws {

@@ -76,8 +76,8 @@ final class MockSportsAPI: SportsAPI {
     }
     
     func createOrUpdatePlayerProfile(nickname: String, emoji: String, result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
-        let foosballStats = OSStats(id: nil, sport: .foosball, score: 0, matchesPlayed: 0, seasonWins: 0)
-        let tableTennisStats = OSStats(id: nil, sport: .tableTennis, score: 0, matchesPlayed: 0, seasonWins: 0)
+        let foosballStats = OSStats(sport: .foosball, score: 0, matchesPlayed: 0, seasonWins: 0)
+        let tableTennisStats = OSStats(sport: .tableTennis, score: 0, matchesPlayed: 0, seasonWins: 0)
         let player = OSPlayer(id: "id#1337", nickname: nickname, emoji: emoji, foosballStats: foosballStats, tableTennisStats: tableTennisStats)
         result(.success(player))
     }
