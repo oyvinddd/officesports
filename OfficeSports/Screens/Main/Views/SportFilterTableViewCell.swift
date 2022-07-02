@@ -59,6 +59,12 @@ final class SportFilterTableViewCell: UITableViewCell {
         super.init(coder: aDecoder)
     }
     
+    func configure(leftButtonTitle: String, rightButtonTitle: String, delegate: SportFilterDelegate? = nil) {
+        leftButton.setTitle(leftButtonTitle, for: .normal)
+        rightButton.setTitle(rightButtonTitle, for: .normal)
+        self.delegate = delegate
+    }
+    
     func toggleLeftButton(enabled: Bool) {
         if enabled {
             leftButton.setTitleColor(UIColor.OS.Text.normal, for: .normal)

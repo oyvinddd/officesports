@@ -92,7 +92,7 @@ final class ProfileView: UIView {
         return profileImageBackground
     }()
     
-    private lazy var profileEmjoiLabel: UILabel = {
+    private lazy var profileEmojiLabel: UILabel = {
         let label = UILabel.createLabel(.black, alignment: .center)
         label.font = UIFont.systemFont(ofSize: 80)
         return label
@@ -162,7 +162,7 @@ final class ProfileView: UIView {
         let fSeasonWins = foosballStats?.seasonWins ?? 0
         let tSeasonWins = tableTennisStats?.seasonWins ?? 0
         
-        profileEmjoiLabel.text = account.emoji
+        profileEmojiLabel.text = account.emoji
         nicknameLabel.text = account.nickname?.lowercased()
         totalWinsLabel.text = initialSport == .tableTennis ? "🏆 x \(tSeasonWins)" : "🏆 x \(fSeasonWins)"
         foosballScoreLabel.text = "\(foosballStats?.score ?? 1200) pts"
@@ -258,7 +258,7 @@ final class ProfileView: UIView {
         OSAccount.current.$player
             .receive(on: DispatchQueue.main)
             .map({ $0!.emoji })
-            .assign(to: \.text, on: profileEmjoiLabel)
+            .assign(to: \.text, on: profileEmojiLabel)
             .store(in: &subscribers)
         OSAccount.current.$player
             .receive(on: DispatchQueue.main)
@@ -284,7 +284,7 @@ final class ProfileView: UIView {
         addSubview(tableTennisScoreLabel)
         
         NSLayoutConstraint.pinToView(codeImageWrap, codeImageView, padding: 6)
-        NSLayoutConstraint.pinToView(profileImageBackground, profileEmjoiLabel)
+        NSLayoutConstraint.pinToView(profileImageBackground, profileEmojiLabel)
         NSLayoutConstraint.pinToView(sportImageWrap, sportImageBackground, padding: 5)
         NSLayoutConstraint.pinToView(sportImageBackground, foosballEmojiLabel)
         NSLayoutConstraint.pinToView(sportImageBackground, tableTennisEmojiLabel)

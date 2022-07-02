@@ -17,9 +17,9 @@ final class PreferencesViewController: UIViewController {
     
     private lazy var closeButton: UIButton = {
         let image = UIImage(systemName: "xmark", withConfiguration: nil)
-        let button = UIButton.createButton(UIColor.OS.Text.disabled, tintColor: .white, image: image)
+        let button = UIButton.createButton(.white, tintColor: UIColor.OS.General.main, image: image)
         button.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
-        button.backgroundColor = UIColor.OS.Text.disabled
+        button.backgroundColor = .white
         button.applyCornerRadius(16)
         button.alpha = 0.7
         return button

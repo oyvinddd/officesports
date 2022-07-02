@@ -29,6 +29,7 @@ final class ConfettiView: UIView {
         self.intensity = intensity
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
+        isUserInteractionEnabled = false
     }
     
     required init?(coder: NSCoder) {

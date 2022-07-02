@@ -43,11 +43,6 @@ final class Coordinator {
         return WelcomeViewController(viewModel: viewModel)
     }()
     
-    private lazy var seasonsViewController: SeasonsViewController = {
-        let viewModel = SeasonsViewModel(api: FirebaseSportsAPI())
-        return SeasonsViewController(viewModel: viewModel)
-    }()
-    
     private lazy var containerViewController: ContainerViewController = {
        return ContainerViewController(viewModel: PlayerProfileViewModel(api: FirebaseSportsAPI()))
     }()
@@ -89,7 +84,8 @@ final class Coordinator {
     }
     
     func presentSeasons(from viewController: UIViewController) {
-        viewController.present(seasonsViewController, animated: true)
+        let viewModel = SeasonsViewModel(api: FirebaseSportsAPI())
+        viewController.present(SeasonsViewController(viewModel: viewModel), animated: true)
     }
     
     func presentPlayerProfile(from viewController: UIViewController) {
