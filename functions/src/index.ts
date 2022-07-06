@@ -14,9 +14,11 @@ import {
   updatePlayer,
 } from "./helpers/firebase.helpers";
 import { setEmptyPlayerStats } from "./helpers/player.helpers";
+import * as slackHelpers from "./helpers/slack.helpers";
 import { validateWinMatchBody } from "./helpers/validation.helpers";
 import { ErrorCodes } from "./types/ErrorCodes";
 import { Match } from "./types/Match";
+import { Season } from "./types/Season";
 import { Sport } from "./types/Sport";
 import { WinMatchBody } from "./types/WinMatchBody";
 
@@ -149,12 +151,20 @@ const resetScoreboardsFunction = async () => {
 
   console.log("Timestamp:", timestamp);
 
+  const seasonsWithWinners: Array<Season> = [];
+
   if (seasonWinnerFoosball) {
     console.log("Foosball has season winner. Incrementing total season wins");
     await incrementTotalSeasonWins(seasonWinnerFoosball, Sport.Foosball);
 
     console.log("Storing foosball season");
     await storeSeason(seasonWinnerFoosball, Sport.Foosball, timestamp);
+
+    seasonsWithWinners.push({
+      winner: seasonWinnerFoosball,
+      sport: Sport.Foosball,
+      date: timestamp,
+    });
   }
 
   if (seasonWinnerTableTennis) {
@@ -165,14 +175,25 @@ const resetScoreboardsFunction = async () => {
 
     console.log("Storing table tennis season");
     await storeSeason(seasonWinnerTableTennis, Sport.TableTennis, timestamp);
+
+    seasonsWithWinners.push({
+      winner: seasonWinnerTableTennis,
+      sport: Sport.TableTennis,
+      date: timestamp,
+    });
   }
 
   console.log("Resetting score boards");
   await resetScoreboards(initialScore);
+
+  await slackHelpers.postSeasonResults(seasonsWithWinners);
 };
 
-export const resetScoreboardsCron = functions.pubsub
-  .schedule("1 of month 00:00")
+export const resetScoreboardsCron = functions
+  .runWith({
+    secrets: ["SLACK_TOKEN", "SLACK_CHANNEL"],
+  })
+  .pubsub.schedule("1 of month 00:00")
   .onRun(async () => {
     console.log("Resetting score boards");
 
