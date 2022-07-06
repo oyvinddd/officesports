@@ -11,7 +11,7 @@ import {
   incrementTotalSeasonWins,
   resetScoreboards,
   storeSeason,
-  updatePlayer
+  updatePlayer,
 } from "./helpers/firebase.helpers";
 import { setEmptyPlayerStats } from "./helpers/player.helpers";
 import * as slackHelpers from "./helpers/slack.helpers";
@@ -189,8 +189,11 @@ const resetScoreboardsFunction = async () => {
   await slackHelpers.postSeasonResults(seasonsWithWinners);
 };
 
-export const resetScoreboardsCron = functions.pubsub
-  .schedule("1 of month 00:00")
+export const resetScoreboardsCron = functions
+  .runWith({
+    secrets: ["SLACK_TOKEN", "SLACK_CHANNEL"],
+  })
+  .pubsub.schedule("1 of month 00:00")
   .onRun(async () => {
     console.log("Resetting score boards");
 

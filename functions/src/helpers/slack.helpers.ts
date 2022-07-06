@@ -1,4 +1,9 @@
-import { ChatPostMessageResponse, WebClient } from "@slack/web-api";
+import {
+  Block,
+  ChatPostMessageResponse,
+  KnownBlock,
+  WebClient,
+} from "@slack/web-api";
 import dotenv from "dotenv";
 import dedent from "string-dedent";
 import { initialScore } from "../constants";
@@ -12,20 +17,23 @@ const channel = process.env.SLACK_CHANNEL;
 
 const slackClient = new WebClient(slackToken);
 
-const postMessage = async (text: string): Promise<ChatPostMessageResponse> => {
+const postMessage = async (
+  text: string,
+  blocks?: Array<Block | KnownBlock>,
+): Promise<ChatPostMessageResponse> => {
   if (!channel) {
     throw new Error("Missing SLACK_CHANNEL environment variable");
   }
 
-  return await slackClient.chat.postMessage({ text, channel });
+  return await slackClient.chat.postMessage({ text, blocks, channel });
 };
 
 const seasonToString = ({ sport, winner }: Season): string => {
   switch (sport) {
     case Sport.Foosball:
-      return `⚽️ Foosball: ${winner.emoji} ${winner.nickname} with ${winner.foosballStats?.score} points`;
+      return ` - ⚽️ Foosball: ${winner.nickname} ${winner.emoji} with ${winner.foosballStats?.score} points`;
     case Sport.TableTennis:
-      return `🏓 Table tennis: ${winner.emoji} ${winner.nickname} with ${winner.tableTennisStats?.score} points`;
+      return ` - 🏓 Table tennis: ${winner.nickname} ${winner.emoji} with ${winner.tableTennisStats?.score} points`;
     default:
       return "";
   }
