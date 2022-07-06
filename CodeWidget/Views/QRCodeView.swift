@@ -11,11 +11,10 @@ import CoreImage.CIFilterBuiltins
 
 struct QRCodeView: View {
     
-//    let color = UIColor.OS.Text.normal
-//    let backgroundColor = UIColor.white
+    var mainColor: Color = Color(.sRGB, red: 106/255, green: 117/255, blue: 239/255, opacity: 1)
     
     var body: some View {
-        Color(.sRGB, red: 106/255, green: 117/255, blue: 239/255, opacity: 1).ignoresSafeArea()
+        mainColor.ignoresSafeArea()
         ZStack {
             if let image = genrateQRImage() {
                 Image(uiImage: image)
@@ -48,6 +47,14 @@ struct QRCodeView: View {
         if let qrCodeImage = filter.outputImage?.transformed(by: transform) {
             if let qrCodeCGImage = context.createCGImage(qrCodeImage, from: qrCodeImage.extent) {
                 return UIImage(cgImage: qrCodeCGImage)
+                // colorize QR code
+//                let colorFilter = CIFilter.falseColor()
+//                colorFilter.setValue(qrCodeCGImage, forKey: kCIInputImageKey)
+//                colorFilter.setValue(Color.white.cgColor, forKey: "inputColor0")
+//                colorFilter.setValue(Color.blue.cgColor, forKey: "inputColor1")
+//                if let outputImage = colorFilter.outputImage {
+//                    return UIImage(ciImage: outputImage)
+//                }
             }
         }
         return nil

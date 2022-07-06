@@ -39,18 +39,6 @@ struct QRCodeGenerator {
         return nil
     }
     
-    static func loadCodePayloadAndGenerateImage() -> UIImage? {
-        guard let payload = UserDefaults.CodeWidget.loadCodePayload() else {
-            print("Unable to load code payload since it doesn't exist")
-            return nil
-        }
-        guard let qrCodeImage = generate(from: payload) else {
-            print("Unable to generate QR code from payload")
-            return nil
-        }
-        return qrCodeImage
-    }
-    
     private static func applyColors(image: CIImage, _ color: CIColor, _ backgroundColor: CIColor) -> CIImage? {
         guard let colorFilter = CIFilter(name: "CIFalseColor") else {
             return nil

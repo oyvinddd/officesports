@@ -16,10 +16,6 @@ import GoogleSignIn
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
         setRootViewControllerAndTakeAction(window: &window)
-        
-        let code = QRCodeGenerator.loadCodePayloadAndGenerateImage
-        print(code())
-        
         return true
     }
     
