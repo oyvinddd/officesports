@@ -10,27 +10,27 @@ import UIKit
 final class MockSportsAPI: SportsAPI {
     
     private static let fst = [
-        OSStats(sport: .foosball, score: 0, matchesPlayed: 1),
-        OSStats(sport: .foosball, score: 1, matchesPlayed: 20),
-        OSStats(sport: .foosball, score: 0, matchesPlayed: 2),
-        OSStats(sport: .foosball, score: 11, matchesPlayed: 10),
-        OSStats(sport: .foosball, score: 0, matchesPlayed: 20),
-        OSStats(sport: .foosball, score: 0, matchesPlayed: 700),
-        OSStats(sport: .foosball, score: 110, matchesPlayed: 2),
-        OSStats(sport: .foosball, score: 0, matchesPlayed: 2),
-        OSStats(sport: .foosball, score: 100, matchesPlayed: 1)
+        OSStats(sport: .foosball, score: 0, matchesPlayed: 1, seasonWins: 0),
+        OSStats(sport: .foosball, score: 1, matchesPlayed: 20, seasonWins: 0),
+        OSStats(sport: .foosball, score: 0, matchesPlayed: 2, seasonWins: 0),
+        OSStats(sport: .foosball, score: 11, matchesPlayed: 10, seasonWins: 0),
+        OSStats(sport: .foosball, score: 0, matchesPlayed: 20, seasonWins: 0),
+        OSStats(sport: .foosball, score: 0, matchesPlayed: 700, seasonWins: 0),
+        OSStats(sport: .foosball, score: 110, matchesPlayed: 2, seasonWins: 0),
+        OSStats(sport: .foosball, score: 0, matchesPlayed: 2, seasonWins: 0),
+        OSStats(sport: .foosball, score: 100, matchesPlayed: 1, seasonWins: 0)
     ]
     
     private static let tst = [
-        OSStats(sport: .tableTennis, score: 0, matchesPlayed: 1),
-        OSStats(sport: .tableTennis, score: 1, matchesPlayed: 2),
-        OSStats(sport: .tableTennis, score: 200, matchesPlayed: 300),
-        OSStats(sport: .tableTennis, score: 11, matchesPlayed: 10),
-        OSStats(sport: .tableTennis, score: 0, matchesPlayed: 1000),
-        OSStats(sport: .tableTennis, score: 0, matchesPlayed: 7),
-        OSStats(sport: .tableTennis, score: 44, matchesPlayed: 30),
-        OSStats(sport: .tableTennis, score: 0, matchesPlayed: 32),
-        OSStats(sport: .tableTennis, score: 0, matchesPlayed: 1)
+        OSStats(sport: .tableTennis, score: 0, matchesPlayed: 1, seasonWins: 0),
+        OSStats(sport: .tableTennis, score: 1, matchesPlayed: 2, seasonWins: 0),
+        OSStats(sport: .tableTennis, score: 200, matchesPlayed: 300, seasonWins: 0),
+        OSStats(sport: .tableTennis, score: 11, matchesPlayed: 10, seasonWins: 0),
+        OSStats(sport: .tableTennis, score: 0, matchesPlayed: 1000, seasonWins: 0),
+        OSStats(sport: .tableTennis, score: 0, matchesPlayed: 7, seasonWins: 0),
+        OSStats(sport: .tableTennis, score: 44, matchesPlayed: 30, seasonWins: 0),
+        OSStats(sport: .tableTennis, score: 0, matchesPlayed: 32, seasonWins: 0),
+        OSStats(sport: .tableTennis, score: 0, matchesPlayed: 1, seasonWins: 0)
     ]
     
     private let players = [
@@ -76,8 +76,8 @@ final class MockSportsAPI: SportsAPI {
     }
     
     func createOrUpdatePlayerProfile(nickname: String, emoji: String, result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
-        let foosballStats = OSStats(id: nil, sport: .foosball, score: 0, matchesPlayed: 0)
-        let tableTennisStats = OSStats(id: nil, sport: .tableTennis, score: 0, matchesPlayed: 0)
+        let foosballStats = OSStats(sport: .foosball, score: 0, matchesPlayed: 0, seasonWins: 0)
+        let tableTennisStats = OSStats(sport: .tableTennis, score: 0, matchesPlayed: 0, seasonWins: 0)
         let player = OSPlayer(id: "id#1337", nickname: nickname, emoji: emoji, foosballStats: foosballStats, tableTennisStats: tableTennisStats)
         result(.success(player))
     }
@@ -123,6 +123,10 @@ final class MockSportsAPI: SportsAPI {
     func getActiveInvites(result: @escaping ((Result<[OSInvite], Error>) -> Void)) {
         let invite = OSInvite(date: Date(), sport: .foosball, inviterId: "id#1", inviteeId: "id#2", inviteeNickname: "heimegut")
         result(.success([invite]))
+    }
+    
+    func getSeasonStats(result: @escaping ((Result<[OSSeasonStats], Error>) -> Void)) {
+        result(.success([OSSeasonStats(date: Date(), winner: OSAccount.current.player!, sport: .tableTennis)]))
     }
 }
 
@@ -189,6 +193,14 @@ extension MockSportsAPI {
     func  getActiveInvites() async throws -> [OSInvite] {
         return try await withCheckedThrowingContinuation({ continuation in
             getActiveInvites { result in
+                continuation.resume(with: result)
+            }
+        })
+    }
+    
+    func  getSeasonStats() async throws -> [OSSeasonStats] {
+        return try await withCheckedThrowingContinuation({ continuation in
+            getSeasonStats { result in
                 continuation.resume(with: result)
             }
         })

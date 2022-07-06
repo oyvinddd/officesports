@@ -71,7 +71,7 @@ final class SportViewController: UIViewController {
         viewModel.fetchSportData()
     }
     
-    private func scrollTableViewToTop(animated: Bool) {
+    func scrollTableViewToTop(animated: Bool) {
         // scroll table view all the way to the top, taking
         // into consideration the custom content inset of the table
         tableView.scrollToTop(animated: animated)
@@ -135,8 +135,8 @@ extension SportViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(for: SportFilterTableViewCell.self, for: indexPath)
+            cell.configure(leftButtonTitle: "Scoreboard", rightButtonTitle: "Recent matches", delegate: self)
             cell.toggleLeftButton(enabled: showScoreboard)
-            cell.delegate = self
             return cell
         }
         

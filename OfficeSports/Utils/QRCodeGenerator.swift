@@ -6,24 +6,18 @@
 //
 
 import UIKit
+import SwiftUI
 
-struct CodeGen {
+struct QRCodeGenerator {
     
-    static func generateQRCode(from string: String) -> UIImage? {
-        let data = string.data(using: String.Encoding.ascii)
-        return generateQRCode(from: data)
-    }
-    
-    static func generateQRCode(from data: Data?) -> UIImage? {
+    static func generate(from data: Data?, color: UIColor, backgroundColor: UIColor) -> UIImage? {
         if let filter = CIFilter(name: "CIQRCodeGenerator") {
             filter.setValue(data, forKey: "inputMessage")
             filter.setValue("H", forKey: "inputCorrectionLevel")
             let transform = CGAffineTransform(scaleX: 3, y: 3)
             
             if let output = filter.outputImage?.transformed(by: transform) {
-                let color = UIColor.OS.Text.normal.coreImageColor
-                let backgroundColor = UIColor.white.coreImageColor
-                if let coloredOutput = applyColors(image: output, color, backgroundColor) {
+                if let coloredOutput = applyColors(image: output, color.coreImageColor, backgroundColor.coreImageColor) {
                     return UIImage(ciImage: coloredOutput)
                 }
             }
@@ -31,11 +25,12 @@ struct CodeGen {
         return nil
     }
     
-    static func generateQRCode(from payload: OSCodePayload) -> UIImage? {
+    static func generate(from payload: OSCodePayload, color: UIColor = .black, backgroundColor: UIColor = .white) -> UIImage? {
         do {
             let json = try JSONEncoder().encode(payload)
             if let jsonString = String(data: json, encoding: .utf8) {
-                return generateQRCode(from: jsonString)
+                let data = jsonString.data(using: String.Encoding.ascii)
+                return generate(from: data, color: color, backgroundColor: backgroundColor)
             }
         } catch let error {
             print(error)

@@ -10,7 +10,14 @@ import QuartzCore
 
 final class ConfettiView: UIView {
     
-    private var emitter: CAEmitterLayer!
+    private lazy var emitter: CAEmitterLayer = {
+        emitter = CAEmitterLayer()
+        emitter.emitterPosition = CGPoint(x: frame.size.width / 2.0, y: 0)
+        emitter.emitterShape = CAEmitterLayerEmitterShape.line
+        emitter.emitterSize = CGSize(width: frame.size.width, height: 1)
+        return emitter
+    }()
+    
     private var intensity: Float
     private var colors = [UIColor(red: 0.95, green: 0.40, blue: 0.27, alpha: 1),
                              UIColor(red: 1.00, green: 0.78, blue: 0.36, alpha: 1),
@@ -22,19 +29,14 @@ final class ConfettiView: UIView {
         self.intensity = intensity
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
+        isUserInteractionEnabled = false
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func startConfetti() {
-        emitter = CAEmitterLayer()
-        
-        emitter.emitterPosition = CGPoint(x: frame.size.width / 2.0, y: 0)
-        emitter.emitterShape = CAEmitterLayerEmitterShape.line
-        emitter.emitterSize = CGSize(width: frame.size.width, height: 1)
-        
+    func start() {
         var cells = [CAEmitterCell]()
         for color in colors {
             cells.append(confettiWithColor(color: color))
@@ -44,8 +46,8 @@ final class ConfettiView: UIView {
         layer.addSublayer(emitter)
     }
     
-    public func stopConfetti() {
-        emitter?.birthRate = 0
+    func stop() {
+        emitter.birthRate = 0
     }
     
     func confettiWithColor(color: UIColor) -> CAEmitterCell {

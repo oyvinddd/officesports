@@ -10,16 +10,12 @@ import FirebaseCore
 import GoogleSignIn
 
 @main class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
-        
-        window = UIWindow(frame: UIScreen.main.bounds)
-        Coordinator.global.window = window
-        Coordinator.global.checkAndHandleAppState()
-        
+        setRootViewControllerAndTakeAction(window: &window)
         return true
     }
     
@@ -29,5 +25,11 @@ import GoogleSignIn
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
         return GIDSignIn.sharedInstance.handle(url)
+    }
+    
+    func setRootViewControllerAndTakeAction(window: inout UIWindow?) {
+        window = UIWindow(frame: UIScreen.main.bounds)
+        Coordinator.global.window = window
+        Coordinator.global.checkAndHandleAppState()
     }
 }

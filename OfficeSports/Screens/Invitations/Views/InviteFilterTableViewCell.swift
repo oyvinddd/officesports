@@ -1,34 +1,39 @@
 //
-//  SportFilterTableViewCell.swift
-//  Office Sports
+//  InviteFilterTableViewCell.swift
+//  OfficeSports
 //
-//  Created by Øyvind Hauge on 12/05/2022.
+//  Created by Øyvind Hauge on 21/06/2022.
 //
 
 import UIKit
 
-protocol SportFilterDelegate: AnyObject {
+private let leftButtonTitle = "Received"
+private let rightButtonTitle = "Sent"
+
+protocol InviteFilterDelegate: AnyObject {
     
     func leftButtonTapped()
     
     func rightButtonTapped()
 }
 
-final class SportFilterTableViewCell: UITableViewCell {
+final class InviteFilterTableViewCell: UITableViewCell {
     
     private lazy var contentWrap: UIView = {
         return UIView.createView(.white, cornerRadius: 15)
     }()
     
     private lazy var leftButton: UIButton = {
-        let button = UIButton.createButton(.clear, UIColor.OS.Text.normal)
+        let title = leftButtonTitle.uppercased()
+        let button = UIButton.createButton(.clear, UIColor.OS.Text.normal, title: title)
         button.addTarget(self, action: #selector(leftButtonTapped), for: .touchUpInside)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
         return button
     }()
     
     private lazy var rightButton: UIButton = {
-        let button = UIButton.createButton(.clear, UIColor.OS.Text.disabled)
+        let title = rightButtonTitle.uppercased()
+        let button = UIButton.createButton(.clear, UIColor.OS.Text.disabled, title: title)
         button.addTarget(self, action: #selector(rightButtonTapped), for: .touchUpInside)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
         return button
@@ -42,7 +47,7 @@ final class SportFilterTableViewCell: UITableViewCell {
         return UIImpactFeedbackGenerator(style: .medium)
     }()
     
-    weak var delegate: SportFilterDelegate?
+    weak var delegate: InviteFilterDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -52,12 +57,6 @@ final class SportFilterTableViewCell: UITableViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-    }
-    
-    func configure(leftButtonTitle: String, rightButtonTitle: String, delegate: SportFilterDelegate? = nil) {
-        leftButton.setTitle(leftButtonTitle.uppercased(), for: .normal)
-        rightButton.setTitle(rightButtonTitle.uppercased(), for: .normal)
-        self.delegate = delegate
     }
     
     func toggleLeftButton(enabled: Bool) {

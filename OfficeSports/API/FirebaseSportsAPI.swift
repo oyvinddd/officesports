@@ -20,9 +20,10 @@ private let maxResultsInRecentMatches = 100
 private let fbPlayersCollection = "players"
 private let fbMatchesCollection = "matches"
 private let fbInvitesCollection = "invites"
+private let fbSeasonsCollection = "seasons"
 
 final class FirebaseSportsAPI: SportsAPI {
-    
+
     private let database = Firestore.firestore()
     
     private var playersCollection: CollectionReference {
@@ -35,6 +36,10 @@ final class FirebaseSportsAPI: SportsAPI {
     
     private var invitesCollection: CollectionReference {
         database.collection(fbInvitesCollection)
+    }
+    
+    private var seasonsCollection: CollectionReference {
+        database.collection(fbSeasonsCollection)
     }
     
     func signIn(_ viewController: UIViewController, result: @escaping (Result<Bool, Error>) -> Void) {
@@ -89,7 +94,7 @@ final class FirebaseSportsAPI: SportsAPI {
         
         let fields = ["nickname", "emoji"]
         let data = ["nickname": nickname, "emoji": emoji]
-        let player = OSPlayer(nickname: nickname, emoji: emoji)
+        let player = OSPlayer(id: uid, nickname: nickname, emoji: emoji)
         
         playersCollection.document(uid).setData(data, mergeFields: fields) { error in
             guard let error = error else {
@@ -107,7 +112,8 @@ final class FirebaseSportsAPI: SportsAPI {
         }
         playersCollection.document(uid).getDocument(as: OSPlayer.self) { fbResult in
             switch fbResult {
-            case .success(let player):
+            case .success(var player):
+                player.id = uid
                 result(.success(player))
             case .failure(let error):
                 result(.failure(error))
@@ -218,13 +224,13 @@ final class FirebaseSportsAPI: SportsAPI {
         }
         
         // 24 hourse from now
-        let calendar = Calendar.current
-        let date = calendar.date(byAdding: .hour, value: -24, to: Date())!
+        // let calendar = Calendar.current
+        // let date = calendar.date(byAdding: .hour, value: -24, to: Date())!
         
         // find invites the current user has sent that are not older than 24 hours
         let query = invitesCollection
             .whereField("inviterId", isEqualTo: uid)
-            .whereField("date", isGreaterThan: date)
+            // .whereField("date", isGreaterThan: date)
         
         query.getDocuments { (snapshot, error) in
             if let error = error {
@@ -239,6 +245,29 @@ final class FirebaseSportsAPI: SportsAPI {
                 return try? documentSnapshot.data(as: OSInvite.self)
             }
             result(.success(invites))
+        }
+    }
+    
+    func getSeasonStats(result: @escaping ((Result<[OSSeasonStats], Error>) -> Void)) {
+        guard OSAccount.current.userId != nil else {
+            result(.failure(OSError.unauthorized))
+            return
+        }
+        
+        let query = seasonsCollection.order(by: "date", descending: true)
+        query.getDocuments { (snapshot, error) in
+            if let error = error {
+                result(.failure(error))
+                return
+            }
+            guard let documents = snapshot?.documents else {
+                result(.success([]))
+                return
+            }
+            let seasons = documents.compactMap { documentSnapshot -> OSSeasonStats? in
+                return try? documentSnapshot.data(as: OSSeasonStats.self)
+            }
+            result(.success(seasons))
         }
     }
     
@@ -346,6 +375,14 @@ extension FirebaseSportsAPI {
     func  getActiveInvites() async throws -> [OSInvite] {
         return try await withCheckedThrowingContinuation({ continuation in
             getActiveInvites { result in
+                continuation.resume(with: result)
+            }
+        })
+    }
+    
+    func getSeasonStats() async throws -> [OSSeasonStats] {
+        return try await withCheckedThrowingContinuation({ continuation in
+            getSeasonStats { result in
                 continuation.resume(with: result)
             }
         })

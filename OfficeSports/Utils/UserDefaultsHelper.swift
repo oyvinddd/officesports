@@ -9,39 +9,53 @@ import Foundation
 
 private let userDefaultsPlayerKey = "player"
 private let userDefaultsInviteTimestampKey = "inviteTimestamp"
+private let userDefaultsDefaultScreenKey = "defaultScreen"
 
 struct UserDefaultsHelper {
     
+    private static let standardDefaults = UserDefaults.standard
+    private static let sharedDefaults = UserDefaults(suiteName: "group.com.tietoevry.officesports")!
+    
     static func savePlayerProfile(_ player: OSPlayer) -> Bool {
-        let encoder = JSONEncoder()
-        let defaults = UserDefaults.standard
-        
-        if let encodedPlayer = try? encoder.encode(player) {
-            defaults.set(encodedPlayer, forKey: userDefaultsPlayerKey)
+        if let encodedPlayer = try? JSONEncoder().encode(player) {
+            standardDefaults.set(encodedPlayer, forKey: userDefaultsPlayerKey)
             return true
         }
         return false
     }
     
     static func loadPlayerProfile() -> OSPlayer? {
-        let defaults = UserDefaults.standard
-        if let encodedPlayer = defaults.object(forKey: userDefaultsPlayerKey) as? Data {
-            let decoder = JSONDecoder()
-            let decodedPlayer = try? decoder.decode(OSPlayer.self, from: encodedPlayer)
+        if let encodedPlayer = standardDefaults.object(forKey: userDefaultsPlayerKey) as? Data {
+            let decodedPlayer = try? JSONDecoder().decode(OSPlayer.self, from: encodedPlayer)
             return decodedPlayer
         }
         return nil
     }
     
     static func saveInviteTimestamp(_ timestamp: Date) {
-        let defaults = UserDefaults.standard
-        defaults.set(timestamp.timeIntervalSince1970, forKey: userDefaultsInviteTimestampKey)
+        standardDefaults.set(timestamp.timeIntervalSince1970, forKey: userDefaultsInviteTimestampKey)
     }
     
     static func loadInviteTimestamp() -> Date? {
-        let defaults = UserDefaults.standard
-        let timestampDouble = defaults.double(forKey: userDefaultsInviteTimestampKey)
+        let timestampDouble = standardDefaults.double(forKey: userDefaultsInviteTimestampKey)
         return Date(timeIntervalSince1970: timestampDouble)
+    }
+    
+    static func saveDefaultScreen(index: Int) {
+        var validIndex = index
+        if validIndex < 0 {
+            validIndex = 0
+        } else if validIndex > 2 {
+            validIndex = 2
+        }
+        standardDefaults.set(validIndex, forKey: userDefaultsDefaultScreenKey)
+    }
+    
+    static func loadDefaultScreen() -> Int {
+        if let defaultScreenIndex = standardDefaults.value(forKey: userDefaultsDefaultScreenKey) as? Int {
+            return defaultScreenIndex
+        }
+        return 1 // 1 = table tennis screen is the fallback
     }
     
     static func clearProfileDetails() {
@@ -52,4 +66,9 @@ struct UserDefaultsHelper {
             defaults.removeObject(forKey: key)
         }
     }
+}
+
+struct Foo {
+    var id: String
+    
 }

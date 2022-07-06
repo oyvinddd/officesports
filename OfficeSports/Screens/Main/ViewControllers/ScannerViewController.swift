@@ -66,6 +66,15 @@ final class ScannerViewController: UIViewController {
         configureUI()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // remember to start camera session if user has chosen
+        // camera screen as the default screen on initial app start
+        if UserDefaultsHelper.loadDefaultScreen() == 0 {
+            handleShadowViewOpacity(CGPoint.zero)
+        }
+    }
+    
     private func setupChildViews() {
         view.addSubview(activateCameraDescription)
         view.addSubview(activateCameraButton)

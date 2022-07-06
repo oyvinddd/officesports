@@ -6,15 +6,14 @@
 //
 
 import Foundation
-import FirebaseFirestoreSwift
 
-struct OSStats: Identifiable, Codable {
-    
-    @DocumentID public var id: String?
+struct OSStats: Codable {
     
     var sport: OSSport
     
     var score: Int
     
     var matchesPlayed: Int
+    
+    var seasonWins: Int
 }

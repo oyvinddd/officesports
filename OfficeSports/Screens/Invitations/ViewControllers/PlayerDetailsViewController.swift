@@ -214,7 +214,8 @@ final class PlayerDetailsViewController: UIViewController {
         profileEmjoiLabel.text = player.emoji
         nicknameLabel.text = player.nickname
         if let stats = player.statsForSport(sport) {
-            playerDetailsLabel.text = "\(stats.score) pts • \(stats.matchesPlayed) matches"
+            let matchesString = stats.matchesPlayed != 1 ? "\(stats.matchesPlayed) matches" : "\(stats.matchesPlayed) match"
+            playerDetailsLabel.text = "\(stats.score) pts • \(matchesString)"
             inviteButton.setTitle("Invite to \(sport.humanReadableName) match", for: .normal)
         }
     }

@@ -34,6 +34,10 @@ final class Coordinator {
         didSet { updateRootViewController(animated: true) }
     }
     
+    private lazy var feedbackGenerator: UINotificationFeedbackGenerator = {
+        return UINotificationFeedbackGenerator()
+    }()
+    
     private lazy var welcomeViewController: WelcomeViewController = {
         let viewModel = AuthViewModel(api: FirebaseSportsAPI())
         return WelcomeViewController(viewModel: viewModel)
@@ -79,6 +83,11 @@ final class Coordinator {
         messageWindow.showMessage(message)
     }
     
+    func presentSeasons(from viewController: UIViewController) {
+        let viewModel = SeasonsViewModel(api: FirebaseSportsAPI())
+        viewController.present(SeasonsViewController(viewModel: viewModel), animated: true)
+    }
+    
     func presentPlayerProfile(from viewController: UIViewController) {
         viewController.present(playerProfileViewController, animated: true)
     }
@@ -114,9 +123,17 @@ final class Coordinator {
     
     func resetUIAfterMatchRegistration() {
         // initial position meaning outer scroll view shows sports
-        // part (not the camera) and inner scroll view shows foosball screen
+        // part (not the camera) and inner scroll view shows table tennis screen
         containerViewController.resetScrollViewsAndReloadData()
         messageWindow.showConfetti(seconds: 5)
+        vibrateDevice(feedbackType: .success)
+    }
+    
+    func vibrateDevice(feedbackType: UINotificationFeedbackGenerator.FeedbackType) {
+        DispatchQueue.main.async { [unowned self] in
+            self.feedbackGenerator.prepare()
+            self.feedbackGenerator.notificationOccurred(feedbackType)
+        }
     }
     
     private func updateRootViewController(animated: Bool) {

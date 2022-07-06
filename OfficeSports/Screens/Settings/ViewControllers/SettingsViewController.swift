@@ -30,6 +30,14 @@ final class SettingsViewController: UIViewController {
         return view
     }()
     
+    private lazy var newFeatureBadge: UIView = {
+        let view = UIView.createView(UIColor.OS.Status.failure, cornerRadius: 3)
+        let label = UILabel.createLabel(.white, text: "NEW")
+        label.font = UIFont.boldSystemFont(ofSize: 12)
+        NSLayoutConstraint.pinToView(view, label, padding: 4)
+        return view
+    }()
+    
     private lazy var dialogHandle: UIView = {
         let view = UIView.createView(UIColor.OS.Text.subtitle, cornerRadius: 3)
         view.alpha = 0.8
@@ -127,13 +135,15 @@ final class SettingsViewController: UIViewController {
         view.addSubview(dialogHandle)
         dialogView.addSubview(contentWrapView)
         contentWrapView.addSubview(stackView)
+        contentWrapView.addSubview(newFeatureBadge)
         
-        let profileButton = createSettingsButton("person", "Update player profile", #selector(profileButtonTapped))
+        let seasonsButton = createSettingsButton("star", "Season results", #selector(seasonsButtonTapped))
+        let profileButton = createSettingsButton("person", "Update profile", #selector(profileButtonTapped))
         let preferencesButton = createSettingsButton("checklist", "Preferences", #selector(preferencesButtonTapped))
         let aboutButton = createSettingsButton("info.circle", "About", #selector(aboutButtonTapped))
         let signOutButton = createSettingsButton("power", "Sign out", #selector(signOutButtonTapped))
         
-        stackView.addArrangedSubviews(profileButton, preferencesButton, aboutButton, signOutButton)
+        stackView.addArrangedSubviews(seasonsButton, profileButton, preferencesButton, aboutButton, signOutButton)
         
         NSLayoutConstraint.activate([
             backgroundView.leftAnchor.constraint(equalTo: view.leftAnchor),
@@ -154,7 +164,9 @@ final class SettingsViewController: UIViewController {
             stackView.leftAnchor.constraint(equalTo: contentWrapView.leftAnchor),
             stackView.rightAnchor.constraint(equalTo: contentWrapView.rightAnchor),
             stackView.topAnchor.constraint(equalTo: contentWrapView.topAnchor, constant: 16),
-            stackView.bottomAnchor.constraint(equalTo: contentWrapView.safeAreaLayoutGuide.bottomAnchor, constant: -16)
+            stackView.bottomAnchor.constraint(equalTo: contentWrapView.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            newFeatureBadge.rightAnchor.constraint(equalTo: stackView.rightAnchor, constant: -16),
+            newFeatureBadge.centerYAnchor.constraint(equalTo: seasonsButton.centerYAnchor)
         ])
     }
     
@@ -201,6 +213,10 @@ final class SettingsViewController: UIViewController {
     
     // MARK: - Button Handling
     
+    @objc private func seasonsButtonTapped(_ sender: UITapGestureRecognizer) {
+        Coordinator.global.presentSeasons(from: self)
+    }
+    
     @objc private func profileButtonTapped(_ sender: UITapGestureRecognizer) {
         Coordinator.global.presentPlayerProfile(from: self)
     }
@@ -234,7 +250,7 @@ private final class SettingsButton: UIView {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel.createLabel(UIColor.OS.Text.normal)
-        label.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         return label
     }()
     

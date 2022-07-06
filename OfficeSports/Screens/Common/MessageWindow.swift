@@ -84,11 +84,11 @@ final class WindowViewController: UIViewController {
     }
     
     func showConfetti(seconds: Float) {
-        confettiView.startConfetti()
+        confettiView.start()
         
         let interval = TimeInterval(seconds)
         Timer.scheduledTimer(withTimeInterval: interval, repeats: false) { [weak self] _ in
-            self?.confettiView.stopConfetti()
+            self?.confettiView.stop()
         }
     }
     

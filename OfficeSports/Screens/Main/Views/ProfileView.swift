@@ -13,7 +13,7 @@ private let sportImageDiameter: CGFloat = 60
 private let profileImageRadius: CGFloat = profileImageDiameter / 2
 private let sportImageRadius: CGFloat = sportImageDiameter / 2
 private let codeTransitionDuration: TimeInterval = 0.3          // seconds
-private let codeHideDelayDuration: TimeInterval = 2             // seconds
+private let codeHideDelayDuration: TimeInterval = 4             // seconds
 private let emojiFadeTransitionDuration: TimeInterval = 0.15    // seconds
 
 protocol ProfileViewDelegate: AnyObject {
@@ -25,6 +25,19 @@ protocol ProfileViewDelegate: AnyObject {
 
 final class ProfileView: UIView {
     
+    private lazy var totalWinsLabel: UILabel = {
+        let label = UILabel.createLabel(.white, alignment: .center, text: "🏆 x 0")
+        label.font = UIFont.boldSystemFont(ofSize: 15)
+        return label
+    }()
+    
+    private lazy var totalWinsView: UIView = {
+        let view = UIView.createView(UIColor.OS.Text.normal, cornerRadius: 5)
+        view.alpha = 0.8
+        NSLayoutConstraint.pinToView(view, totalWinsLabel, padding: 6)
+        return view
+    }()
+    
     private lazy var settingsButton: UIButton = {
         let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .semibold, scale: .large)
         let image = UIImage(systemName: "gearshape.fill", withConfiguration: config)
@@ -35,18 +48,22 @@ final class ProfileView: UIView {
         return button
     }()
     
-    private lazy var foosballCodeImage: UIImage? = {
-        guard let payload = OSAccount.current.qrCodePayloadForSport(.foosball) else {
-            return nil
-        }
-        return CodeGen.generateQRCode(from: payload)
-    }()
-    
     private lazy var tableTennisCodeImage: UIImage? = {
         guard let payload = OSAccount.current.qrCodePayloadForSport(.tableTennis) else {
             return nil
         }
-        return CodeGen.generateQRCode(from: payload)
+        let color = UIColor.OS.Text.normal
+        let backgroundColor = UIColor.white
+        return QRCodeGenerator.generate(from: payload, color: color, backgroundColor: backgroundColor)
+    }()
+    
+    private lazy var foosballCodeImage: UIImage? = {
+        guard let payload = OSAccount.current.qrCodePayloadForSport(.foosball) else {
+            return nil
+        }
+        let color = UIColor.OS.Text.normal
+        let backgroundColor = UIColor.white
+        return QRCodeGenerator.generate(from: payload, color: color, backgroundColor: backgroundColor)
     }()
     
     private lazy var codeImageView: UIImageView = {
@@ -54,8 +71,7 @@ final class ProfileView: UIView {
     }()
     
     private lazy var codeImageWrap: UIView = {
-        let view = UIView.createView(.white)
-        view.applyCornerRadius(5)
+        let view = UIView.createView(.white, cornerRadius: 5)
         view.applyMediumDropShadow(.black)
         view.alpha = 0
         return view
@@ -76,7 +92,7 @@ final class ProfileView: UIView {
         return profileImageBackground
     }()
     
-    private lazy var profileEmjoiLabel: UILabel = {
+    private lazy var profileEmojiLabel: UILabel = {
         let label = UILabel.createLabel(.black, alignment: .center)
         label.font = UIFont.systemFont(ofSize: 80)
         return label
@@ -140,10 +156,17 @@ final class ProfileView: UIView {
         self.delegate = delegate
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
-        profileEmjoiLabel.text = account.emoji
+        
+        let foosballStats = account.player?.foosballStats
+        let tableTennisStats = account.player?.tableTennisStats
+        let fSeasonWins = foosballStats?.seasonWins ?? 0
+        let tSeasonWins = tableTennisStats?.seasonWins ?? 0
+        
+        profileEmojiLabel.text = account.emoji
         nicknameLabel.text = account.nickname?.lowercased()
-        foosballScoreLabel.text = "\(account.player?.foosballStats?.score ?? 0) pts"
-        tableTennisScoreLabel.text = "\(account.player?.tableTennisStats?.score ?? 0) pts"
+        totalWinsLabel.text = initialSport == .tableTennis ? "🏆 x \(tSeasonWins)" : "🏆 x \(fSeasonWins)"
+        foosballScoreLabel.text = "\(foosballStats?.score ?? 1200) pts"
+        tableTennisScoreLabel.text = "\(tableTennisStats?.score ?? 1200) pts"
         setupSubscribers()
         setupChildViews()
         configureForSport(initialSport)
@@ -154,6 +177,7 @@ final class ProfileView: UIView {
     }
     
     func configureForSport(_ sport: OSSport) {
+        var totalWinsViewAlpha: CGFloat = 1
         var sportImageWrapAlpha: CGFloat = 1
         var sportImageBackgroundColor = UIColor.OS.Sport.foosball
         var foosballEmojiAlpha: CGFloat = 1
@@ -161,23 +185,28 @@ final class ProfileView: UIView {
         
         switch sport {
         case .foosball:
-            sportImageWrapAlpha = isDisplayingQrCode ? 0 : 1
             codeImageView.image = foosballCodeImage
+            totalWinsViewAlpha = 1
+            sportImageWrapAlpha = isDisplayingQrCode ? 0 : 1
             sportImageBackgroundColor = UIColor.OS.Sport.foosball
             foosballEmojiAlpha = 1
             tableTennisEmojiAlpha = 0
         case .tableTennis:
-            sportImageWrapAlpha = isDisplayingQrCode ? 0 : 1
             codeImageView.image = tableTennisCodeImage
+            totalWinsViewAlpha = 1
+            sportImageWrapAlpha = isDisplayingQrCode ? 0 : 1
             sportImageBackgroundColor = UIColor.OS.Sport.tableTennis
             foosballEmojiAlpha = 0
             tableTennisEmojiAlpha = 1
         default:
+            codeImageView.image = tableTennisCodeImage
+            totalWinsViewAlpha = 0
             sportImageWrapAlpha = 0
             foosballEmojiAlpha = 0
             tableTennisEmojiAlpha = 0
         }
         UIView.animate(withDuration: emojiFadeTransitionDuration, delay: 0) {
+            self.totalWinsView.alpha = totalWinsViewAlpha
             self.sportImageWrap.alpha = sportImageWrapAlpha
             self.sportImageBackground.backgroundColor = sportImageBackgroundColor
             self.foosballEmojiLabel.alpha = foosballEmojiAlpha
@@ -187,7 +216,7 @@ final class ProfileView: UIView {
         }
     }
     
-    func displayQrCode(seconds: Float) {
+    func displayQrCode() {
         guard !isDisplayingQrCode else {
             return
         }
@@ -197,7 +226,7 @@ final class ProfileView: UIView {
             self?.sportImageWrap.alpha = 0
             self?.codeImageWrap.alpha = 1
         } completion: { [weak self] _ in
-            UIView.animate(withDuration: codeTransitionDuration, delay: TimeInterval(seconds), options: [.curveEaseOut]) { [weak self] in
+            UIView.animate(withDuration: codeTransitionDuration, delay: codeHideDelayDuration, options: [.curveEaseOut]) { [weak self] in
                 self?.profileImageWrap.alpha = 1
                 self?.sportImageWrap.alpha = 1
                 self?.codeImageWrap.alpha = 0
@@ -229,7 +258,7 @@ final class ProfileView: UIView {
         OSAccount.current.$player
             .receive(on: DispatchQueue.main)
             .map({ $0!.emoji })
-            .assign(to: \.text, on: profileEmjoiLabel)
+            .assign(to: \.text, on: profileEmojiLabel)
             .store(in: &subscribers)
         OSAccount.current.$player
             .receive(on: DispatchQueue.main)
@@ -244,6 +273,7 @@ final class ProfileView: UIView {
     }
     
     private func setupChildViews() {
+        addSubview(totalWinsView)
         addSubview(settingsButton)
         addSubview(codeImageWrap)
         addSubview(profileImageWrap)
@@ -254,12 +284,14 @@ final class ProfileView: UIView {
         addSubview(tableTennisScoreLabel)
         
         NSLayoutConstraint.pinToView(codeImageWrap, codeImageView, padding: 6)
-        NSLayoutConstraint.pinToView(profileImageBackground, profileEmjoiLabel)
+        NSLayoutConstraint.pinToView(profileImageBackground, profileEmojiLabel)
         NSLayoutConstraint.pinToView(sportImageWrap, sportImageBackground, padding: 5)
         NSLayoutConstraint.pinToView(sportImageBackground, foosballEmojiLabel)
         NSLayoutConstraint.pinToView(sportImageBackground, tableTennisEmojiLabel)
         
         NSLayoutConstraint.activate([
+            totalWinsView.leftAnchor.constraint(equalTo: leftAnchor, constant: 24),
+            totalWinsView.centerYAnchor.constraint(equalTo: settingsButton.centerYAnchor),
             settingsButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
             settingsButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 10),
             settingsButton.widthAnchor.constraint(equalToConstant: 50),
