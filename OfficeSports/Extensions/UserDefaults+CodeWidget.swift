@@ -18,7 +18,7 @@ extension UserDefaults {
             guard let userId = userId else {
                 return false
             }
-            let payload = OSCodePayload(userId: userId, nickname: nickname, sport: .unknown)
+            let payload = OSCodePayload(userId: userId, nickname: nickname, sport: .tableTennis)
             guard let sharedDefaults = UserDefaults(suiteName: userDefaultsSharedGroupId),
                   let encodedPayload = try? JSONEncoder().encode(payload) else {
                 return false

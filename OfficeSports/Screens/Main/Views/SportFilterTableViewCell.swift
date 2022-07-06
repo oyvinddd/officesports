@@ -7,9 +7,6 @@
 
 import UIKit
 
-private let leftButtonTitle = "Scoreboard"
-private let rightButtonTitle = "Recent matches"
-
 protocol SportFilterDelegate: AnyObject {
     
     func leftButtonTapped()
@@ -24,16 +21,14 @@ final class SportFilterTableViewCell: UITableViewCell {
     }()
     
     private lazy var leftButton: UIButton = {
-        let title = leftButtonTitle.uppercased()
-        let button = UIButton.createButton(.clear, UIColor.OS.Text.normal, title: title)
+        let button = UIButton.createButton(.clear, UIColor.OS.Text.normal)
         button.addTarget(self, action: #selector(leftButtonTapped), for: .touchUpInside)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
         return button
     }()
     
     private lazy var rightButton: UIButton = {
-        let title = rightButtonTitle.uppercased()
-        let button = UIButton.createButton(.clear, UIColor.OS.Text.disabled, title: title)
+        let button = UIButton.createButton(.clear, UIColor.OS.Text.disabled)
         button.addTarget(self, action: #selector(rightButtonTapped), for: .touchUpInside)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
         return button
@@ -60,8 +55,8 @@ final class SportFilterTableViewCell: UITableViewCell {
     }
     
     func configure(leftButtonTitle: String, rightButtonTitle: String, delegate: SportFilterDelegate? = nil) {
-        leftButton.setTitle(leftButtonTitle, for: .normal)
-        rightButton.setTitle(rightButtonTitle, for: .normal)
+        leftButton.setTitle(leftButtonTitle.uppercased(), for: .normal)
+        rightButton.setTitle(rightButtonTitle.uppercased(), for: .normal)
         self.delegate = delegate
     }
     

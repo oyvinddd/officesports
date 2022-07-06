@@ -39,21 +39,6 @@ struct QRCodeGenerator {
         return nil
     }
     
-    private static func applyColors(image: CIImage, _ color: CIColor, _ backgroundColor: CIColor) -> CIImage? {
-        guard let colorFilter = CIFilter(name: "CIFalseColor") else {
-            return nil
-        }
-        colorFilter.setValue(image, forKey: kCIInputImageKey)
-        colorFilter.setValue(color, forKey: "inputColor0")
-        colorFilter.setValue(backgroundColor, forKey: "inputColor1")
-        return colorFilter.outputImage
-    }
-}
-
-// MARK: - Fetch QR code from the widget
-
-extension QRCodeGenerator {
-    
     static func loadCodePayloadAndGenerateImage() -> UIImage? {
         guard let payload = UserDefaults.CodeWidget.loadCodePayload() else {
             print("Unable to load code payload since it doesn't exist")
@@ -64,5 +49,15 @@ extension QRCodeGenerator {
             return nil
         }
         return qrCodeImage
+    }
+    
+    private static func applyColors(image: CIImage, _ color: CIColor, _ backgroundColor: CIColor) -> CIImage? {
+        guard let colorFilter = CIFilter(name: "CIFalseColor") else {
+            return nil
+        }
+        colorFilter.setValue(image, forKey: kCIInputImageKey)
+        colorFilter.setValue(color, forKey: "inputColor0")
+        colorFilter.setValue(backgroundColor, forKey: "inputColor1")
+        return colorFilter.outputImage
     }
 }

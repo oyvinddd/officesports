@@ -11,11 +11,11 @@ import SwiftUI
 struct Provider: TimelineProvider {
     
     func placeholder(in context: Context) -> CodeContainerEntry {
-        CodeContainerEntry(date: Date(), container: CodeContainer.current)
+        CodeContainerEntry(date: Date())
     }
 
     func getSnapshot(in context: Context, completion: @escaping (CodeContainerEntry) -> Void) {
-        let entry = CodeContainerEntry(date: Date(), container: CodeContainer.current)
+        let entry = CodeContainerEntry(date: Date())
         completion(entry)
     }
 
@@ -26,7 +26,7 @@ struct Provider: TimelineProvider {
         let currentDate = Date()
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = CodeContainerEntry(date: entryDate, container: CodeContainer.current)
+            let entry = CodeContainerEntry(date: entryDate)
             entries.append(entry)
         }
 
@@ -36,36 +36,35 @@ struct Provider: TimelineProvider {
 }
 
 struct CodeContainerEntry: TimelineEntry {
-    
     let date: Date
-    
-    let container: CodeContainer
 }
 
 struct CodeWidgetEntryView: View {
     var entry: Provider.Entry
 
     var body: some View {
-        CodeView(container: entry.container)
+        QRCodeView()
     }
 }
 
 @main struct CodeWidget: Widget {
-    let kind: String = "CodeWidget"
+    let kind = "QRCodeWidget"
+    let displayName = "QR Code Widget"
+    let description = "A widget for your QR codes!"
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             CodeWidgetEntryView(entry: entry)
         }
         .supportedFamilies([WidgetFamily.systemSmall])
-        .configurationDisplayName("QR Code Widget")
-        .description("A widget for your QR codes!")
+        .configurationDisplayName(displayName)
+        .description(description)
     }
 }
 
 struct CodeWidget_Previews: PreviewProvider {
     static var previews: some View {
-        CodeWidgetEntryView(entry: CodeContainerEntry(date: Date(), container: CodeContainer.current))
+        CodeWidgetEntryView(entry: CodeContainerEntry(date: Date()))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }
