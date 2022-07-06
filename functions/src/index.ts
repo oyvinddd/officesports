@@ -11,10 +11,10 @@ import {
   incrementTotalSeasonWins,
   resetScoreboards,
   storeSeason,
-  updatePlayer,
+  updatePlayer
 } from "./helpers/firebase.helpers";
 import { setEmptyPlayerStats } from "./helpers/player.helpers";
-import { postSeasonResults } from "./helpers/slack.helpers";
+import * as slackHelpers from "./helpers/slack.helpers";
 import { validateWinMatchBody } from "./helpers/validation.helpers";
 import { ErrorCodes } from "./types/ErrorCodes";
 import { Match } from "./types/Match";
@@ -186,7 +186,7 @@ const resetScoreboardsFunction = async () => {
   console.log("Resetting score boards");
   await resetScoreboards(initialScore);
 
-  await postSeasonResults(seasonsWithWinners);
+  await slackHelpers.postSeasonResults(seasonsWithWinners);
 };
 
 export const resetScoreboardsCron = functions.pubsub
