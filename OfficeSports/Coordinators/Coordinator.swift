@@ -110,7 +110,8 @@ final class Coordinator {
     }
     
     func presentTeamPicker(from viewController: UIViewController) {
-        viewController.present(TeamPickerViewController(), animated: false)
+        let viewModel = TeamsViewModel(api: FirebaseSportsAPI())
+        viewController.present(TeamPickerViewController(viewModel: viewModel), animated: false)
     }
     
     func presentPlayerDetails(_ player: OSPlayer, sport: OSSport) {

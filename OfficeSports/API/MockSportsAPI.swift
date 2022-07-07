@@ -128,6 +128,12 @@ final class MockSportsAPI: SportsAPI {
     func getSeasonStats(result: @escaping ((Result<[OSSeasonStats], Error>) -> Void)) {
         result(.success([OSSeasonStats(date: Date(), winner: OSAccount.current.player!, sport: .tableTennis)]))
     }
+    
+    func getTeams(result: @escaping ((Result<[OSTeam], Error>) -> Void)) {
+        let team1 = OSTeam(orgId: "id#123", name: "Tietoevry Create - Bergen")
+        let team2 = OSTeam(orgId: "id#456", name: "Tietoevry Banking - Bergen")
+        result(.success([team1, team2]))
+    }
 }
 
 // MARK: - Confirm to the async/await versions of the API methods
@@ -201,6 +207,14 @@ extension MockSportsAPI {
     func  getSeasonStats() async throws -> [OSSeasonStats] {
         return try await withCheckedThrowingContinuation({ continuation in
             getSeasonStats { result in
+                continuation.resume(with: result)
+            }
+        })
+    }
+    
+    func getTeams() async throws -> [OSTeam] {
+        return try await withCheckedThrowingContinuation({ continuation in
+            getTeams { result in
                 continuation.resume(with: result)
             }
         })

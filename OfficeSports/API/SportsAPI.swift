@@ -40,6 +40,9 @@ protocol SportsAPI {
     @available(*, renamed: "getSeasonStats()")
     func getSeasonStats(result: @escaping ((Result<[OSSeasonStats], Error>) -> Void))
     
+    @available(*, renamed: "getTeams()")
+    func getTeams(result: @escaping ((Result<[OSTeam], Error>) -> Void))
+    
     // MARK: - Async/await API
     
     func signIn(viewController: UIViewController) async throws -> Bool
@@ -59,4 +62,6 @@ protocol SportsAPI {
     func getActiveInvites() async throws -> [OSInvite]
     
     func getSeasonStats() async throws -> [OSSeasonStats]
+    
+    func getTeams() async throws -> [OSTeam]
 }

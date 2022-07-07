@@ -54,14 +54,21 @@ final class TeamPickerViewController: UIViewController {
         return constraint
     }()
     
+    private lazy var selectButton: OSButton = {
+        let button = OSButton("Select team", type: .primary, state: .normal)
+        return button
+    }()
+    
     private let dialogHideConstant: CGFloat = 0
     private var dialogShowConstant: CGFloat {
         return -dialogView.frame.height
     }
     
     private var subscribers: [AnyCancellable] = []
+    private let viewModel: TeamsViewModel
     
-    init(cornerRadius: CGFloat = 20) {
+    init(viewModel: TeamsViewModel, cornerRadius: CGFloat = 20) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         modalPresentationStyle = .overFullScreen
         dialogView.layer.cornerRadius = cornerRadius
@@ -84,20 +91,23 @@ final class TeamPickerViewController: UIViewController {
     }
     
     private func setupSubscribers() {
-//        viewModel.$state
-//            .receive(on: DispatchQueue.main)
-//            .sink { state in
-//                switch state {
-//                case .signOutSuccess:
-//                    Coordinator.global.changeAppState(.unauthorized)
-//                case .signOutFailure(let error):
-//                    Coordinator.global.send(OSMessage(error.localizedDescription, .failure))
-//                default:
-//                    // do nothing
-//                    break
-//                }
-//            }
-//            .store(in: &subscribers)
+        viewModel.$state
+            .receive(on: DispatchQueue.main)
+            .sink { state in
+                switch state {
+                case .loading:
+                    return
+                case .success:
+                    
+                    return
+                case .failure(let error):
+                    Coordinator.global.send(error)
+                default:
+                    // do nothing
+                    break
+                }
+            }
+            .store(in: &subscribers)
     }
     
     private func setupChildViews() {
