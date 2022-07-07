@@ -11,7 +11,7 @@ import FirebaseFirestoreSwift
 struct OSPlayer: Identifiable, Codable {
     
     enum CodingKeys: String, CodingKey {
-        case id, nickname, emoji, foosballStats, tableTennisStats, organization
+        case id, nickname, emoji, foosballStats, tableTennisStats, team
     }
     
     @DocumentID public var id: String?
@@ -24,7 +24,7 @@ struct OSPlayer: Identifiable, Codable {
     
     var tableTennisStats: OSStats?
     
-    var organization: OSOrganization?
+    var team: OSTeam?
     
     init(id: String? = nil, nickname: String, emoji: String, foosballStats: OSStats? = nil, tableTennisStats: OSStats? = nil) {
         self.id = id
@@ -49,7 +49,7 @@ struct OSPlayer: Identifiable, Codable {
             try container.encode(emoji, forKey: .emoji)
             try container.encode(foosballStats, forKey: .foosballStats)
             try container.encode(tableTennisStats, forKey: .tableTennisStats)
-            try container.encode(organization, forKey: .organization)
+            try container.encode(team, forKey: .team)
         } catch let error {
             print("Error encoding player: \(error)")
         }
@@ -61,6 +61,6 @@ struct OSPlayer: Identifiable, Codable {
         emoji = try container.decode(String.self, forKey: .emoji)
         foosballStats = try? container.decode(OSStats.self, forKey: .foosballStats)
         tableTennisStats = try? container.decode(OSStats.self, forKey: .tableTennisStats)
-        organization = try? container.decode(OSOrganization.self, forKey: .organization)
+        team = try? container.decode(OSTeam.self, forKey: .team)
     }
 }

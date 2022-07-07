@@ -58,10 +58,10 @@ final class PlayerProfileViewController: UIViewController {
         return textField
     }()
     
-    private lazy var organizationField: UITextField = {
-        let textField = UITextField.createTextField(UIColor.OS.General.mainDark, color: .white, placeholder: "Organization")
+    private lazy var teamField: UITextField = {
+        let textField = UITextField.createTextField(UIColor.OS.General.mainDark, color: .white, placeholder: "Select team")
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(16, 0, 0)
-        textField.addTarget(self, action: #selector(organizationFieldTapped), for: .touchUpInside)
+        textField.addTarget(self, action: #selector(teamFieldTapped), for: .touchUpInside)
         textField.font = UIFont.boldSystemFont(ofSize: 20)
         textField.autocapitalizationType = .none
         textField.applyCornerRadius(8)
@@ -127,7 +127,7 @@ final class PlayerProfileViewController: UIViewController {
         view.addSubview(descriptionLabel)
         view.addSubview(profileImageWrap)
         view.addSubview(nicknameField)
-        view.addSubview(organizationField)
+        view.addSubview(teamField)
         view.addSubview(continueButton)
         
         NSLayoutConstraint.pinToView(profileImageWrap, profileImageBackground, padding: 6)
@@ -150,13 +150,13 @@ final class PlayerProfileViewController: UIViewController {
             nicknameField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
             nicknameField.topAnchor.constraint(equalTo: profileImageWrap.bottomAnchor, constant: 32),
             nicknameField.heightAnchor.constraint(equalToConstant: 50),
-            organizationField.leftAnchor.constraint(equalTo: nicknameField.leftAnchor),
-            organizationField.rightAnchor.constraint(equalTo: nicknameField.rightAnchor),
-            organizationField.topAnchor.constraint(equalTo: nicknameField.topAnchor, constant: 16),
-            organizationField.heightAnchor.constraint(equalTo: nicknameField.heightAnchor),
+            teamField.leftAnchor.constraint(equalTo: nicknameField.leftAnchor),
+            teamField.rightAnchor.constraint(equalTo: nicknameField.rightAnchor),
+            teamField.topAnchor.constraint(equalTo: nicknameField.topAnchor, constant: 16),
+            teamField.heightAnchor.constraint(equalTo: nicknameField.heightAnchor),
             continueButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
             continueButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
-            continueButton.topAnchor.constraint(equalTo: organizationField.bottomAnchor, constant: 16),
+            continueButton.topAnchor.constraint(equalTo: teamField.bottomAnchor, constant: 16),
             continueButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
@@ -216,8 +216,8 @@ final class PlayerProfileViewController: UIViewController {
         profileImageBackground.backgroundColor = UIColor.OS.hashedProfileColor(sender.text!)
     }
     
-    @objc private func organizationFieldTapped(_ sender: UITextField) {
-        Coordinator.global.presentOrganizationPicker(from: self)
+    @objc private func teamFieldTapped(_ sender: UITextField) {
+        Coordinator.global.presentTeamPicker(from: self)
     }
 }
 
