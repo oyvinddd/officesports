@@ -1,5 +1,7 @@
 ## Office Sports
 
+![Office Sports banner](https://github.com/oyvinddd/officesports/blob/main/Images/office-sports-banner.png "Office Sports banner")
+
 ![Office Sports screens](https://github.com/oyvinddd/officesports/blob/main/Images/office-sports-screens.png "Office Sports screens")
 
 ### Introduction
