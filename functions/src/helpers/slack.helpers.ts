@@ -14,6 +14,8 @@ dotenv.config();
 
 const slackToken = process.env.SLACK_TOKEN;
 const channel = process.env.SLACK_CHANNEL;
+const clientId = process.env.SLACK_CLIENT_ID;
+const clientSecret = process.env.SLACK_CLIENT_SECRET;
 
 const slackClient = new WebClient(slackToken);
 
@@ -62,4 +64,26 @@ export const postSeasonResults = async (
   `;
 
   return postMessage(text);
+};
+
+export const authenticate = async (code: string): Promise<string | null> => {
+  console.log("authenticating")
+  
+  if (!clientId || !clientSecret) {
+    console.error({ clientId, clientSecret });
+    throw new Error("Missing client id or client secret");
+  }
+  const response = await slackClient.oauth.v2.access({
+    code,
+    client_id: clientId,
+    client_secret: clientSecret,
+  });
+
+  console.log(JSON.stringify(response));
+
+  if (response.ok && response.access_token) {
+    return response.access_token;
+  }
+
+  return null;
 };
