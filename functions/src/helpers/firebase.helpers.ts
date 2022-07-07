@@ -3,7 +3,8 @@ import { Match } from "../types/Match";
 import type { Player } from "../types/Player";
 import { Season } from "../types/Season";
 import { Sport } from "../types/Sport";
-import { getSportStats } from "./player.helpers";
+import { getSportStats } from "./sport.helpers";
+
 admin.initializeApp({
   storageBucket: "officesports-5d7ac.appspot.com",
 });
