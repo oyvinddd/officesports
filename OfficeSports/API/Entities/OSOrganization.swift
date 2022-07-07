@@ -7,11 +7,9 @@
 
 import Foundation
 
-struct OSOrganization {
+struct OSOrganization: Codable {
     
     var orgId: String
     
     var name: String
-    
-    var pinCode: Int?
 }
