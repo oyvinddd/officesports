@@ -67,8 +67,8 @@ export const postSeasonResults = async (
 };
 
 export const authenticate = async (code: string): Promise<string | null> => {
-  console.log("authenticating")
-  
+  console.log("authenticating");
+
   if (!clientId || !clientSecret) {
     console.error({ clientId, clientSecret });
     throw new Error("Missing client id or client secret");
