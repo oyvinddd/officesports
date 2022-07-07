@@ -19,6 +19,7 @@ import { validateWinMatchBody } from "./helpers/validation.helpers";
 import { ErrorCodes } from "./types/ErrorCodes";
 import { Match } from "./types/Match";
 import { Season } from "./types/Season";
+import { SlackCommandResponse } from "./types/SlackCommandResponse";
 import { Sport } from "./types/Sport";
 import { WinMatchBody } from "./types/WinMatchBody";
 
@@ -71,8 +72,8 @@ export const winMatch = functions.https.onRequest(
       return;
     }
 
-    setEmptyPlayerStats(winner, initialScore);
-    setEmptyPlayerStats(loser, initialScore);
+    setEmptyPlayerStats(winner);
+    setEmptyPlayerStats(loser);
 
     const isFoosball = sport === Sport.Foosball;
     const isTableTennis = sport === Sport.TableTennis;
@@ -167,6 +168,98 @@ export const connectSlackApp = functions
       accessToken,
       isSuccess: !!accessToken,
     });
+  });
+
+// TODO: `slackGetLeader` is the endpoint for all `/os` commands. It should be renamed to reflect that.
+export const slackGetLeader = functions
+  .runWith({
+    secrets: ["SLACK_TOKEN", "SLACK_CHANNEL"],
+  })
+  .https.onRequest(async (request, response) => {
+    let { text } = request.body;
+
+    console.log("Slack get leader", {
+      query: JSON.stringify(request.query),
+      params: JSON.stringify(request.params),
+      body: request.body,
+      headers: JSON.stringify(request.headers),
+    });
+
+    if (Array.isArray(text)) {
+      text = text[0];
+    }
+
+    if (!text) {
+      response.send("Missing text");
+      return;
+    }
+
+    // `/os leader [sport]`
+    // `/os` is the command, `leader [sport]` is the text
+    const [subCommand, ...sportName] = text.toString().split(" ");
+    const isLeaderCommand = subCommand.toLowerCase() === "leader";
+    if (!isLeaderCommand) {
+      const res: SlackCommandResponse = {
+        response_type: "ephemeral",
+        blocks: [
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: `'${subCommand}' is not a valid sub command. Valid sub commands are:
+              - 'leader'`,
+            },
+          },
+        ],
+      };
+      response.send(res);
+      return;
+    }
+
+    const sport = sportName.join(" ").toLowerCase();
+    if (sport === "foosball") {
+      const leader = await getLeader(Sport.Foosball);
+      const blocks = slackHelpers.formatLeaderText(Sport.Foosball, leader);
+
+      const res: SlackCommandResponse = {
+        response_type: "ephemeral",
+        blocks,
+      };
+      response.send(res);
+
+      return;
+    } else if (
+      ["table tennis", "table-tennis", "tabletennis"].includes(sport)
+    ) {
+      const leader = await getLeader(Sport.TableTennis);
+      const blocks = slackHelpers.formatLeaderText(Sport.TableTennis, leader);
+
+      const res: SlackCommandResponse = {
+        response_type: "ephemeral",
+        blocks,
+      };
+      response.send(res);
+
+      return;
+    } else if (sport === "") {
+      const foosballLeader = await getLeader(Sport.Foosball);
+      const tableTennisLeader = await getLeader(Sport.TableTennis);
+
+      const foosballBlocks = slackHelpers.formatLeaderText(
+        Sport.Foosball,
+        foosballLeader,
+      );
+      const tableTennisBlocks = slackHelpers.formatLeaderText(
+        Sport.TableTennis,
+        tableTennisLeader,
+      );
+
+      const res: SlackCommandResponse = {
+        response_type: "ephemeral",
+        blocks: [...foosballBlocks, ...tableTennisBlocks],
+      };
+      response.send(res);
+    }
   });
 
 const resetScoreboardsFunction = async () => {

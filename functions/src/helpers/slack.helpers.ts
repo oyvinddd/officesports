@@ -5,10 +5,11 @@ import {
   WebClient,
 } from "@slack/web-api";
 import dotenv from "dotenv";
-import dedent from "string-dedent";
 import { initialScore } from "../constants";
+import { Player } from "../types/Player";
 import { Season } from "../types/Season";
 import { Sport } from "../types/Sport";
+import { getSportName } from "./sport.helpers";
 
 dotenv.config();
 
@@ -49,7 +50,7 @@ export const postSeasonResults = async (
   const seasonSummaries = seasons.map(seasonToString).join("\n\n");
   const monthName = monthFormatter.format(seasons[0].date.toDate());
 
-  const text = dedent`
+  const text = `
     ${monthName} is over! ${
     seasons.length === 0
       ? "We sadly had no winners this month :("
@@ -86,4 +87,33 @@ export const authenticate = async (code: string): Promise<string | null> => {
   }
 
   return null;
+};
+
+export const formatLeaderText = (
+  sport: Sport,
+  leader: Player | null,
+): Array<Block | KnownBlock> => {
+  const sportName = getSportName(sport);
+
+  if (!leader) {
+    return [
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: `There is currently not only one 1st place on the ${sportName} leaderboard`,
+        },
+      },
+    ];
+  }
+
+  return [
+    {
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: `The current ${sportName} leader is ${leader.nickname} ${leader.emoji} with ${leader.foosballStats?.score} points.`,
+      },
+    },
+  ];
 };
