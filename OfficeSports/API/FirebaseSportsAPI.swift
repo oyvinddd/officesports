@@ -21,6 +21,7 @@ private let fbPlayersCollection = "players"
 private let fbMatchesCollection = "matches"
 private let fbInvitesCollection = "invites"
 private let fbSeasonsCollection = "seasons"
+private let fbTeamsCollection = "teams"
 
 final class FirebaseSportsAPI: SportsAPI {
 
@@ -40,6 +41,10 @@ final class FirebaseSportsAPI: SportsAPI {
     
     private var seasonsCollection: CollectionReference {
         database.collection(fbSeasonsCollection)
+    }
+    
+    private var teamsCollection: CollectionReference {
+        database.collection(fbTeamsCollection)
     }
     
     func signIn(_ viewController: UIViewController, result: @escaping (Result<Bool, Error>) -> Void) {
@@ -271,6 +276,28 @@ final class FirebaseSportsAPI: SportsAPI {
         }
     }
     
+    func getTeams(result: @escaping ((Result<[OSTeam], Error>) -> Void)) {
+        guard OSAccount.current.signedIn else {
+            result(.failure(OSError.unauthorized))
+            return
+        }
+        
+        teamsCollection.getDocuments { (snapshot, error) in
+            if let error = error {
+                result(.failure(error))
+                return
+            }
+            guard let documents = snapshot?.documents else {
+                result(.success([]))
+                return
+            }
+            let teams = documents.compactMap { documentSnapshot -> OSTeam? in
+                return try? documentSnapshot.data(as: OSTeam.self)
+            }
+            result(.success(teams))
+        }
+    }
+    
     // ##################################
     // ##   PRIVATE HELPER FUNCTIONS   ##
     // ##################################
@@ -383,6 +410,14 @@ extension FirebaseSportsAPI {
     func getSeasonStats() async throws -> [OSSeasonStats] {
         return try await withCheckedThrowingContinuation({ continuation in
             getSeasonStats { result in
+                continuation.resume(with: result)
+            }
+        })
+    }
+    
+    func getTeams() async throws -> [OSTeam] {
+        return try await withCheckedThrowingContinuation({ continuation in
+            getTeams { result in
                 continuation.resume(with: result)
             }
         })
