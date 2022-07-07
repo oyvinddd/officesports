@@ -9,7 +9,7 @@ import { initialScore } from "../constants";
 import { Player } from "../types/Player";
 import { Season } from "../types/Season";
 import { Sport } from "../types/Sport";
-import { getSportName } from "./sport.helpers";
+import { getSportName, getSportStats } from "./sport.helpers";
 
 dotenv.config();
 
@@ -107,12 +107,14 @@ export const formatLeaderText = (
     ];
   }
 
+  const { score } = getSportStats(leader, sport);
+
   return [
     {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `The current ${sportName} leader is ${leader.nickname} ${leader.emoji} with ${leader.foosballStats?.score} points.`,
+        text: `The current ${sportName} leader is ${leader.nickname} ${leader.emoji} with ${score} points.`,
       },
     },
   ];

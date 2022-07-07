@@ -219,6 +219,7 @@ export const slackGetLeader = functions
     const sport = sportName.join(" ").toLowerCase();
     if (sport === "foosball") {
       const leader = await getLeader(Sport.Foosball);
+      console.log("Foosball leader", { leader });
       const blocks = slackHelpers.formatLeaderText(Sport.Foosball, leader);
 
       const res: SlackCommandResponse = {
@@ -232,6 +233,8 @@ export const slackGetLeader = functions
       ["table tennis", "table-tennis", "tabletennis"].includes(sport)
     ) {
       const leader = await getLeader(Sport.TableTennis);
+      console.log("Table tennis leader", { leader });
+
       const blocks = slackHelpers.formatLeaderText(Sport.TableTennis, leader);
 
       const res: SlackCommandResponse = {
@@ -244,6 +247,8 @@ export const slackGetLeader = functions
     } else if (sport === "") {
       const foosballLeader = await getLeader(Sport.Foosball);
       const tableTennisLeader = await getLeader(Sport.TableTennis);
+
+      console.log("All leaders", { foosballLeader, tableTennisLeader });
 
       const foosballBlocks = slackHelpers.formatLeaderText(
         Sport.Foosball,
