@@ -109,8 +109,8 @@ final class Coordinator {
         parent.present(viewController, animated: animated)
     }
     
-    func presentOrganizationPicker(from viewController: UIViewController) {
-        viewController.present(OrgPickerViewController(), animated: false)
+    func presentTeamPicker(from viewController: UIViewController) {
+        viewController.present(TeamPickerViewController(), animated: false)
     }
     
     func presentPlayerDetails(_ player: OSPlayer, sport: OSSport) {

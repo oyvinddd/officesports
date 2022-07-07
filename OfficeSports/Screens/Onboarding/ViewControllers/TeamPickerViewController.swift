@@ -1,5 +1,5 @@
 //
-//  OrgPickerViewController.swift
+//  TeamPickerViewController.swift
 //  Office Sports
 //
 //  Created by Øyvind Hauge on 12/05/2022.
@@ -13,7 +13,7 @@ private let kBackgroundMinFade: CGFloat = 0
 private let kAnimDuration: TimeInterval = 0.15
 private let kAnimDelay: TimeInterval = 0
 
-final class OrgPickerViewController: UIViewController {
+final class TeamPickerViewController: UIViewController {
     
     private lazy var backgroundView: UIView = {
         let view = UIView(frame: .zero)
