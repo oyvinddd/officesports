@@ -49,7 +49,6 @@ final class PlayerProfileViewController: UIViewController {
     private lazy var nicknameField: UITextField = {
         let textField = UITextField.createTextField(UIColor.OS.General.mainDark, color: .white, placeholder: "Nickname")
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(16, 0, 0)
-        textField.addTarget(self, action: #selector(nicknameFieldChanged), for: .editingChanged)
         textField.font = UIFont.boldSystemFont(ofSize: 20)
         textField.autocapitalizationType = .none
         textField.applyCornerRadius(8)
@@ -117,7 +116,7 @@ final class PlayerProfileViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        _ = nicknameField.becomeFirstResponder()
+        //_ = nicknameField.becomeFirstResponder()
     }
     
     private func setupChildViews() {
@@ -191,7 +190,7 @@ final class PlayerProfileViewController: UIViewController {
                     dismiss(animated: true)
                 case .failure(let error):
                     continueButton.toggleLoading(false)
-                    Coordinator.global.send(OSMessage(error.localizedDescription, .failure))
+                    Coordinator.global.send(error)
                 default:
                     // do nothing
                     return
@@ -208,10 +207,6 @@ final class PlayerProfileViewController: UIViewController {
         }
     }
     
-    @objc private func nicknameFieldChanged(_ sender: UITextField) {
-//        profileImageBackground.backgroundColor = UIColor.OS.hashedProfileColor(sender.text!)
-    }
-    
     @objc private func closeButtonTapped(_ sender: UIButton) {
         dismiss(animated: true)
     }
@@ -223,11 +218,28 @@ extension PlayerProfileViewController: UITextFieldDelegate {
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if textField == teamField {
-            Coordinator.global.presentTeamPicker(from: self)
+            //Coordinator.global.presentTeamPicker(from: self)
+            presentTeamPickerSheet()
+            
         } else if textField == emojiField {
             Coordinator.global.presentEmojiPicker(from: self, emojis: viewModel.emoijs)
         }
         return false
+    }
+    
+    private func presentTeamPickerSheet() {
+        let viewModel = TeamsViewModel(api: FirebaseSportsAPI())
+        let viewController = TeamPickerViewController2(viewModel: viewModel)
+        
+        if let sheet = viewController.sheetPresentationController {
+            sheet.detents = [.medium(), .large()]
+            sheet.largestUndimmedDetentIdentifier = .medium
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+            sheet.prefersEdgeAttachedInCompactHeight = true
+            sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+            sheet.prefersGrabberVisible = true
+        }
+        present(viewController, animated: true, completion: nil)
     }
 }
 
