@@ -128,9 +128,14 @@ final class FirebaseSportsAPI: SportsAPI {
     
     func getScoreboard(sport: OSSport, result: @escaping ((Result<[OSPlayer], Error>) -> Void)) {
         let fieldPath = sport == .foosball ? "foosballStats.score" : "tableTennisStats.score"
-        let query = playersCollection
+        var query = playersCollection
             .order(by: fieldPath, descending: true)
             .limit(to: maxResultsInScoreboard)
+        
+        // if player has chosen a team, only show scoreboard of players that has joined the same team
+        if let currentTeam = OSAccount.current.player?.team {
+            query = query.whereField("team", isEqualTo: currentTeam)
+        }
         
         query.getDocuments { (snapshot, error) in
             guard let error = error else {

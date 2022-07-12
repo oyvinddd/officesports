@@ -117,6 +117,8 @@ final class TeamPickerViewController: UIViewController {
         dialogView.addSubview(contentWrapView)
         contentWrapView.addSubview(stackView)
         
+        stackView.addArrangedSubviews(selectButton)
+        
         NSLayoutConstraint.activate([
             backgroundView.leftAnchor.constraint(equalTo: view.leftAnchor),
             backgroundView.rightAnchor.constraint(equalTo: view.rightAnchor),
@@ -136,7 +138,8 @@ final class TeamPickerViewController: UIViewController {
             stackView.leftAnchor.constraint(equalTo: contentWrapView.leftAnchor),
             stackView.rightAnchor.constraint(equalTo: contentWrapView.rightAnchor),
             stackView.topAnchor.constraint(equalTo: contentWrapView.topAnchor, constant: 16),
-            stackView.bottomAnchor.constraint(equalTo: contentWrapView.safeAreaLayoutGuide.bottomAnchor, constant: -16)
+            stackView.bottomAnchor.constraint(equalTo: contentWrapView.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            selectButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     

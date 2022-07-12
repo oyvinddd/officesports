@@ -136,7 +136,7 @@ final class MockSportsAPI: SportsAPI {
     }
 }
 
-// MARK: - Confirm to the async/await versions of the API methods
+// MARK: - Conform to the async/await versions of the API methods
 
 extension MockSportsAPI {
     
