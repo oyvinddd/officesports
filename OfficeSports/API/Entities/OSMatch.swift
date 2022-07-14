@@ -12,7 +12,7 @@ struct OSMatch: Codable {
     
     private static var dateFormatter: DateFormatter {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
+        dateFormatter.dateStyle = .full
         return dateFormatter
     }
     
