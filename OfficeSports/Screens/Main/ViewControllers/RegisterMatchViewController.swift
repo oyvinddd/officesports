@@ -170,7 +170,16 @@ final class RegisterMatchViewController: UIViewController {
     
     private func configureUI() {
         view.backgroundColor = .clear
-        nicknameLabel.text = "Register a win in \(payload.sport.humanReadableName) against \(payload.nickname)?"
+        let sport = payload.sport
+        let nickname = payload.nickname
+        
+        let question = "Register a win in \(sport.humanReadableName) against \(nickname)?"
+        let attributedQuestion = NSMutableAttributedString(string: question)
+        let rangeOfSport = NSString(string: question).range(of: sport.humanReadableName)
+        let sportColor = UIColor.OS.colorForSport(sport)
+        
+        attributedQuestion.addAttribute(.foregroundColor, value: sportColor, range: rangeOfSport)
+        nicknameLabel.attributedText = attributedQuestion
     }
     
     private func toggleDialog(enabled: Bool, completion: (() -> Void)? = nil) {
