@@ -67,10 +67,6 @@ final class OSButton: UIButton {
             backgroundColor = UIColor.OS.Button.secondaryInverted
             setTitleColor(UIColor.OS.Button.secondaryInvertedForeground, for: .normal)
         }
-        //        setTitleColor(color, for: .normal)
-        //        setTitleColor(color, for: .selected)
-        //        setTitleColor(color, for: .highlighted)
-        //        setTitleColor(color, for: .focused)
         translatesAutoresizingMaskIntoConstraints = false
         setTitle(title, for: .normal)
         titleLabel?.textColor = .black
