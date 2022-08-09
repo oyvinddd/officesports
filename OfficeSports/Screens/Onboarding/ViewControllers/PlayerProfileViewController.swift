@@ -56,7 +56,9 @@ final class PlayerProfileViewController: UIViewController {
     }()
     
     private lazy var teamField: UITextField = {
-        let textField = UITextField.createTextField(UIColor.OS.General.mainDark, color: .white, placeholder: "Select team")
+        let textField = UITextField.createTextField(UIColor.OS.General.mainDark, color: .white)
+        let attrPlaceholder = NSAttributedString(string: "No team selected", attributes: [NSAttributedString.Key.foregroundColor: UIColor.OS.General.main])
+        textField.attributedPlaceholder = attrPlaceholder
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(16, 0, 0)
         textField.font = UIFont.boldSystemFont(ofSize: 20)
         textField.autocapitalizationType = .none
@@ -239,6 +241,18 @@ extension PlayerProfileViewController: UITextFieldDelegate {
     }
 }
 
+// MARK: - Team Selection Delegate
+
+extension PlayerProfileViewController: TeamSelectionDelegate {
+    
+    func didSelectTeam(_ team: OSTeam) {
+        teamField.text = team.name
+        selectedTeam = team
+    }
+}
+
+// MARK: - UI / Keyboard handling
+
 // swiftlint:disable force_cast
 extension PlayerProfileViewController {
     
@@ -287,14 +301,5 @@ extension PlayerProfileViewController {
         
         // Start the animation
         animator.startAnimation()
-    }
-}
-
-// MARK: - Team Selection Delegate
-
-extension PlayerProfileViewController: TeamSelectionDelegate {
-    
-    func didSelectTeam(_ team: OSTeam) {
-        
     }
 }

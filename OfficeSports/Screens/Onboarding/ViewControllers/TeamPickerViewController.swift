@@ -15,9 +15,17 @@ protocol TeamSelectionDelegate: AnyObject {
 
 final class TeamPickerViewController: UIViewController {
     
+    private lazy var infoLabel: UILabel = {
+        let label = UILabel.createLabel(UIColor.OS.Text.normal, alignment: .center, text: "Pick a team! 🌈")
+        label.font = UIFont.boldSystemFont(ofSize: 32)
+        return label
+    }()
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView.createTableView(.clear, dataSource: self)
         tableView.registerCell(TeamTableViewCell.self)
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 50
         tableView.delegate = self
         return tableView
     }()
@@ -34,7 +42,7 @@ final class TeamPickerViewController: UIViewController {
     
     private let viewModel: TeamsViewModel
     private var subscribers = Set<AnyCancellable>()
-    private var selectedTeam: OSTeam?
+    private var currentTeam: OSTeam?
     
     weak var delegate: TeamSelectionDelegate?
     
@@ -76,14 +84,18 @@ final class TeamPickerViewController: UIViewController {
     }
     
     private func setupChildViews() {
+        view.addSubview(infoLabel)
         view.addSubview(tableView)
         view.addSubview(bottomWrap)
         bottomWrap.addSubview(selectButton)
         
         NSLayoutConstraint.activate([
+            infoLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
+            infoLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
+            infoLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 32),
+            infoLabel.bottomAnchor.constraint(equalTo: tableView.topAnchor, constant: -16),
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
             bottomWrap.leftAnchor.constraint(equalTo: view.leftAnchor),
             bottomWrap.rightAnchor.constraint(equalTo: view.rightAnchor),
             bottomWrap.topAnchor.constraint(equalTo: tableView.bottomAnchor),
@@ -102,7 +114,9 @@ final class TeamPickerViewController: UIViewController {
     
     @objc private func selectButtonTapped(sender: UIButton) {
         dismiss(animated: true)
-        //delegate?.didSelectTeam(<#T##team: OSTeam##OSTeam#>)
+        if let team = currentTeam {
+            delegate?.didSelectTeam(team)
+        }
     }
 }
 
@@ -116,8 +130,17 @@ extension TeamPickerViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(for: TeamTableViewCell.self, for: indexPath)
-        cell.configure(with: viewModel.teams[indexPath.row])
+        let team = viewModel.teams[indexPath.row]
+        let enabled = teamIsSelected(team)
+        cell.configure(with: team, enabled: enabled)
         return cell
+    }
+    
+    private func teamIsSelected(_ team: OSTeam) -> Bool {
+        guard let teamId1 = currentTeam?.id, let teamId2 = team.id else {
+            return false
+        }
+        return teamId1 == teamId2
     }
 }
 
@@ -126,6 +149,13 @@ extension TeamPickerViewController: UITableViewDataSource {
 extension TeamPickerViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        currentTeam = viewModel.teams[indexPath.row]
+        let selectedCell = tableView.cellForRow(at: indexPath) as? TeamTableViewCell
+        for cell in tableView.visibleCells {
+            (cell as? TeamTableViewCell)?.toggle(false)
+        }
+        selectedCell?.toggle(true)
+        selectButton.buttonState = .normal
     }
 }
 
@@ -134,7 +164,13 @@ extension TeamPickerViewController: UITableViewDelegate {
 private final class TeamTableViewCell: UITableViewCell {
     
     private lazy var teamLabel: UILabel = {
-        return UILabel.createLabel(UIColor.OS.Text.normal)
+        let label = UILabel.createLabel(UIColor.OS.Text.normal)
+        label.font = UIFont.boldSystemFont(ofSize: 18)
+        return label
+    }()
+    
+    private lazy var radioButton: RadioButton = {
+        return RadioButton(enabled: false)
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -147,23 +183,74 @@ private final class TeamTableViewCell: UITableViewCell {
         super.init(coder: aDecoder)
     }
     
-    func configure(with team: OSTeam) {
+    func configure(with team: OSTeam, enabled: Bool) {
         teamLabel.text = team.name
+        toggle(enabled)
+    }
+    
+    func toggle(_ enabled: Bool) {
+        radioButton.toggle(enabled: enabled)
     }
     
     private func setupChildViews() {
         contentView.addSubview(teamLabel)
+        contentView.addSubview(radioButton)
         
         NSLayoutConstraint.activate([
             teamLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16),
             teamLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16),
-            teamLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            teamLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+            teamLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+            teamLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
+            radioButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            radioButton.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16),
+            radioButton.heightAnchor.constraint(equalToConstant: 20),
+            radioButton.widthAnchor.constraint(equalTo: radioButton.heightAnchor)
         ])
     }
     
     private func configureUI() {
         backgroundColor = .clear
         selectionStyle = .none
+    }
+}
+
+private final class RadioButton: UIView {
+    
+    private lazy var separatorView: UIView = {
+        let view = UIView.createView(.white)
+        view.applyCornerRadius(7)
+        return view
+    }()
+    
+    private lazy var innerView: UIView = {
+        let view = UIView.createView(.white)
+        view.applyCornerRadius(4)
+        return view
+    }()
+    
+    init(enabled: Bool) {
+        super.init(frame: .zero)
+        translatesAutoresizingMaskIntoConstraints = false
+        setupChildViews()
+        applyCornerRadius(10)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func toggle(enabled: Bool) {
+        if enabled {
+            backgroundColor = UIColor.OS.General.main
+            innerView.backgroundColor = UIColor.OS.General.main
+        } else {
+            backgroundColor = UIColor.OS.Text.disabled
+            innerView.backgroundColor = .white
+        }
+    }
+    
+    private func setupChildViews() {
+        NSLayoutConstraint.pinToView(self, separatorView, padding: 3)
+        NSLayoutConstraint.pinToView(separatorView, innerView, padding: 3)
     }
 }

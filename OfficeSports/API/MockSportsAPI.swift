@@ -130,8 +130,8 @@ final class MockSportsAPI: SportsAPI {
     }
     
     func getTeams(result: @escaping ((Result<[OSTeam], Error>) -> Void)) {
-        let team1 = OSTeam(name: "Tietoevry Create - Bergen")
-        let team2 = OSTeam(name: "Tietoevry Banking - Bergen")
+        let team1 = OSTeam(id: "id123", name: "Tietoevry Create - Bergen")
+        let team2 = OSTeam(id: "id321", name: "Tietoevry Banking - Bergen")
         result(.success([team1, team2]))
     }
 }

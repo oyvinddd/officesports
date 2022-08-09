@@ -47,6 +47,7 @@
 		8E43DF01286EE3C800D9B50D /* SeasonsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E43DF00286EE3C800D9B50D /* SeasonsViewController.swift */; };
 		8E43DF03286EE5F500D9B50D /* SeasonsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E43DF02286EE5F500D9B50D /* SeasonsViewModel.swift */; };
 		8E457B942860C03D00F9D133 /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E457B932860C03D00F9D133 /* ConfettiView.swift */; };
+		8E678F0228A298FF00B22690 /* FirebaseSportsAPI+AsyncAwait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E678F0128A298FE00B22690 /* FirebaseSportsAPI+AsyncAwait.swift */; };
 		8E6995D52844E0CE001355D2 /* LocalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6995D42844E0CE001355D2 /* LocalNotificationManager.swift */; };
 		8E6B33E028426DFB00E73EDD /* ScannerFrameLinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6B33DF28426DFB00E73EDD /* ScannerFrameLinesView.swift */; };
 		8E6DF2992834CEB20009ACA1 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 8E6DF2982834CEB20009ACA1 /* FirebaseFirestore */; };
@@ -160,6 +161,7 @@
 		8E43DF00286EE3C800D9B50D /* SeasonsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonsViewController.swift; sourceTree = "<group>"; };
 		8E43DF02286EE5F500D9B50D /* SeasonsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonsViewModel.swift; sourceTree = "<group>"; };
 		8E457B932860C03D00F9D133 /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
+		8E678F0128A298FE00B22690 /* FirebaseSportsAPI+AsyncAwait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseSportsAPI+AsyncAwait.swift"; sourceTree = "<group>"; };
 		8E6995D42844E0CE001355D2 /* LocalNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManager.swift; sourceTree = "<group>"; };
 		8E6B33DF28426DFB00E73EDD /* ScannerFrameLinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerFrameLinesView.swift; sourceTree = "<group>"; };
 		8E70C111282ABA4E009A9452 /* NSLayoutConstraint+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Util.swift"; sourceTree = "<group>"; };
@@ -447,6 +449,7 @@
 				8E70C139282AEE7E009A9452 /* SportsAPI.swift */,
 				8E2EE76A2836783C0096659D /* FirebaseSportsAPI.swift */,
 				8EF13878283791AE001D8DA6 /* MockSportsAPI.swift */,
+				8E678F0128A298FE00B22690 /* FirebaseSportsAPI+AsyncAwait.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -811,6 +814,7 @@
 				8E230889282D788D00AF60EB /* EmojiPickerViewController.swift in Sources */,
 				8E70C126282ACCB5009A9452 /* ProfileView.swift in Sources */,
 				8EAB6DA6282BE4B500FA1362 /* Coordinator.swift in Sources */,
+				8E678F0228A298FF00B22690 /* FirebaseSportsAPI+AsyncAwait.swift in Sources */,
 				8E9C7289283AB3C800974DAA /* OSTeam.swift in Sources */,
 				8E70C13A282AEE7E009A9452 /* SportsAPI.swift in Sources */,
 				8E38B57C283C39A2009E0387 /* UserDefaultsHelper.swift in Sources */,
