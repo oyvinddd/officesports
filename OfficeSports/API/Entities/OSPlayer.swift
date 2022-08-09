@@ -35,14 +35,6 @@ struct OSPlayer: Identifiable, Codable {
         self.tableTennisStats = tableTennisStats
     }
     
-    func statsForSport(_ sport: OSSport) -> OSStats? {
-        sport == .foosball ? foosballStats : tableTennisStats
-    }
-    
-    func scoreForSport(_ sport: OSSport) -> Int? {
-        return statsForSport(sport)?.score
-    }
-    
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         do {
@@ -63,5 +55,20 @@ struct OSPlayer: Identifiable, Codable {
         foosballStats = try? container.decode(OSStats.self, forKey: .foosballStats)
         tableTennisStats = try? container.decode(OSStats.self, forKey: .tableTennisStats)
         team = try? container.decode(OSTeam.self, forKey: .team)
+    }
+    
+    func statsForSport(_ sport: OSSport) -> OSStats? {
+        sport == .foosball ? foosballStats : tableTennisStats
+    }
+    
+    func scoreForSport(_ sport: OSSport) -> Int? {
+        return statsForSport(sport)?.score
+    }
+    
+    func totalSeasonWins() -> Int {
+        var totalWins = 0
+        totalWins += (foosballStats?.seasonWins ?? 0)
+        totalWins += (tableTennisStats?.seasonWins ?? 0)
+        return totalWins
     }
 }
