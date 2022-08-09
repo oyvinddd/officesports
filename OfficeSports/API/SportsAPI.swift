@@ -16,8 +16,8 @@ protocol SportsAPI {
     
     func deleteAccount(result: @escaping ((Error?) -> Void))
     
-    @available(*, renamed: "createOrUpdatePlayerProfile(nickname:emoji:)")
-    func createOrUpdatePlayerProfile(nickname: String, emoji: String, result: @escaping ((Result<OSPlayer, Error>) -> Void))
+    @available(*, renamed: "createOrUpdatePlayerProfile(nickname:emoji:team:)")
+    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam?, result: @escaping ((Result<OSPlayer, Error>) -> Void))
     
     @available(*, renamed: "getPlayerProfile()")
     func getPlayerProfile(result: @escaping ((Result<OSPlayer, Error>) -> Void))
@@ -40,11 +40,14 @@ protocol SportsAPI {
     @available(*, renamed: "getSeasonStats()")
     func getSeasonStats(result: @escaping ((Result<[OSSeasonStats], Error>) -> Void))
     
+    @available(*, renamed: "getTeams()")
+    func getTeams(result: @escaping ((Result<[OSTeam], Error>) -> Void))
+    
     // MARK: - Async/await API
     
     func signIn(viewController: UIViewController) async throws -> Bool
     
-    func createOrUpdatePlayerProfile(nickname: String, emoji: String) async throws -> OSPlayer
+    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam?) async throws -> OSPlayer
     
     func getPlayerProfile() async throws -> OSPlayer
     
@@ -59,4 +62,6 @@ protocol SportsAPI {
     func getActiveInvites() async throws -> [OSInvite]
     
     func getSeasonStats() async throws -> [OSSeasonStats]
+    
+    func getTeams() async throws -> [OSTeam]
 }

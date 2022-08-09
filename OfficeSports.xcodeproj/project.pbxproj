@@ -47,6 +47,7 @@
 		8E43DF01286EE3C800D9B50D /* SeasonsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E43DF00286EE3C800D9B50D /* SeasonsViewController.swift */; };
 		8E43DF03286EE5F500D9B50D /* SeasonsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E43DF02286EE5F500D9B50D /* SeasonsViewModel.swift */; };
 		8E457B942860C03D00F9D133 /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E457B932860C03D00F9D133 /* ConfettiView.swift */; };
+		8E678F0228A298FF00B22690 /* FirebaseSportsAPI+AsyncAwait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E678F0128A298FE00B22690 /* FirebaseSportsAPI+AsyncAwait.swift */; };
 		8E6995D52844E0CE001355D2 /* LocalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6995D42844E0CE001355D2 /* LocalNotificationManager.swift */; };
 		8E6B33E028426DFB00E73EDD /* ScannerFrameLinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6B33DF28426DFB00E73EDD /* ScannerFrameLinesView.swift */; };
 		8E6DF2992834CEB20009ACA1 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 8E6DF2982834CEB20009ACA1 /* FirebaseFirestore */; };
@@ -76,20 +77,21 @@
 		8E973322283231F40012E236 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E973321283231F40012E236 /* SettingsViewModel.swift */; };
 		8E9849C8282BCDC80020266B /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9849C7282BCDC80020266B /* CircleView.swift */; };
 		8E9888AA286B115300A97552 /* UIColor+CoreImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B573283B97C8009E0387 /* UIColor+CoreImage.swift */; };
-		8E9C7289283AB3C800974DAA /* OSOrganization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9C7288283AB3C800974DAA /* OSOrganization.swift */; };
+		8E9C7289283AB3C800974DAA /* OSTeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9C7288283AB3C800974DAA /* OSTeam.swift */; };
 		8E9C728B283AB93C00974DAA /* fastlane in Resources */ = {isa = PBXBuildFile; fileRef = 8E9C728A283AB93C00974DAA /* fastlane */; };
 		8EA21271283EF18A00B37315 /* OSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA21270283EF18A00B37315 /* OSButton.swift */; };
 		8EAB6DA6282BE4B500FA1362 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAB6DA5282BE4B500FA1362 /* Coordinator.swift */; };
+		8EC37F0C287D6318000D7A14 /* TeamPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC37F0B287D6318000D7A14 /* TeamPickerViewController.swift */; };
 		8EC84E8E282BD5B10093C9A0 /* PlayerProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC84E8D282BD5B10093C9A0 /* PlayerProfileViewController.swift */; };
 		8ECB86312875AAAD007C9FA5 /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECB86302875AAAD007C9FA5 /* QRCodeView.swift */; };
 		8EDFA363282E418000A51292 /* CompoundField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDFA362282E418000A51292 /* CompoundField.swift */; };
+		8EE011AE287776250015D67B /* TeamsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE011AD287776250015D67B /* TeamsViewModel.swift */; };
 		8EE32D68283E8D88009AD89C /* plistinject in Resources */ = {isa = PBXBuildFile; fileRef = 8EE32D67283E8D88009AD89C /* plistinject */; };
 		8EE558352847B0B400199CC6 /* OSSport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE558342847B0B400199CC6 /* OSSport.swift */; };
 		8EE61FEF282AB79C00C01289 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE61FEE282AB79C00C01289 /* AppDelegate.swift */; };
 		8EE61FF3282AB79C00C01289 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE61FF2282AB79C00C01289 /* ContainerViewController.swift */; };
 		8EE61FF8282AB79D00C01289 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EE61FF7282AB79D00C01289 /* Assets.xcassets */; };
 		8EE61FFB282AB79D00C01289 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EE61FF9282AB79D00C01289 /* LaunchScreen.storyboard */; };
-		8EE7939628366B660025AB78 /* Encodable+Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE7939528366B660025AB78 /* Encodable+Dictionary.swift */; };
 		8EED8C2C28535D7D002CEA99 /* InviteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EED8C2B28535D7D002CEA99 /* InviteTableViewCell.swift */; };
 		8EEEAB74286268DB001D8BF5 /* InviteFilterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEEAB73286268DB001D8BF5 /* InviteFilterTableViewCell.swift */; };
 		8EF13879283791AE001D8DA6 /* MockSportsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF13878283791AE001D8DA6 /* MockSportsAPI.swift */; };
@@ -159,6 +161,7 @@
 		8E43DF00286EE3C800D9B50D /* SeasonsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonsViewController.swift; sourceTree = "<group>"; };
 		8E43DF02286EE5F500D9B50D /* SeasonsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonsViewModel.swift; sourceTree = "<group>"; };
 		8E457B932860C03D00F9D133 /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
+		8E678F0128A298FE00B22690 /* FirebaseSportsAPI+AsyncAwait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseSportsAPI+AsyncAwait.swift"; sourceTree = "<group>"; };
 		8E6995D42844E0CE001355D2 /* LocalNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManager.swift; sourceTree = "<group>"; };
 		8E6B33DF28426DFB00E73EDD /* ScannerFrameLinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerFrameLinesView.swift; sourceTree = "<group>"; };
 		8E70C111282ABA4E009A9452 /* NSLayoutConstraint+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Util.swift"; sourceTree = "<group>"; };
@@ -189,13 +192,15 @@
 		8E973321283231F40012E236 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		8E9849C7282BCDC80020266B /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		8E9C7287283A722600974DAA /* OfficeSports.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OfficeSports.entitlements; sourceTree = "<group>"; };
-		8E9C7288283AB3C800974DAA /* OSOrganization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSOrganization.swift; sourceTree = "<group>"; };
+		8E9C7288283AB3C800974DAA /* OSTeam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSTeam.swift; sourceTree = "<group>"; };
 		8E9C728A283AB93C00974DAA /* fastlane */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fastlane; sourceTree = "<group>"; };
 		8EA21270283EF18A00B37315 /* OSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSButton.swift; sourceTree = "<group>"; };
 		8EAB6DA5282BE4B500FA1362 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		8EC37F0B287D6318000D7A14 /* TeamPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamPickerViewController.swift; sourceTree = "<group>"; };
 		8EC84E8D282BD5B10093C9A0 /* PlayerProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerProfileViewController.swift; sourceTree = "<group>"; };
 		8ECB86302875AAAD007C9FA5 /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
 		8EDFA362282E418000A51292 /* CompoundField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundField.swift; sourceTree = "<group>"; };
+		8EE011AD287776250015D67B /* TeamsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamsViewModel.swift; sourceTree = "<group>"; };
 		8EE32D67283E8D88009AD89C /* plistinject */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = plistinject; sourceTree = "<group>"; };
 		8EE558342847B0B400199CC6 /* OSSport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSSport.swift; sourceTree = "<group>"; };
 		8EE61FEB282AB79C00C01289 /* OfficeSports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OfficeSports.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -204,7 +209,6 @@
 		8EE61FF7282AB79D00C01289 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8EE61FFA282AB79D00C01289 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8EE61FFC282AB79D00C01289 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8EE7939528366B660025AB78 /* Encodable+Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Encodable+Dictionary.swift"; sourceTree = "<group>"; };
 		8EED8C2B28535D7D002CEA99 /* InviteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteTableViewCell.swift; sourceTree = "<group>"; };
 		8EEEAB73286268DB001D8BF5 /* InviteFilterTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteFilterTableViewCell.swift; sourceTree = "<group>"; };
 		8EF13878283791AE001D8DA6 /* MockSportsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSportsAPI.swift; sourceTree = "<group>"; };
@@ -271,6 +275,7 @@
 				8EC84E8D282BD5B10093C9A0 /* PlayerProfileViewController.swift */,
 				8E70C137282AEE2F009A9452 /* WelcomeViewController.swift */,
 				8E230888282D788D00AF60EB /* EmojiPickerViewController.swift */,
+				8EC37F0B287D6318000D7A14 /* TeamPickerViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -315,6 +320,7 @@
 			children = (
 				8E230886282D575D00AF60EB /* AuthViewModel.swift */,
 				8E176F6E28329E4A00377497 /* PlayerProfileViewModel.swift */,
+				8EE011AD287776250015D67B /* TeamsViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -392,7 +398,6 @@
 				8E70C12A282ACEAF009A9452 /* UIColor+Hex.swift */,
 				8E70C12C282AD01A009A9452 /* UIView+Visuals.swift */,
 				8E70C12E282AD0AE009A9452 /* UITableView+Util.swift */,
-				8EE7939528366B660025AB78 /* Encodable+Dictionary.swift */,
 				8E7D0AC62838D7A1006D6DF7 /* UICollectionView+Util.swift */,
 				8E287F55283B1013005BBE28 /* UIButton+Loading.swift */,
 				8E38B573283B97C8009E0387 /* UIColor+CoreImage.swift */,
@@ -426,7 +431,7 @@
 				8E70C135282ADF7A009A9452 /* OSAccount.swift */,
 				8E31E23D283649230085238C /* OSInvite.swift */,
 				8EF1387A2837CF3A001D8DA6 /* OSCodePayload.swift */,
-				8E9C7288283AB3C800974DAA /* OSOrganization.swift */,
+				8E9C7288283AB3C800974DAA /* OSTeam.swift */,
 				8E231EDB283AC97B0030768D /* OSMessage.swift */,
 				8E38B577283BC9F1009E0387 /* OSError.swift */,
 				8E38B579283BCBC8009E0387 /* OSMatchRegistration.swift */,
@@ -444,6 +449,7 @@
 				8E70C139282AEE7E009A9452 /* SportsAPI.swift */,
 				8E2EE76A2836783C0096659D /* FirebaseSportsAPI.swift */,
 				8EF13878283791AE001D8DA6 /* MockSportsAPI.swift */,
+				8E678F0128A298FE00B22690 /* FirebaseSportsAPI+AsyncAwait.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -750,6 +756,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8EC37F0C287D6318000D7A14 /* TeamPickerViewController.swift in Sources */,
 				8E38B57E283C3D01009E0387 /* AchievementsViewController.swift in Sources */,
 				8E7D9A7F282BEF66007BCDE0 /* QRCodeGenerator.swift in Sources */,
 				8EF13879283791AE001D8DA6 /* MockSportsAPI.swift in Sources */,
@@ -784,6 +791,7 @@
 				8EF418A4283CFF39005CAE09 /* AboutViewController.swift in Sources */,
 				8E2EE76B2836783C0096659D /* FirebaseSportsAPI.swift in Sources */,
 				8E25B0F8283CD3F100FE2FB3 /* OSStats.swift in Sources */,
+				8EE011AE287776250015D67B /* TeamsViewModel.swift in Sources */,
 				8EE61FEF282AB79C00C01289 /* AppDelegate.swift in Sources */,
 				8E70C119282ABD6F009A9452 /* UIKit+Factory.swift in Sources */,
 				8E31E23E283649230085238C /* OSInvite.swift in Sources */,
@@ -792,7 +800,6 @@
 				8E70C12B282ACEAF009A9452 /* UIColor+Hex.swift in Sources */,
 				8E43DF03286EE5F500D9B50D /* SeasonsViewModel.swift in Sources */,
 				8E31E24028364A6F0085238C /* MyInvitesViewController.swift in Sources */,
-				8EE7939628366B660025AB78 /* Encodable+Dictionary.swift in Sources */,
 				8E231EDC283AC97B0030768D /* OSMessage.swift in Sources */,
 				8E70C124282AC949009A9452 /* PlacementTableViewCell.swift in Sources */,
 				8E176F6F28329E4A00377497 /* PlayerProfileViewModel.swift in Sources */,
@@ -807,7 +814,8 @@
 				8E230889282D788D00AF60EB /* EmojiPickerViewController.swift in Sources */,
 				8E70C126282ACCB5009A9452 /* ProfileView.swift in Sources */,
 				8EAB6DA6282BE4B500FA1362 /* Coordinator.swift in Sources */,
-				8E9C7289283AB3C800974DAA /* OSOrganization.swift in Sources */,
+				8E678F0228A298FF00B22690 /* FirebaseSportsAPI+AsyncAwait.swift in Sources */,
+				8E9C7289283AB3C800974DAA /* OSTeam.swift in Sources */,
 				8E70C13A282AEE7E009A9452 /* SportsAPI.swift in Sources */,
 				8E38B57C283C39A2009E0387 /* UserDefaultsHelper.swift in Sources */,
 				8E230878282D191C00AF60EB /* SportFilterTableViewCell.swift in Sources */,
@@ -865,7 +873,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 0.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tietoevry.officesports.codewidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Code Widget Development Profile";
@@ -896,7 +904,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 0.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tietoevry.officesports.codewidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Code Widget Development Profile";
@@ -1047,7 +1055,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.5.0;
+				MARKETING_VERSION = 0.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tietoevry.officesports;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development com.tietoevry.officesports";
@@ -1083,7 +1091,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.5.0;
+				MARKETING_VERSION = 0.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tietoevry.officesports;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development com.tietoevry.officesports";

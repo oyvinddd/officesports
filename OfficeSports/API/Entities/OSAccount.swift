@@ -53,9 +53,8 @@ final class OSAccount {
         let userId = currentUser?.uid ?? ""
         print(
             "🔐 Signed in: [\(signedIn)]\n" +
-            "🎁 User ID: [\(userId)]\n" +
-            "🧸 Nickname: [\(player?.nickname ?? "None")]\n" +
-            "🙃 Emoji: [\(player?.emoji ?? "None")]"
+            "🛂 User ID: [\(userId)]\n" +
+            "🧸 Emoji & nickname: [\(player?.emoji ?? "NA")] [\(player?.nickname ?? "NA")]\n"
         )
     }
 }

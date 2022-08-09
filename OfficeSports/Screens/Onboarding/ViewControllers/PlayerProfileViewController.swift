@@ -13,6 +13,16 @@ private let profileImageRadius: CGFloat = profileImageDiameter / 2
 
 final class PlayerProfileViewController: UIViewController {
     
+    private lazy var closeButton: UIButton = {
+        let image = UIImage(systemName: "xmark", withConfiguration: nil)
+        let button = UIButton.createButton(.white, tintColor: UIColor.OS.General.main, image: image)
+        button.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
+        button.backgroundColor = .white
+        button.applyCornerRadius(20)
+        button.alpha = 0.9
+        return button
+    }()
+    
     private lazy var titleLabel: UILabel = {
         let label = UILabel.createLabel(.white, alignment: .center)
         label.font = UIFont.boldSystemFont(ofSize: 32)
@@ -26,35 +36,34 @@ final class PlayerProfileViewController: UIViewController {
         return label
     }()
     
-    private lazy var profileImageWrap: UIView = {
-        let imageWrap = UIView.createView(.white, cornerRadius: profileImageRadius)
-        imageWrap.applyMediumDropShadow(.black)
-        return imageWrap
-    }()
-    
-    private lazy var profileImageBackground: UIView = {
-        let profileColor = UIColor.OS.hashedProfileColor("")
-        let profileImageBackground = UIView.createView(profileColor)
-        profileImageBackground.applyCornerRadius((profileImageDiameter - 12) / 2)
-        return profileImageBackground
-    }()
-    
-    private lazy var profileEmjoiLabel: UILabel = {
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(profileEmojiTapped))
-        let label = UILabel.createLabel(.black, alignment: .center)
-        label.addGestureRecognizer(tapRecognizer)
-        label.font = UIFont.systemFont(ofSize: 68)
-        label.isUserInteractionEnabled = true
-        return label
+    private lazy var emojiField: UITextField = {
+        let textField = UITextField.createTextField(UIColor.OS.General.mainDark, color: .white)
+        textField.layer.sublayerTransform = CATransform3DMakeTranslation(16, 0, 0)
+        textField.font = UIFont.boldSystemFont(ofSize: 20)
+        textField.autocapitalizationType = .none
+        textField.applyCornerRadius(8)
+        textField.delegate = self
+        return textField
     }()
     
     private lazy var nicknameField: UITextField = {
         let textField = UITextField.createTextField(UIColor.OS.General.mainDark, color: .white, placeholder: "Nickname")
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(16, 0, 0)
-        textField.addTarget(self, action: #selector(nicknameFieldChanged), for: .editingChanged)
         textField.font = UIFont.boldSystemFont(ofSize: 20)
         textField.autocapitalizationType = .none
         textField.applyCornerRadius(8)
+        return textField
+    }()
+    
+    private lazy var teamField: UITextField = {
+        let textField = UITextField.createTextField(UIColor.OS.General.mainDark, color: .white)
+        let attrPlaceholder = NSAttributedString(string: "No team selected", attributes: [NSAttributedString.Key.foregroundColor: UIColor.OS.General.main])
+        textField.attributedPlaceholder = attrPlaceholder
+        textField.layer.sublayerTransform = CATransform3DMakeTranslation(16, 0, 0)
+        textField.font = UIFont.boldSystemFont(ofSize: 20)
+        textField.autocapitalizationType = .none
+        textField.applyCornerRadius(8)
+        textField.delegate = self
         return textField
     }()
     
@@ -68,14 +77,16 @@ final class PlayerProfileViewController: UIViewController {
     private var centerYConstraint: NSLayoutConstraint?
     private var subscribers = Set<AnyCancellable>()
     
+    var selectedTeam: OSTeam?
     var selectedEmoji: String {
         didSet {
-            profileEmjoiLabel.text = selectedEmoji
+            emojiField.text = selectedEmoji
         }
     }
     
     init(viewModel: PlayerProfileViewModel) {
         self.viewModel = viewModel
+        self.selectedTeam = OSAccount.current.player?.team
         self.selectedEmoji = OSAccount.current.emoji ?? viewModel.randomEmoji
         super.init(nibName: nil, bundle: nil)
     }
@@ -107,54 +118,57 @@ final class PlayerProfileViewController: UIViewController {
         )
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        _ = nicknameField.becomeFirstResponder()
-    }
-    
     private func setupChildViews() {
+        view.addSubview(closeButton)
         view.addSubview(titleLabel)
         view.addSubview(descriptionLabel)
-        view.addSubview(profileImageWrap)
+        view.addSubview(emojiField)
         view.addSubview(nicknameField)
+        view.addSubview(teamField)
         view.addSubview(continueButton)
         
-        NSLayoutConstraint.pinToView(profileImageWrap, profileImageBackground, padding: 6)
-        NSLayoutConstraint.pinToView(profileImageBackground, profileEmjoiLabel)
-        
-        centerYConstraint = profileImageWrap.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        centerYConstraint = nicknameField.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         
         NSLayoutConstraint.activate([
+            closeButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
+            closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            closeButton.widthAnchor.constraint(equalToConstant: 40),
+            closeButton.heightAnchor.constraint(equalTo: closeButton.widthAnchor),
             titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
             titleLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
             descriptionLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
             descriptionLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
             descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
-            descriptionLabel.bottomAnchor.constraint(equalTo: profileImageWrap.topAnchor, constant: -32),
-            profileImageWrap.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            descriptionLabel.bottomAnchor.constraint(equalTo: nicknameField.topAnchor, constant: -32),
             centerYConstraint!,
-            profileImageWrap.widthAnchor.constraint(equalToConstant: profileImageDiameter),
-            profileImageWrap.heightAnchor.constraint(equalTo: profileImageWrap.widthAnchor),
-            nicknameField.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
-            nicknameField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
-            nicknameField.topAnchor.constraint(equalTo: profileImageWrap.bottomAnchor, constant: 32),
+            emojiField.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
+            emojiField.rightAnchor.constraint(equalTo: nicknameField.leftAnchor, constant: -16),
+            emojiField.centerYAnchor.constraint(equalTo: nicknameField.centerYAnchor),
+            emojiField.widthAnchor.constraint(equalToConstant: 60),
+            emojiField.heightAnchor.constraint(equalTo: nicknameField.heightAnchor),
+            nicknameField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
             nicknameField.heightAnchor.constraint(equalToConstant: 50),
-            continueButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
-            continueButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
-            continueButton.topAnchor.constraint(equalTo: nicknameField.bottomAnchor, constant: 16),
+            teamField.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
+            teamField.rightAnchor.constraint(equalTo: nicknameField.rightAnchor),
+            teamField.topAnchor.constraint(equalTo: nicknameField.bottomAnchor, constant: 16),
+            teamField.heightAnchor.constraint(equalTo: nicknameField.heightAnchor),
+            continueButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
+            continueButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
+            continueButton.topAnchor.constraint(equalTo: teamField.bottomAnchor, constant: 16),
             continueButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     
     private func configureUI() {
         view.backgroundColor = UIColor.OS.General.main
-        if OSAccount.current.hasValidProfileDetails {
+        // if a player is already present it means we are editing our
+        // profile, if not we are creating our profile for the first time
+        if let player = OSAccount.current.player {
             titleLabel.text = "Update profile"
+            emojiField.text = player.emoji
+            nicknameField.text = player.nickname
+            teamField.text = player.team?.name ?? nil
         }
-        let nickname = OSAccount.current.nickname
-        nicknameField.text = nickname
-        profileEmjoiLabel.text = selectedEmoji
-        profileImageBackground.backgroundColor = UIColor.OS.hashedProfileColor(nickname ?? "")
     }
     
     private func setupSubscribers() {
@@ -176,7 +190,7 @@ final class PlayerProfileViewController: UIViewController {
                     dismiss(animated: true)
                 case .failure(let error):
                     continueButton.toggleLoading(false)
-                    Coordinator.global.send(OSMessage(error.localizedDescription, .failure))
+                    Coordinator.global.send(error)
                 default:
                     // do nothing
                     return
@@ -187,27 +201,64 @@ final class PlayerProfileViewController: UIViewController {
     @objc private func continueButtonTapped(_ sender: UIButton) {
         do {
             let nickname = try viewModel.processAndValidateNickname(nicknameField.text)
-            viewModel.registerPlayerProfile(nickname: nickname, emoji: selectedEmoji)
+            viewModel.registerPlayerProfile(nickname: nickname, emoji: selectedEmoji, team: selectedTeam)
         } catch let error {
-            Coordinator.global.send(OSMessage(error.localizedDescription, .failure))
+            Coordinator.global.send(error)
         }
     }
     
-    @objc private func profileEmojiTapped(_ sender: UITapGestureRecognizer) {
-        Coordinator.global.presentEmojiPicker(from: self, emojis: viewModel.emoijs)
-    }
-    
-    @objc private func nicknameFieldChanged(_ sender: UITextField) {
-        profileImageBackground.backgroundColor = UIColor.OS.hashedProfileColor(sender.text!)
+    @objc private func closeButtonTapped(_ sender: UIButton) {
+        dismiss(animated: true)
     }
 }
+
+// MARK: - Text Field Delegate
+
+extension PlayerProfileViewController: UITextFieldDelegate {
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if textField == teamField {
+            presentTeamPickerSheet()
+        } else if textField == emojiField {
+            Coordinator.global.presentEmojiPicker(from: self, emojis: viewModel.emoijs)
+        }
+        return false
+    }
+    
+    private func presentTeamPickerSheet() {
+        let viewModel = TeamsViewModel(api: FirebaseSportsAPI())
+        let viewController = TeamPickerViewController(viewModel: viewModel, delegate: self)
+        
+        if let sheet = viewController.sheetPresentationController {
+            sheet.detents = [.medium(), .large()]
+            sheet.largestUndimmedDetentIdentifier = .medium
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+            sheet.prefersEdgeAttachedInCompactHeight = true
+            sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+            sheet.prefersGrabberVisible = true
+        }
+        present(viewController, animated: true, completion: nil)
+    }
+}
+
+// MARK: - Team Selection Delegate
+
+extension PlayerProfileViewController: TeamSelectionDelegate {
+    
+    func didSelectTeam(_ team: OSTeam) {
+        teamField.text = team.name
+        selectedTeam = team
+    }
+}
+
+// MARK: - UI / Keyboard handling
 
 // swiftlint:disable force_cast
 extension PlayerProfileViewController {
     
     @objc dynamic func keyboardWillShow(_ notification: NSNotification) {
         animateWithKeyboard(notification: notification) { keyboardFrame in
-            let constant =  keyboardFrame.height / 2
+            let constant = keyboardFrame.height / 2
             self.centerYConstraint?.constant = -constant
         }
     }

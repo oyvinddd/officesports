@@ -80,7 +80,7 @@ final class PlayerDetailsViewController: UIViewController {
     }()
     
     private lazy var inviteButton: OSButton = {
-        let button = OSButton("Invite to match", type: .primaryInverted)
+        let button = OSButton("Invite to match", type: .primaryInverted, state: .disabled)
         button.addTarget(self, action: #selector(inviteButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -151,7 +151,7 @@ final class PlayerDetailsViewController: UIViewController {
                 Coordinator.global.send(error)
                 self.inviteButton.buttonState = .normal
             default:
-                self.inviteButton.buttonState = .normal
+                self.inviteButton.buttonState = .disabled
             }
         }.store(in: &subscribers)
     }

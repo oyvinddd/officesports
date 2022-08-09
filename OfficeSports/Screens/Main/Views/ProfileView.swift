@@ -159,12 +159,10 @@ final class ProfileView: UIView {
         
         let foosballStats = account.player?.foosballStats
         let tableTennisStats = account.player?.tableTennisStats
-        let fSeasonWins = foosballStats?.seasonWins ?? 0
-        let tSeasonWins = tableTennisStats?.seasonWins ?? 0
         
         profileEmojiLabel.text = account.emoji
         nicknameLabel.text = account.nickname?.lowercased()
-        totalWinsLabel.text = initialSport == .tableTennis ? "🏆 x \(tSeasonWins)" : "🏆 x \(fSeasonWins)"
+        totalWinsLabel.text = "🏆 x 0"
         foosballScoreLabel.text = "\(foosballStats?.score ?? 1200) pts"
         tableTennisScoreLabel.text = "\(tableTennisStats?.score ?? 1200) pts"
         setupSubscribers()
@@ -269,6 +267,11 @@ final class ProfileView: UIView {
             .receive(on: DispatchQueue.main)
             .map({ "\($0?.tableTennisStats?.score ?? 0) pts" })
             .assign(to: \.text, on: tableTennisScoreLabel)
+            .store(in: &subscribers)
+        OSAccount.current.$player
+            .receive(on: DispatchQueue.main)
+            .compactMap({ "🏆 x \($0?.totalSeasonWins() ?? 0)" })
+            .assign(to: \.text, on: totalWinsLabel)
             .store(in: &subscribers)
     }
     

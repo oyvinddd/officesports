@@ -21,6 +21,7 @@ private let fbPlayersCollection = "players"
 private let fbMatchesCollection = "matches"
 private let fbInvitesCollection = "invites"
 private let fbSeasonsCollection = "seasons"
+private let fbTeamsCollection = "teams"
 
 final class FirebaseSportsAPI: SportsAPI {
 
@@ -40,6 +41,10 @@ final class FirebaseSportsAPI: SportsAPI {
     
     private var seasonsCollection: CollectionReference {
         database.collection(fbSeasonsCollection)
+    }
+    
+    private var teamsCollection: CollectionReference {
+        database.collection(fbTeamsCollection)
     }
     
     func signIn(_ viewController: UIViewController, result: @escaping (Result<Bool, Error>) -> Void) {
@@ -86,15 +91,26 @@ final class FirebaseSportsAPI: SportsAPI {
         fatalError("Delete account endpoint has not been implementet yet!")
     }
     
-    func createOrUpdatePlayerProfile(nickname: String, emoji: String, result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
+    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam?, result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
         guard let uid = OSAccount.current.userId else {
             result(.failure(OSError.unauthorized))
             return
         }
         
-        let fields = ["nickname", "emoji"]
-        let data = ["nickname": nickname, "emoji": emoji]
-        let player = OSPlayer(id: uid, nickname: nickname, emoji: emoji)
+        let fields = ["nickname", "emoji", "team"]
+        var data: [String: Any] = ["nickname": nickname, "emoji": emoji]
+        
+        // if user is part of a team, add an additional condition to the query
+        // for filtering scoreboard on the given team name to only show players
+        // from that specific team
+        if let team = team {
+            do {
+                data["team"] = try Firestore.Encoder().encode(team)
+            } catch let error {
+                print(error)
+            }
+        }
+        let player = OSPlayer(id: uid, nickname: nickname, emoji: emoji, team: team)
         
         playersCollection.document(uid).setData(data, mergeFields: fields) { error in
             guard let error = error else {
@@ -123,9 +139,14 @@ final class FirebaseSportsAPI: SportsAPI {
     
     func getScoreboard(sport: OSSport, result: @escaping ((Result<[OSPlayer], Error>) -> Void)) {
         let fieldPath = sport == .foosball ? "foosballStats.score" : "tableTennisStats.score"
-        let query = playersCollection
+        var query = playersCollection
             .order(by: fieldPath, descending: true)
             .limit(to: maxResultsInScoreboard)
+        
+        // if player has chosen a team, only show scoreboard of players that has joined the same team
+        if let currentTeamId = OSAccount.current.player?.team?.id {
+            query = query.whereField("team.id", isEqualTo: currentTeamId)
+        }
         
         query.getDocuments { (snapshot, error) in
             guard let error = error else {
@@ -271,12 +292,35 @@ final class FirebaseSportsAPI: SportsAPI {
         }
     }
     
+    func getTeams(result: @escaping ((Result<[OSTeam], Error>) -> Void)) {
+        guard OSAccount.current.signedIn else {
+            result(.failure(OSError.unauthorized))
+            return
+        }
+        
+        teamsCollection.getDocuments { (snapshot, error) in
+            if let error = error {
+                result(.failure(error))
+                return
+            }
+            guard let documents = snapshot?.documents else {
+                result(.success([]))
+                return
+            }
+            let teams = documents.compactMap { documentSnapshot -> OSTeam? in
+                var team = try? documentSnapshot.data(as: OSTeam.self)
+                team?.id = documentSnapshot.documentID
+                return team
+            }
+            result(.success(teams))
+        }
+    }
+    
     // ##################################
     // ##   PRIVATE HELPER FUNCTIONS   ##
     // ##################################
     
     private func playersFromDocuments(_ documents: [QueryDocumentSnapshot], sport: OSSport) -> [OSPlayer] {
-        // https://peterfriese.dev/posts/firestore-codable-the-comprehensive-guide/
         let requiredField = sport == .foosball ? "foosballStats" : "tableTennisStats"
         var players = [OSPlayer]()
         
@@ -309,82 +353,5 @@ final class FirebaseSportsAPI: SportsAPI {
             }
         }
         return matches
-    }
-}
-
-// MARK: - Conform to the async/await versions of the API methods
-
-extension FirebaseSportsAPI {
-    
-    func signIn(viewController: UIViewController) async throws -> Bool {
-        return try await withCheckedThrowingContinuation({ continuation in
-            signIn(viewController) { result in
-                continuation.resume(with: result)
-            }
-        })
-    }
-    
-    func createOrUpdatePlayerProfile(nickname: String, emoji: String) async throws -> OSPlayer {
-        return try await withCheckedThrowingContinuation({ continuation in
-            createOrUpdatePlayerProfile(nickname: nickname, emoji: emoji) { result in
-                continuation.resume(with: result)
-            }
-        })
-    }
-    
-    func getPlayerProfile() async throws -> OSPlayer {
-        return try await withCheckedThrowingContinuation({ continuation in
-            getPlayerProfile { result in
-                continuation.resume(with: result)
-            }
-        })
-    }
-    
-    func registerMatch(registration: OSMatchRegistration) async throws -> OSMatch {
-        return try await withCheckedThrowingContinuation({ continuation in
-            registerMatch(registration) { result in
-                continuation.resume(with: result)
-            }
-        })
-    }
-    
-    func getScoreboard(sport: OSSport) async throws -> [OSPlayer] {
-        return try await withCheckedThrowingContinuation({ continuation in
-            getScoreboard(sport: sport) { result in
-                continuation.resume(with: result)
-            }
-        })
-    }
-    
-    func getMatchHistory(sport: OSSport) async throws -> [OSMatch] {
-        return try await withCheckedThrowingContinuation({ continuation in
-            getMatchHistory(sport: sport) { result in
-                continuation.resume(with: result)
-            }
-        })
-    }
-    
-    func invitePlayer(_ player: OSPlayer, sport: OSSport) async throws -> OSInvite {
-        return try await withCheckedThrowingContinuation({ continuation in
-            invitePlayer(player, sport: sport) { result in
-                continuation.resume(with: result)
-            }
-        })
-    }
-    
-    func  getActiveInvites() async throws -> [OSInvite] {
-        return try await withCheckedThrowingContinuation({ continuation in
-            getActiveInvites { result in
-                continuation.resume(with: result)
-            }
-        })
-    }
-    
-    func getSeasonStats() async throws -> [OSSeasonStats] {
-        return try await withCheckedThrowingContinuation({ continuation in
-            getSeasonStats { result in
-                continuation.resume(with: result)
-            }
-        })
     }
 }

@@ -12,7 +12,7 @@ struct OSMatch: Codable {
     
     private static var dateFormatter: DateFormatter {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
+        dateFormatter.dateFormat = "d. MMMM, yyyy @ HH:mm"
         return dateFormatter
     }
     

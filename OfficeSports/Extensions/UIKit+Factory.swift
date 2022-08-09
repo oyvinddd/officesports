@@ -121,6 +121,7 @@ extension UITextField {
         let textField = UITextField(frame: .zero)
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = backgroundColor
+        textField.placeholder = placeholder
         textField.textColor = color
         return textField
     }

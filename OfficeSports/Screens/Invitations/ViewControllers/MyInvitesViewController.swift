@@ -45,7 +45,7 @@ final class MyInvitesViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        //viewModel.getActiveInvites()
+        // viewModel.getActiveInvites()
     }
     
     func applyContentInsetToTableView(_ contentInset: UIEdgeInsets) {

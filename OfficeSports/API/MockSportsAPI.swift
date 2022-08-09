@@ -75,7 +75,7 @@ final class MockSportsAPI: SportsAPI {
         result(nil)
     }
     
-    func createOrUpdatePlayerProfile(nickname: String, emoji: String, result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
+    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam?, result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
         let foosballStats = OSStats(sport: .foosball, score: 0, matchesPlayed: 0, seasonWins: 0)
         let tableTennisStats = OSStats(sport: .tableTennis, score: 0, matchesPlayed: 0, seasonWins: 0)
         let player = OSPlayer(id: "id#1337", nickname: nickname, emoji: emoji, foosballStats: foosballStats, tableTennisStats: tableTennisStats)
@@ -128,9 +128,15 @@ final class MockSportsAPI: SportsAPI {
     func getSeasonStats(result: @escaping ((Result<[OSSeasonStats], Error>) -> Void)) {
         result(.success([OSSeasonStats(date: Date(), winner: OSAccount.current.player!, sport: .tableTennis)]))
     }
+    
+    func getTeams(result: @escaping ((Result<[OSTeam], Error>) -> Void)) {
+        let team1 = OSTeam(id: "id123", name: "Tietoevry Create - Bergen")
+        let team2 = OSTeam(id: "id321", name: "Tietoevry Banking - Bergen")
+        result(.success([team1, team2]))
+    }
 }
 
-// MARK: - Confirm to the async/await versions of the API methods
+// MARK: - Conform to the async/await versions of the API methods
 
 extension MockSportsAPI {
     
@@ -142,9 +148,9 @@ extension MockSportsAPI {
         })
     }
     
-    func createOrUpdatePlayerProfile(nickname: String, emoji: String) async throws -> OSPlayer {
+    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam?) async throws -> OSPlayer {
         return try await withCheckedThrowingContinuation({ continuation in
-            createOrUpdatePlayerProfile(nickname: nickname, emoji: emoji) { result in
+            createOrUpdatePlayerProfile(nickname: nickname, emoji: emoji, team: team) { result in
                 continuation.resume(with: result)
             }
         })
@@ -201,6 +207,14 @@ extension MockSportsAPI {
     func  getSeasonStats() async throws -> [OSSeasonStats] {
         return try await withCheckedThrowingContinuation({ continuation in
             getSeasonStats { result in
+                continuation.resume(with: result)
+            }
+        })
+    }
+    
+    func getTeams() async throws -> [OSTeam] {
+        return try await withCheckedThrowingContinuation({ continuation in
+            getTeams { result in
                 continuation.resume(with: result)
             }
         })
