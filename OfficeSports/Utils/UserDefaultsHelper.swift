@@ -7,6 +7,7 @@
 
 import Foundation
 
+private let userDefaultsSharedSuiteName = "group.com.tietoevry.officesports"
 private let userDefaultsPlayerKey = "player"
 private let userDefaultsInviteTimestampKey = "inviteTimestamp"
 private let userDefaultsDefaultScreenKey = "defaultScreen"
@@ -14,7 +15,7 @@ private let userDefaultsDefaultScreenKey = "defaultScreen"
 struct UserDefaultsHelper {
     
     private static let standardDefaults = UserDefaults.standard
-    private static let sharedDefaults = UserDefaults(suiteName: "group.com.tietoevry.officesports")!
+    private static let sharedDefaults = UserDefaults(suiteName: userDefaultsSharedSuiteName)!
     
     static func savePlayerProfile(_ player: OSPlayer) -> Bool {
         if let encodedPlayer = try? JSONEncoder().encode(player) {
@@ -66,9 +67,4 @@ struct UserDefaultsHelper {
             defaults.removeObject(forKey: key)
         }
     }
-}
-
-struct Foo {
-    var id: String
-    
 }

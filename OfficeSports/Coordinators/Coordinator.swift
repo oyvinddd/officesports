@@ -109,11 +109,6 @@ final class Coordinator {
         parent.present(viewController, animated: animated)
     }
     
-    func presentTeamPicker(from viewController: UIViewController) {
-        let viewModel = TeamsViewModel(api: FirebaseSportsAPI())
-        viewController.present(TeamPickerViewController(viewModel: viewModel), animated: false)
-    }
-    
     func presentPlayerDetails(_ player: OSPlayer, sport: OSSport) {
         let viewModel = InvitePlayerViewModel(api: FirebaseSportsAPI())
         let viewController = PlayerDetailsViewController(viewModel: viewModel, player: player, sport: sport)

@@ -225,7 +225,7 @@ extension PlayerProfileViewController: UITextFieldDelegate {
     
     private func presentTeamPickerSheet() {
         let viewModel = TeamsViewModel(api: FirebaseSportsAPI())
-        let viewController = TeamPickerViewController2(viewModel: viewModel, delegate: self)
+        let viewController = TeamPickerViewController(viewModel: viewModel, delegate: self)
         
         if let sheet = viewController.sheetPresentationController {
             sheet.detents = [.medium(), .large()]

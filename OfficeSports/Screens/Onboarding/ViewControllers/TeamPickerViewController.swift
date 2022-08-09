@@ -1,77 +1,47 @@
 //
 //  TeamPickerViewController.swift
-//  Office Sports
+//  OfficeSports
 //
-//  Created by Øyvind Hauge on 12/05/2022.
+//  Created by Øyvind Hauge on 12/07/2022.
 //
 
 import UIKit
 import Combine
 
-private let kBackgroundMaxFade: CGFloat = 0.6
-private let kBackgroundMinFade: CGFloat = 0
-private let kAnimDuration: TimeInterval = 0.15
-private let kAnimDelay: TimeInterval = 0
+protocol TeamSelectionDelegate: AnyObject {
+    
+    func didSelectTeam(_ team: OSTeam)
+}
 
 final class TeamPickerViewController: UIViewController {
     
-    private lazy var backgroundView: UIView = {
-        let view = UIView(frame: .zero)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.addGestureRecognizer(tapRecognizer)
-        view.backgroundColor = .black
-        view.alpha = 0
-        return view
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView.createTableView(.clear, dataSource: self)
+        tableView.registerCell(TeamTableViewCell.self)
+        tableView.delegate = self
+        return tableView
     }()
     
-    private lazy var dialogView: UIView = {
-        let view = UIView.createView(.white)
-        view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        return view
-    }()
-    
-    private lazy var dialogHandle: UIView = {
-        let view = UIView.createView(UIColor.OS.Text.subtitle, cornerRadius: 3)
-        view.alpha = 0.8
-        return view
-    }()
-    
-    private lazy var contentWrapView: UIView = {
+    private lazy var bottomWrap: UIView = {
         return UIView.createView(.white)
     }()
     
-    private lazy var stackView: UIStackView = {
-        return UIStackView.createStackView(.clear, axis: .vertical, spacing: 0)
-    }()
-    
-    private lazy var tapRecognizer: UITapGestureRecognizer = {
-        return UITapGestureRecognizer(target: self, action: #selector(backgroundTapped))
-    }()
-    
-    private lazy var dialogBottomConstraint: NSLayoutConstraint = {
-        let constraint = dialogView.topAnchor.constraint(equalTo: view.bottomAnchor)
-        constraint.constant = dialogHideConstant
-        return constraint
-    }()
-    
     private lazy var selectButton: OSButton = {
-        let button = OSButton("Select team", type: .primary, state: .normal)
+        let button = OSButton("Select", type: .primaryInverted, state: .disabled)
+        button.addTarget(self, action: #selector(selectButtonTapped), for: .touchUpInside)
         return button
     }()
     
-    private let dialogHideConstant: CGFloat = 0
-    private var dialogShowConstant: CGFloat {
-        return -dialogView.frame.height
-    }
-    
-    private var subscribers: [AnyCancellable] = []
     private let viewModel: TeamsViewModel
+    private var subscribers = Set<AnyCancellable>()
+    private var selectedTeam: OSTeam?
     
-    init(viewModel: TeamsViewModel, cornerRadius: CGFloat = 20) {
+    weak var delegate: TeamSelectionDelegate?
+    
+    init(viewModel: TeamsViewModel, delegate: TeamSelectionDelegate?) {
         self.viewModel = viewModel
+        self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
-        modalPresentationStyle = .overFullScreen
-        dialogView.layer.cornerRadius = cornerRadius
     }
     
     required init?(coder: NSCoder) {
@@ -80,101 +50,120 @@ final class TeamPickerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .clear
         setupSubscribers()
         setupChildViews()
+        configureUI()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        toggleDialog(enabled: true)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.fetchTeams()
     }
     
     private func setupSubscribers() {
         viewModel.$state
             .receive(on: DispatchQueue.main)
-            .sink { state in
+            .sink { [unowned self] state in
                 switch state {
-                case .loading:
-                    return
+                case .loading, .idle:
+                    break
                 case .success:
-                    
-                    return
+                    self.tableView.reloadData()
                 case .failure(let error):
                     Coordinator.global.send(error)
-                default:
-                    // do nothing
-                    break
                 }
-            }
-            .store(in: &subscribers)
+            }.store(in: &subscribers)
     }
     
     private func setupChildViews() {
-        view.addSubview(backgroundView)
-        view.addSubview(dialogView)
-        view.addSubview(dialogHandle)
-        dialogView.addSubview(contentWrapView)
-        contentWrapView.addSubview(stackView)
-        
-        stackView.addArrangedSubviews(selectButton)
+        view.addSubview(tableView)
+        view.addSubview(bottomWrap)
+        bottomWrap.addSubview(selectButton)
         
         NSLayoutConstraint.activate([
-            backgroundView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            backgroundView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            backgroundView.topAnchor.constraint(equalTo: view.topAnchor),
-            backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            dialogView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            dialogView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            dialogBottomConstraint,
-            dialogHandle.centerXAnchor.constraint(equalTo: dialogView.centerXAnchor),
-            dialogHandle.topAnchor.constraint(equalTo: dialogView.topAnchor, constant: 10),
-            dialogHandle.widthAnchor.constraint(equalToConstant: 40),
-            dialogHandle.heightAnchor.constraint(equalToConstant: 6),
-            contentWrapView.leftAnchor.constraint(equalTo: dialogView.leftAnchor, constant: 8),
-            contentWrapView.rightAnchor.constraint(equalTo: dialogView.rightAnchor, constant: -8),
-            contentWrapView.topAnchor.constraint(equalTo: dialogHandle.topAnchor, constant: 8),
-            contentWrapView.bottomAnchor.constraint(equalTo: dialogView.safeAreaLayoutGuide.bottomAnchor),
-            stackView.leftAnchor.constraint(equalTo: contentWrapView.leftAnchor),
-            stackView.rightAnchor.constraint(equalTo: contentWrapView.rightAnchor),
-            stackView.topAnchor.constraint(equalTo: contentWrapView.topAnchor, constant: 16),
-            stackView.bottomAnchor.constraint(equalTo: contentWrapView.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            bottomWrap.leftAnchor.constraint(equalTo: view.leftAnchor),
+            bottomWrap.rightAnchor.constraint(equalTo: view.rightAnchor),
+            bottomWrap.topAnchor.constraint(equalTo: tableView.bottomAnchor),
+            bottomWrap.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            selectButton.leftAnchor.constraint(equalTo: bottomWrap.leftAnchor, constant: 16),
+            selectButton.rightAnchor.constraint(equalTo: bottomWrap.rightAnchor, constant: -16),
+            selectButton.topAnchor.constraint(equalTo: bottomWrap.topAnchor, constant: 16),
+            selectButton.bottomAnchor.constraint(equalTo: bottomWrap.safeAreaLayoutGuide.bottomAnchor, constant: -16),
             selectButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     
-    private func toggleDialog(enabled: Bool) {
-        if enabled {
-            dialogBottomConstraint.constant = dialogShowConstant
-        } else {
-            dialogBottomConstraint.constant = dialogHideConstant
-        }
-        toggleBackgroundView(enabled: enabled)
-        UIView.animate(
-            withDuration: kAnimDuration,
-            delay: kAnimDelay,
-            options: [.curveEaseOut]) {
-                self.view.layoutIfNeeded()
-            } completion: {_ in
-                if !enabled {
-                    self.dismiss()
-                }
-            }
+    private func configureUI() {
+        view.backgroundColor = .white
     }
     
-    private func toggleBackgroundView(enabled: Bool) {
-        UIView.animate(withDuration: kAnimDuration) {
-            self.backgroundView.alpha = enabled ? kBackgroundMaxFade : kBackgroundMinFade
-        }
+    @objc private func selectButtonTapped(sender: UIButton) {
+        dismiss(animated: true)
+        //delegate?.didSelectTeam(<#T##team: OSTeam##OSTeam#>)
+    }
+}
+
+// MARK: - Table View Data Source
+
+extension TeamPickerViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.teams.count
     }
     
-    private func dismiss() {
-        dismiss(animated: false, completion: nil)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(for: TeamTableViewCell.self, for: indexPath)
+        cell.configure(with: viewModel.teams[indexPath.row])
+        return cell
+    }
+}
+
+// MARK: - Table View Delegate
+
+extension TeamPickerViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    }
+}
+
+// MARK: - Team Table View Cell
+
+private final class TeamTableViewCell: UITableViewCell {
+    
+    private lazy var teamLabel: UILabel = {
+        return UILabel.createLabel(UIColor.OS.Text.normal)
+    }()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupChildViews()
+        configureUI()
     }
     
-    // MARK: - Button Handling
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
     
-    @objc private func backgroundTapped(_ sender: UITapGestureRecognizer) {
-        toggleDialog(enabled: false)
+    func configure(with team: OSTeam) {
+        teamLabel.text = team.name
+    }
+    
+    private func setupChildViews() {
+        contentView.addSubview(teamLabel)
+        
+        NSLayoutConstraint.activate([
+            teamLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16),
+            teamLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16),
+            teamLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            teamLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+        ])
+    }
+    
+    private func configureUI() {
+        backgroundColor = .clear
+        selectionStyle = .none
     }
 }
