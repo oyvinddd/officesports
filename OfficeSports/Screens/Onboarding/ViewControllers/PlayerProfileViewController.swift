@@ -75,6 +75,7 @@ final class PlayerProfileViewController: UIViewController {
     private var centerYConstraint: NSLayoutConstraint?
     private var subscribers = Set<AnyCancellable>()
     
+    var selectedTeam: OSTeam?
     var selectedEmoji: String {
         didSet {
             emojiField.text = selectedEmoji
@@ -83,6 +84,7 @@ final class PlayerProfileViewController: UIViewController {
     
     init(viewModel: PlayerProfileViewModel) {
         self.viewModel = viewModel
+        self.selectedTeam = OSAccount.current.player?.team
         self.selectedEmoji = OSAccount.current.emoji ?? viewModel.randomEmoji
         super.init(nibName: nil, bundle: nil)
     }
@@ -112,11 +114,6 @@ final class PlayerProfileViewController: UIViewController {
             name: UIResponder.keyboardWillHideNotification,
             object: nil
         )
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        //_ = nicknameField.becomeFirstResponder()
     }
     
     private func setupChildViews() {
@@ -168,6 +165,7 @@ final class PlayerProfileViewController: UIViewController {
             titleLabel.text = "Update profile"
             emojiField.text = player.emoji
             nicknameField.text = player.nickname
+            teamField.text = player.team?.name ?? nil
         }
     }
     
@@ -201,9 +199,9 @@ final class PlayerProfileViewController: UIViewController {
     @objc private func continueButtonTapped(_ sender: UIButton) {
         do {
             let nickname = try viewModel.processAndValidateNickname(nicknameField.text)
-            viewModel.registerPlayerProfile(nickname: nickname, emoji: selectedEmoji)
+            viewModel.registerPlayerProfile(nickname: nickname, emoji: selectedEmoji, team: selectedTeam)
         } catch let error {
-            Coordinator.global.send(OSMessage(error.localizedDescription, .failure))
+            Coordinator.global.send(error)
         }
     }
     
@@ -229,7 +227,7 @@ extension PlayerProfileViewController: UITextFieldDelegate {
     
     private func presentTeamPickerSheet() {
         let viewModel = TeamsViewModel(api: FirebaseSportsAPI())
-        let viewController = TeamPickerViewController2(viewModel: viewModel)
+        let viewController = TeamPickerViewController2(viewModel: viewModel, delegate: self)
         
         if let sheet = viewController.sheetPresentationController {
             sheet.detents = [.medium(), .large()]
@@ -291,5 +289,14 @@ extension PlayerProfileViewController {
         
         // Start the animation
         animator.startAnimation()
+    }
+}
+
+// MARK: - Team Selection Delegate
+
+extension PlayerProfileViewController: TeamSelectionDelegate {
+    
+    func didSelectTeam(_ team: OSTeam) {
+        
     }
 }

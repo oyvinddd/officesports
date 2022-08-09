@@ -64,12 +64,12 @@ final class PlayerProfileViewModel {
         return lowercasedNickname
     }
     
-    func registerPlayerProfile(nickname: String, emoji: String) {
+    func registerPlayerProfile(nickname: String, emoji: String, team: OSTeam?) {
         state = .loading
         
         Task {
             do {
-                let player = try await api.createOrUpdatePlayerProfile(nickname: nickname, emoji: emoji)
+                let player = try await api.createOrUpdatePlayerProfile(nickname: nickname, emoji: emoji, team: team)
                 _ = UserDefaultsHelper.savePlayerProfile(player)
                 _ = UserDefaults.CodeWidget.saveCodePayloadDetails(player.nickname, player.id)
                 OSAccount.current.player = player

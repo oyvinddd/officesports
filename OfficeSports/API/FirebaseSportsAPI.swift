@@ -91,14 +91,17 @@ final class FirebaseSportsAPI: SportsAPI {
         fatalError("Delete account endpoint has not been implementet yet!")
     }
     
-    func createOrUpdatePlayerProfile(nickname: String, emoji: String, result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
+    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam?, result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
         guard let uid = OSAccount.current.userId else {
             result(.failure(OSError.unauthorized))
             return
         }
         
-        let fields = ["nickname", "emoji"]
-        let data = ["nickname": nickname, "emoji": emoji]
+        let fields = ["nickname", "emoji", "team"]
+        var data: [String: Any] = ["nickname": nickname, "emoji": emoji]
+        if let team = team {
+            data["team"] = team
+        }
         let player = OSPlayer(id: uid, nickname: nickname, emoji: emoji)
         
         playersCollection.document(uid).setData(data, mergeFields: fields) { error in
@@ -356,9 +359,9 @@ extension FirebaseSportsAPI {
         })
     }
     
-    func createOrUpdatePlayerProfile(nickname: String, emoji: String) async throws -> OSPlayer {
+    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam?) async throws -> OSPlayer {
         return try await withCheckedThrowingContinuation({ continuation in
-            createOrUpdatePlayerProfile(nickname: nickname, emoji: emoji) { result in
+            createOrUpdatePlayerProfile(nickname: nickname, emoji: emoji, team: team) { result in
                 continuation.resume(with: result)
             }
         })

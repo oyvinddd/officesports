@@ -6,28 +6,40 @@
 //
 
 import UIKit
+import Combine
+
+protocol TeamSelectionDelegate: AnyObject {
+    
+    func didSelectTeam(_ team: OSTeam)
+}
 
 final class TeamPickerViewController2: UIViewController {
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView.createTableView(.clear, dataSource: self)
         tableView.registerCell(TeamTableViewCell.self)
+        tableView.delegate = self
         return tableView
     }()
     
     private lazy var bottomWrap: UIView = {
-        return UIView.createView(.white)
+        return UIView.createView(.yellow)
     }()
     
     private lazy var selectButton: OSButton = {
         let button = OSButton("Select", type: .primaryInverted)
+        button.addTarget(self, action: #selector(selectButtonTapped), for: .touchUpInside)
         return button
     }()
     
     private let viewModel: TeamsViewModel
+    private var subscribers = Set<AnyCancellable>()
     
-    init(viewModel: TeamsViewModel) {
+    weak var delegate: TeamSelectionDelegate?
+    
+    init(viewModel: TeamsViewModel, delegate: TeamSelectionDelegate?) {
         self.viewModel = viewModel
+        self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -37,6 +49,7 @@ final class TeamPickerViewController2: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupSubscribers()
         setupChildViews()
         configureUI()
     }
@@ -44,6 +57,41 @@ final class TeamPickerViewController2: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.fetchTeams()
+    }
+    
+    private func setupSubscribers() {
+        viewModel.$state
+            .receive(on: DispatchQueue.main)
+            .sink { [unowned self] state in
+                switch state {
+                case .loading, .idle:
+                    break
+                case .success:
+                    self.tableView.reloadData()
+                case .failure(let error):
+                    Coordinator.global.send(error)
+                }
+//                switch state {
+//                case .loading:
+//                    continueButton.toggleLoading(true)
+//                case .success:
+//                    continueButton.toggleLoading(false)
+//                    Coordinator.global.send(OSMessage("Successfully updated player details! 🤝", .success))
+//                    // we check if vc was presented modally so
+//                    // that we know where to send the user next
+//                    guard presentingViewController != nil else {
+//                        Coordinator.global.changeAppState(.authorized)
+//                        return
+//                    }
+//                    dismiss(animated: true)
+//                case .failure(let error):
+//                    continueButton.toggleLoading(false)
+//                    Coordinator.global.send(error)
+//                default:
+//                    // do nothing
+//                    return
+//                }
+            }.store(in: &subscribers)
     }
     
     private func setupChildViews() {
@@ -61,6 +109,7 @@ final class TeamPickerViewController2: UIViewController {
             bottomWrap.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             selectButton.leftAnchor.constraint(equalTo: bottomWrap.leftAnchor, constant: 16),
             selectButton.rightAnchor.constraint(equalTo: bottomWrap.rightAnchor, constant: -16),
+            selectButton.topAnchor.constraint(equalTo: bottomWrap.topAnchor, constant: 16),
             selectButton.bottomAnchor.constraint(equalTo: bottomWrap.safeAreaLayoutGuide.bottomAnchor, constant: -16),
             selectButton.heightAnchor.constraint(equalToConstant: 50)
         ])
@@ -68,6 +117,10 @@ final class TeamPickerViewController2: UIViewController {
     
     private func configureUI() {
         view.backgroundColor = .white
+    }
+    
+    @objc private func selectButtonTapped() {
+        
     }
 }
 
@@ -83,6 +136,14 @@ extension TeamPickerViewController2: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(for: TeamTableViewCell.self, for: indexPath)
         cell.configure(with: viewModel.teams[indexPath.row])
         return cell
+    }
+}
+
+// MARK: - Table View Delegate
+
+extension TeamPickerViewController2: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     }
 }
 

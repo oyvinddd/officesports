@@ -12,7 +12,5 @@ struct OSTeam: Identifiable, Codable {
     
     @DocumentID public var id: String?
     
-    var orgId: String
-    
     var name: String
 }
