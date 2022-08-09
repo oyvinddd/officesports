@@ -16,7 +16,7 @@ protocol SportsAPI {
     
     func deleteAccount(result: @escaping ((Error?) -> Void))
     
-    @available(*, renamed: "createOrUpdatePlayerProfile(nickname:emoji:)")
+    @available(*, renamed: "createOrUpdatePlayerProfile(nickname:emoji:team:)")
     func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam?, result: @escaping ((Result<OSPlayer, Error>) -> Void))
     
     @available(*, renamed: "getPlayerProfile()")

@@ -216,9 +216,7 @@ extension PlayerProfileViewController: UITextFieldDelegate {
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if textField == teamField {
-            //Coordinator.global.presentTeamPicker(from: self)
             presentTeamPickerSheet()
-            
         } else if textField == emojiField {
             Coordinator.global.presentEmojiPicker(from: self, emojis: viewModel.emoijs)
         }

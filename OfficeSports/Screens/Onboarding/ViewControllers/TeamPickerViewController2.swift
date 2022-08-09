@@ -27,13 +27,14 @@ final class TeamPickerViewController2: UIViewController {
     }()
     
     private lazy var selectButton: OSButton = {
-        let button = OSButton("Select", type: .primaryInverted)
+        let button = OSButton("Select", type: .primaryInverted, state: .disabled)
         button.addTarget(self, action: #selector(selectButtonTapped), for: .touchUpInside)
         return button
     }()
     
     private let viewModel: TeamsViewModel
     private var subscribers = Set<AnyCancellable>()
+    private var selectedTeam: OSTeam?
     
     weak var delegate: TeamSelectionDelegate?
     
@@ -71,26 +72,6 @@ final class TeamPickerViewController2: UIViewController {
                 case .failure(let error):
                     Coordinator.global.send(error)
                 }
-//                switch state {
-//                case .loading:
-//                    continueButton.toggleLoading(true)
-//                case .success:
-//                    continueButton.toggleLoading(false)
-//                    Coordinator.global.send(OSMessage("Successfully updated player details! 🤝", .success))
-//                    // we check if vc was presented modally so
-//                    // that we know where to send the user next
-//                    guard presentingViewController != nil else {
-//                        Coordinator.global.changeAppState(.authorized)
-//                        return
-//                    }
-//                    dismiss(animated: true)
-//                case .failure(let error):
-//                    continueButton.toggleLoading(false)
-//                    Coordinator.global.send(error)
-//                default:
-//                    // do nothing
-//                    return
-//                }
             }.store(in: &subscribers)
     }
     
@@ -119,8 +100,9 @@ final class TeamPickerViewController2: UIViewController {
         view.backgroundColor = .white
     }
     
-    @objc private func selectButtonTapped() {
-        
+    @objc private func selectButtonTapped(sender: UIButton) {
+        dismiss(animated: true)
+        //delegate?.didSelectTeam(<#T##team: OSTeam##OSTeam#>)
     }
 }
 
