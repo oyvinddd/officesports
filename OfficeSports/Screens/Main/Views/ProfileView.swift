@@ -270,7 +270,7 @@ final class ProfileView: UIView {
             .store(in: &subscribers)
         OSAccount.current.$player
             .receive(on: DispatchQueue.main)
-            .map({ "🏆 x \($0?.totalSeasonWins())" })
+            .compactMap({ "🏆 x \($0?.totalSeasonWins() ?? 0)" })
             .assign(to: \.text, on: totalWinsLabel)
             .store(in: &subscribers)
     }
