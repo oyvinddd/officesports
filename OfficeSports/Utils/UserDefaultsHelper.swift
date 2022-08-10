@@ -11,6 +11,7 @@ private let userDefaultsSharedSuiteName = "group.com.tietoevry.officesports"
 private let userDefaultsPlayerKey = "player"
 private let userDefaultsInviteTimestampKey = "inviteTimestamp"
 private let userDefaultsDefaultScreenKey = "defaultScreen"
+private let userDefaultsIsNotFirstRun = "isNotFirstRun"
 
 struct UserDefaultsHelper {
     
@@ -66,5 +67,13 @@ struct UserDefaultsHelper {
         dictionary.keys.forEach { key in
             defaults.removeObject(forKey: key)
         }
+    }
+    
+    static func checkAndUpdateIsFirstRun() -> Bool {
+        if !standardDefaults.bool(forKey: userDefaultsIsNotFirstRun) {
+            standardDefaults.set(true, forKey: userDefaultsIsNotFirstRun)
+            return true
+        }
+        return false
     }
 }
