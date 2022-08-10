@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class InvitePlayerViewModel {
+final class PlayerDetailsViewModel {
     
     enum State {
         
@@ -17,10 +17,13 @@ final class InvitePlayerViewModel {
         
         case success(OSInvite)
         
+        //case latestMatchesSuccess([OSMatch])
+        
         case failure(Error)
     }
     
     @Published private(set) var state: State = .idle
+    @Published private(set) var latestMatches: [OSMatch] = []
     
     private let api: SportsAPI
     
@@ -36,6 +39,19 @@ final class InvitePlayerViewModel {
                 state = .success(invite)
             } catch let error {
                 state = .failure(error)
+            }
+        }
+    }
+    
+    func fetchLatestMatches(sport: OSSport, winnerId: String, loserId: String) {
+        Task {
+            do {
+                let matches = try await api.getLatestMatches(sport: sport, winnerId: winnerId, loserId: loserId)
+                self.latestMatches = matches
+                print(self.latestMatches)
+            } catch let error {
+                // we don't really care too much if this fails
+                print(error)
             }
         }
     }

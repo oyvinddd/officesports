@@ -25,7 +25,7 @@
 		8E31E24028364A6F0085238C /* MyInvitesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E31E23F28364A6F0085238C /* MyInvitesViewController.swift */; };
 		8E31E24228364B0A0085238C /* MyInvitesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E31E24128364B0A0085238C /* MyInvitesViewModel.swift */; };
 		8E3293E4283D8E8800B7CCDC /* PlayerDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3293E3283D8E8800B7CCDC /* PlayerDetailsViewController.swift */; };
-		8E3293E7283D8FBA00B7CCDC /* InvitePlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3293E6283D8FBA00B7CCDC /* InvitePlayerViewModel.swift */; };
+		8E3293E7283D8FBA00B7CCDC /* PlayerDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3293E6283D8FBA00B7CCDC /* PlayerDetailsViewModel.swift */; };
 		8E38B574283B97C8009E0387 /* UIColor+CoreImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B573283B97C8009E0387 /* UIColor+CoreImage.swift */; };
 		8E38B576283BC5AD009E0387 /* Bundle+Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B575283BC5AD009E0387 /* Bundle+Version.swift */; };
 		8E38B578283BC9F1009E0387 /* OSError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B577283BC9F1009E0387 /* OSError.swift */; };
@@ -143,7 +143,7 @@
 		8E31E23F28364A6F0085238C /* MyInvitesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInvitesViewController.swift; sourceTree = "<group>"; };
 		8E31E24128364B0A0085238C /* MyInvitesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInvitesViewModel.swift; sourceTree = "<group>"; };
 		8E3293E3283D8E8800B7CCDC /* PlayerDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDetailsViewController.swift; sourceTree = "<group>"; };
-		8E3293E6283D8FBA00B7CCDC /* InvitePlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitePlayerViewModel.swift; sourceTree = "<group>"; };
+		8E3293E6283D8FBA00B7CCDC /* PlayerDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDetailsViewModel.swift; sourceTree = "<group>"; };
 		8E38B573283B97C8009E0387 /* UIColor+CoreImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+CoreImage.swift"; sourceTree = "<group>"; };
 		8E38B575283BC5AD009E0387 /* Bundle+Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Version.swift"; sourceTree = "<group>"; };
 		8E38B577283BC9F1009E0387 /* OSError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSError.swift; sourceTree = "<group>"; };
@@ -365,7 +365,7 @@
 			isa = PBXGroup;
 			children = (
 				8E31E24128364B0A0085238C /* MyInvitesViewModel.swift */,
-				8E3293E6283D8FBA00B7CCDC /* InvitePlayerViewModel.swift */,
+				8E3293E6283D8FBA00B7CCDC /* PlayerDetailsViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -766,7 +766,7 @@
 				8E287F56283B1013005BBE28 /* UIButton+Loading.swift in Sources */,
 				8E70C11C282AC3F2009A9452 /* ScannerViewController.swift in Sources */,
 				8E38B574283B97C8009E0387 /* UIColor+CoreImage.swift in Sources */,
-				8E3293E7283D8FBA00B7CCDC /* InvitePlayerViewModel.swift in Sources */,
+				8E3293E7283D8FBA00B7CCDC /* PlayerDetailsViewModel.swift in Sources */,
 				8EF1387D2837EEEC001D8DA6 /* MatchTableViewCell.swift in Sources */,
 				8EF1387F2837FDD3001D8DA6 /* RegisterMatchViewModel.swift in Sources */,
 				8E70C121282AC510009A9452 /* OSPlayer.swift in Sources */,
