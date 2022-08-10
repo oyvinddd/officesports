@@ -39,7 +39,7 @@ final class PlayerProfileViewController: UIViewController {
     private lazy var emojiField: UITextField = {
         let textField = UITextField.createTextField(UIColor.OS.General.mainDark, color: .white)
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(16, 0, 0)
-        textField.font = UIFont.boldSystemFont(ofSize: 20)
+        textField.font = UIFont.boldSystemFont(ofSize: 30)
         textField.autocapitalizationType = .none
         textField.applyCornerRadius(8)
         textField.delegate = self
@@ -47,7 +47,9 @@ final class PlayerProfileViewController: UIViewController {
     }()
     
     private lazy var nicknameField: UITextField = {
-        let textField = UITextField.createTextField(UIColor.OS.General.mainDark, color: .white, placeholder: "Nickname")
+        let textField = UITextField.createTextField(UIColor.OS.General.mainDark, color: .white)
+        let attrPlaceholder = NSAttributedString(string: "Choose a nickname", attributes: [NSAttributedString.Key.foregroundColor: UIColor.OS.General.main])
+        textField.attributedPlaceholder = attrPlaceholder
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(16, 0, 0)
         textField.font = UIFont.boldSystemFont(ofSize: 20)
         textField.autocapitalizationType = .none
@@ -168,6 +170,9 @@ final class PlayerProfileViewController: UIViewController {
             emojiField.text = player.emoji
             nicknameField.text = player.nickname
             teamField.text = player.team?.name ?? nil
+        } else {
+            closeButton.isHidden = true
+            emojiField.text = selectedEmoji
         }
     }
     
@@ -218,6 +223,7 @@ extension PlayerProfileViewController: UITextFieldDelegate {
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if textField == teamField {
+            nicknameField.resignFirstResponder()
             presentTeamPickerSheet()
         } else if textField == emojiField {
             Coordinator.global.presentEmojiPicker(from: self, emojis: viewModel.emoijs)
