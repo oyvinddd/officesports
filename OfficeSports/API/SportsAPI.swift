@@ -31,6 +31,9 @@ protocol SportsAPI {
     @available(*, renamed: "getMatchHistory(sport:)")
     func getMatchHistory(sport: OSSport, result: @escaping ((Result<[OSMatch], Error>) -> Void))
     
+    @available(*, renamed: "getLatestMatches(sport:winnerId:loserId:)")
+    func getLatestMatches(sport: OSSport, winnerId: String, loserId: String, result: @escaping ((Result<[OSMatch], Error>) -> Void))
+    
     @available(*, renamed: "invitePlayer(player:sport:)")
     func invitePlayer(_ player: OSPlayer, sport: OSSport, result: @escaping ((Result<OSInvite, Error>) -> Void))
     
@@ -56,6 +59,8 @@ protocol SportsAPI {
     func getScoreboard(sport: OSSport) async throws -> [OSPlayer]
     
     func getMatchHistory(sport: OSSport) async throws -> [OSMatch]
+    
+    func getLatestMatches(sport: OSSport, winnerId: String, loserId: String) async throws -> [OSMatch]
     
     func invitePlayer(_ player: OSPlayer, sport: OSSport) async throws -> OSInvite
     
