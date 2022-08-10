@@ -174,6 +174,10 @@ final class FirebaseSportsAPI: SportsAPI {
         }
     }
     
+    func getLatestMatches(sport: OSSport, winnerId: String, loserId: String, result: @escaping ((Result<[OSMatch], Error>) -> Void)) {
+        
+    }
+    
     func registerMatch(_ registration: OSMatchRegistration, result: @escaping ((Result<OSMatch, Error>) -> Void)) {
         guard registration.winnerId != registration.loserId else {
             result(.failure(OSError.invalidOpponent))

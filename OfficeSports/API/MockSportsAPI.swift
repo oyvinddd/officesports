@@ -8,7 +8,7 @@
 import UIKit
 
 final class MockSportsAPI: SportsAPI {
-    
+
     private static let fst = [
         OSStats(sport: .foosball, score: 0, matchesPlayed: 1, seasonWins: 0),
         OSStats(sport: .foosball, score: 1, matchesPlayed: 20, seasonWins: 0),
@@ -115,6 +115,10 @@ final class MockSportsAPI: SportsAPI {
         result(.success(filteredMatches))
     }
     
+    func getLatestMatches(sport: OSSport, winnerId: String, loserId: String, result: @escaping ((Result<[OSMatch], Error>) -> Void)) {
+        // TODO: create and return some mock data here
+    }
+    
     func invitePlayer(_ player: OSPlayer, sport: OSSport, result: @escaping ((Result<OSInvite, Error>) -> Void)) {
         let invite = OSInvite(date: Date(), sport: .foosball, inviterId: "id#1", inviteeId: "id#2", inviteeNickname: "heimegut")
         result(.success(invite))
@@ -183,6 +187,14 @@ extension MockSportsAPI {
     func getMatchHistory(sport: OSSport) async throws -> [OSMatch] {
         return try await withCheckedThrowingContinuation({ continuation in
             getMatchHistory(sport: sport) { result in
+                continuation.resume(with: result)
+            }
+        })
+    }
+    
+    func getLatestMatches(sport: OSSport, winnerId: String, loserId: String) async throws -> [OSMatch] {
+        return try await withCheckedThrowingContinuation({ continuation in
+            getLatestMatches(sport: sport, winnerId: winnerId, loserId: loserId) { result in
                 continuation.resume(with: result)
             }
         })
