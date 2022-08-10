@@ -106,13 +106,13 @@ final class PlayerDetailsViewController: UIViewController {
         return -dialogView.frame.height
     }
     
-    private let viewModel: InvitePlayerViewModel
+    private let viewModel: PlayerDetailsViewModel
     private let player: OSPlayer
     private let sport: OSSport
     
     private var subscribers = Set<AnyCancellable>()
     
-    init(viewModel: InvitePlayerViewModel, player: OSPlayer, sport: OSSport) {
+    init(viewModel: PlayerDetailsViewModel, player: OSPlayer, sport: OSSport) {
         self.viewModel = viewModel
         self.player = player
         self.sport = sport

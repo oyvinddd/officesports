@@ -175,7 +175,24 @@ final class FirebaseSportsAPI: SportsAPI {
     }
     
     func getLatestMatches(sport: OSSport, winnerId: String, loserId: String, result: @escaping ((Result<[OSMatch], Error>) -> Void)) {
+        // create the query for recent matches between two players
+        let query = matchesCollection
+            .whereField(FieldPath(["winner", "userId"]), isEqualTo: winnerId)
+            .whereField(FieldPath(["loser", "userId"]), isEqualTo: loserId)
+            .order(by: "date", descending: true)
+            .limit(to: 10)
         
+        // execute the query
+        query.getDocuments { (snapshot, error) in
+            if let error = error {
+                result(.failure(error))
+                return
+            }
+            let matches = snapshot?.documents.compactMap({ docSnapshot -> OSMatch? in
+                return try? docSnapshot.data(as: OSMatch.self)
+            })
+            result(.success(matches ?? []))
+        }
     }
     
     func registerMatch(_ registration: OSMatchRegistration, result: @escaping ((Result<OSMatch, Error>) -> Void)) {

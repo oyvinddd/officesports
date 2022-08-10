@@ -110,7 +110,7 @@ final class Coordinator {
     }
     
     func presentPlayerDetails(_ player: OSPlayer, sport: OSSport) {
-        let viewModel = InvitePlayerViewModel(api: FirebaseSportsAPI())
+        let viewModel = PlayerDetailsViewModel(api: FirebaseSportsAPI())
         let viewController = PlayerDetailsViewController(viewModel: viewModel, player: player, sport: sport)
         window?.rootViewController?.present(viewController, animated: false)
     }
