@@ -17,8 +17,6 @@ final class PlayerDetailsViewModel {
         
         case success(OSInvite)
         
-        //case latestMatchesSuccess([OSMatch])
-        
         case failure(Error)
     }
     

@@ -90,9 +90,9 @@ final class MatchTableViewCell: UITableViewCell {
         guard let match = match else {
             return
         }
-        let winner = match.winner.nickname
+        let winner = match.winner.nickname.lowercased()
         let wDelta = match.winnerDelta
-        let loser = match.loser.nickname
+        let loser = match.loser.nickname.lowercased()
         let lDelta = match.loserDelta
         let originalStr = "\(winner) (+\(wDelta)) won against \(loser) (\(lDelta))"
         

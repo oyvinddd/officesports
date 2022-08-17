@@ -33,7 +33,10 @@ final class TeamsViewModel {
         state = .loading
         Task {
             do {
-                self.teams = try await api.getTeams()
+                var localTeams = try await api.getTeams()
+                localTeams.append(OSTeam.noTeam)
+                localTeams = localTeams.sorted(by: { $0.name < $1.name })
+                self.teams = localTeams
                 self.state = .success
             } catch let error {
                 state = .failure(error)
