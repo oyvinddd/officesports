@@ -127,7 +127,7 @@ final class SportViewController: UIViewController {
 extension SportViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return showScoreboard ? 3 : 2
+        return 3
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -144,7 +144,7 @@ extension SportViewController: UITableViewDataSource {
             }
             return viewModel.recentMatches.count
         default:
-            return viewModel.idlePlayers.count
+            return showScoreboard ? viewModel.idlePlayers.count : 0
         }
     }
     
@@ -193,7 +193,8 @@ extension SportViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if showScoreboard {
-            Coordinator.global.presentPlayerDetails(viewModel.scoreboard[indexPath.row], sport: viewModel.sport)
+            let player = indexPath.section == 1 ? viewModel.scoreboard[indexPath.row] : viewModel.idlePlayers[indexPath.row]
+            Coordinator.global.presentPlayerDetails(player, sport: viewModel.sport)
         }
     }
 }
