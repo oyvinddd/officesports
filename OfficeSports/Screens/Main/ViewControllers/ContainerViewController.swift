@@ -166,7 +166,7 @@ final class ContainerViewController: UIViewController {
     }
     
     private func configureTableViewInsets() {
-        let padding: CGFloat = 32
+        let padding: CGFloat = 0
         let topInset = profileView.frame.maxY
         let bottomInset = view.frame.height - floatingMenu.frame.minY + padding
         let contentInset = UIEdgeInsets(top: topInset, left: 0, bottom: bottomInset, right: 0)
