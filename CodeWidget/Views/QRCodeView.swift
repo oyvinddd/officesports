@@ -27,7 +27,7 @@ struct QRCodeView: View {
 //                        RoundedRectangle(cornerRadius: 8).stroke(.blue, lineWidth: 4)
 //                    )
             } else {
-                Text("✨").font(Font.system(size: 70))
+                Text("🫥").font(Font.system(size: 70))
             }
         }
     }

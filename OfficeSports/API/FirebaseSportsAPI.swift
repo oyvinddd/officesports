@@ -15,7 +15,7 @@ private let fbCloudFuncBaseUrl = "https://us-central1-officesports-5d7ac.cloudfu
 private let fbCloudFuncRegisterMatchUrl = "/winMatch"
 
 private let maxResultsInScoreboard = 200
-private let maxResultsInRecentMatches = 100
+private let maxResultsInRecentMatches = 200
 
 private let fbPlayersCollection = "players"
 private let fbMatchesCollection = "matches"
@@ -100,9 +100,8 @@ final class FirebaseSportsAPI: SportsAPI {
         let fields = ["nickname", "emoji", "team"]
         var data: [String: Any] = ["nickname": nickname, "emoji": emoji]
         
-        // if user is part of a team, add an additional condition to the query
-        // for filtering scoreboard on the given team name to only show players
-        // from that specific team
+        // a user can choose to be part of a team so that the scoreboard only
+        // shows players from the same team
         if let team = team {
             do {
                 data["team"] = try Firestore.Encoder().encode(team)
