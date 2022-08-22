@@ -90,7 +90,7 @@ final class SportFilterTableViewCell: UITableViewCell {
             contentWrap.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16),
             contentWrap.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16),
             contentWrap.topAnchor.constraint(equalTo: contentView.topAnchor),
-            contentWrap.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            contentWrap.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             separatorView.centerXAnchor.constraint(equalTo: contentWrap.centerXAnchor),
             separatorView.heightAnchor.constraint(equalTo: contentWrap.heightAnchor),
             separatorView.centerYAnchor.constraint(equalTo: contentWrap.centerYAnchor),

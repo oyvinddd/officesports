@@ -22,6 +22,7 @@ final class SportViewModel {
     let sport: OSSport
     
     private(set) var scoreboard = [OSPlayer]()
+    private(set) var idlePlayers = [OSPlayer]()
     private(set) var recentMatches = [OSMatch]()
     
     private let api: SportsAPI
@@ -41,7 +42,10 @@ final class SportViewModel {
         
         Task {
             do {
-                scoreboard = try await api.getScoreboard(sport: sport)
+                let allPlayers = try await api.getScoreboard(sport: sport)
+                scoreboard = getNormalPlayers(allPlayers, sport: sport)
+                idlePlayers = getIdlePlayers(allPlayers, sport: sport)
+                
                 state = .scoreboardSuccess
             } catch let error {
                 state = .failure(error)
@@ -60,5 +64,19 @@ final class SportViewModel {
                 state = .failure(error)
             }
         }
+    }
+    
+    private func getNormalPlayers(_ players: [OSPlayer], sport: OSSport) -> [OSPlayer] {
+        return players.filter({ !isIdlePlayer($0, sport: sport) })
+    }
+    
+    private func getIdlePlayers(_ players: [OSPlayer], sport: OSSport) -> [OSPlayer] {
+        return players.filter({ isIdlePlayer($0, sport: sport) })
+    }
+    
+    private func isIdlePlayer(_ player: OSPlayer, sport: OSSport) -> Bool {
+        let tableTennisMatches = player.tableTennisStats?.matchesPlayed ?? 0
+        let foosballMatches = player.foosballStats?.matchesPlayed ?? 0
+        return sport == .tableTennis ? tableTennisMatches == 0 : foosballMatches == 0
     }
 }
