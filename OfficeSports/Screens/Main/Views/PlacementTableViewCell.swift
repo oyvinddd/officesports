@@ -71,6 +71,12 @@ final class PlacementTableViewCell: UITableViewCell {
         }
     }
     
+    func configure(with player: OSPlayer, _ sport: OSSport, _ isFirst: Bool, _ isLast: Bool) {
+        configure(with: player, sport, -1, isFirst, isLast)
+        scoreLabel.text = "No matches played"
+        placementLabel.text = ""
+    }
+    
     private func applyCornerRadius(isFirstElement: Bool, isLastElement: Bool) {
         guard isFirstElement || isLastElement else {
             contentWrap.layer.maskedCorners = []

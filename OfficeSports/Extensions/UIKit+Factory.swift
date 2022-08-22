@@ -38,8 +38,8 @@ extension UIScrollView {
 
 extension UITableView {
     
-    class func createTableView(_ backgroundColor: UIColor, dataSource: UITableViewDataSource? = nil) -> UITableView {
-        let tableView = UITableView(frame: .zero)
+    class func createTableView(_ backgroundColor: UIColor, dataSource: UITableViewDataSource? = nil, style: UITableView.Style = .plain) -> UITableView {
+        let tableView = UITableView(frame: .zero, style: style)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.showsVerticalScrollIndicator = false
         tableView.showsHorizontalScrollIndicator = false
