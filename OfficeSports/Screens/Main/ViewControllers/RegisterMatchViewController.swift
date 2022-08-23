@@ -115,7 +115,8 @@ final class RegisterMatchViewController: UIViewController {
                 case .loading:
                     self.registerButton.buttonState = .loading
                 case .success(let match):
-                    let message = OSMessage("Congratulations! You gained \(match.winnerDelta) points from your win against \(match.loser.nickname) 🤟", .success)
+                    let nickname = match.loser.nickname.lowercased()
+                    let message = OSMessage("Congratulations! You gained \(match.winnerDelta) points from your win against \(nickname) 🤟", .success)
                     Coordinator.global.send(message)
                     self.registerButton.buttonState = .normal
                     self.toggleDialog(enabled: false) { [unowned self] in
@@ -171,7 +172,7 @@ final class RegisterMatchViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = .clear
         let sport = payload.sport
-        let nickname = payload.nickname
+        let nickname = payload.nickname.lowercased()
         
         let question = "Register a win in \(sport.humanReadableName) against \(nickname)?"
         let attributedQuestion = NSMutableAttributedString(string: question)
