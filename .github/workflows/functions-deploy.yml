@@ -1,5 +1,9 @@
 name: Validate and publish functions
 
+defaults:
+  run:
+    working-directory: Firebase
+
 on:
   push:
     branches:

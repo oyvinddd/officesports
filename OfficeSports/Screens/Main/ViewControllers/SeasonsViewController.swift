@@ -18,9 +18,11 @@ final class SeasonsViewController: UIViewController, SeasonsHeaderDelegate {
     }()
     
     private lazy var tableView: UITableView = {
-        let tableView = UITableView.createTableView(.clear)
+        let tableView = UITableView.createTableView(.clear, style: .grouped)
         tableView.registerCell(SportFilterTableViewCell.self)
         tableView.registerCell(SeasonResultTableViewCell.self)
+        tableView.sectionHeaderHeight = 8
+        tableView.sectionFooterHeight = 8
         tableView.dataSource = self
         return tableView
     }()
