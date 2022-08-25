@@ -28,6 +28,13 @@ final class RegisterMatchViewModel {
     }
     
     func registerMatch(_ registration: OSMatchRegistration) {
+        // players are not allowed to register matches if it's currently weekend.
+        // all matches counting towards a player's score should be played at the office.
+        guard !Calendar.current.isDateInWeekend(Date.now) else {
+            let message = OSMessage("Not allowed to register matches during the weekend 🍺", .info)
+            Coordinator.global.send(message)
+            return
+        }
         state = .loading
         Task {
             do {
