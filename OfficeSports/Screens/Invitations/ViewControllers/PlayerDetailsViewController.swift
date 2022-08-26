@@ -212,7 +212,7 @@ final class PlayerDetailsViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = .clear
         profileEmjoiLabel.text = player.emoji
-        nicknameLabel.text = player.nickname
+        nicknameLabel.text = player.nickname.lowercased()
         if let stats = player.statsForSport(sport) {
             let matchesString = stats.matchesPlayed != 1 ? "\(stats.matchesPlayed) matches" : "\(stats.matchesPlayed) match"
             playerDetailsLabel.text = "\(stats.score) pts • \(matchesString)"
