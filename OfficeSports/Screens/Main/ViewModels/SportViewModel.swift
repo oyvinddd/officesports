@@ -24,6 +24,7 @@ final class SportViewModel {
     private(set) var scoreboard = [OSPlayer]()
     private(set) var idlePlayers = [OSPlayer]()
     private(set) var recentMatches = [OSMatch]()
+    private(set) var fanatic: OSPlayer?
     
     private let api: SportsAPI
     
@@ -45,6 +46,7 @@ final class SportViewModel {
                 let allPlayers = try await api.getScoreboard(sport: sport)
                 scoreboard = getNormalPlayers(allPlayers, sport: sport)
                 idlePlayers = getIdlePlayers(allPlayers, sport: sport)
+                fanatic = findFanaticalPlayer(scoreboard)
                 
                 state = .scoreboardSuccess
             } catch let error {
@@ -78,5 +80,11 @@ final class SportViewModel {
         let tableTennisMatches = player.tableTennisStats?.matchesPlayed ?? 0
         let foosballMatches = player.foosballStats?.matchesPlayed ?? 0
         return sport == .tableTennis ? tableTennisMatches == 0 : foosballMatches == 0
+    }
+    
+    private func findFanaticalPlayer(_ players: [OSPlayer]) -> OSPlayer? {
+        return players.max {
+            $0.matchesPlayed(sport: sport) < $1.matchesPlayed(sport: sport)
+        }
     }
 }
