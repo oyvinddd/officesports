@@ -161,8 +161,10 @@ extension SportViewController: UITableViewDataSource {
             let isLastElement = indexPath.row == (showScoreboard ? viewModel.scoreboard.count - 1 : viewModel.recentMatches.count - 1)
             
             if showScoreboard {
+                let player = viewModel.scoreboard[indexPath.row]
+                let isFanatic = player == viewModel.fanatic
                 let cell = tableView.dequeueReusableCell(for: PlacementTableViewCell.self, for: indexPath)
-                cell.configure(with: viewModel.scoreboard[indexPath.row], viewModel.sport, indexPath.row, isFirstElement, isLastElement)
+                cell.configure(with: player, viewModel.sport, indexPath.row, isFanatic, isFirstElement, isLastElement)
                 return cell
             }
             let cell = tableView.dequeueReusableCell(for: MatchTableViewCell.self, for: indexPath)
@@ -171,8 +173,9 @@ extension SportViewController: UITableViewDataSource {
             return cell
         }
         
+        let player = viewModel.idlePlayers[indexPath.row]
         let cell = tableView.dequeueReusableCell(for: PlacementTableViewCell.self, for: indexPath)
-        cell.configure(with: viewModel.idlePlayers[indexPath.row], viewModel.sport, indexPath.row == 0, indexPath.row == viewModel.idlePlayers.count - 1)
+        cell.configure(with: player, viewModel.sport, indexPath.row == 0, indexPath.row == viewModel.idlePlayers.count - 1)
         return cell
     }
 }

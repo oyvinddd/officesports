@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestoreSwift
 
-struct OSPlayer: Identifiable, Codable {
+struct OSPlayer: Identifiable, Codable, Equatable {
     
     enum CodingKeys: String, CodingKey {
         case id, nickname, emoji, foosballStats, tableTennisStats, poolStats, team
@@ -75,6 +75,13 @@ struct OSPlayer: Identifiable, Codable {
         }
     }
     
+    func matchesPlayed(sport: OSSport) -> Int {
+        guard let stats = statsForSport(sport) else {
+            return 0
+        }
+        return stats.matchesPlayed
+    }
+    
     func scoreForSport(_ sport: OSSport) -> Int? {
         return statsForSport(sport)?.score
     }
@@ -84,5 +91,14 @@ struct OSPlayer: Identifiable, Codable {
         totalWins += (foosballStats?.seasonWins ?? 0)
         totalWins += (tableTennisStats?.seasonWins ?? 0)
         return totalWins
+    }
+    
+    // MARK: - Equatable protocol conformance
+    
+    static func == (lhs: OSPlayer, rhs: OSPlayer) -> Bool {
+        if let id1 = lhs.id, let id2 = rhs.id {
+            return id1 == id2
+        }
+        return false
     }
 }
