@@ -11,7 +11,7 @@ import FirebaseFirestoreSwift
 struct OSPlayer: Identifiable, Codable {
     
     enum CodingKeys: String, CodingKey {
-        case id, nickname, emoji, foosballStats, tableTennisStats, team
+        case id, nickname, emoji, foosballStats, tableTennisStats, poolStats, team
     }
     
     @DocumentID public var id: String?
@@ -24,15 +24,18 @@ struct OSPlayer: Identifiable, Codable {
     
     var tableTennisStats: OSStats?
     
+    var poolStats: OSStats?
+    
     var team: OSTeam?
     
-    init(id: String? = nil, nickname: String, emoji: String, team: OSTeam? = nil, foosballStats: OSStats? = nil, tableTennisStats: OSStats? = nil) {
+    init(id: String? = nil, nickname: String, emoji: String, team: OSTeam? = nil, foosballStats: OSStats? = nil, tableTennisStats: OSStats? = nil, poolStats: OSStats? = nil) {
         self.id = id
         self.nickname = nickname
         self.emoji = emoji
         self.team = team
         self.foosballStats = foosballStats
         self.tableTennisStats = tableTennisStats
+        self.poolStats = poolStats
     }
     
     func encode(to encoder: Encoder) throws {
@@ -42,6 +45,7 @@ struct OSPlayer: Identifiable, Codable {
             try container.encode(emoji, forKey: .emoji)
             try container.encode(foosballStats, forKey: .foosballStats)
             try container.encode(tableTennisStats, forKey: .tableTennisStats)
+            try container.encode(poolStats, forKey: .poolStats)
             try container.encode(team, forKey: .team)
         } catch let error {
             print("Error encoding player: \(error)")
@@ -54,11 +58,21 @@ struct OSPlayer: Identifiable, Codable {
         emoji = try container.decode(String.self, forKey: .emoji)
         foosballStats = try? container.decode(OSStats.self, forKey: .foosballStats)
         tableTennisStats = try? container.decode(OSStats.self, forKey: .tableTennisStats)
+        poolStats = try? container.decode(OSStats.self, forKey: .poolStats)
         team = try? container.decode(OSTeam.self, forKey: .team)
     }
     
     func statsForSport(_ sport: OSSport) -> OSStats? {
-        sport == .foosball ? foosballStats : tableTennisStats
+        switch sport {
+        case .foosball:
+            return foosballStats
+        case .tableTennis:
+            return tableTennisStats
+        case .pool:
+            return poolStats
+        default:
+            return nil
+        }
     }
     
     func scoreForSport(_ sport: OSSport) -> Int? {

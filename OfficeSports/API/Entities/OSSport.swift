@@ -15,12 +15,16 @@ enum OSSport: Int, Codable {
     
     case tableTennis = 1
     
+    case pool = 2
+    
     var humanReadableName: String {
         switch self {
         case .foosball:
             return "foosball"
         case .tableTennis:
             return "table tennis"
+        case .pool:
+            return "Pool"
         case .unknown:
             return "unknown sport"
         }
@@ -47,6 +51,8 @@ enum OSSport: Int, Codable {
             return .foosball
         case 1:
             return .tableTennis
+        case 2:
+            return .pool
         default:
             return .unknown
         }

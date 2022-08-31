@@ -66,6 +66,15 @@ final class ProfileView: UIView {
         return QRCodeGenerator.generate(from: payload, color: color, backgroundColor: backgroundColor)
     }()
     
+    private lazy var poolCodeImage: UIImage? = {
+        guard let payload = OSAccount.current.qrCodePayloadForSport(.pool) else {
+            return nil
+        }
+        let color = UIColor.OS.Text.normal
+        let backgroundColor = UIColor.white
+        return QRCodeGenerator.generate(from: payload, color: color, backgroundColor: backgroundColor)
+    }()
+    
     private lazy var codeImageView: UIImageView = {
         return UIImageView.createImageView(foosballCodeImage)
     }()
@@ -119,6 +128,13 @@ final class ProfileView: UIView {
     
     private lazy var tableTennisEmojiLabel: UILabel = {
         let label = UILabel.createLabel(.black, alignment: .center, text: "🏓")
+        label.font = UIFont.systemFont(ofSize: 32)
+        label.alpha = 0
+        return label
+    }()
+    
+    private lazy var poolEmojiLabel: UILabel = {
+        let label = UILabel.createLabel(.black, alignment: .center, text: "🎱")
         label.font = UIFont.systemFont(ofSize: 32)
         label.alpha = 0
         return label
@@ -180,6 +196,7 @@ final class ProfileView: UIView {
         var sportImageBackgroundColor = UIColor.OS.Sport.foosball
         var foosballEmojiAlpha: CGFloat = 1
         var tableTennisEmojiAlpha: CGFloat = 1
+        var poolEmojiAlpha: CGFloat = 1
         
         switch sport {
         case .foosball:
@@ -189,6 +206,7 @@ final class ProfileView: UIView {
             sportImageBackgroundColor = UIColor.OS.Sport.foosball
             foosballEmojiAlpha = 1
             tableTennisEmojiAlpha = 0
+            poolEmojiAlpha = 0
         case .tableTennis:
             codeImageView.image = tableTennisCodeImage
             totalWinsViewAlpha = 1
@@ -196,12 +214,21 @@ final class ProfileView: UIView {
             sportImageBackgroundColor = UIColor.OS.Sport.tableTennis
             foosballEmojiAlpha = 0
             tableTennisEmojiAlpha = 1
+            poolEmojiAlpha = 0
+        case .pool:
+            codeImageView.image = poolCodeImage
+            sportImageWrapAlpha = isDisplayingQrCode ? 0 : 1
+            sportImageBackgroundColor = UIColor.OS.Sport.pool
+            foosballEmojiAlpha = 0
+            tableTennisEmojiAlpha = 0
+            poolEmojiAlpha = 1
         default:
             codeImageView.image = tableTennisCodeImage
             totalWinsViewAlpha = 0
             sportImageWrapAlpha = 0
             foosballEmojiAlpha = 0
             tableTennisEmojiAlpha = 0
+            poolEmojiAlpha = 0
         }
         UIView.animate(withDuration: emojiFadeTransitionDuration, delay: 0) {
             self.totalWinsView.alpha = totalWinsViewAlpha
@@ -211,6 +238,7 @@ final class ProfileView: UIView {
             self.foosballScoreLabel.alpha = foosballEmojiAlpha
             self.tableTennisEmojiLabel.alpha = tableTennisEmojiAlpha
             self.tableTennisScoreLabel.alpha = tableTennisEmojiAlpha
+            self.poolEmojiLabel.alpha = poolEmojiAlpha
         }
     }
     
@@ -291,6 +319,7 @@ final class ProfileView: UIView {
         NSLayoutConstraint.pinToView(sportImageWrap, sportImageBackground, padding: 5)
         NSLayoutConstraint.pinToView(sportImageBackground, foosballEmojiLabel)
         NSLayoutConstraint.pinToView(sportImageBackground, tableTennisEmojiLabel)
+        NSLayoutConstraint.pinToView(sportImageBackground, poolEmojiLabel)
         
         NSLayoutConstraint.activate([
             totalWinsView.leftAnchor.constraint(equalTo: leftAnchor, constant: 24),
