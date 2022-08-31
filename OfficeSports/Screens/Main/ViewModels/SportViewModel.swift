@@ -7,6 +7,8 @@
 
 import Foundation
 
+private let fanaticalPlayerThreshold = 10
+
 final class SportViewModel {
     
     enum State {
@@ -83,8 +85,14 @@ final class SportViewModel {
     }
     
     private func findFanaticalPlayer(_ players: [OSPlayer]) -> OSPlayer? {
-        return players.max {
+        let player = players.max {
             $0.matchesPlayed(sport: sport) < $1.matchesPlayed(sport: sport)
         }
+        guard let matchesPlayed = player?.matchesPlayed(sport: sport) else {
+            return nil
+        }
+        // to be fanatical, one has to have played at least 10
+        // matches and be the player with the most matches overall
+        return matchesPlayed >= fanaticalPlayerThreshold ? player : nil
     }
 }
