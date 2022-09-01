@@ -5,9 +5,12 @@ import { Season } from "../types/Season";
 import { Sport } from "../types/Sport";
 import { getEmptyStats, getSportStats } from "./sport.helpers";
 
-admin.initializeApp({
-  storageBucket: "officesports-5d7ac.appspot.com",
-});
+admin.initializeApp(
+  {
+    storageBucket: "officesports-5d7ac.appspot.com",
+  },
+  { ignoreUndefinedProperties: true },
+);
 
 const getCollection = <Type = admin.firestore.DocumentData>(
   collectionName: string,
