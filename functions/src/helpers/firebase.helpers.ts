@@ -3,7 +3,7 @@ import { Match } from "../types/Match";
 import type { Player } from "../types/Player";
 import { Season } from "../types/Season";
 import { Sport } from "../types/Sport";
-import { getSportStats } from "./sport.helpers";
+import { getEmptyStats, getSportStats } from "./sport.helpers";
 
 admin.initializeApp({
   storageBucket: "officesports-5d7ac.appspot.com",
@@ -74,8 +74,10 @@ export const updatePlayer = async (player: Player): Promise<void> => {
     .update({
       emoji: player.emoji,
       nickname: player.nickname,
-      foosballStats: player.foosballStats,
-      tableTennisStats: player.tableTennisStats,
+      foosballStats: player.foosballStats ?? getEmptyStats(Sport.Foosball),
+      tableTennisStats:
+        player.tableTennisStats ?? getEmptyStats(Sport.TableTennis),
+      team: player.team,
     });
 };
 
