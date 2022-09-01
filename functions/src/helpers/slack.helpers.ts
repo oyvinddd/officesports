@@ -5,6 +5,7 @@ import {
   WebClient,
 } from "@slack/web-api";
 import dotenv from "dotenv";
+import dedent from "string-dedent";
 import { initialScore } from "../constants";
 import { Player } from "../types/Player";
 import { Season } from "../types/Season";
@@ -50,7 +51,7 @@ export const postSeasonResults = async (
   const seasonSummaries = seasons.map(seasonToString).join("\n\n");
   const monthName = monthFormatter.format(seasons[0].date.toDate());
 
-  const text = `
+  const text = dedent`
     ${monthName} is over! ${
     seasons.length === 0
       ? "We sadly had no winners this month :("

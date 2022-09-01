@@ -20,13 +20,13 @@ struct OSPlayer: Identifiable, Codable {
     
     var emoji: String
     
+    var team: OSTeam
+
     var foosballStats: OSStats?
     
     var tableTennisStats: OSStats?
     
-    var team: OSTeam?
-    
-    init(id: String? = nil, nickname: String, emoji: String, team: OSTeam? = nil, foosballStats: OSStats? = nil, tableTennisStats: OSStats? = nil) {
+    init(id: String? = nil, nickname: String, emoji: String, team: OSTeam, foosballStats: OSStats? = nil, tableTennisStats: OSStats? = nil) {
         self.id = id
         self.nickname = nickname
         self.emoji = emoji
