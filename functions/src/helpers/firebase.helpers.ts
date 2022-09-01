@@ -83,7 +83,10 @@ export const addMatch = async (match: Match): Promise<void> => {
   await getMatchCollection().withConverter(matchConverter).add(match);
 };
 
-export const getLeader = async (sport: Sport): Promise<Player | null> => {
+export const getLeader = async (
+  sport: Sport,
+  team?: string,
+): Promise<Player | null> => {
   let orderByField: string;
 
   switch (sport) {
@@ -97,7 +100,16 @@ export const getLeader = async (sport: Sport): Promise<Player | null> => {
       throw new Error("Wtf, sport is unknown");
   }
 
-  const playerSnap = await getPlayerCollection()
+  const allPlayers = getPlayerCollection();
+  let playerQuery;
+
+  if (team) {
+    playerQuery = allPlayers.where("team.id", "==", team);
+  } else {
+    playerQuery = allPlayers;
+  }
+
+  const playerSnap = await playerQuery
     .limit(2)
     .orderBy(orderByField, "desc")
     .withConverter(playerConverter)
