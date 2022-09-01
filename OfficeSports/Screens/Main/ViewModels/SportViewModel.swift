@@ -46,7 +46,7 @@ final class SportViewModel {
         Task {
             do {
                 let allPlayers = try await api.getScoreboard(sport: sport)
-                scoreboard = getNormalPlayers(allPlayers, sport: sport)
+                scoreboard = getActivePlayers(allPlayers, sport: sport)
                 idlePlayers = getIdlePlayers(allPlayers, sport: sport)
                 fanatic = findFanaticalPlayer(scoreboard)
                 
@@ -70,7 +70,7 @@ final class SportViewModel {
         }
     }
     
-    private func getNormalPlayers(_ players: [OSPlayer], sport: OSSport) -> [OSPlayer] {
+    private func getActivePlayers(_ players: [OSPlayer], sport: OSSport) -> [OSPlayer] {
         return players.filter({ !isIdlePlayer($0, sport: sport) })
     }
     

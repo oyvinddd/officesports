@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestoreSwift
 
-struct OSTeam: Identifiable, Codable {
+struct OSTeam: Identifiable, Codable, Equatable {
     
     static let noTeam = OSTeam(id: nil, name: "No team")
     
@@ -39,5 +39,14 @@ struct OSTeam: Identifiable, Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try? container.decode(String.self, forKey: .id)
         name = try container.decode(String.self, forKey: .name)
+    }
+    
+    // MARK: - Equatable protocol conformance
+    
+    static func == (lhs: OSTeam, rhs: OSTeam) -> Bool {
+        guard let id1 = lhs.id, let id2 = rhs.id else {
+            return lhs.id == nil && rhs.id == nil
+        }
+        return id1 == id2
     }
 }
