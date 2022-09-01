@@ -236,8 +236,8 @@ extension PlayerProfileViewController: UITextFieldDelegate {
         let viewController = TeamPickerViewController(viewModel: viewModel, delegate: self)
         
         if let sheet = viewController.sheetPresentationController {
-            sheet.detents = [.medium(), .large()]
-            sheet.largestUndimmedDetentIdentifier = .medium
+            sheet.detents = [.large()]
+            sheet.largestUndimmedDetentIdentifier = .none
             sheet.prefersScrollingExpandsWhenScrolledToEdge = false
             sheet.prefersEdgeAttachedInCompactHeight = true
             sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
