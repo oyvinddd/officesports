@@ -2,7 +2,7 @@ import EloRating from "elo-rating";
 import * as firebase from "firebase-admin";
 import * as functions from "firebase-functions";
 import HttpStatus from "http-status-enum";
-import { initialScore } from "./constants";
+import { initialScore, tietoevryCreateTeamId } from "./constants";
 import { sendErrorStatus } from "./helpers/api.helpers";
 import {
   addMatch,
@@ -218,7 +218,7 @@ export const slackGetLeader = functions
 
     const sport = sportName.join(" ").toLowerCase();
     if (sport === "foosball") {
-      const leader = await getLeader(Sport.Foosball);
+      const leader = await getLeader(Sport.Foosball, tietoevryCreateTeamId);
       console.log("Foosball leader", { leader });
       const blocks = slackHelpers.formatLeaderText(Sport.Foosball, leader);
 
