@@ -25,7 +25,8 @@
     "elo-rank": "^1.0.4",
     "elo-rating": "^1.0.1",
     "firebase-admin": "^11.0.0",
-    "firebase-functions": "^3.22.0"
+    "firebase-functions": "^3.22.0",
+    "string-dedent": "^3.0.1"
   },
   "devDependencies": {
     "@types/elo-rank": "^1.0.1",
