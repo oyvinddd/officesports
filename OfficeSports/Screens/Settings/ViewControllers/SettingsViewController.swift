@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-private let kBackgroundMaxFade: CGFloat = 0.6
+private let kBackgroundMaxFade: CGFloat = 0.4
 private let kBackgroundMinFade: CGFloat = 0
 private let kAnimDuration: TimeInterval = 0.15
 private let kAnimDelay: TimeInterval = 0

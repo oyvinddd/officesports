@@ -8,13 +8,10 @@
 import UIKit
 import Combine
 
-private let kBackgroundMaxFade: CGFloat = 0.6
+private let kBackgroundMaxFade: CGFloat = 0.4
 private let kBackgroundMinFade: CGFloat = 0
 private let kAnimDuration: TimeInterval = 0.15
 private let kAnimDelay: TimeInterval = 0
-
-private let profileImageDiameter: CGFloat = 100
-private let profileImageRadius: CGFloat = profileImageDiameter / 2
 
 private let inviteThreshold: TimeInterval = 60 * 15 // 15 minutes
 
@@ -35,39 +32,27 @@ final class PlayerDetailsViewController: UIViewController {
         return view
     }()
     
-    private lazy var dialogHandle: UIView = {
-        let view = UIView.createView(UIColor.OS.Text.subtitle, cornerRadius: 3)
-        view.alpha = 0.8
-        return view
-    }()
-    
     private lazy var contentWrap: UIView = {
         return UIView.createView(.clear)
     }()
     
-    private lazy var profileImageWrap: UIView = {
-        let imageWrap = UIView.createView(.white)
-        imageWrap.applyCornerRadius(profileImageRadius)
-        imageWrap.applyMediumDropShadow(.black)
-        return imageWrap
-    }()
-    
-    private lazy var profileImageBackground: UIView = {
-        let profileColor = UIColor.OS.hashedProfileColor(player.nickname)
-        let profileImageBackground = UIView.createView(profileColor)
-        profileImageBackground.applyCornerRadius((profileImageDiameter - 16) / 2)
-        return profileImageBackground
+    private lazy var profileBackgroundView: UIView = {
+        let backgroundColor = UIColor.OS.hashedProfileColor(player.nickname)
+        let view = UIView.createView(backgroundColor)
+        view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        view.layer.cornerRadius = 20
+        return view
     }()
     
     private lazy var profileEmjoiLabel: UILabel = {
         let label = UILabel.createLabel(.black, alignment: .center)
-        label.font = UIFont.systemFont(ofSize: 60)
+        label.font = UIFont.systemFont(ofSize: 100)
         return label
     }()
     
     private lazy var nicknameLabel: UILabel = {
         let label = UILabel.createLabel(UIColor.OS.Text.normal, alignment: .center)
-        label.font = UIFont.systemFont(ofSize: 26, weight: .medium)
+        label.font = UIFont.systemFont(ofSize: 28, weight: .medium)
         label.numberOfLines = 1
         return label
     }()
@@ -79,15 +64,13 @@ final class PlayerDetailsViewController: UIViewController {
         return label
     }()
     
+    private lazy var matchHistoryView: MatchHistoryView = {
+        return MatchHistoryView()
+    }()
+    
     private lazy var inviteButton: OSButton = {
         let button = OSButton("Invite to match", type: .primaryInverted, state: .disabled)
         button.addTarget(self, action: #selector(inviteButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    private lazy var closeButton: OSButton = {
-        let button = OSButton("Close", type: .secondaryInverted)
-        button.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -161,51 +144,42 @@ final class PlayerDetailsViewController: UIViewController {
         
         view.addSubview(dialogView)
         dialogView.addSubview(contentWrap)
-        dialogView.addSubview(dialogHandle)
-        contentWrap.addSubview(profileImageWrap)
+        contentWrap.addSubview(profileBackgroundView)
         contentWrap.addSubview(nicknameLabel)
         contentWrap.addSubview(playerDetailsLabel)
+        contentWrap.addSubview(matchHistoryView)
         contentWrap.addSubview(inviteButton)
-        contentWrap.addSubview(closeButton)
-        profileImageWrap.addSubview(profileImageBackground)
-        
-        NSLayoutConstraint.pinToView(profileImageBackground, profileEmjoiLabel)
+        profileBackgroundView.addSubview(profileEmjoiLabel)
         
         NSLayoutConstraint.activate([
             dialogView.leftAnchor.constraint(equalTo: view.leftAnchor),
             dialogView.rightAnchor.constraint(equalTo: view.rightAnchor),
             dialogBottomConstraint,
-            dialogHandle.centerXAnchor.constraint(equalTo: dialogView.centerXAnchor),
-            dialogHandle.topAnchor.constraint(equalTo: dialogView.topAnchor, constant: 10),
-            dialogHandle.widthAnchor.constraint(equalToConstant: 40),
-            dialogHandle.heightAnchor.constraint(equalToConstant: 6),
             contentWrap.leftAnchor.constraint(equalTo: dialogView.leftAnchor),
             contentWrap.rightAnchor.constraint(equalTo: dialogView.rightAnchor),
-            contentWrap.topAnchor.constraint(equalTo: dialogHandle.topAnchor, constant: 8),
+            contentWrap.topAnchor.constraint(equalTo: dialogView.topAnchor),
             contentWrap.bottomAnchor.constraint(equalTo: dialogView.safeAreaLayoutGuide.bottomAnchor),
-            profileImageWrap.widthAnchor.constraint(equalToConstant: profileImageDiameter),
-            profileImageWrap.topAnchor.constraint(equalTo: contentWrap.topAnchor, constant: 32),
-            profileImageWrap.heightAnchor.constraint(equalTo: profileImageWrap.widthAnchor),
-            profileImageWrap.centerXAnchor.constraint(equalTo: contentWrap.centerXAnchor),
-            profileImageBackground.leftAnchor.constraint(equalTo: profileImageWrap.leftAnchor, constant: 8),
-            profileImageBackground.rightAnchor.constraint(equalTo: profileImageWrap.rightAnchor, constant: -8),
-            profileImageBackground.topAnchor.constraint(equalTo: profileImageWrap.topAnchor, constant: 8),
-            profileImageBackground.bottomAnchor.constraint(equalTo: profileImageWrap.bottomAnchor, constant: -8),
+            profileBackgroundView.leftAnchor.constraint(equalTo: dialogView.leftAnchor),
+            profileBackgroundView.rightAnchor.constraint(equalTo: dialogView.rightAnchor),
+            profileBackgroundView.topAnchor.constraint(equalTo: dialogView.topAnchor),
+            profileEmjoiLabel.centerXAnchor.constraint(equalTo: profileBackgroundView.centerXAnchor),
+            profileEmjoiLabel.centerYAnchor.constraint(equalTo: profileBackgroundView.centerYAnchor),
+            profileEmjoiLabel.topAnchor.constraint(equalTo: profileBackgroundView.topAnchor, constant: 32),
+            profileEmjoiLabel.bottomAnchor.constraint(equalTo: profileBackgroundView.bottomAnchor, constant: -32),
             nicknameLabel.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
             nicknameLabel.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
-            nicknameLabel.topAnchor.constraint(equalTo: profileImageWrap.bottomAnchor, constant: 16),
+            nicknameLabel.topAnchor.constraint(equalTo: profileBackgroundView.bottomAnchor, constant: 16),
             playerDetailsLabel.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
             playerDetailsLabel.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
             playerDetailsLabel.topAnchor.constraint(equalTo: nicknameLabel.bottomAnchor, constant: 6),
+            matchHistoryView.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
+            matchHistoryView.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
+            matchHistoryView.topAnchor.constraint(equalTo: playerDetailsLabel.bottomAnchor, constant: 16),
             inviteButton.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
             inviteButton.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
-            inviteButton.topAnchor.constraint(equalTo: playerDetailsLabel.bottomAnchor, constant: 32),
-            inviteButton.heightAnchor.constraint(equalToConstant: 50),
-            closeButton.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
-            closeButton.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
-            closeButton.topAnchor.constraint(equalTo: inviteButton.bottomAnchor, constant: 16),
-            closeButton.bottomAnchor.constraint(equalTo: contentWrap.safeAreaLayoutGuide.bottomAnchor, constant: -16),
-            closeButton.heightAnchor.constraint(equalToConstant: 50)
+            inviteButton.topAnchor.constraint(equalTo: matchHistoryView.bottomAnchor, constant: 32),
+            inviteButton.bottomAnchor.constraint(equalTo: contentWrap.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            inviteButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     
@@ -270,5 +244,99 @@ final class PlayerDetailsViewController: UIViewController {
     
     @objc private func cancelButtonTapped(_ sender: OSButton) {
         toggleDialog(enabled: false)
+    }
+}
+
+// MARK: - Match history view
+
+private final class MatchHistoryView: UIView {
+    
+    private lazy var historyLabel: UILabel = {
+        let label = UILabel.createLabel(UIColor.OS.Text.normal, alignment: .left, text: "Your match history")
+        label.font = UIFont.boldSystemFont(ofSize: 22)
+        return label
+    }()
+    
+    private lazy var stackView: UIStackView = {
+        let stackView = UIStackView.createStackView(.clear, axis: .horizontal, spacing: 6)
+        stackView.distribution = .fillEqually
+        return stackView
+    }()
+    
+    init() {
+        super.init(frame: .zero)
+        translatesAutoresizingMaskIntoConstraints = false
+        setupChildViews()
+        configureUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupChildViews() {
+        addSubview(historyLabel)
+        addSubview(stackView)
+        
+        createAndAddStatusView()
+        createAndAddStatusView()
+        createAndAddStatusView()
+        createAndAddStatusView()
+        createAndAddStatusView()
+        createAndAddStatusView()
+        createAndAddStatusView()
+        
+        NSLayoutConstraint.activate([
+            historyLabel.leftAnchor.constraint(equalTo: leftAnchor),
+            historyLabel.rightAnchor.constraint(equalTo: rightAnchor),
+            historyLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            historyLabel.bottomAnchor.constraint(equalTo: stackView.topAnchor, constant: -16),
+            stackView.leftAnchor.constraint(equalTo: leftAnchor),
+            stackView.rightAnchor.constraint(equalTo: rightAnchor),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
+        ])
+    }
+    
+    private func configureUI() {
+        backgroundColor = .white
+    }
+    
+    private func createAndAddStatusView() {
+        let statusView = MatchStatusView()
+        stackView.addArrangedSubview(statusView)
+        
+        NSLayoutConstraint.activate([
+            statusView.heightAnchor.constraint(equalTo: statusView.widthAnchor)
+        ])
+    }
+}
+
+// MARK: - Match status view
+
+private final class MatchStatusView: UIView {
+    
+    private lazy var innerView: UIView = {
+        return UIView.createView(UIColor.OS.Status.failure, cornerRadius: 2)
+    }()
+    
+    init() {
+        super.init(frame: .zero)
+        translatesAutoresizingMaskIntoConstraints = false
+        setupChildViews()
+        configureUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupChildViews() {
+        NSLayoutConstraint.pinToView(self, innerView, padding: 4)
+    }
+    
+    private func configureUI() {
+        backgroundColor = .white
+        applyCornerRadius(4)
+        applySmallDropShadow(.black)
     }
 }
