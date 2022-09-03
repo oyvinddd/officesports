@@ -15,6 +15,7 @@ import {
 } from "./helpers/firebase.helpers";
 import { setEmptyPlayerStats } from "./helpers/player.helpers";
 import * as slackHelpers from "./helpers/slack.helpers";
+import { getSportStats } from "./helpers/sport.helpers";
 import { validateWinMatchBody } from "./helpers/validation.helpers";
 import { ErrorCodes } from "./types/ErrorCodes";
 import { Match } from "./types/Match";
@@ -75,18 +76,15 @@ export const winMatch = functions.https.onRequest(
     setEmptyPlayerStats(winner);
     setEmptyPlayerStats(loser);
 
-    const isFoosball = sport === Sport.Foosball;
-    const isTableTennis = sport === Sport.TableTennis;
+    const winnerStats = getSportStats(winner, sport);
+    const loserStats = getSportStats(loser, sport);
 
-    const oldWinnerScore =
-      (isFoosball
-        ? winner.foosballStats?.score
-        : winner.tableTennisStats?.score) ?? initialScore;
+    if (!winnerStats || !loserStats) {
+      throw new Error(`Missing stats for sport ${sport}`);
+    }
 
-    const oldLoserScore =
-      (isFoosball
-        ? loser.foosballStats?.score
-        : loser.tableTennisStats?.score) ?? initialScore;
+    const oldWinnerScore = winnerStats.score ?? initialScore;
+    const oldLoserScore = loserStats.score ?? initialScore;
 
     const { playerRating: newWinnerScore, opponentRating: newLoserScore } =
       EloRating.calculate(oldWinnerScore, oldLoserScore);
@@ -104,29 +102,12 @@ export const winMatch = functions.https.onRequest(
 
     addMatch(match);
 
-    if (isFoosball) {
-      if (!winner.foosballStats || !loser.foosballStats) {
-        throw new Error("Missing foosball stats");
-      }
+    winnerStats.matchesPlayed += 1;
+    winnerStats.matchesWon += 1;
+    winnerStats.score = newWinnerScore;
 
-      winner.foosballStats.matchesPlayed += 1;
-      winner.foosballStats.score = newWinnerScore;
-
-      loser.foosballStats.matchesPlayed += 1;
-      loser.foosballStats.score = newLoserScore;
-    }
-
-    if (isTableTennis) {
-      if (!winner.tableTennisStats || !loser.tableTennisStats) {
-        throw new Error("Missing foosball stats");
-      }
-
-      winner.tableTennisStats.matchesPlayed += 1;
-      winner.tableTennisStats.score = newWinnerScore;
-
-      loser.tableTennisStats.matchesPlayed += 1;
-      loser.tableTennisStats.score = newLoserScore;
-    }
+    loserStats.matchesPlayed += 1;
+    loserStats.score = newLoserScore;
 
     updatePlayer(winner);
     updatePlayer(loser);

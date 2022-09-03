@@ -120,36 +120,37 @@ export const getLeader = async (
     .withConverter(playerConverter)
     .get();
 
-  const [firstPlace, secondPlace] = playerSnap.docs;
+  const [firstPlaceSnap, secondPlaceSnap] = playerSnap.docs;
+
+  const firstPlace = firstPlaceSnap.data();
+  const secondPlace = secondPlaceSnap.data();
 
   const isFoosball = sport === Sport.Foosball;
   const isTableTennis = sport === Sport.TableTennis;
 
   if (isFoosball) {
-    const winnerHasPlayedAtLeastOnce =
-      firstPlace.data().foosballStats?.score != null;
+    const winnerHasPlayedAtLeastOnce = firstPlace.foosballStats?.score != null;
 
     const moreThanOneWinner =
-      firstPlace.data().foosballStats?.score ===
-      secondPlace.data().foosballStats?.score;
+      firstPlace.foosballStats?.score === secondPlace.foosballStats?.score;
 
     if (!winnerHasPlayedAtLeastOnce || moreThanOneWinner) {
       return null;
     }
   } else if (isTableTennis) {
     const winnerHasPlayedAtLeastOnce =
-      firstPlace.data().tableTennisStats?.score != null;
+      firstPlace.tableTennisStats?.score != null;
 
     const moreThanOneWinner =
-      firstPlace.data().tableTennisStats?.score ===
-      secondPlace.data().tableTennisStats?.score;
+      firstPlace.tableTennisStats?.score ===
+      secondPlace.tableTennisStats?.score;
 
     if (!winnerHasPlayedAtLeastOnce || moreThanOneWinner) {
       return null;
     }
   }
 
-  return firstPlace.data();
+  return firstPlace;
 };
 
 export const incrementTotalSeasonWins = async (
@@ -184,11 +185,13 @@ export const resetScoreboards = async (initialScore: number): Promise<void> => {
     if (player.foosballStats) {
       player.foosballStats.score = initialScore;
       player.foosballStats.matchesPlayed = 0;
+      player.foosballStats.matchesWon = 0;
     }
 
     if (player.tableTennisStats) {
       player.tableTennisStats.score = initialScore;
       player.tableTennisStats.matchesPlayed = 0;
+      player.tableTennisStats.matchesWon = 0;
     }
 
     await updatePlayer(player);
