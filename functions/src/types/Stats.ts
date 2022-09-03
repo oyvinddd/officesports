@@ -4,5 +4,6 @@ export type Stats = {
   sport: Sport;
   score: number;
   matchesPlayed: number;
+  matchesWon: number;
   seasonWins: number;
 };

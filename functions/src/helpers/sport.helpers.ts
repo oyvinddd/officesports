@@ -5,6 +5,7 @@ import { Stats } from "../types/Stats";
 
 export const getEmptyStats = (sport: Sport): Stats => ({
   matchesPlayed: 0,
+  matchesWon: 0,
   score: initialScore,
   sport,
   seasonWins: 0,
