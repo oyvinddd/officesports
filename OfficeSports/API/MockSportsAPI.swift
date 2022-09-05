@@ -10,27 +10,27 @@ import UIKit
 final class MockSportsAPI: SportsAPI {
 
     private static let fst = [
-        OSStats(sport: .foosball, score: 0, matchesPlayed: 1, seasonWins: 0),
-        OSStats(sport: .foosball, score: 1, matchesPlayed: 20, seasonWins: 0),
-        OSStats(sport: .foosball, score: 0, matchesPlayed: 2, seasonWins: 0),
-        OSStats(sport: .foosball, score: 11, matchesPlayed: 10, seasonWins: 0),
-        OSStats(sport: .foosball, score: 0, matchesPlayed: 20, seasonWins: 0),
-        OSStats(sport: .foosball, score: 0, matchesPlayed: 700, seasonWins: 0),
-        OSStats(sport: .foosball, score: 110, matchesPlayed: 2, seasonWins: 0),
-        OSStats(sport: .foosball, score: 0, matchesPlayed: 2, seasonWins: 0),
-        OSStats(sport: .foosball, score: 100, matchesPlayed: 1, seasonWins: 0)
+        OSStats(sport: .foosball, score: 0, matchesPlayed: 1, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .foosball, score: 1, matchesPlayed: 20, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .foosball, score: 0, matchesPlayed: 2, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .foosball, score: 11, matchesPlayed: 10, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .foosball, score: 0, matchesPlayed: 20, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .foosball, score: 0, matchesPlayed: 700, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .foosball, score: 110, matchesPlayed: 2, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .foosball, score: 0, matchesPlayed: 2, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .foosball, score: 100, matchesPlayed: 1, matchesWon: 0, seasonWins: 0)
     ]
     
     private static let tst = [
-        OSStats(sport: .tableTennis, score: 0, matchesPlayed: 1, seasonWins: 0),
-        OSStats(sport: .tableTennis, score: 1, matchesPlayed: 2, seasonWins: 0),
-        OSStats(sport: .tableTennis, score: 200, matchesPlayed: 300, seasonWins: 0),
-        OSStats(sport: .tableTennis, score: 11, matchesPlayed: 10, seasonWins: 0),
-        OSStats(sport: .tableTennis, score: 0, matchesPlayed: 1000, seasonWins: 0),
-        OSStats(sport: .tableTennis, score: 0, matchesPlayed: 7, seasonWins: 0),
-        OSStats(sport: .tableTennis, score: 44, matchesPlayed: 30, seasonWins: 0),
-        OSStats(sport: .tableTennis, score: 0, matchesPlayed: 32, seasonWins: 0),
-        OSStats(sport: .tableTennis, score: 0, matchesPlayed: 1, seasonWins: 0)
+        OSStats(sport: .tableTennis, score: 0, matchesPlayed: 1, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .tableTennis, score: 1, matchesPlayed: 2, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .tableTennis, score: 200, matchesPlayed: 300, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .tableTennis, score: 11, matchesPlayed: 10, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .tableTennis, score: 0, matchesPlayed: 1000, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .tableTennis, score: 0, matchesPlayed: 7, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .tableTennis, score: 44, matchesPlayed: 30, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .tableTennis, score: 0, matchesPlayed: 32, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .tableTennis, score: 0, matchesPlayed: 1, matchesWon: 0, seasonWins: 0)
     ]
     
     private let players = [
@@ -76,8 +76,8 @@ final class MockSportsAPI: SportsAPI {
     }
     
     func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam?, result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
-        let foosballStats = OSStats(sport: .foosball, score: 0, matchesPlayed: 0, seasonWins: 0)
-        let tableTennisStats = OSStats(sport: .tableTennis, score: 0, matchesPlayed: 0, seasonWins: 0)
+        let foosballStats = OSStats(sport: .foosball, score: 0, matchesPlayed: 0, matchesWon: 0, seasonWins: 0)
+        let tableTennisStats = OSStats(sport: .tableTennis, score: 0, matchesPlayed: 0, matchesWon: 0, seasonWins: 0)
         let player = OSPlayer(id: "id#1337", nickname: nickname, emoji: emoji, foosballStats: foosballStats, tableTennisStats: tableTennisStats)
         result(.success(player))
     }

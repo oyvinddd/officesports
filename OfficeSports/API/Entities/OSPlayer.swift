@@ -86,6 +86,10 @@ struct OSPlayer: Identifiable, Codable, Equatable {
         return statsForSport(sport)?.score ?? 0
     }
     
+    func noOfWinsForSport(_ sport: OSSport) -> Int {
+        return statsForSport(sport)?.matchesWon ?? 0
+    }
+    
     func totalSeasonWins() -> Int {
         var totalWins = 0
         totalWins += (foosballStats?.seasonWins ?? 0)
