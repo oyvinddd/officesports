@@ -19,7 +19,7 @@ final class PlayerProfileViewController: UIViewController {
         button.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
         button.backgroundColor = .white
         button.applyCornerRadius(20)
-        button.alpha = 0.9
+        button.alpha = 0.7
         return button
     }()
     

@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+final class PlayerGraphViewModel {
+    
+    private let api: SportsAPI
+    
+    init(api: SportsAPI) {
+        self.api = api
+    }
+}
