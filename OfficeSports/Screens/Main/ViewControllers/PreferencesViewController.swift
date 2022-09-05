@@ -11,7 +11,7 @@ final class PreferencesViewController: UIViewController {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel.createLabel(.white, text: "Preferences")
-        label.font = UIFont.boldSystemFont(ofSize: 26)
+        label.font = UIFont.boldSystemFont(ofSize: 30)
         return label
     }()
     
@@ -20,13 +20,13 @@ final class PreferencesViewController: UIViewController {
         let button = UIButton.createButton(.white, tintColor: UIColor.OS.General.main, image: image)
         button.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
         button.backgroundColor = .white
-        button.applyCornerRadius(16)
+        button.applyCornerRadius(20)
         button.alpha = 0.7
         return button
     }()
     
     private lazy var defaultScreenWrap: UIView = {
-        let view = UIView.createView(UIColor.OS.General.mainDark, cornerRadius: 5)
+        let view = UIView.createView(UIColor.OS.General.mainDark, cornerRadius: 8)
         let titleLabel = UILabel.createLabel(.white, alignment: .left, text: "Default screen")
         titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
         let descriptionLabel = UILabel.createLabel(.white, alignment: .left)
@@ -66,6 +66,27 @@ final class PreferencesViewController: UIViewController {
         segmentedControl.setTitleTextAttributes(attr2, for: .selected)
         return segmentedControl
     }()
+    
+    private lazy var sportToggleView: UIView = {
+        let view = UIView.createView(UIColor.OS.General.mainDark, cornerRadius: 8)
+        let titleLabel = UILabel.createLabel(.white, alignment: .left, text: "Toggle sports")
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        let descriptionLabel = UILabel.createLabel(.white, alignment: .left)
+        descriptionLabel.text = "Choose what sports to show in the main menu."
+        
+        view.addSubview(titleLabel)
+        view.addSubview(descriptionLabel)
+        
+        NSLayoutConstraint.activate([
+            titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8),
+            titleLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -8),
+            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 8),
+            descriptionLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8),
+            descriptionLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -8),
+            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8)
+        ])
+        return view
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,17 +98,21 @@ final class PreferencesViewController: UIViewController {
         view.addSubview(titleLabel)
         view.addSubview(closeButton)
         view.addSubview(defaultScreenWrap)
+        view.addSubview(sportToggleView)
         
         NSLayoutConstraint.activate([
             titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
             titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
             closeButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
             closeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
-            closeButton.widthAnchor.constraint(equalToConstant: 32),
+            closeButton.widthAnchor.constraint(equalToConstant: 40),
             closeButton.heightAnchor.constraint(equalTo: closeButton.widthAnchor),
             defaultScreenWrap.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
             defaultScreenWrap.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
-            defaultScreenWrap.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 32)
+            defaultScreenWrap.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 32),
+            sportToggleView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
+            sportToggleView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
+            sportToggleView.topAnchor.constraint(equalTo: defaultScreenWrap.bottomAnchor, constant: 16)
         ])
     }
     

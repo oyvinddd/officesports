@@ -75,6 +75,8 @@
 		8E7D0ACC28391A9E006D6DF7 /* emojis.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8E7D0ACB28391A9E006D6DF7 /* emojis.csv */; };
 		8E7D9A7F282BEF66007BCDE0 /* QRCodeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D9A7E282BEF66007BCDE0 /* QRCodeGenerator.swift */; };
 		8E88E4BA28C62BB700807667 /* UILabel+Visuals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E88E4B928C62BB700807667 /* UILabel+Visuals.swift */; };
+		8E88E4BF28C64CFA00807667 /* PlayerGraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E88E4BE28C64CFA00807667 /* PlayerGraphViewController.swift */; };
+		8E88E4C228C64D2E00807667 /* PlayerGraphViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E88E4C128C64D2E00807667 /* PlayerGraphViewModel.swift */; };
 		8E973322283231F40012E236 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E973321283231F40012E236 /* SettingsViewModel.swift */; };
 		8E9849C8282BCDC80020266B /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9849C7282BCDC80020266B /* CircleView.swift */; };
 		8E9888AA286B115300A97552 /* UIColor+CoreImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B573283B97C8009E0387 /* UIColor+CoreImage.swift */; };
@@ -191,6 +193,8 @@
 		8E7F45BC2862948100473557 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		8E7F45BE2862948100473557 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		8E88E4B928C62BB700807667 /* UILabel+Visuals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Visuals.swift"; sourceTree = "<group>"; };
+		8E88E4BE28C64CFA00807667 /* PlayerGraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerGraphViewController.swift; sourceTree = "<group>"; };
+		8E88E4C128C64D2E00807667 /* PlayerGraphViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerGraphViewModel.swift; sourceTree = "<group>"; };
 		8E973321283231F40012E236 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		8E9849C7282BCDC80020266B /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		8E9C7287283A722600974DAA /* OfficeSports.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OfficeSports.entitlements; sourceTree = "<group>"; };
@@ -496,6 +500,39 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		8E88E4BB28C64CC900807667 /* Graph */ = {
+			isa = PBXGroup;
+			children = (
+				8E88E4C028C64D1900807667 /* ViewModels */,
+				8E88E4BD28C64CE100807667 /* ViewControllers */,
+				8E88E4BC28C64CD900807667 /* Views */,
+			);
+			path = Graph;
+			sourceTree = "<group>";
+		};
+		8E88E4BC28C64CD900807667 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8E88E4BD28C64CE100807667 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				8E88E4BE28C64CFA00807667 /* PlayerGraphViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		8E88E4C028C64D1900807667 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				8E88E4C128C64D2E00807667 /* PlayerGraphViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		8EA2126F283EF16C00B37315 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -572,6 +609,7 @@
 		8EE62002282AB7AA00C01289 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				8E88E4BB28C64CC900807667 /* Graph */,
 				8E3293E1283D8E5600B7CCDC /* Invitations */,
 				8E24F4562834A6EB00BC808B /* Common */,
 				8E230870282CFC7D00AF60EB /* Main */,
@@ -775,6 +813,7 @@
 				8EF1387F2837FDD3001D8DA6 /* RegisterMatchViewModel.swift in Sources */,
 				8E70C121282AC510009A9452 /* OSPlayer.swift in Sources */,
 				8E973322283231F40012E236 /* SettingsViewModel.swift in Sources */,
+				8E88E4BF28C64CFA00807667 /* PlayerGraphViewController.swift in Sources */,
 				8E43DEFF286E296E00D9B50D /* OSSeasonStats.swift in Sources */,
 				8EE558352847B0B400199CC6 /* OSSport.swift in Sources */,
 				8EA21271283EF18A00B37315 /* OSButton.swift in Sources */,
@@ -827,6 +866,7 @@
 				8E70C12F282AD0AE009A9452 /* UITableView+Util.swift in Sources */,
 				8E70C12D282AD01A009A9452 /* UIView+Visuals.swift in Sources */,
 				8E7D0AC72838D7A1006D6DF7 /* UICollectionView+Util.swift in Sources */,
+				8E88E4C228C64D2E00807667 /* PlayerGraphViewModel.swift in Sources */,
 				8EDFA363282E418000A51292 /* CompoundField.swift in Sources */,
 				8E70C114282ABC56009A9452 /* SportViewController.swift in Sources */,
 				8E38B578283BC9F1009E0387 /* OSError.swift in Sources */,

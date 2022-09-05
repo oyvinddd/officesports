@@ -10,10 +10,10 @@ import UIKit
 final class AboutViewController: UIViewController {
     
     private lazy var versionLabel: UILabel = {
-        let text = "Version \(Bundle.main.appVersionNumber ?? "") (\(Bundle.main.appBuildNumber ?? ""))"
+        let text = "Version \(Bundle.main.appVersionNumber ?? "") (\(Bundle.main.appBuildNumber ?? "")) ⚡️"
         let label = UILabel.createLabel(.white, alignment: .center, text: text)
         label.font = UIFont.boldSystemFont(ofSize: 14)
-        label.alpha = 0.5
+        label.alpha = 0.7
         return label
     }()
     
