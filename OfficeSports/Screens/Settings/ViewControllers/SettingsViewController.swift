@@ -32,9 +32,10 @@ final class SettingsViewController: UIViewController {
     
     private lazy var newFeatureBadge: UIView = {
         let view = UIView.createView(UIColor.OS.Status.failure, cornerRadius: 3)
-        let label = UILabel.createLabel(.white, text: "NEW")
+        let label = UILabel.createLabel(.white, text: "NEW ✨")
         label.font = UIFont.boldSystemFont(ofSize: 12)
         NSLayoutConstraint.pinToView(view, label, padding: 4)
+        view.isHidden = true
         return view
     }()
     
