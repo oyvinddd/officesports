@@ -85,9 +85,18 @@ final class SportViewModel {
     }
     
     private func findFanaticalPlayer(_ players: [OSPlayer]) -> OSPlayer? {
-        let player = players.max {
+        let sortedPlayers = players.sorted {
             $0.matchesPlayed(sport: sport) < $1.matchesPlayed(sport: sport)
         }
+        // if the two top players has the same score, don't add fanatical indicator
+        if sortedPlayers.count > 1 {
+            let p1Stats = sortedPlayers[0].statsForSport(sport)?.score ?? 0
+            let p2Stats = sortedPlayers[1].statsForSport(sport)?.score ?? 0
+            if p1Stats != 0 && p2Stats != 0 && p1Stats == p2Stats {
+                return nil
+            }
+        }
+        let player = sortedPlayers.first
         guard let matchesPlayed = player?.matchesPlayed(sport: sport) else {
             return nil
         }
