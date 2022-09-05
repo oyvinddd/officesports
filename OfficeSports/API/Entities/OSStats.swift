@@ -15,7 +15,7 @@ struct OSStats: Codable {
     
     var matchesPlayed: Int
     
-    //var matchesWon: Int
+    var matchesWon: Int
     
     var seasonWins: Int
 }

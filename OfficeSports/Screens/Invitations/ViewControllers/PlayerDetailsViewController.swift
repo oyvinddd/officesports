@@ -138,10 +138,13 @@ final class PlayerDetailsViewController: UIViewController {
     private func setupChildViews() {
         let score = player.scoreForSport(sport)
         let matches = player.matchesPlayed(sport: sport)
+        let wins = player.noOfWinsForSport(sport)
+        let winsStr = matches > 0 ? "\(wins / matches * 100)" : "-"
+        let matchesStr = matches != 1 ? "Matches" : "Match"
         
         let scoreView = MetricsView(metric: String(describing: score), title: "Points", backgroundColor: UIColor.OS.Sport.foosball)
-        let matchesView = MetricsView(metric: String(describing: matches), title: "Matches", backgroundColor: UIColor.OS.Sport.pool)
-        let winsView = MetricsView(metric: "100%", title: "Win rate", backgroundColor: UIColor.OS.Sport.tableTennis)
+        let matchesView = MetricsView(metric: String(describing: matches), title: matchesStr, backgroundColor: UIColor.OS.Sport.pool)
+        let winsView = MetricsView(metric: winsStr, title: "Win rate", backgroundColor: UIColor.OS.Sport.tableTennis)
         let historyView = MatchHistoryView(player: player)
         
         NSLayoutConstraint.pinToView(view, backgroundView)
@@ -208,7 +211,6 @@ final class PlayerDetailsViewController: UIViewController {
         view.backgroundColor = .clear
         profileEmjoiLabel.text = player.emoji
         addBottomRoundedEdge(view: croppedView, desiredCurve: 5)
-        //nicknameLabel.text = player.nickname.lowercased()
         inviteButton.setTitle("Invite to \(sport.humanReadableName) match", for: .normal)
     }
     
