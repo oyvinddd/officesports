@@ -139,7 +139,7 @@ final class PlayerDetailsViewController: UIViewController {
         let score = player.scoreForSport(sport)
         let matches = player.matchesPlayed(sport: sport)
         let wins = player.noOfWinsForSport(sport)
-        let winsStr = matches > 0 ? "\(wins / matches * 100)" : "-"
+        let winsStr = matches > 0 ? "\(wins / matches * 100)%" : "-"
         let matchesStr = matches != 1 ? "Matches" : "Match"
         
         let scoreView = MetricsView(metric: String(describing: score), title: "Points", backgroundColor: UIColor.OS.Sport.foosball)
