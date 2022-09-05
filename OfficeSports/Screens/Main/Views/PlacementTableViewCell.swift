@@ -71,9 +71,7 @@ final class PlacementTableViewCell: UITableViewCell {
         profileEmojiLabel.text = player.emoji
         usernameLabel.text = player.nickname.lowercased()
         fanaticLabel.isHidden = !isFanatical
-        if let score = player.scoreForSport(sport) {
-            scoreLabel.text = "\(score) pts"
-        }
+        scoreLabel.text = "\(player.scoreForSport(sport)) pts"
     }
     
     func configure(with player: OSPlayer, _ sport: OSSport, _ isFirst: Bool, _ isLast: Bool) {

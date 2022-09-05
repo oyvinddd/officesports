@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-private let kBackgroundMaxFade: CGFloat = 0.4
+private let kBackgroundMaxFade: CGFloat = 0.6
 private let kBackgroundMinFade: CGFloat = 0
 private let kAnimDuration: TimeInterval = 0.15
 private let kAnimDelay: TimeInterval = 0
@@ -44,28 +44,23 @@ final class PlayerDetailsViewController: UIViewController {
         return view
     }()
     
+    private lazy var croppedView: UIView = {
+        return UIView.createView(.yellow)
+    }()
+    
+    private lazy var closeButton: UIButton = {
+        let image = UIImage(systemName: "xmark", withConfiguration: nil)
+        let button = UIButton.createButton(.black, tintColor: .white, image: image)
+        button.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
+        button.applyCornerRadius(20)
+        button.alpha = 0.4
+        return button
+    }()
+    
     private lazy var profileEmjoiLabel: UILabel = {
         let label = UILabel.createLabel(.black, alignment: .center)
         label.font = UIFont.systemFont(ofSize: 100)
         return label
-    }()
-    
-    private lazy var nicknameLabel: UILabel = {
-        let label = UILabel.createLabel(UIColor.OS.Text.normal, alignment: .center)
-        label.font = UIFont.systemFont(ofSize: 28, weight: .medium)
-        label.numberOfLines = 1
-        return label
-    }()
-    
-    private lazy var playerDetailsLabel: UILabel = {
-        let label = UILabel.createLabel(UIColor.OS.Text.subtitle, alignment: .center)
-        label.font = UIFont.systemFont(ofSize: 18)
-        label.numberOfLines = 1
-        return label
-    }()
-    
-    private lazy var matchHistoryView: MatchHistoryView = {
-        return MatchHistoryView()
     }()
     
     private lazy var inviteButton: OSButton = {
@@ -140,16 +135,27 @@ final class PlayerDetailsViewController: UIViewController {
     }
     
     private func setupChildViews() {
+        let score = player.scoreForSport(sport)
+        let matches = player.matchesPlayed(sport: sport)
+        
+        let scoreView = MetricsView(metric: String(describing: score), title: "Points", backgroundColor: UIColor.OS.Sport.foosball)
+        let matchesView = MetricsView(metric: String(describing: matches), title: "Matches", backgroundColor: UIColor.OS.Sport.pool)
+        let winsView = MetricsView(metric: "100%", title: "Win rate", backgroundColor: UIColor.OS.Sport.tableTennis)
+        let historyView = MatchHistoryView(player: player)
+        
         NSLayoutConstraint.pinToView(view, backgroundView)
         
         view.addSubview(dialogView)
         dialogView.addSubview(contentWrap)
         contentWrap.addSubview(profileBackgroundView)
-        contentWrap.addSubview(nicknameLabel)
-        contentWrap.addSubview(playerDetailsLabel)
-        contentWrap.addSubview(matchHistoryView)
+        contentWrap.addSubview(scoreView)
+        contentWrap.addSubview(matchesView)
+        contentWrap.addSubview(winsView)
+        contentWrap.addSubview(historyView)
         contentWrap.addSubview(inviteButton)
         profileBackgroundView.addSubview(profileEmjoiLabel)
+        profileBackgroundView.addSubview(closeButton)
+        profileBackgroundView.addSubview(croppedView)
         
         NSLayoutConstraint.activate([
             dialogView.leftAnchor.constraint(equalTo: view.leftAnchor),
@@ -162,22 +168,36 @@ final class PlayerDetailsViewController: UIViewController {
             profileBackgroundView.leftAnchor.constraint(equalTo: dialogView.leftAnchor),
             profileBackgroundView.rightAnchor.constraint(equalTo: dialogView.rightAnchor),
             profileBackgroundView.topAnchor.constraint(equalTo: dialogView.topAnchor),
+            croppedView.leftAnchor.constraint(equalTo: profileBackgroundView.leftAnchor),
+            croppedView.rightAnchor.constraint(equalTo: profileBackgroundView.rightAnchor),
+            croppedView.bottomAnchor.constraint(equalTo: profileBackgroundView.bottomAnchor),
+            croppedView.heightAnchor.constraint(equalToConstant: 40),
+            closeButton.rightAnchor.constraint(equalTo: profileBackgroundView.rightAnchor, constant: -16),
+            closeButton.topAnchor.constraint(equalTo: profileBackgroundView.topAnchor, constant: 16),
+            closeButton.widthAnchor.constraint(equalToConstant: 40),
+            closeButton.heightAnchor.constraint(equalTo: closeButton.widthAnchor),
             profileEmjoiLabel.centerXAnchor.constraint(equalTo: profileBackgroundView.centerXAnchor),
             profileEmjoiLabel.centerYAnchor.constraint(equalTo: profileBackgroundView.centerYAnchor),
             profileEmjoiLabel.topAnchor.constraint(equalTo: profileBackgroundView.topAnchor, constant: 32),
             profileEmjoiLabel.bottomAnchor.constraint(equalTo: profileBackgroundView.bottomAnchor, constant: -32),
-            nicknameLabel.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
-            nicknameLabel.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
-            nicknameLabel.topAnchor.constraint(equalTo: profileBackgroundView.bottomAnchor, constant: 16),
-            playerDetailsLabel.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
-            playerDetailsLabel.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
-            playerDetailsLabel.topAnchor.constraint(equalTo: nicknameLabel.bottomAnchor, constant: 6),
-            matchHistoryView.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
-            matchHistoryView.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
-            matchHistoryView.topAnchor.constraint(equalTo: playerDetailsLabel.bottomAnchor, constant: 16),
+            scoreView.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
+            scoreView.topAnchor.constraint(equalTo: profileBackgroundView.bottomAnchor, constant: 16),
+            scoreView.bottomAnchor.constraint(equalTo: historyView.topAnchor, constant: -16),
+            matchesView.leftAnchor.constraint(equalTo: scoreView.rightAnchor, constant: 16),
+            matchesView.rightAnchor.constraint(equalTo: winsView.leftAnchor, constant: -16),
+            matchesView.topAnchor.constraint(equalTo: scoreView.topAnchor),
+            matchesView.bottomAnchor.constraint(equalTo: scoreView.bottomAnchor),
+            matchesView.widthAnchor.constraint(equalTo: scoreView.widthAnchor),
+            winsView.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
+            winsView.topAnchor.constraint(equalTo: matchesView.topAnchor),
+            winsView.bottomAnchor.constraint(equalTo: matchesView.bottomAnchor),
+            winsView.widthAnchor.constraint(equalTo: matchesView.widthAnchor),
+            historyView.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
+            historyView.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
+            historyView.topAnchor.constraint(equalTo: scoreView.bottomAnchor, constant: 32),
             inviteButton.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
             inviteButton.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
-            inviteButton.topAnchor.constraint(equalTo: matchHistoryView.bottomAnchor, constant: 32),
+            inviteButton.topAnchor.constraint(equalTo: historyView.bottomAnchor, constant: 16),
             inviteButton.bottomAnchor.constraint(equalTo: contentWrap.safeAreaLayoutGuide.bottomAnchor, constant: -16),
             inviteButton.heightAnchor.constraint(equalToConstant: 50)
         ])
@@ -186,12 +206,9 @@ final class PlayerDetailsViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = .clear
         profileEmjoiLabel.text = player.emoji
-        nicknameLabel.text = player.nickname.lowercased()
-        if let stats = player.statsForSport(sport) {
-            let matchesString = stats.matchesPlayed != 1 ? "\(stats.matchesPlayed) matches" : "\(stats.matchesPlayed) match"
-            playerDetailsLabel.text = "\(stats.score) pts • \(matchesString)"
-            inviteButton.setTitle("Invite to \(sport.humanReadableName) match", for: .normal)
-        }
+        addBottomRoundedEdge(view: croppedView, desiredCurve: 5)
+        //nicknameLabel.text = player.nickname.lowercased()
+        inviteButton.setTitle("Invite to \(sport.humanReadableName) match", for: .normal)
     }
     
     private func toggleDialog(enabled: Bool) {
@@ -242,8 +259,27 @@ final class PlayerDetailsViewController: UIViewController {
         viewModel.invitePlayer(player, sport: sport)
     }
     
-    @objc private func cancelButtonTapped(_ sender: OSButton) {
+    @objc private func closeButtonTapped(_ sender: UIButton) {
         toggleDialog(enabled: false)
+    }
+    
+    private func addBottomRoundedEdge(view: UIView, desiredCurve: CGFloat?) {
+        let offset: CGFloat = view.frame.width / desiredCurve!
+        let bounds: CGRect = view.bounds
+        
+        let rectBounds: CGRect = CGRect(x: bounds.origin.x, y: bounds.origin.y, width: bounds.size.width, height: bounds.size.height / 2)
+        let rectPath: UIBezierPath = UIBezierPath(rect: rectBounds)
+        let ovalBounds: CGRect = CGRect(x: bounds.origin.x - offset / 2, y: bounds.origin.y, width: bounds.size.width + offset, height: bounds.size.height)
+        let ovalPath: UIBezierPath = UIBezierPath(ovalIn: ovalBounds)
+        rectPath.append(ovalPath)
+        
+        // Create the shape layer and set its path
+        let maskLayer: CAShapeLayer = CAShapeLayer()
+        maskLayer.frame = bounds
+        maskLayer.path = rectPath.cgPath
+        
+        // Set the newly created shape layer as the mask for the view's layer
+        view.layer.mask = maskLayer
     }
 }
 
@@ -252,8 +288,8 @@ final class PlayerDetailsViewController: UIViewController {
 private final class MatchHistoryView: UIView {
     
     private lazy var historyLabel: UILabel = {
-        let label = UILabel.createLabel(UIColor.OS.Text.normal, alignment: .left, text: "Your match history")
-        label.font = UIFont.boldSystemFont(ofSize: 22)
+        let label = UILabel.createLabel(UIColor.OS.Text.normal, alignment: .left)
+        label.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
         return label
     }()
     
@@ -263,9 +299,10 @@ private final class MatchHistoryView: UIView {
         return stackView
     }()
     
-    init() {
+    init(player: OSPlayer) {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
+        historyLabel.text = "Your matches against \(player.nickname)"
         setupChildViews()
         configureUI()
     }
@@ -338,5 +375,52 @@ private final class MatchStatusView: UIView {
         backgroundColor = .white
         applyCornerRadius(4)
         applySmallDropShadow(.black)
+    }
+}
+
+// MARK: - Metrics View
+
+private final class MetricsView: UIView {
+    
+    private lazy var metricLabel: UILabel = {
+        let label = UILabel.createLabel(UIColor.white)
+        label.font = UIFont.systemFont(ofSize: 29, weight: .semibold)
+        return label
+    }()
+    
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel.createLabel(UIColor.white)
+        label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        return label
+    }()
+    
+    init(metric: String, title: String, backgroundColor: UIColor) {
+        super.init(frame: .zero)
+        translatesAutoresizingMaskIntoConstraints = false
+        setupChildViews()
+        self.backgroundColor = backgroundColor
+        applyMediumDropShadow(.black)
+        applyCornerRadius(10)
+        metricLabel.text = metric
+        titleLabel.text = title.uppercased()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupChildViews() {
+        addSubview(metricLabel)
+        addSubview(titleLabel)
+        
+        NSLayoutConstraint.activate([
+            metricLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 8),
+            metricLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -8),
+            metricLabel.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            metricLabel.bottomAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -40),
+            titleLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 8),
+            titleLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -8),
+            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
+        ])
     }
 }
