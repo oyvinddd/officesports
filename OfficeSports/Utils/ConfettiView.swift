@@ -41,7 +41,7 @@ final class ConfettiView: UIView {
         for color in colors {
             cells.append(confettiWithColor(color: color))
         }
-        
+        emitter.birthRate = 1
         emitter.emitterCells = cells
         layer.addSublayer(emitter)
     }

@@ -53,13 +53,14 @@ final class PlayerDetailsViewController: UIViewController {
         let button = UIButton.createButton(.black, tintColor: .white, image: image)
         button.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
         button.applyCornerRadius(20)
-        button.alpha = 0.4
+        button.alpha = 0.3
         return button
     }()
     
     private lazy var profileEmjoiLabel: UILabel = {
         let label = UILabel.createLabel(.black, alignment: .center)
         label.font = UIFont.systemFont(ofSize: 100)
+        label.applyLargeDropShadow(.black)
         return label
     }()
     
