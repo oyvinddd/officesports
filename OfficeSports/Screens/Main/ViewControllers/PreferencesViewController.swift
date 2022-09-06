@@ -11,7 +11,7 @@ final class PreferencesViewController: UIViewController {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel.createLabel(.white, text: "Preferences")
-        label.font = UIFont.boldSystemFont(ofSize: 30)
+        label.font = UIFont.boldSystemFont(ofSize: 32)
         return label
     }()
     

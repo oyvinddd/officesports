@@ -11,7 +11,7 @@ final class EmojiPickerViewController: UIViewController {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel.createLabel(UIColor.OS.Text.normal, text: "Pick an emoji")
-        label.font = UIFont.boldSystemFont(ofSize: 30)
+        label.font = UIFont.boldSystemFont(ofSize: 32)
         return label
     }()
     

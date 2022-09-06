@@ -181,7 +181,7 @@ private final class SeasonsHeader: UIView {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel.createLabel(.white, alignment: .center, text: "Season results!")
-        label.font = UIFont.boldSystemFont(ofSize: 26)
+        label.font = UIFont.boldSystemFont(ofSize: 32)
         return label
     }()
     
