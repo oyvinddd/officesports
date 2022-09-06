@@ -27,6 +27,7 @@ final class SportViewModel {
     private(set) var idlePlayers = [OSPlayer]()
     private(set) var recentMatches = [OSMatch]()
     private(set) var fanatic: OSPlayer?
+    private(set) var boring: OSPlayer?
     
     private let api: SportsAPI
     
@@ -49,6 +50,7 @@ final class SportViewModel {
                 scoreboard = getActivePlayers(allPlayers, sport: sport)
                 idlePlayers = getIdlePlayers(allPlayers, sport: sport)
                 fanatic = findFanaticalPlayer(scoreboard)
+                boring = findMostBoringPlayer(scoreboard)
                 
                 state = .scoreboardSuccess
             } catch let error {
@@ -86,7 +88,7 @@ final class SportViewModel {
     
     private func findFanaticalPlayer(_ players: [OSPlayer]) -> OSPlayer? {
         let sortedPlayers = players.sorted {
-            $0.matchesPlayed(sport: sport) > $1.matchesPlayed(sport: sport)
+            $0.noOfmatchesForSport(sport) > $1.noOfmatchesForSport(sport)
         }
         // if the two top players has the same score, don't add fanatical indicator
         if sortedPlayers.count > 1 {
@@ -97,11 +99,25 @@ final class SportViewModel {
             }
         }
         let player = sortedPlayers.first
-        guard let matchesPlayed = player?.matchesPlayed(sport: sport) else {
+        guard let matchesPlayed = player?.noOfmatchesForSport(sport) else {
             return nil
         }
         // to be fanatical, one has to have played at least 10
         // matches and be the player with the most matches overall
         return matchesPlayed >= fanaticalPlayerThreshold ? player : nil
+    }
+    
+    private func findMostBoringPlayer(_ players: [OSPlayer]) -> OSPlayer? {
+        let sortedPlayers = players.sorted {
+            $0.noOfmatchesForSport(sport) < $1.noOfmatchesForSport(sport)
+        }
+        if sortedPlayers.count > 1 {
+            let p1Matches = sortedPlayers[0].statsForSport(sport)?.matchesPlayed ?? 0
+            let p2Matches = sortedPlayers[1].statsForSport(sport)?.matchesPlayed ?? 0
+            if p1Matches == p2Matches && p1Matches == 0 {
+                return nil
+            }
+        }
+        return sortedPlayers.first
     }
 }

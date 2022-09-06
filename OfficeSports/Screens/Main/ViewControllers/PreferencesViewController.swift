@@ -72,7 +72,7 @@ final class PreferencesViewController: UIViewController {
         let titleLabel = UILabel.createLabel(.white, alignment: .left, text: "Toggle sports")
         titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
         let descriptionLabel = UILabel.createLabel(.white, alignment: .left)
-        descriptionLabel.text = "Choose what sports to show in the main menu."
+        descriptionLabel.text = "Choose what sports to show in the main menu. Note that the app needs to be restarted in order for the changes to take effect."
         
         let tableTennisView = SportView(sport: .tableTennis)
         let foosballView = SportView(sport: .foosball)

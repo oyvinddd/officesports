@@ -248,18 +248,23 @@ private final class SettingsButton: UIView {
     
     private lazy var newFeatureBadge: UIView = {
         let view = UIView.createView(UIColor.OS.Status.failure, cornerRadius: 3)
-        let label = UILabel.createLabel(.white, text: "NEW ✨")
+        let label = UILabel.createLabel(.white, text: "NEW")
         label.font = UIFont.boldSystemFont(ofSize: 12)
         NSLayoutConstraint.pinToView(view, label, padding: 4)
         return view
     }()
     
-    init(_ icon: UIImage, _ title: String, _ newFeature: Bool = false) {
+    init(_ icon: UIImage, _ title: String, _ disabled: Bool = false, _ newFeature: Bool = false) {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         newFeatureBadge.isHidden = !newFeature
         iconImageView.image = icon
         titleLabel.text = title
+        if disabled {
+            titleLabel.textColor = UIColor.OS.Text.disabled
+            iconImageView.tintColor = UIColor.OS.Text.disabled
+            isUserInteractionEnabled = false
+        }
         setupChildViews()
     }
     
