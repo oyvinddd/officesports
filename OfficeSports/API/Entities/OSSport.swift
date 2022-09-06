@@ -24,7 +24,7 @@ enum OSSport: Int, Codable {
         case .tableTennis:
             return "table tennis"
         case .pool:
-            return "Pool"
+            return "pool"
         case .unknown:
             return "unknown sport"
         }
@@ -32,6 +32,19 @@ enum OSSport: Int, Codable {
     
     var description: String {
         return humanReadableName
+    }
+    
+    var emoji: String {
+        switch self {
+        case .foosball:
+            return "⚽️"
+        case .tableTennis:
+            return "🏓"
+        case .pool:
+            return "🎱"
+        default:
+            return ""
+        }
     }
     
     init(from decoder: Decoder) throws {
