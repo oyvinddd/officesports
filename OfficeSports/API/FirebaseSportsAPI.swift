@@ -172,6 +172,10 @@ final class FirebaseSportsAPI: SportsAPI {
     }
     
     func getLatestMatches(sport: OSSport, winnerId: String, loserId: String, result: @escaping ((Result<[OSMatch], Error>) -> Void)) {
+        guard winnerId != loserId else {
+            result(.failure(OSError.identicalUserIds))
+            return
+        }
         // create the query for recent matches between two players
         let query = matchesCollection
             .whereField(FieldPath(["winner", "userId"]), isEqualTo: winnerId)

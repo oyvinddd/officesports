@@ -35,6 +35,8 @@ enum OSError: LocalizedError {
     
     case inviteNotAllowed
     
+    case identicalUserIds
+    
     var errorDescription: String? {
         switch self {
         case .unknown:
@@ -63,6 +65,8 @@ enum OSError: LocalizedError {
             return "You cannot invite yourself to a match dumbass! 🤦🏻‍♂️"
         case .inviteNotAllowed:
             return "You need to wait 15 minutes between every time you invite someone to a match 🕑"
+        case .identicalUserIds:
+            return "User IDs are identical"
         }
     }
 }
