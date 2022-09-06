@@ -12,7 +12,7 @@ extension UILabel {
     
     func applyLargeDropShadow(_ backgroundColor: UIColor) {
         layer.shadowColor = backgroundColor.cgColor
-        layer.shadowRadius = 20
+        layer.shadowRadius = 25
         layer.shadowOpacity = 0.8
         layer.shadowOffset = .zero
         layer.masksToBounds = false

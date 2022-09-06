@@ -41,10 +41,10 @@ final class PlayerDetailsViewModel {
         }
     }
     
-    func fetchLatestMatches(sport: OSSport, winnerId: String, loserId: String) {
+    func fetchLatestMatches(sport: OSSport, player1Id: String, player2Id: String) {
         Task {
             do {
-                let matches = try await api.getLatestMatches(sport: sport, winnerId: winnerId, loserId: loserId)
+                let matches = try await api.getLatestMatches(sport: sport, winnerId: player1Id, loserId: player2Id)
                 self.latestMatches = matches
                 print(self.latestMatches)
             } catch let error {

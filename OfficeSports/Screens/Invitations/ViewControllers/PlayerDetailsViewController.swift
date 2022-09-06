@@ -66,6 +66,10 @@ final class PlayerDetailsViewController: UIViewController {
         return label
     }()
     
+    private lazy var matchHistoryView: MatchHistoryView = {
+        return MatchHistoryView(title: "Your history with \(player.nickname.lowercased())")
+    }()
+    
     private lazy var inviteButton: OSButton = {
         let button = OSButton("Invite to match", type: .primaryInverted, state: .disabled)
         button.addTarget(self, action: #selector(inviteButtonTapped), for: .touchUpInside)
@@ -110,8 +114,7 @@ final class PlayerDetailsViewController: UIViewController {
         setupSubscribers()
         setupChildViews()
         configureUI()
-        addBottomRoundedEdge(view: croppedView, desiredCurve: 10)
-        //drawArc()
+        fetchMatchHistoryWithPlayer()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -148,7 +151,7 @@ final class PlayerDetailsViewController: UIViewController {
         let scoreView = MetricsView(metric: String(describing: score), title: "Points", backgroundColor: UIColor.OS.Sport.foosball)
         let matchesView = MetricsView(metric: String(describing: matches), title: matchesStr, backgroundColor: UIColor.OS.Sport.pool)
         let winsView = MetricsView(metric: winsStr, title: "Win rate", backgroundColor: UIColor.OS.Sport.tableTennis)
-        let historyView = MatchHistoryView(player: player)
+        
         
         NSLayoutConstraint.pinToView(view, backgroundView)
         
@@ -158,7 +161,7 @@ final class PlayerDetailsViewController: UIViewController {
         contentWrap.addSubview(scoreView)
         contentWrap.addSubview(matchesView)
         contentWrap.addSubview(winsView)
-        contentWrap.addSubview(historyView)
+        contentWrap.addSubview(matchHistoryView)
         contentWrap.addSubview(inviteButton)
         profileBackgroundView.addSubview(profileEmjoiLabel)
         profileBackgroundView.addSubview(closeButton)
@@ -178,8 +181,7 @@ final class PlayerDetailsViewController: UIViewController {
             croppedView.leftAnchor.constraint(equalTo: profileBackgroundView.leftAnchor),
             croppedView.rightAnchor.constraint(equalTo: profileBackgroundView.rightAnchor),
             croppedView.bottomAnchor.constraint(equalTo: profileBackgroundView.bottomAnchor),
-            croppedView.topAnchor.constraint(equalTo: profileBackgroundView.topAnchor),
-            //croppedView.heightAnchor.constraint(equalToConstant: 40),
+            croppedView.heightAnchor.constraint(equalToConstant: 40),
             closeButton.rightAnchor.constraint(equalTo: profileBackgroundView.rightAnchor, constant: -16),
             closeButton.topAnchor.constraint(equalTo: profileBackgroundView.topAnchor, constant: 16),
             closeButton.widthAnchor.constraint(equalToConstant: 40),
@@ -199,12 +201,12 @@ final class PlayerDetailsViewController: UIViewController {
             winsView.topAnchor.constraint(equalTo: matchesView.topAnchor),
             winsView.bottomAnchor.constraint(equalTo: matchesView.bottomAnchor),
             winsView.widthAnchor.constraint(equalTo: matchesView.widthAnchor),
-            historyView.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
-            historyView.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
-            historyView.topAnchor.constraint(equalTo: scoreView.bottomAnchor, constant: 32),
+            matchHistoryView.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
+            matchHistoryView.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
+            matchHistoryView.topAnchor.constraint(equalTo: scoreView.bottomAnchor, constant: 64),
             inviteButton.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
             inviteButton.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
-            inviteButton.topAnchor.constraint(equalTo: historyView.bottomAnchor, constant: 16),
+            inviteButton.topAnchor.constraint(equalTo: matchHistoryView.bottomAnchor, constant: 32),
             inviteButton.bottomAnchor.constraint(equalTo: contentWrap.safeAreaLayoutGuide.bottomAnchor, constant: -16),
             inviteButton.heightAnchor.constraint(equalToConstant: 50)
         ])
@@ -259,6 +261,19 @@ final class PlayerDetailsViewController: UIViewController {
         return Int((Float(noOfWins) / Float(noOfMatches) * 100.0).rounded())
     }
     
+    private func fetchMatchHistoryWithPlayer() {
+        // need to get the ID's of the players we want to compare
+        guard let id1 = OSAccount.current.userId, let id2 = player.id else {
+            return
+        }
+        // exit early if we the player is ourselves
+        guard OSAccount.current.player != player else {
+            matchHistoryView.disable()
+            return
+        }
+        viewModel.fetchLatestMatches(sport: sport, player1Id: id1, player2Id: id2)
+    }
+    
     // MARK: - Button Handling
     
     @objc private func backgroundTapped(_ sender: UITapGestureRecognizer) {
@@ -310,147 +325,5 @@ final class PlayerDetailsViewController: UIViewController {
         shapeLayer.strokeColor = UIColor.black.cgColor
         croppedView.layer.mask = shapeLayer
         //croppedView.layer.addSublayer(shapeLayer)
-    }
-}
-
-// MARK: - Match history view
-
-private final class MatchHistoryView: UIView {
-    
-    private lazy var historyLabel: UILabel = {
-        let label = UILabel.createLabel(UIColor.OS.Text.normal, alignment: .left)
-        label.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
-        return label
-    }()
-    
-    private lazy var stackView: UIStackView = {
-        let stackView = UIStackView.createStackView(.clear, axis: .horizontal, spacing: 6)
-        stackView.distribution = .fillEqually
-        return stackView
-    }()
-    
-    init(player: OSPlayer) {
-        super.init(frame: .zero)
-        translatesAutoresizingMaskIntoConstraints = false
-        historyLabel.text = "History with \(player.nickname.lowercased())"
-        setupChildViews()
-        configureUI()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func setupChildViews() {
-        addSubview(historyLabel)
-        addSubview(stackView)
-        
-        createAndAddStatusView()
-        createAndAddStatusView()
-        createAndAddStatusView()
-        createAndAddStatusView()
-        createAndAddStatusView()
-        createAndAddStatusView()
-        createAndAddStatusView()
-        
-        NSLayoutConstraint.activate([
-            historyLabel.leftAnchor.constraint(equalTo: leftAnchor),
-            historyLabel.rightAnchor.constraint(equalTo: rightAnchor),
-            historyLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16),
-            historyLabel.bottomAnchor.constraint(equalTo: stackView.topAnchor, constant: -16),
-            stackView.leftAnchor.constraint(equalTo: leftAnchor),
-            stackView.rightAnchor.constraint(equalTo: rightAnchor),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
-        ])
-    }
-    
-    private func configureUI() {
-        backgroundColor = .white
-    }
-    
-    private func createAndAddStatusView() {
-        let statusView = MatchStatusView()
-        stackView.addArrangedSubview(statusView)
-        
-        NSLayoutConstraint.activate([
-            statusView.heightAnchor.constraint(equalTo: statusView.widthAnchor)
-        ])
-    }
-}
-
-// MARK: - Match status view
-
-private final class MatchStatusView: UIView {
-    
-    private lazy var innerView: UIView = {
-        return UIView.createView(UIColor.OS.Status.failure, cornerRadius: 2)
-    }()
-    
-    init() {
-        super.init(frame: .zero)
-        translatesAutoresizingMaskIntoConstraints = false
-        setupChildViews()
-        configureUI()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func setupChildViews() {
-        NSLayoutConstraint.pinToView(self, innerView, padding: 4)
-    }
-    
-    private func configureUI() {
-        backgroundColor = .white
-        applyCornerRadius(4)
-        applySmallDropShadow(.black)
-    }
-}
-
-// MARK: - Metrics View
-
-private final class MetricsView: UIView {
-    
-    private lazy var metricLabel: UILabel = {
-        let label = UILabel.createLabel(UIColor.white)
-        label.font = UIFont.systemFont(ofSize: 29, weight: .semibold)
-        return label
-    }()
-    
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel.createLabel(UIColor.white)
-        label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
-        return label
-    }()
-    
-    init(metric: String, title: String, backgroundColor: UIColor) {
-        super.init(frame: .zero)
-        translatesAutoresizingMaskIntoConstraints = false
-        setupChildViews()
-        self.backgroundColor = backgroundColor
-        applyMediumDropShadow(.black)
-        applyCornerRadius(10)
-        metricLabel.text = metric
-        titleLabel.text = title.uppercased()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func setupChildViews() {
-        addSubview(metricLabel)
-        addSubview(titleLabel)
-        
-        NSLayoutConstraint.activate([
-            metricLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 8),
-            metricLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -8),
-            metricLabel.topAnchor.constraint(equalTo: topAnchor, constant: 8),
-            metricLabel.bottomAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -40),
-            titleLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 8),
-            titleLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -8),
-            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
-        ])
     }
 }
