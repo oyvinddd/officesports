@@ -20,22 +20,21 @@ protocol ProfileViewDelegate: AnyObject {
     
     func profilePictureTapped()
     
+    func invitesButtonTapped()
+    
     func settingsButtonTapped()
 }
 
 final class ProfileView: UIView {
     
-    private lazy var totalWinsLabel: UILabel = {
-        let label = UILabel.createLabel(.white, alignment: .center, text: "🏆 x 0")
-        label.font = UIFont.boldSystemFont(ofSize: 15)
-        return label
-    }()
-    
-    private lazy var totalWinsView: UIView = {
-        let view = UIView.createView(UIColor.OS.Text.normal, cornerRadius: 5)
-        view.alpha = 0.8
-        NSLayoutConstraint.pinToView(view, totalWinsLabel, padding: 6)
-        return view
+    private lazy var invitesButton: UIButton = {
+        let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .semibold, scale: .large)
+        let image = UIImage(systemName: "tray.fill", withConfiguration: config)
+        let button = UIButton.createButton(.clear, .clear, title: nil)
+        button.addTarget(self, action: #selector(settingsButtonTapped), for: .touchUpInside)
+        button.tintColor = UIColor.OS.Text.disabled
+        button.setImage(image, for: .normal)
+        return button
     }()
     
     private lazy var settingsButton: UIButton = {
@@ -178,7 +177,6 @@ final class ProfileView: UIView {
         
         profileEmojiLabel.text = account.emoji
         nicknameLabel.text = account.nickname?.lowercased()
-        totalWinsLabel.text = "🏆 x 0"
         foosballScoreLabel.text = "\(foosballStats?.score ?? 1200) pts"
         tableTennisScoreLabel.text = "\(tableTennisStats?.score ?? 1200) pts"
         setupSubscribers()
@@ -231,7 +229,6 @@ final class ProfileView: UIView {
             poolEmojiAlpha = 0
         }
         UIView.animate(withDuration: emojiFadeTransitionDuration, delay: 0) {
-            self.totalWinsView.alpha = totalWinsViewAlpha
             self.sportImageWrap.alpha = sportImageWrapAlpha
             self.sportImageBackground.backgroundColor = sportImageBackgroundColor
             self.foosballEmojiLabel.alpha = foosballEmojiAlpha
@@ -296,15 +293,17 @@ final class ProfileView: UIView {
             .map({ "\($0?.tableTennisStats?.score ?? 0) pts" })
             .assign(to: \.text, on: tableTennisScoreLabel)
             .store(in: &subscribers)
+        /*
         OSAccount.current.$player
             .receive(on: DispatchQueue.main)
             .compactMap({ "🏆 x \($0?.totalSeasonWins() ?? 0)" })
             .assign(to: \.text, on: totalWinsLabel)
             .store(in: &subscribers)
+         */
     }
     
     private func setupChildViews() {
-        addSubview(totalWinsView)
+        addSubview(invitesButton)
         addSubview(settingsButton)
         addSubview(codeImageWrap)
         addSubview(profileImageWrap)
@@ -322,11 +321,13 @@ final class ProfileView: UIView {
         NSLayoutConstraint.pinToView(sportImageBackground, poolEmojiLabel)
         
         NSLayoutConstraint.activate([
-            totalWinsView.leftAnchor.constraint(equalTo: leftAnchor, constant: 24),
-            totalWinsView.centerYAnchor.constraint(equalTo: settingsButton.centerYAnchor),
+            invitesButton.leftAnchor.constraint(equalTo: leftAnchor, constant: 16),
+            invitesButton.centerYAnchor.constraint(equalTo: settingsButton.centerYAnchor),
+            invitesButton.widthAnchor.constraint(equalToConstant: 60),
+            invitesButton.heightAnchor.constraint(equalTo: invitesButton.widthAnchor),
             settingsButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
             settingsButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 10),
-            settingsButton.widthAnchor.constraint(equalToConstant: 50),
+            settingsButton.widthAnchor.constraint(equalToConstant: 60),
             settingsButton.heightAnchor.constraint(equalTo: settingsButton.widthAnchor),
             codeImageWrap.widthAnchor.constraint(equalToConstant: profileImageDiameter),
             codeImageWrap.heightAnchor.constraint(equalTo: codeImageWrap.widthAnchor),
@@ -362,6 +363,10 @@ final class ProfileView: UIView {
     
     @objc private func profilePictureTapped(_ sender: UITapGestureRecognizer) {
         delegate?.profilePictureTapped()
+    }
+    
+    @objc private func invitesButtonTapped(_ sender: UITapGestureRecognizer) {
+        delegate?.invitesButtonTapped()
     }
     
     @objc private func settingsButtonTapped(_ sender: UIButton) {

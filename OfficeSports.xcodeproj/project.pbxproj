@@ -47,6 +47,9 @@
 		8E43DF01286EE3C800D9B50D /* SeasonsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E43DF00286EE3C800D9B50D /* SeasonsViewController.swift */; };
 		8E43DF03286EE5F500D9B50D /* SeasonsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E43DF02286EE5F500D9B50D /* SeasonsViewModel.swift */; };
 		8E457B942860C03D00F9D133 /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E457B932860C03D00F9D133 /* ConfettiView.swift */; };
+		8E5D566C28C77F6B00F67B14 /* oyvind-profile-picure.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E5D566B28C77F6B00F67B14 /* oyvind-profile-picure.png */; };
+		8E5D566E28C7818100F67B14 /* sindre-profile-picture.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E5D566D28C7818100F67B14 /* sindre-profile-picture.png */; };
+		8E5D567028C782E200F67B14 /* konstantinos-profile-picture.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E5D566F28C782E200F67B14 /* konstantinos-profile-picture.png */; };
 		8E678F0228A298FF00B22690 /* FirebaseSportsAPI+AsyncAwait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E678F0128A298FE00B22690 /* FirebaseSportsAPI+AsyncAwait.swift */; };
 		8E6995D52844E0CE001355D2 /* LocalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6995D42844E0CE001355D2 /* LocalNotificationManager.swift */; };
 		8E6B33E028426DFB00E73EDD /* ScannerFrameLinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6B33DF28426DFB00E73EDD /* ScannerFrameLinesView.swift */; };
@@ -164,6 +167,9 @@
 		8E43DF00286EE3C800D9B50D /* SeasonsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonsViewController.swift; sourceTree = "<group>"; };
 		8E43DF02286EE5F500D9B50D /* SeasonsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonsViewModel.swift; sourceTree = "<group>"; };
 		8E457B932860C03D00F9D133 /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
+		8E5D566B28C77F6B00F67B14 /* oyvind-profile-picure.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "oyvind-profile-picure.png"; sourceTree = "<group>"; };
+		8E5D566D28C7818100F67B14 /* sindre-profile-picture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sindre-profile-picture.png"; sourceTree = "<group>"; };
+		8E5D566F28C782E200F67B14 /* konstantinos-profile-picture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "konstantinos-profile-picture.png"; sourceTree = "<group>"; };
 		8E678F0128A298FE00B22690 /* FirebaseSportsAPI+AsyncAwait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseSportsAPI+AsyncAwait.swift"; sourceTree = "<group>"; };
 		8E6995D42844E0CE001355D2 /* LocalNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManager.swift; sourceTree = "<group>"; };
 		8E6B33DF28426DFB00E73EDD /* ScannerFrameLinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerFrameLinesView.swift; sourceTree = "<group>"; };
@@ -314,6 +320,7 @@
 		8E23087F282D540E00AF60EB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8E5D566A28C77F5700F67B14 /* Images */,
 				8E7D0ACA28391A82006D6DF7 /* Emojis */,
 				8E3293E0283D83BA00B7CCDC /* Firebase */,
 				8E9C7287283A722600974DAA /* OfficeSports.entitlements */,
@@ -393,6 +400,16 @@
 				8ECB86302875AAAD007C9FA5 /* QRCodeView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		8E5D566A28C77F5700F67B14 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				8E5D566F28C782E200F67B14 /* konstantinos-profile-picture.png */,
+				8E5D566B28C77F6B00F67B14 /* oyvind-profile-picure.png */,
+				8E5D566D28C7818100F67B14 /* sindre-profile-picture.png */,
+			);
+			path = Images;
 			sourceTree = "<group>";
 		};
 		8E70C110282AB9BB009A9452 /* Extensions */ = {
@@ -731,10 +748,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				8EE32D68283E8D88009AD89C /* plistinject in Resources */,
+				8E5D566E28C7818100F67B14 /* sindre-profile-picture.png in Resources */,
 				8EE61FFB282AB79D00C01289 /* LaunchScreen.storyboard in Resources */,
 				8EE61FF8282AB79D00C01289 /* Assets.xcassets in Resources */,
 				8E230881282D543300AF60EB /* GoogleService-Info.plist in Resources */,
+				8E5D566C28C77F6B00F67B14 /* oyvind-profile-picure.png in Resources */,
 				8E7D0ACC28391A9E006D6DF7 /* emojis.csv in Resources */,
+				8E5D567028C782E200F67B14 /* konstantinos-profile-picture.png in Resources */,
 				8E9C728B283AB93C00974DAA /* fastlane in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

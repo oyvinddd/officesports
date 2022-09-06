@@ -224,10 +224,15 @@ final class ContainerViewController: UIViewController {
 // MARK: - Profile View Delegate Conformance
 
 extension ContainerViewController: ProfileViewDelegate {
-    
+
     func profilePictureTapped() {
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         profileView.displayQrCode()
+    }
+    
+    func invitesButtonTapped() {
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        Coordinator.global.presentSettings(from: self)
     }
     
     func settingsButtonTapped() {

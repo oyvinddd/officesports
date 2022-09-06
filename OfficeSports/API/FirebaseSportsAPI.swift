@@ -100,8 +100,6 @@ final class FirebaseSportsAPI: SportsAPI {
         let fields = ["nickname", "emoji", "team"]
         var data: [String: Any] = ["nickname": nickname, "emoji": emoji]
         
-        // a user can choose to be part of a team so that the scoreboard only
-        // shows players from the same team
         if let team = team {
             do {
                 data["team"] = try Firestore.Encoder().encode(team)
@@ -264,7 +262,7 @@ final class FirebaseSportsAPI: SportsAPI {
             return
         }
         
-        // 24 hourse from now
+        // 24 hours from now
         // let calendar = Calendar.current
         // let date = calendar.date(byAdding: .hour, value: -24, to: Date())!
         
