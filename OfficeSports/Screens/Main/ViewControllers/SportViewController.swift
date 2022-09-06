@@ -163,8 +163,10 @@ extension SportViewController: UITableViewDataSource {
             if showScoreboard {
                 let player = viewModel.scoreboard[indexPath.row]
                 let isFanatic = player == viewModel.fanatic
+                let isBoring = player == viewModel.boring
                 let cell = tableView.dequeueReusableCell(for: PlacementTableViewCell.self, for: indexPath)
-                cell.configure(with: player, viewModel.sport, indexPath.row, isFanatic, isFirstElement, isLastElement)
+                
+                cell.configure(with: player, viewModel.sport, indexPath.row, isFanatic, isBoring, isFirstElement, isLastElement)
                 return cell
             }
             let cell = tableView.dequeueReusableCell(for: MatchTableViewCell.self, for: indexPath)

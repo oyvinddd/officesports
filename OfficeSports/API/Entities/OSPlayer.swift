@@ -77,15 +77,15 @@ struct OSPlayer: Identifiable, Codable, Equatable {
         }
     }
     
-    func matchesPlayed(sport: OSSport) -> Int {
+    func scoreForSport(_ sport: OSSport) -> Int {
+        return statsForSport(sport)?.score ?? 0
+    }
+    
+    func noOfmatchesForSport(_ sport: OSSport) -> Int {
         guard let stats = statsForSport(sport) else {
             return 0
         }
         return stats.matchesPlayed
-    }
-    
-    func scoreForSport(_ sport: OSSport) -> Int {
-        return statsForSport(sport)?.score ?? 0
     }
     
     func noOfWinsForSport(_ sport: OSSport) -> Int {

@@ -42,8 +42,8 @@ final class PlacementTableViewCell: UITableViewCell {
         return UILabel.createLabel(UIColor.OS.Text.normal, alignment: .right)
     }()
     
-    private lazy var fanaticLabel: UILabel = {
-        return UILabel.createLabel(UIColor.OS.Text.normal, alignment: .center, text: "🔥")
+    private lazy var specialIndicatorLabel: UILabel = {
+        return UILabel.createLabel(UIColor.OS.Text.normal, alignment: .center)
     }()
     
     private let placementFontNormal = UIFont.boldSystemFont(ofSize: 18)
@@ -64,18 +64,19 @@ final class PlacementTableViewCell: UITableViewCell {
         super.init(coder: aDecoder)
     }
     
-    func configure(with player: OSPlayer, _ sport: OSSport, _ placement: Int, _ isFanatical: Bool, _ isFirst: Bool, _ isLast: Bool) {
+    // swiftlint:disable function_parameter_count
+    func configure(with player: OSPlayer, _ sport: OSSport, _ placement: Int, _ isFanatical: Bool, _ isMostBoring: Bool, _ isFirst: Bool, _ isLast: Bool) {
         applyCornerRadius(isFirstElement: isFirst, isLastElement: isLast)
         configurePlacementLabel(placement, isLast: isLast)
+        configureSpecialLabel(isFanatical, isMostBoring)
         profileImageWrap.backgroundColor = UIColor.OS.hashedProfileColor(player.nickname)
         profileEmojiLabel.text = player.emoji
         usernameLabel.text = player.nickname.lowercased()
-        fanaticLabel.isHidden = !isFanatical
         scoreLabel.text = "\(player.scoreForSport(sport)) pts"
     }
     
     func configure(with player: OSPlayer, _ sport: OSSport, _ isFirst: Bool, _ isLast: Bool) {
-        configure(with: player, sport, -1, false, isFirst, isLast)
+        configure(with: player, sport, -1, false, false, isFirst, isLast)
         scoreLabel.text = "No matches played"
         placementLabel.text = ""
     }
@@ -105,7 +106,7 @@ final class PlacementTableViewCell: UITableViewCell {
         contentWrap.addSubview(usernameLabel)
         contentWrap.addSubview(scoreLabel)
         contentWrap.addSubview(placementLabel)
-        contentWrap.addSubview(fanaticLabel)
+        contentWrap.addSubview(specialIndicatorLabel)
         
         NSLayoutConstraint.pinToView(profileImageWrap, profileEmojiLabel)
         NSLayoutConstraint.activate([
@@ -120,16 +121,16 @@ final class PlacementTableViewCell: UITableViewCell {
             profileImageWrap.widthAnchor.constraint(equalTo: profileImageWrap.heightAnchor),
             usernameLabel.leftAnchor.constraint(equalTo: profileImageWrap.rightAnchor, constant: 16),
             usernameLabel.topAnchor.constraint(equalTo: profileImageWrap.topAnchor),
-            usernameLabel.rightAnchor.constraint(greaterThanOrEqualTo: fanaticLabel.leftAnchor, constant: -8),
+            usernameLabel.rightAnchor.constraint(greaterThanOrEqualTo: specialIndicatorLabel.leftAnchor, constant: -8),
             scoreLabel.leftAnchor.constraint(equalTo: profileImageWrap.rightAnchor, constant: 16),
             scoreLabel.bottomAnchor.constraint(equalTo: profileImageWrap.bottomAnchor),
-            scoreLabel.rightAnchor.constraint(greaterThanOrEqualTo: fanaticLabel.leftAnchor, constant: -8),
+            scoreLabel.rightAnchor.constraint(greaterThanOrEqualTo: specialIndicatorLabel.leftAnchor, constant: -8),
             placementLabel.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
             placementLabel.centerYAnchor.constraint(equalTo: contentWrap.centerYAnchor),
             placementLabel.widthAnchor.constraint(equalToConstant: 50),
-            fanaticLabel.rightAnchor.constraint(equalTo: placementLabel.leftAnchor, constant: 8),
-            fanaticLabel.centerYAnchor.constraint(equalTo: contentWrap.centerYAnchor),
-            fanaticLabel.widthAnchor.constraint(equalToConstant: 30)
+            specialIndicatorLabel.rightAnchor.constraint(equalTo: placementLabel.leftAnchor, constant: 8),
+            specialIndicatorLabel.centerYAnchor.constraint(equalTo: contentWrap.centerYAnchor),
+            specialIndicatorLabel.widthAnchor.constraint(equalToConstant: 30)
         ])
     }
     
@@ -137,10 +138,10 @@ final class PlacementTableViewCell: UITableViewCell {
         // configure font
         if placement == 0 || placement == 1 || placement == 2 || isLast {
             placementLabel.font = placementFontEmoji
-            fanaticLabel.font = placementFontEmoji
+            specialIndicatorLabel.font = placementFontEmoji
         } else {
             placementLabel.font = placementFontNormal
-            fanaticLabel.font = placementFontNormal
+            specialIndicatorLabel.font = placementFontNormal
         }
         // configure text label
         switch placement {
@@ -155,6 +156,16 @@ final class PlacementTableViewCell: UITableViewCell {
         }
         if isLast {
             placementLabel.text = "💩"
+        }
+    }
+    
+    private func configureSpecialLabel(_ isFanatical: Bool, _ isMostBoring: Bool) {
+        if isFanatical {
+            specialIndicatorLabel.text = "🔥"
+        } else if isMostBoring {
+            specialIndicatorLabel.text = "🧊"
+        } else {
+            specialIndicatorLabel.text = ""
         }
     }
 }

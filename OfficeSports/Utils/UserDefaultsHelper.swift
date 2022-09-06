@@ -11,7 +11,10 @@ private let userDefaultsSharedSuiteName = "group.com.tietoevry.officesports"
 private let userDefaultsPlayerKey = "player"
 private let userDefaultsInviteTimestampKey = "inviteTimestamp"
 private let userDefaultsDefaultScreenKey = "defaultScreen"
-private let userDefaultsIsNotFirstRun = "isNotFirstRun"
+private let userDefaultsIsNotFirstRunKey = "isNotFirstRun"
+private let userDefaultsTennisToggledKey = "tennisToggled"
+private let userDefaultsFoosballToggledKey = "tennisToggled"
+private let userDefaultsPoolToggledKey = "tennisToggled"
 
 struct UserDefaultsHelper {
     
@@ -70,10 +73,43 @@ struct UserDefaultsHelper {
     }
     
     static func checkAndUpdateIsFirstRun() -> Bool {
-        if !standardDefaults.bool(forKey: userDefaultsIsNotFirstRun) {
-            standardDefaults.set(true, forKey: userDefaultsIsNotFirstRun)
+        if !standardDefaults.bool(forKey: userDefaultsIsNotFirstRunKey) {
+            standardDefaults.set(true, forKey: userDefaultsIsNotFirstRunKey)
             return true
         }
         return false
+    }
+    
+    static func loadToggledStateFor(sport: OSSport) -> Bool {
+        let defaults = UserDefaults.standard
+        var sportKey = ""
+        
+        switch sport {
+        case .foosball:
+            sportKey = userDefaultsFoosballToggledKey
+        case .tableTennis:
+            sportKey = userDefaultsTennisToggledKey
+        case .pool:
+            sportKey = userDefaultsPoolToggledKey
+        default:
+            sportKey = userDefaultsTennisToggledKey
+        }
+        
+        let toggled = defaults.value(forKey: sportKey) as? Bool
+        return toggled ?? true
+    }
+    
+    static func saveToggledStateFor(sport: OSSport, toggled: Bool) {
+        let defaults = UserDefaults.standard
+        switch sport {
+        case .foosball:
+            defaults.set(toggled, forKey: userDefaultsFoosballToggledKey)
+        case .tableTennis:
+            defaults.set(toggled, forKey: userDefaultsTennisToggledKey)
+        case .pool:
+            defaults.set(toggled, forKey: userDefaultsPoolToggledKey)
+        default:
+            return
+        }
     }
 }

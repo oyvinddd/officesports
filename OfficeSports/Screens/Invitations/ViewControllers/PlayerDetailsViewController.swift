@@ -46,6 +46,7 @@ final class PlayerDetailsViewController: UIViewController {
     
     private lazy var croppedView: UIView = {
         let view = UIView.createView(.yellow)
+        view.isUserInteractionEnabled = false
         return view
     }()
     
@@ -140,9 +141,8 @@ final class PlayerDetailsViewController: UIViewController {
     
     private func setupChildViews() {
         let score = player.scoreForSport(sport)
-        let matches = player.matchesPlayed(sport: sport)
-        let wins = player.noOfWinsForSport(sport)
-        let winsStr = matches > 0 ? "\(wins / matches * 100)%" : "-"
+        let matches = player.noOfmatchesForSport(sport)
+        let winsStr = matches > 0 ? "\(calculateWinRate())%" : "-"
         let matchesStr = matches != 1 ? "Matches" : "Match"
         
         let scoreView = MetricsView(metric: String(describing: score), title: "Points", backgroundColor: UIColor.OS.Sport.foosball)
@@ -248,6 +248,15 @@ final class PlayerDetailsViewController: UIViewController {
         }
         let intervalSinceLast = Date().timeIntervalSince(lastInviteTimestamp)
         return intervalSinceLast >= inviteThreshold
+    }
+    
+    private func calculateWinRate() -> Int {
+        let noOfMatches = player.noOfmatchesForSport(sport)
+        let noOfWins = player.noOfWinsForSport(sport)
+        guard noOfMatches > 0 else {
+            return 0
+        }
+        return Int((Float(noOfWins) / Float(noOfMatches) * 100.0).rounded())
     }
     
     // MARK: - Button Handling
