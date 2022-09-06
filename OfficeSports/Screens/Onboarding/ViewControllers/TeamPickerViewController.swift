@@ -46,6 +46,12 @@ final class TeamPickerViewController: UIViewController {
         return button
     }()
     
+    private lazy var closeButton: OSButton = {
+        let button = OSButton("Close", type: .secondaryInverted, state: .normal)
+        button.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
     private let viewModel: TeamsViewModel
     private var subscribers = Set<AnyCancellable>()
     private var currentTeam: OSTeam? = OSAccount.current.player?.team ?? OSTeam.noTeam
@@ -95,6 +101,7 @@ final class TeamPickerViewController: UIViewController {
         view.addSubview(tableView)
         view.addSubview(bottomWrap)
         bottomWrap.addSubview(selectButton)
+        bottomWrap.addSubview(closeButton)
         
         NSLayoutConstraint.activate([
             titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
@@ -113,8 +120,12 @@ final class TeamPickerViewController: UIViewController {
             selectButton.leftAnchor.constraint(equalTo: bottomWrap.leftAnchor, constant: 16),
             selectButton.rightAnchor.constraint(equalTo: bottomWrap.rightAnchor, constant: -16),
             selectButton.topAnchor.constraint(equalTo: bottomWrap.topAnchor, constant: 32),
-            selectButton.bottomAnchor.constraint(equalTo: bottomWrap.safeAreaLayoutGuide.bottomAnchor, constant: -16),
-            selectButton.heightAnchor.constraint(equalToConstant: 50)
+            selectButton.bottomAnchor.constraint(equalTo: closeButton.topAnchor, constant: -16),
+            selectButton.heightAnchor.constraint(equalToConstant: 50),
+            closeButton.leftAnchor.constraint(equalTo: bottomWrap.leftAnchor, constant: 16),
+            closeButton.rightAnchor.constraint(equalTo: bottomWrap.rightAnchor, constant: -16),
+            closeButton.bottomAnchor.constraint(equalTo: bottomWrap.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            closeButton.heightAnchor.constraint(equalTo: selectButton.heightAnchor)
         ])
     }
     
@@ -122,11 +133,15 @@ final class TeamPickerViewController: UIViewController {
         view.backgroundColor = .white
     }
     
-    @objc private func selectButtonTapped(sender: UIButton) {
+    @objc private func selectButtonTapped(_ sender: UIButton) {
         dismiss(animated: true)
         if let team = currentTeam {
             delegate?.didSelectTeam(team)
         }
+    }
+    
+    @objc private func closeButtonTapped(_ sender: UIButton) {
+        dismiss(animated: true)
     }
 }
 

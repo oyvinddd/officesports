@@ -60,7 +60,7 @@ final class OSButton: UIButton {
             backgroundColor = UIColor.OS.Button.primaryInverted
             setTitleColor(UIColor.OS.Button.secondary, for: .normal)
             layer.borderColor = UIColor.OS.General.main.cgColor
-            layer.borderWidth = 1.5
+            layer.borderWidth = 1.8
         case .primaryInverted:
             backgroundColor = UIColor.OS.Button.primaryInverted
             setTitleColor(UIColor.OS.Button.primaryInvertedForeground, for: .normal)
@@ -69,7 +69,7 @@ final class OSButton: UIButton {
             backgroundColor = UIColor.OS.Button.secondaryInverted
             setTitleColor(UIColor.OS.Button.secondaryInvertedForeground, for: .normal)
             layer.borderColor = UIColor.OS.Button.secondaryInvertedForeground.cgColor
-            layer.borderWidth = 1.5
+            layer.borderWidth = 1.8
         }
         translatesAutoresizingMaskIntoConstraints = false
         setTitle(title, for: .normal)
