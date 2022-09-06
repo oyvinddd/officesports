@@ -45,7 +45,8 @@ final class PlayerDetailsViewController: UIViewController {
     }()
     
     private lazy var croppedView: UIView = {
-        return UIView.createView(.yellow)
+        let view = UIView.createView(.yellow)
+        return view
     }()
     
     private lazy var closeButton: UIButton = {
@@ -108,6 +109,8 @@ final class PlayerDetailsViewController: UIViewController {
         setupSubscribers()
         setupChildViews()
         configureUI()
+        addBottomRoundedEdge(view: croppedView, desiredCurve: 10)
+        //drawArc()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -175,7 +178,8 @@ final class PlayerDetailsViewController: UIViewController {
             croppedView.leftAnchor.constraint(equalTo: profileBackgroundView.leftAnchor),
             croppedView.rightAnchor.constraint(equalTo: profileBackgroundView.rightAnchor),
             croppedView.bottomAnchor.constraint(equalTo: profileBackgroundView.bottomAnchor),
-            croppedView.heightAnchor.constraint(equalToConstant: 40),
+            croppedView.topAnchor.constraint(equalTo: profileBackgroundView.topAnchor),
+            //croppedView.heightAnchor.constraint(equalToConstant: 40),
             closeButton.rightAnchor.constraint(equalTo: profileBackgroundView.rightAnchor, constant: -16),
             closeButton.topAnchor.constraint(equalTo: profileBackgroundView.topAnchor, constant: 16),
             closeButton.widthAnchor.constraint(equalToConstant: 40),
@@ -186,7 +190,6 @@ final class PlayerDetailsViewController: UIViewController {
             profileEmjoiLabel.bottomAnchor.constraint(equalTo: profileBackgroundView.bottomAnchor, constant: -32),
             scoreView.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
             scoreView.topAnchor.constraint(equalTo: profileBackgroundView.bottomAnchor, constant: 16),
-            scoreView.bottomAnchor.constraint(equalTo: historyView.topAnchor, constant: -16),
             matchesView.leftAnchor.constraint(equalTo: scoreView.rightAnchor, constant: 16),
             matchesView.rightAnchor.constraint(equalTo: winsView.leftAnchor, constant: -16),
             matchesView.topAnchor.constraint(equalTo: scoreView.topAnchor),
@@ -210,7 +213,6 @@ final class PlayerDetailsViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = .clear
         profileEmjoiLabel.text = player.emoji
-        addBottomRoundedEdge(view: croppedView, desiredCurve: 5)
         inviteButton.setTitle("Invite to \(sport.humanReadableName) match", for: .normal)
     }
     
@@ -284,6 +286,22 @@ final class PlayerDetailsViewController: UIViewController {
         // Set the newly created shape layer as the mask for the view's layer
         view.layer.mask = maskLayer
     }
+    
+    private func drawArc() {
+        
+        let bounds = croppedView.bounds
+        
+        
+        let path = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: 100, startAngle: 0, endAngle: .pi, clockwise: false)
+        
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.path = path.cgPath
+        //  shapeLayer.fillColor = UIColor.clear.cgColor
+        shapeLayer.lineWidth = 3
+        shapeLayer.strokeColor = UIColor.black.cgColor
+        croppedView.layer.mask = shapeLayer
+        //croppedView.layer.addSublayer(shapeLayer)
+    }
 }
 
 // MARK: - Match history view
@@ -305,7 +323,7 @@ private final class MatchHistoryView: UIView {
     init(player: OSPlayer) {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
-        historyLabel.text = "Your matches against \(player.nickname)"
+        historyLabel.text = "History with \(player.nickname.lowercased())"
         setupChildViews()
         configureUI()
     }
