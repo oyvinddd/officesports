@@ -28,7 +28,7 @@ final class PreferencesViewController: UIViewController {
     private lazy var defaultScreenWrap: UIView = {
         let view = UIView.createView(UIColor.OS.General.mainDark, cornerRadius: 8)
         let titleLabel = UILabel.createLabel(.white, alignment: .left, text: "Default screen")
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
         let descriptionLabel = UILabel.createLabel(.white, alignment: .left)
         descriptionLabel.text = "Choose what screen should be shown when you first open the app."
         
@@ -53,24 +53,27 @@ final class PreferencesViewController: UIViewController {
     }()
     
     private lazy var defaultScreenControl: UISegmentedControl = {
-        let items = ["📸", "🏓", "⚽️", "🎱"]
+        let items = ["Camera", "Sport"]
         let segmentedControl = UISegmentedControl(items: items)
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         segmentedControl.addTarget(self, action: #selector(screenControlTapped), for: .valueChanged)
-        segmentedControl.selectedSegmentIndex = UserDefaultsHelper.loadDefaultScreen()
         segmentedControl.selectedSegmentTintColor = .white
         segmentedControl.backgroundColor = UIColor.OS.General.mainDark
         let attr1 = [NSAttributedString.Key.foregroundColor: UIColor.OS.Text.normal]
         let attr2 = [NSAttributedString.Key.foregroundColor: UIColor.OS.General.main]
         segmentedControl.setTitleTextAttributes(attr1, for: .normal)
         segmentedControl.setTitleTextAttributes(attr2, for: .selected)
+        
+        let isSport = UserDefaultsHelper.sportIsDefaultScreen()
+        segmentedControl.selectedSegmentIndex = isSport ? 1 : 0
+        
         return segmentedControl
     }()
     
     private lazy var sportToggleView: UIView = {
         let view = UIView.createView(UIColor.OS.General.mainDark, cornerRadius: 8)
         let titleLabel = UILabel.createLabel(.white, alignment: .left, text: "Toggle sports")
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
         let descriptionLabel = UILabel.createLabel(.white, alignment: .left)
         descriptionLabel.text = "Choose what sports to show in the main menu. Note that the app needs to be restarted in order for the changes to take effect."
         
@@ -146,7 +149,7 @@ final class PreferencesViewController: UIViewController {
     }
     
     @objc private func screenControlTapped(_ sender: UISegmentedControl) {
-        UserDefaultsHelper.saveDefaultScreen(index: sender.selectedSegmentIndex)
+        UserDefaultsHelper.saveDefaultScreen(isSport: sender.selectedSegmentIndex == 1)
     }
     
     @objc private func tableTennisSwitchToggled(_ sender: UISwitch) {
@@ -211,7 +214,7 @@ private final class SportView: UIView {
         let sportSwitch = UISwitch(frame: .zero)
         sportSwitch.translatesAutoresizingMaskIntoConstraints = false
         sportSwitch.onTintColor = UIColor.OS.Status.success
-        sportSwitch.tintColor = UIColor.OS.Status.failure
+        sportSwitch.tintColor = UIColor.OS.General.separator
         return sportSwitch
     }()
     

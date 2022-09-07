@@ -189,7 +189,6 @@ final class ProfileView: UIView {
     }
     
     func configureForSport(_ sport: OSSport) {
-        var totalWinsViewAlpha: CGFloat = 1
         var sportImageWrapAlpha: CGFloat = 1
         var sportImageBackgroundColor = UIColor.OS.Sport.foosball
         var foosballEmojiAlpha: CGFloat = 1
@@ -199,7 +198,6 @@ final class ProfileView: UIView {
         switch sport {
         case .foosball:
             codeImageView.image = foosballCodeImage
-            totalWinsViewAlpha = 1
             sportImageWrapAlpha = isDisplayingQrCode ? 0 : 1
             sportImageBackgroundColor = UIColor.OS.Sport.foosball
             foosballEmojiAlpha = 1
@@ -207,7 +205,6 @@ final class ProfileView: UIView {
             poolEmojiAlpha = 0
         case .tableTennis:
             codeImageView.image = tableTennisCodeImage
-            totalWinsViewAlpha = 1
             sportImageWrapAlpha = isDisplayingQrCode ? 0 : 1
             sportImageBackgroundColor = UIColor.OS.Sport.tableTennis
             foosballEmojiAlpha = 0
@@ -222,7 +219,6 @@ final class ProfileView: UIView {
             poolEmojiAlpha = 1
         default:
             codeImageView.image = tableTennisCodeImage
-            totalWinsViewAlpha = 0
             sportImageWrapAlpha = 0
             foosballEmojiAlpha = 0
             tableTennisEmojiAlpha = 0
