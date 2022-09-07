@@ -13,8 +13,8 @@ private let userDefaultsInviteTimestampKey = "inviteTimestamp"
 private let userDefaultsDefaultScreenKey = "defaultScreen"
 private let userDefaultsIsNotFirstRunKey = "isNotFirstRun"
 private let userDefaultsTennisToggledKey = "tennisToggled"
-private let userDefaultsFoosballToggledKey = "tennisToggled"
-private let userDefaultsPoolToggledKey = "tennisToggled"
+private let userDefaultsFoosballToggledKey = "foosballToggled"
+private let userDefaultsPoolToggledKey = "poolToggled"
 
 struct UserDefaultsHelper {
     

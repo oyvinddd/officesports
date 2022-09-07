@@ -107,10 +107,21 @@ final class FloatingMenu: UIView {
         
         NSLayoutConstraint.pinToView(self, stackView)
         
+        let showTableTennis = UserDefaultsHelper.loadToggledStateFor(sport: .tableTennis)
+        let showFoosball = UserDefaultsHelper.loadToggledStateFor(sport: .foosball)
+        let showPool = UserDefaultsHelper.loadToggledStateFor(sport: .pool)
+        
         stackView.addArrangedSubview(mbScanner)
-        stackView.addArrangedSubview(mbTableTennis)
-        stackView.addArrangedSubview(mbFoosball)
-        stackView.addArrangedSubview(mbPool)
+        
+        if showTableTennis {
+            stackView.addArrangedSubview(mbTableTennis)
+        }
+        if showFoosball {
+            stackView.addArrangedSubview(mbFoosball)
+        }
+        if showPool {
+            stackView.addArrangedSubview(mbPool)
+        }
         
         selectedViewLeftConstraint = selectedView.leftAnchor.constraint(equalTo: leftAnchor)
         
