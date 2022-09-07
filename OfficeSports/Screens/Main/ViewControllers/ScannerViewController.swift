@@ -70,7 +70,7 @@ final class ScannerViewController: UIViewController {
         super.viewDidAppear(animated)
         // remember to start camera session if user has chosen
         // camera screen as the default screen on initial app start
-        if UserDefaultsHelper.loadDefaultScreen() == 0 {
+        if !UserDefaultsHelper.sportIsDefaultScreen() {
             handleShadowViewOpacity(CGPoint.zero)
         }
     }

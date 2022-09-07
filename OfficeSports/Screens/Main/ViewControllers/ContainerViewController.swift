@@ -27,8 +27,7 @@ final class ContainerViewController: UIViewController {
     }()
     
     private lazy var profileView: ProfileView = {
-        let screenIndex = UserDefaultsHelper.loadDefaultScreen()
-        let initialSport = screenIndex == 2 ? OSSport.foosball : OSSport.tableTennis
+        let initialSport = determineInitialSport()
         return ProfileView(account: OSAccount.current, initialSport: initialSport, delegate: self)
     }()
     
@@ -69,6 +68,24 @@ final class ContainerViewController: UIViewController {
     private lazy var poolViewController: SportViewController = {
         let viewModel = SportViewModel(api: FirebaseSportsAPI(), sport: .pool)
         return SportViewController(viewModel: viewModel, delegate: self)
+    }()
+    
+    private lazy var activeViewControllers: [UIViewController] = {
+        let showTableTennis = UserDefaultsHelper.loadToggledStateFor(sport: .tableTennis)
+        let showFoosball = UserDefaultsHelper.loadToggledStateFor(sport: .foosball)
+        let showPool = UserDefaultsHelper.loadToggledStateFor(sport: .pool)
+        
+        var viewControllers: [UIViewController] = [scannerViewController]
+        if showTableTennis {
+            viewControllers.append(tableTennisViewController)
+        }
+        if showFoosball {
+            viewControllers.append(foosballViewController)
+        }
+        if showPool {
+            viewControllers.append(poolViewController)
+        }
+        return viewControllers
     }()
     
     private let viewModel: PlayerProfileViewModel
@@ -206,15 +223,25 @@ final class ContainerViewController: UIViewController {
     }
     
     private func showDefaultViewController(animated: Bool) {
-        let defaultIndex = UserDefaultsHelper.loadDefaultScreen()
-        switch defaultIndex {
-        case 0: // scanner screen
-            scrollToViewController(scannerViewController, animated: animated)
-        case 1: // table tennis screen
+        if UserDefaultsHelper.sportIsDefaultScreen() {
             scrollToViewController(tableTennisViewController, animated: animated)
-        default: // foosball screen
-            scrollToViewController(foosballViewController, animated: animated)
+        } else {
+            scrollToViewController(scannerViewController, animated: animated)
         }
+    }
+    
+    private func determineInitialSport() -> OSSport {
+        guard activeViewControllers.count >= 2 else {
+            return .tableTennis
+        }
+        let firstSportViewController = activeViewControllers[1]
+        if firstSportViewController == tableTennisViewController {
+            return .tableTennis
+        }
+        if firstSportViewController == foosballViewController {
+            return .foosball
+        }
+        return .pool
     }
     
     @objc private func scrollViewTapped(_ sender: UITapGestureRecognizer) {
