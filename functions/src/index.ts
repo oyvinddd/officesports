@@ -225,6 +225,19 @@ export const slackGetLeader = functions
       response.send(res);
 
       return;
+    } else if (["pool"].includes(sport)) {
+      const leader = await getLeader(Sport.Pool);
+      console.log("Pool leader", { leader });
+
+      const blocks = slackHelpers.formatLeaderText(Sport.Pool, leader);
+
+      const res: SlackCommandResponse = {
+        response_type: "ephemeral",
+        blocks,
+      };
+      response.send(res);
+
+      return;
     } else if (sport === "") {
       const foosballLeader = await getLeader(Sport.Foosball);
       const tableTennisLeader = await getLeader(Sport.TableTennis);

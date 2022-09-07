@@ -7,5 +7,6 @@ export type Player = {
   emoji: string;
   foosballStats?: Stats;
   tableTennisStats?: Stats;
+  poolStats?: Stats;
   team: Team;
 };

@@ -28,6 +28,8 @@ export const getSportStats = (player: Player, sport: Sport): Stats => {
       return player.foosballStats ?? getEmptyStats(Sport.Foosball);
     case Sport.TableTennis:
       return player.tableTennisStats ?? getEmptyStats(Sport.TableTennis);
+    case Sport.Pool:
+      return player.poolStats ?? getEmptyStats(Sport.Pool);
     default:
       throw new Error(`Sport '${sport}' is not allowed.`);
   }
