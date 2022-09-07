@@ -7,7 +7,7 @@
 
 import UIKit
 
-private let noMatchHistory = "No match history against yourself"
+private let noMatchHistory = "No match history to show"
 
 final class MatchHistoryView: UIView {
     

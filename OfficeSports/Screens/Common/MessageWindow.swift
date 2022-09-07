@@ -123,6 +123,7 @@ private final class MessageView: UIView {
     init(_ message: OSMessage) {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
+        isUserInteractionEnabled = false
         configureUI(message)
         setupChildViews()
     }

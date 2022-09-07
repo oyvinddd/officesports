@@ -79,6 +79,7 @@
 		8E7D0AC72838D7A1006D6DF7 /* UICollectionView+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D0AC62838D7A1006D6DF7 /* UICollectionView+Util.swift */; };
 		8E7D0ACC28391A9E006D6DF7 /* emojis.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8E7D0ACB28391A9E006D6DF7 /* emojis.csv */; };
 		8E7D9A7F282BEF66007BCDE0 /* QRCodeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D9A7E282BEF66007BCDE0 /* QRCodeGenerator.swift */; };
+		8E86BAD228C8D55A003D7F23 /* sindre-profile-picture-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E86BAD128C8D55A003D7F23 /* sindre-profile-picture-2.png */; };
 		8E88E4BA28C62BB700807667 /* UILabel+Visuals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E88E4B928C62BB700807667 /* UILabel+Visuals.swift */; };
 		8E88E4BF28C64CFA00807667 /* PlayerGraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E88E4BE28C64CFA00807667 /* PlayerGraphViewController.swift */; };
 		8E88E4C228C64D2E00807667 /* PlayerGraphViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E88E4C128C64D2E00807667 /* PlayerGraphViewModel.swift */; };
@@ -202,6 +203,7 @@
 		8E7D9A7E282BEF66007BCDE0 /* QRCodeGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeGenerator.swift; sourceTree = "<group>"; };
 		8E7F45BC2862948100473557 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		8E7F45BE2862948100473557 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		8E86BAD128C8D55A003D7F23 /* sindre-profile-picture-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sindre-profile-picture-2.png"; sourceTree = "<group>"; };
 		8E88E4B928C62BB700807667 /* UILabel+Visuals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Visuals.swift"; sourceTree = "<group>"; };
 		8E88E4BE28C64CFA00807667 /* PlayerGraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerGraphViewController.swift; sourceTree = "<group>"; };
 		8E88E4C128C64D2E00807667 /* PlayerGraphViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerGraphViewModel.swift; sourceTree = "<group>"; };
@@ -409,6 +411,7 @@
 		8E5D566A28C77F5700F67B14 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				8E86BAD128C8D55A003D7F23 /* sindre-profile-picture-2.png */,
 				8E5D566F28C782E200F67B14 /* konstantinos-profile-picture.png */,
 				8E5D566B28C77F6B00F67B14 /* oyvind-profile-picure.png */,
 				8E5D566D28C7818100F67B14 /* sindre-profile-picture.png */,
@@ -759,6 +762,7 @@
 				8EE61FF8282AB79D00C01289 /* Assets.xcassets in Resources */,
 				8E230881282D543300AF60EB /* GoogleService-Info.plist in Resources */,
 				8E5D566C28C77F6B00F67B14 /* oyvind-profile-picure.png in Resources */,
+				8E86BAD228C8D55A003D7F23 /* sindre-profile-picture-2.png in Resources */,
 				8E7D0ACC28391A9E006D6DF7 /* emojis.csv in Resources */,
 				8E5D567028C782E200F67B14 /* konstantinos-profile-picture.png in Resources */,
 				8E9C728B283AB93C00974DAA /* fastlane in Resources */,

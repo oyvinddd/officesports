@@ -74,13 +74,13 @@ final class PreferencesViewController: UIViewController {
         let descriptionLabel = UILabel.createLabel(.white, alignment: .left)
         descriptionLabel.text = "Choose what sports to show in the main menu. Note that the app needs to be restarted in order for the changes to take effect."
         
-        let showTableTennis = UserDefaultsHelper.loadToggledStateFor(sport: .tableTennis)
-        let showFoosball = UserDefaultsHelper.loadToggledStateFor(sport: .foosball)
-        let showPool = UserDefaultsHelper.loadToggledStateFor(sport: .pool)
+        tableTennisToggled = UserDefaultsHelper.loadToggledStateFor(sport: .tableTennis)
+        foosballToggled = UserDefaultsHelper.loadToggledStateFor(sport: .foosball)
+        poolToggled = UserDefaultsHelper.loadToggledStateFor(sport: .pool)
         
-        let tableTennisView = SportView(sport: .tableTennis, target: self, action: #selector(tableTennisSwitchToggled), toggled: showTableTennis)
-        let foosballView = SportView(sport: .foosball, target: self, action: #selector(foosballSwitchToggled), toggled: showFoosball)
-        let poolView = SportView(sport: .pool, target: self, action: #selector(poolSwitchToggled), toggled: showPool)
+        let tableTennisView = SportView(sport: .tableTennis, target: self, action: #selector(tableTennisSwitchToggled), toggled: tableTennisToggled)
+        let foosballView = SportView(sport: .foosball, target: self, action: #selector(foosballSwitchToggled), toggled: foosballToggled)
+        let poolView = SportView(sport: .pool, target: self, action: #selector(poolSwitchToggled), toggled: poolToggled)
         
         view.addSubview(titleLabel)
         view.addSubview(descriptionLabel)
@@ -108,6 +108,10 @@ final class PreferencesViewController: UIViewController {
         ])
         return view
     }()
+    
+    private var tableTennisToggled: Bool!
+    private var foosballToggled: Bool!
+    private var poolToggled: Bool!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -146,14 +150,35 @@ final class PreferencesViewController: UIViewController {
     }
     
     @objc private func tableTennisSwitchToggled(_ sender: UISwitch) {
+        if !sender.isOn && !foosballToggled && !poolToggled {
+            let message = OSMessage("⚠️ At least one sport needs to be toggled!", .info)
+            Coordinator.global.send(message)
+            sender.setOn(true, animated: true)
+            return
+        }
+        tableTennisToggled = sender.isOn
         UserDefaultsHelper.saveToggledStateFor(sport: .tableTennis, toggled: sender.isOn)
     }
     
     @objc private func foosballSwitchToggled(_ sender: UISwitch) {
+        if !sender.isOn && !tableTennisToggled && !poolToggled {
+            let message = OSMessage("⚠️ At least one sport needs to be toggled!", .info)
+            Coordinator.global.send(message)
+            sender.setOn(true, animated: true)
+            return
+        }
+        foosballToggled = sender.isOn
         UserDefaultsHelper.saveToggledStateFor(sport: .foosball, toggled: sender.isOn)
     }
     
     @objc private func poolSwitchToggled(_ sender: UISwitch) {
+        if !sender.isOn && !tableTennisToggled && !foosballToggled {
+            let message = OSMessage("⚠️ At least one sport needs to be toggled!", .info)
+            Coordinator.global.send(message)
+            sender.setOn(true, animated: true)
+            return
+        }
+        poolToggled = sender.isOn
         UserDefaultsHelper.saveToggledStateFor(sport: .pool, toggled: sender.isOn)
     }
     
