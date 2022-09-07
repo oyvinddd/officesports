@@ -74,9 +74,13 @@ final class PreferencesViewController: UIViewController {
         let descriptionLabel = UILabel.createLabel(.white, alignment: .left)
         descriptionLabel.text = "Choose what sports to show in the main menu. Note that the app needs to be restarted in order for the changes to take effect."
         
-        let tableTennisView = SportView(sport: .tableTennis)
-        let foosballView = SportView(sport: .foosball)
-        let poolView = SportView(sport: .pool)
+        let showTableTennis = UserDefaultsHelper.loadToggledStateFor(sport: .tableTennis)
+        let showFoosball = UserDefaultsHelper.loadToggledStateFor(sport: .foosball)
+        let showPool = UserDefaultsHelper.loadToggledStateFor(sport: .pool)
+        
+        let tableTennisView = SportView(sport: .tableTennis, target: self, action: #selector(tableTennisSwitchToggled), toggled: showTableTennis)
+        let foosballView = SportView(sport: .foosball, target: self, action: #selector(foosballSwitchToggled), toggled: showFoosball)
+        let poolView = SportView(sport: .pool, target: self, action: #selector(poolSwitchToggled), toggled: showPool)
         
         view.addSubview(titleLabel)
         view.addSubview(descriptionLabel)
@@ -141,6 +145,18 @@ final class PreferencesViewController: UIViewController {
         UserDefaultsHelper.saveDefaultScreen(index: sender.selectedSegmentIndex)
     }
     
+    @objc private func tableTennisSwitchToggled(_ sender: UISwitch) {
+        UserDefaultsHelper.saveToggledStateFor(sport: .tableTennis, toggled: sender.isOn)
+    }
+    
+    @objc private func foosballSwitchToggled(_ sender: UISwitch) {
+        UserDefaultsHelper.saveToggledStateFor(sport: .foosball, toggled: sender.isOn)
+    }
+    
+    @objc private func poolSwitchToggled(_ sender: UISwitch) {
+        UserDefaultsHelper.saveToggledStateFor(sport: .pool, toggled: sender.isOn)
+    }
+    
     @objc private func closeButtonTapped(_ sender: UIButton) {
         dismiss(animated: true)
     }
@@ -174,12 +190,14 @@ private final class SportView: UIView {
         return sportSwitch
     }()
     
-    init(sport: OSSport) {
+    init(sport: OSSport, target: Any, action: Selector, toggled: Bool) {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         sportImageWrap.backgroundColor = UIColor.OS.colorForSport(sport)
         sportEmojiLabel.text = sport.emoji
         sportLabel.text = sport.humanReadableName.capitalized
+        sportSwitch.addTarget(target, action: action, for: .valueChanged)
+        sportSwitch.isOn = toggled
         setupChildViews()
     }
     

@@ -71,11 +71,6 @@ final class ContainerViewController: UIViewController {
         return SportViewController(viewModel: viewModel, delegate: self)
     }()
     
-//    private lazy var invitesViewController: MyInvitesViewController = {
-//        let viewModel = MyInvitesViewModel(api: FirebaseSportsAPI())
-//        return MyInvitesViewController(viewModel: viewModel)
-//    }()
-    
     private let viewModel: PlayerProfileViewModel
     
     init(viewModel: PlayerProfileViewModel) {
@@ -147,27 +142,38 @@ final class ContainerViewController: UIViewController {
     }
     
     private func setupChildViewControllers() {
+        let showTableTennis = UserDefaultsHelper.loadToggledStateFor(sport: .tableTennis)
+        let showFoosball = UserDefaultsHelper.loadToggledStateFor(sport: .foosball)
+        let showPool = UserDefaultsHelper.loadToggledStateFor(sport: .pool)
+        
         scannerViewController.didMove(toParent: self)
-        tableTennisViewController.didMove(toParent: self)
-        foosballViewController.didMove(toParent: self)
-        poolViewController.didMove(toParent: self)
         
-        let tableTennisView = tableTennisViewController.view!
-        let foosballView = foosballViewController.view!
-        let poolView = poolViewController.view!
+        if showTableTennis {
+            tableTennisViewController.didMove(toParent: self)
+            let tableTennisView = tableTennisViewController.view!
+            innerStackView.addArrangedSubview(tableTennisView)
+            
+            tableTennisView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+            tableTennisView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        }
         
-        innerStackView.addArrangedSubview(tableTennisView)
-        innerStackView.addArrangedSubview(foosballView)
-        innerStackView.addArrangedSubview(poolView)
+        if showFoosball {
+            foosballViewController.didMove(toParent: self)
+            let foosballView = foosballViewController.view!
+            innerStackView.addArrangedSubview(foosballView)
+            
+            foosballView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+            foosballView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        }
         
-        NSLayoutConstraint.activate([
-            poolView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            poolView.heightAnchor.constraint(equalTo: view.heightAnchor),
-            tableTennisView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            tableTennisView.heightAnchor.constraint(equalTo: view.heightAnchor),
-            foosballView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            foosballView.heightAnchor.constraint(equalTo: view.heightAnchor)
-        ])
+        if showPool {
+            poolViewController.didMove(toParent: self)
+            let poolView = poolViewController.view!
+            innerStackView.addArrangedSubview(poolView)
+            
+            poolView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+            poolView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        }
     }
     
     private func configureTableViewInsets() {
