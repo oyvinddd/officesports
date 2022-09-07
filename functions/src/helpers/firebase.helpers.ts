@@ -80,6 +80,7 @@ export const updatePlayer = async (player: Player): Promise<void> => {
       foosballStats: player.foosballStats ?? getEmptyStats(Sport.Foosball),
       tableTennisStats:
         player.tableTennisStats ?? getEmptyStats(Sport.TableTennis),
+      poolStats: player.poolStats ?? getEmptyStats(Sport.Pool),
       team: player.team,
     });
 };
@@ -100,6 +101,9 @@ export const getLeader = async (
       break;
     case Sport.TableTennis:
       orderByField = "tableTennisStats.score";
+      break;
+    case Sport.Pool:
+      orderByField = "poolStats.score";
       break;
     case Sport.Unknown:
       throw new Error("Wtf, sport is unknown");
@@ -125,29 +129,14 @@ export const getLeader = async (
   const firstPlace = firstPlaceSnap.data();
   const secondPlace = secondPlaceSnap.data();
 
-  const isFoosball = sport === Sport.Foosball;
-  const isTableTennis = sport === Sport.TableTennis;
+  const firstPlaceStats = getSportStats(firstPlace, sport);
+  const secondPlaceStats = getSportStats(secondPlace, sport);
 
-  if (isFoosball) {
-    const winnerHasPlayedAtLeastOnce = firstPlace.foosballStats?.score != null;
+  const winnerHasPlayedAtLeastOnce = firstPlaceStats?.score != null;
+  const moreThanOneWinner = firstPlaceStats?.score === secondPlaceStats?.score;
 
-    const moreThanOneWinner =
-      firstPlace.foosballStats?.score === secondPlace.foosballStats?.score;
-
-    if (!winnerHasPlayedAtLeastOnce || moreThanOneWinner) {
-      return null;
-    }
-  } else if (isTableTennis) {
-    const winnerHasPlayedAtLeastOnce =
-      firstPlace.tableTennisStats?.score != null;
-
-    const moreThanOneWinner =
-      firstPlace.tableTennisStats?.score ===
-      secondPlace.tableTennisStats?.score;
-
-    if (!winnerHasPlayedAtLeastOnce || moreThanOneWinner) {
-      return null;
-    }
+  if (!winnerHasPlayedAtLeastOnce || moreThanOneWinner) {
+    return null;
   }
 
   return firstPlace;
@@ -164,6 +153,8 @@ export const incrementTotalSeasonWins = async (
     player.foosballStats = stats;
   } else if (sport === Sport.TableTennis) {
     player.tableTennisStats = stats;
+  } else if (sport === Sport.Pool) {
+    player.poolStats = stats;
   }
 
   updatePlayer(player);
@@ -192,6 +183,12 @@ export const resetScoreboards = async (initialScore: number): Promise<void> => {
       player.tableTennisStats.score = initialScore;
       player.tableTennisStats.matchesPlayed = 0;
       player.tableTennisStats.matchesWon = 0;
+    }
+
+    if (player.poolStats) {
+      player.poolStats.score = initialScore;
+      player.poolStats.matchesPlayed = 0;
+      player.poolStats.matchesWon = 0;
     }
 
     await updatePlayer(player);

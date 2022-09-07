@@ -38,6 +38,8 @@ const seasonToString = ({ sport, winner }: Season): string => {
       return ` - ⚽️ Foosball: ${winner.nickname} ${winner.emoji} with ${winner.foosballStats?.score} points`;
     case Sport.TableTennis:
       return ` - 🏓 Table tennis: ${winner.nickname} ${winner.emoji} with ${winner.tableTennisStats?.score} points`;
+    case Sport.Pool:
+      return ` - 🎱 Pool: ${winner.nickname} ${winner.emoji} with ${winner.poolStats?.score} points`;
     default:
       return "";
   }

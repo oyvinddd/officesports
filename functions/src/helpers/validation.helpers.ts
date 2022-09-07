@@ -12,7 +12,7 @@ const playerIdsAreValid = (winnerId: string, loserId: string): boolean => {
 };
 
 const sportIsValid = (sport: Sport): boolean => {
-  return [Sport.Foosball, Sport.TableTennis].includes(sport);
+  return [Sport.Foosball, Sport.TableTennis, Sport.Pool].includes(sport);
 };
 
 export const validateWinMatchBody = ({
