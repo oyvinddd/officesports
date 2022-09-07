@@ -16,4 +16,4 @@ The app is written in Swift 5 and all UI is built programmatically. Screens will
 
 ### Dependencies
 
-SPM (Swift Package Manager) is used for dependency management. Currently, the only dependency is the Firebase iOS SDK.
+SPM (Swift Package Manager) is used for dependency management. Currently, the only dependency is the [Firebase iOS SDK](https://github.com/firebase/firebase-ios-sdk).

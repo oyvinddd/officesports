@@ -89,17 +89,23 @@ final class FloatingMenu: UIView {
     }
     
     func adjustSelectionFromOuterScrollView(_ scrollView: UIScrollView) {
+        let buttonWidth: CGFloat = 60
+        
         var xOffsetPercent = scrollView.contentOffset.x * 100 / scrollView.contentSize.width
         if xOffsetPercent < 0 {
             xOffsetPercent = 0
         }
-        selectedViewLeftConstraint!.constant = xOffsetPercent * (frame.width/2) / 100
+        let xOffsetInMenu = (frame.width - buttonWidth) * xOffsetPercent / 100
+        selectedViewLeftConstraint!.constant = xOffsetInMenu
     }
     
     func adjustselectionFromInnerScrollView(_ scrollView: UIScrollView) {
+        let buttonWidth: CGFloat = 60
+        
         // get the current content offset in percent whenever users is scrolling the scroll view
         let xOffsetPercent = scrollView.contentOffset.x * 100 / scrollView.contentSize.width
-        selectedViewLeftConstraint!.constant = xOffsetPercent * (3/4) * frame.width / 100 + (frame.width / 4)
+        let xOffsetInMenu = (frame.width - buttonWidth) * xOffsetPercent / 100
+        selectedViewLeftConstraint!.constant = xOffsetInMenu + buttonWidth
     }
     
     private func setupChildViews() {
@@ -115,12 +121,15 @@ final class FloatingMenu: UIView {
         
         if showTableTennis {
             stackView.addArrangedSubview(mbTableTennis)
+            mbTableTennis.widthAnchor.constraint(equalTo: heightAnchor).isActive = true
         }
         if showFoosball {
             stackView.addArrangedSubview(mbFoosball)
+            mbFoosball.widthAnchor.constraint(equalTo: heightAnchor).isActive = true
         }
         if showPool {
             stackView.addArrangedSubview(mbPool)
+            mbPool.widthAnchor.constraint(equalTo: heightAnchor).isActive = true
         }
         
         selectedViewLeftConstraint = selectedView.leftAnchor.constraint(equalTo: leftAnchor)
