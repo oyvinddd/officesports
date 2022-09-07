@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SafariServices
 
 final class AboutViewController: UIViewController {
     
@@ -26,11 +27,11 @@ final class AboutViewController: UIViewController {
     }()
     
     private lazy var oyvindView: DeveloperView = {
-        return DeveloperView(image: UIImage(named: "oyvind-profile-picure.png"), role: "Idea • iOS")
+        return DeveloperView(image: UIImage(named: "oyvind-profile-picure.png"), role: "Design • iOS")
     }()
     
     private lazy var sindreView: DeveloperView = {
-        return DeveloperView(image: UIImage(named: "sindre-profile-picture.png"), role: "Backend stuff")
+        return DeveloperView(image: UIImage(named: "sindre-profile-picture-2.png"), role: "Backend")
     }()
     
     private lazy var konstantinosView: DeveloperView = {
@@ -51,12 +52,13 @@ final class AboutViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupChildViews()
-        setupGravity()
         configureUI()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        setupGravity()
         animator.addBehavior(gravity)
     }
     
@@ -89,7 +91,8 @@ final class AboutViewController: UIViewController {
         
         let collision = UICollisionBehavior(items: gravityViews)
         
-        collision.addBoundary(withIdentifier: "barrier" as NSCopying, for: UIBezierPath(rect: view.frame))
+        let rect = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - 100)
+        collision.addBoundary(withIdentifier: "barrier" as NSCopying, for: UIBezierPath(rect: rect))
         
         animator.addBehavior(collision)
     }
@@ -119,7 +122,9 @@ private final class DeveloperView: UIView {
         return label
     }()
     
-    init(image: UIImage?, role: String) {
+    private var urlString: String?
+    
+    init(image: UIImage?, role: String, url: String? = nil) {
         super.init(frame: CGRect(x: 0, y: 0, width: 150, height: 170))
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .white
@@ -130,6 +135,7 @@ private final class DeveloperView: UIView {
             profileImageView.image = image
         } else {
         }
+        urlString = url
         rolelabel.text = role
     }
     
@@ -152,5 +158,13 @@ private final class DeveloperView: UIView {
             rolelabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -8),
             rolelabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
         ])
+    }
+    
+    @objc private func openGitHub(from parent: UIViewController) {
+        guard let urlString = urlString, let url = URL(string: urlString) else {
+            return
+        }
+        let viewController = SFSafariViewController(url: url)
+        parent.present(viewController, animated: true)
     }
 }

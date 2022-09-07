@@ -74,6 +74,8 @@ final class FloatingMenu: UIView {
     }()
     
     private var selectedViewLeftConstraint: NSLayoutConstraint?
+    private var noOfButtons = 1
+    
     private weak var delegate: FloatingMenuDelegate?
     
     init(delegate: FloatingMenuDelegate?) {
@@ -90,12 +92,14 @@ final class FloatingMenu: UIView {
     
     func adjustSelectionFromOuterScrollView(_ scrollView: UIScrollView) {
         let buttonWidth: CGFloat = 60
+        let menuWidth: CGFloat = frame.width
+        let noOfSports: CGFloat = CGFloat(noOfButtons - 1)
         
         var xOffsetPercent = scrollView.contentOffset.x * 100 / scrollView.contentSize.width
         if xOffsetPercent < 0 {
             xOffsetPercent = 0
         }
-        let xOffsetInMenu = (frame.width - buttonWidth) * xOffsetPercent / 100
+        let xOffsetInMenu = (menuWidth - buttonWidth * (noOfSports - 1)) * xOffsetPercent / 100
         selectedViewLeftConstraint!.constant = xOffsetInMenu
     }
     
@@ -122,14 +126,17 @@ final class FloatingMenu: UIView {
         if showTableTennis {
             stackView.addArrangedSubview(mbTableTennis)
             mbTableTennis.widthAnchor.constraint(equalTo: heightAnchor).isActive = true
+            noOfButtons += 1
         }
         if showFoosball {
             stackView.addArrangedSubview(mbFoosball)
             mbFoosball.widthAnchor.constraint(equalTo: heightAnchor).isActive = true
+            noOfButtons += 1
         }
         if showPool {
             stackView.addArrangedSubview(mbPool)
             mbPool.widthAnchor.constraint(equalTo: heightAnchor).isActive = true
+            noOfButtons += 1
         }
         
         selectedViewLeftConstraint = selectedView.leftAnchor.constraint(equalTo: leftAnchor)

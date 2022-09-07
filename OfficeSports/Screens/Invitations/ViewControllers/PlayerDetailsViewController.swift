@@ -44,12 +44,6 @@ final class PlayerDetailsViewController: UIViewController {
         return view
     }()
     
-    private lazy var croppedView: UIView = {
-        let view = UIView.createView(.yellow)
-        view.isUserInteractionEnabled = false
-        return view
-    }()
-    
     private lazy var closeButton: UIButton = {
         let image = UIImage(systemName: "xmark", withConfiguration: nil)
         let button = UIButton.createButton(.black, tintColor: .white, image: image)
@@ -165,7 +159,6 @@ final class PlayerDetailsViewController: UIViewController {
         contentWrap.addSubview(inviteButton)
         profileBackgroundView.addSubview(profileEmjoiLabel)
         profileBackgroundView.addSubview(closeButton)
-        profileBackgroundView.addSubview(croppedView)
         
         NSLayoutConstraint.activate([
             dialogView.leftAnchor.constraint(equalTo: view.leftAnchor),
@@ -178,10 +171,6 @@ final class PlayerDetailsViewController: UIViewController {
             profileBackgroundView.leftAnchor.constraint(equalTo: dialogView.leftAnchor),
             profileBackgroundView.rightAnchor.constraint(equalTo: dialogView.rightAnchor),
             profileBackgroundView.topAnchor.constraint(equalTo: dialogView.topAnchor),
-            croppedView.leftAnchor.constraint(equalTo: profileBackgroundView.leftAnchor),
-            croppedView.rightAnchor.constraint(equalTo: profileBackgroundView.rightAnchor),
-            croppedView.bottomAnchor.constraint(equalTo: profileBackgroundView.bottomAnchor),
-            croppedView.heightAnchor.constraint(equalToConstant: 40),
             closeButton.rightAnchor.constraint(equalTo: profileBackgroundView.rightAnchor, constant: -16),
             closeButton.topAnchor.constraint(equalTo: profileBackgroundView.topAnchor, constant: 16),
             closeButton.widthAnchor.constraint(equalToConstant: 40),
@@ -290,40 +279,5 @@ final class PlayerDetailsViewController: UIViewController {
     
     @objc private func closeButtonTapped(_ sender: UIButton) {
         toggleDialog(enabled: false)
-    }
-    
-    private func addBottomRoundedEdge(view: UIView, desiredCurve: CGFloat?) {
-        let offset: CGFloat = view.frame.width / desiredCurve!
-        let bounds: CGRect = view.bounds
-        
-        let rectBounds: CGRect = CGRect(x: bounds.origin.x, y: bounds.origin.y, width: bounds.size.width, height: bounds.size.height / 2)
-        let rectPath: UIBezierPath = UIBezierPath(rect: rectBounds)
-        let ovalBounds: CGRect = CGRect(x: bounds.origin.x - offset / 2, y: bounds.origin.y, width: bounds.size.width + offset, height: bounds.size.height)
-        let ovalPath: UIBezierPath = UIBezierPath(ovalIn: ovalBounds)
-        rectPath.append(ovalPath)
-        
-        // Create the shape layer and set its path
-        let maskLayer: CAShapeLayer = CAShapeLayer()
-        maskLayer.frame = bounds
-        maskLayer.path = rectPath.cgPath
-        
-        // Set the newly created shape layer as the mask for the view's layer
-        view.layer.mask = maskLayer
-    }
-    
-    private func drawArc() {
-        
-        let bounds = croppedView.bounds
-        
-        
-        let path = UIBezierPath(arcCenter: CGPoint(x: 100, y: 100), radius: 100, startAngle: 0, endAngle: .pi, clockwise: false)
-        
-        let shapeLayer = CAShapeLayer()
-        shapeLayer.path = path.cgPath
-        //  shapeLayer.fillColor = UIColor.clear.cgColor
-        shapeLayer.lineWidth = 3
-        shapeLayer.strokeColor = UIColor.black.cgColor
-        croppedView.layer.mask = shapeLayer
-        //croppedView.layer.addSublayer(shapeLayer)
     }
 }
