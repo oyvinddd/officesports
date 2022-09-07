@@ -134,10 +134,11 @@ final class ContainerViewController: UIViewController {
             innerStackView.topAnchor.constraint(equalTo: innerScrollView.topAnchor),
             innerStackView.bottomAnchor.constraint(equalTo: innerScrollView.bottomAnchor),
             innerStackView.centerYAnchor.constraint(equalTo: innerScrollView.centerYAnchor),
-            floatingMenu.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 64),
-            floatingMenu.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -64),
+            floatingMenu.leftAnchor.constraint(greaterThanOrEqualTo: view.leftAnchor, constant: 16),
+            floatingMenu.rightAnchor.constraint(lessThanOrEqualTo: view.rightAnchor, constant: -16),
             floatingMenu.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
-            floatingMenu.heightAnchor.constraint(equalToConstant: 64)
+            floatingMenu.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            floatingMenu.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
     
