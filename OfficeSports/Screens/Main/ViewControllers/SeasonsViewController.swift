@@ -18,9 +18,11 @@ final class SeasonsViewController: UIViewController, SeasonsHeaderDelegate {
     }()
     
     private lazy var tableView: UITableView = {
-        let tableView = UITableView.createTableView(.clear)
+        let tableView = UITableView.createTableView(.clear, style: .grouped)
         tableView.registerCell(SportFilterTableViewCell.self)
-        tableView.registerCell(SeasonResultTableViewCell.self)
+        tableView.registerCell(SeasonWinnerTableViewCell.self)
+        tableView.sectionHeaderHeight = 8
+        tableView.sectionFooterHeight = 8
         tableView.dataSource = self
         return tableView
     }()
@@ -130,7 +132,7 @@ extension SeasonsViewController: UITableViewDataSource {
             cell.isUserInteractionEnabled = false // TODO: remove this whenever foosball filter has been implemented
             return cell
         }
-        let cell = tableView.dequeueReusableCell(for: SeasonResultTableViewCell.self, for: indexPath)
+        let cell = tableView.dequeueReusableCell(for: SeasonWinnerTableViewCell.self, for: indexPath)
         
         let isFirst = indexPath.row == 0
         let isLast = indexPath.row == viewModel.seasons.count - 1
@@ -155,7 +157,7 @@ private final class SeasonsHeader: UIView {
         button.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
         button.backgroundColor = .white
         button.applyCornerRadius(20)
-        button.alpha = 0.9
+        button.alpha = 0.7
         return button
     }()
     
@@ -179,7 +181,7 @@ private final class SeasonsHeader: UIView {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel.createLabel(.white, alignment: .center, text: "Season results!")
-        label.font = UIFont.boldSystemFont(ofSize: 26)
+        label.font = UIFont.boldSystemFont(ofSize: 32)
         return label
     }()
     

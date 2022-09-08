@@ -21,7 +21,7 @@ final class SportViewController: UIViewController {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshPulled), for: .valueChanged)
         refreshControl.tintColor = UIColor.OS.Text.subtitle
-        let tableView = UITableView.createTableView(.clear, dataSource: self)
+        let tableView = UITableView.createTableView(.clear, dataSource: self, style: .grouped)
         tableView.registerCell(SportFilterTableViewCell.self)
         tableView.registerCell(PlacementTableViewCell.self)
         tableView.registerCell(MatchTableViewCell.self)
@@ -31,7 +31,13 @@ final class SportViewController: UIViewController {
         tableView.allowsMultipleSelection = false
         tableView.delegate = self
         tableView.delaysContentTouches = false
+        tableView.sectionHeaderHeight = 8
+        tableView.sectionFooterHeight = 8
         return tableView
+    }()
+    
+    private lazy var feedbackGenerator: UIImpactFeedbackGenerator = {
+        return UIImpactFeedbackGenerator(style: .medium)
     }()
     
     weak var delegate: SportViewControllerDelegate?
@@ -98,7 +104,7 @@ final class SportViewController: UIViewController {
                     // do nothing
                     break
                 }
-                self.reloadData()
+                self.reloadData(in: [1, 2])
             })
             .store(in: &subscribers)
     }
@@ -107,9 +113,9 @@ final class SportViewController: UIViewController {
         view.backgroundColor = .clear
     }
     
-    private func reloadData(animated: Bool = true) {
+    private func reloadData(in sections: [Int], animated: Bool = true) {
         if animated {
-            self.tableView.reloadSections(IndexSet(integer: 1), with: .fade)
+            self.tableView.reloadSections(IndexSet(sections), with: .fade)
         } else {
             tableView.reloadData()
         }
@@ -125,11 +131,25 @@ final class SportViewController: UIViewController {
 extension SportViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 3
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return CGFloat.leastNormalMagnitude
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? 1 : (showScoreboard ? viewModel.scoreboard.count : viewModel.recentMatches.count)
+        switch section {
+        case 0:
+            return 1
+        case 1:
+            if showScoreboard {
+                return viewModel.scoreboard.count
+            }
+            return viewModel.recentMatches.count
+        default:
+            return showScoreboard ? viewModel.idlePlayers.count : 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -140,17 +160,28 @@ extension SportViewController: UITableViewDataSource {
             return cell
         }
         
-        let isFirstElement = indexPath.row == 0
-        let isLastElement = indexPath.row == (showScoreboard ? viewModel.scoreboard.count - 1 : viewModel.recentMatches.count - 1)
-        
-        if showScoreboard {
-            let cell = tableView.dequeueReusableCell(for: PlacementTableViewCell.self, for: indexPath)
-            cell.configure(with: viewModel.scoreboard[indexPath.row], viewModel.sport, indexPath.row, isFirstElement, isLastElement)
+        if indexPath.section == 1 {
+            let isFirstElement = indexPath.row == 0
+            let isLastElement = indexPath.row == (showScoreboard ? viewModel.scoreboard.count - 1 : viewModel.recentMatches.count - 1)
+            
+            if showScoreboard {
+                let player = viewModel.scoreboard[indexPath.row]
+                let isFanatic = player == viewModel.fanatic
+                let isBoring = player == viewModel.boring
+                let cell = tableView.dequeueReusableCell(for: PlacementTableViewCell.self, for: indexPath)
+                
+                cell.configure(with: player, viewModel.sport, indexPath.row, isFanatic, isBoring, isFirstElement, isLastElement)
+                return cell
+            }
+            let cell = tableView.dequeueReusableCell(for: MatchTableViewCell.self, for: indexPath)
+            cell.applyCornerRadius(isFirstElement: isFirstElement, isLastElement: isLastElement)
+            cell.match = viewModel.recentMatches[indexPath.row]
             return cell
         }
-        let cell = tableView.dequeueReusableCell(for: MatchTableViewCell.self, for: indexPath)
-        cell.applyCornerRadius(isFirstElement: isFirstElement, isLastElement: isLastElement)
-        cell.match = viewModel.recentMatches[indexPath.row]
+        
+        let player = viewModel.idlePlayers[indexPath.row]
+        let cell = tableView.dequeueReusableCell(for: PlacementTableViewCell.self, for: indexPath)
+        cell.configure(with: player, viewModel.sport, indexPath.row == 0, indexPath.row == viewModel.idlePlayers.count - 1)
         return cell
     }
 }
@@ -170,8 +201,10 @@ extension SportViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        feedbackGenerator.impactOccurred()
         if showScoreboard {
-            Coordinator.global.presentPlayerDetails(viewModel.scoreboard[indexPath.row], sport: viewModel.sport)
+            let player = indexPath.section == 1 ? viewModel.scoreboard[indexPath.row] : viewModel.idlePlayers[indexPath.row]
+            Coordinator.global.presentPlayerDetails(player, sport: viewModel.sport)
         }
     }
 }
@@ -182,11 +215,11 @@ extension SportViewController: SportFilterDelegate {
     
     func leftButtonTapped() {
         showScoreboard = true
-        reloadData()
+        reloadData(in: [1, 2])
     }
     
     func rightButtonTapped() {
         showScoreboard = false
-        reloadData()
+        reloadData(in: [1, 2])
     }
 }

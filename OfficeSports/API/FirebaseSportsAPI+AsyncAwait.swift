@@ -57,6 +57,14 @@ extension FirebaseSportsAPI {
         })
     }
     
+    func getLatestMatches(sport: OSSport, winnerId: String, loserId: String) async throws -> [OSMatch] {
+        return try await withCheckedThrowingContinuation({ continuation in
+            getLatestMatches(sport: sport, winnerId: winnerId, loserId: loserId) { result in
+                continuation.resume(with: result)
+            }
+        })
+    }
+    
     func invitePlayer(_ player: OSPlayer, sport: OSSport) async throws -> OSInvite {
         return try await withCheckedThrowingContinuation({ continuation in
             invitePlayer(player, sport: sport) { result in

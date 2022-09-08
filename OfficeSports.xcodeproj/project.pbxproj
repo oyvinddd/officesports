@@ -25,7 +25,7 @@
 		8E31E24028364A6F0085238C /* MyInvitesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E31E23F28364A6F0085238C /* MyInvitesViewController.swift */; };
 		8E31E24228364B0A0085238C /* MyInvitesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E31E24128364B0A0085238C /* MyInvitesViewModel.swift */; };
 		8E3293E4283D8E8800B7CCDC /* PlayerDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3293E3283D8E8800B7CCDC /* PlayerDetailsViewController.swift */; };
-		8E3293E7283D8FBA00B7CCDC /* InvitePlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3293E6283D8FBA00B7CCDC /* InvitePlayerViewModel.swift */; };
+		8E3293E7283D8FBA00B7CCDC /* PlayerDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3293E6283D8FBA00B7CCDC /* PlayerDetailsViewModel.swift */; };
 		8E38B574283B97C8009E0387 /* UIColor+CoreImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B573283B97C8009E0387 /* UIColor+CoreImage.swift */; };
 		8E38B576283BC5AD009E0387 /* Bundle+Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B575283BC5AD009E0387 /* Bundle+Version.swift */; };
 		8E38B578283BC9F1009E0387 /* OSError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B577283BC9F1009E0387 /* OSError.swift */; };
@@ -47,6 +47,12 @@
 		8E43DF01286EE3C800D9B50D /* SeasonsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E43DF00286EE3C800D9B50D /* SeasonsViewController.swift */; };
 		8E43DF03286EE5F500D9B50D /* SeasonsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E43DF02286EE5F500D9B50D /* SeasonsViewModel.swift */; };
 		8E457B942860C03D00F9D133 /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E457B932860C03D00F9D133 /* ConfettiView.swift */; };
+		8E52845028C9294100CD415D /* PlayerStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E52844F28C9294100CD415D /* PlayerStatsView.swift */; };
+		8E5D566C28C77F6B00F67B14 /* oyvind-profile-picure.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E5D566B28C77F6B00F67B14 /* oyvind-profile-picure.png */; };
+		8E5D566E28C7818100F67B14 /* sindre-profile-picture.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E5D566D28C7818100F67B14 /* sindre-profile-picture.png */; };
+		8E5D567028C782E200F67B14 /* konstantinos-profile-picture.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E5D566F28C782E200F67B14 /* konstantinos-profile-picture.png */; };
+		8E5D567228C7AE7100F67B14 /* MetricsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5D567128C7AE7100F67B14 /* MetricsView.swift */; };
+		8E5D567628C7AF3400F67B14 /* MatchHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5D567528C7AF3400F67B14 /* MatchHistoryView.swift */; };
 		8E678F0228A298FF00B22690 /* FirebaseSportsAPI+AsyncAwait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E678F0128A298FE00B22690 /* FirebaseSportsAPI+AsyncAwait.swift */; };
 		8E6995D52844E0CE001355D2 /* LocalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6995D42844E0CE001355D2 /* LocalNotificationManager.swift */; };
 		8E6B33E028426DFB00E73EDD /* ScannerFrameLinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6B33DF28426DFB00E73EDD /* ScannerFrameLinesView.swift */; };
@@ -69,11 +75,15 @@
 		8E70C136282ADF7A009A9452 /* OSAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C135282ADF7A009A9452 /* OSAccount.swift */; };
 		8E70C138282AEE2F009A9452 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C137282AEE2F009A9452 /* WelcomeViewController.swift */; };
 		8E70C13A282AEE7E009A9452 /* SportsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E70C139282AEE7E009A9452 /* SportsAPI.swift */; };
-		8E7C415B286F2F34004C105E /* SeasonResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7C415A286F2F34004C105E /* SeasonResultTableViewCell.swift */; };
+		8E7C415B286F2F34004C105E /* SeasonWinnerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7C415A286F2F34004C105E /* SeasonWinnerTableViewCell.swift */; };
 		8E7D0AC52838D5C0006D6DF7 /* EmojiCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D0AC42838D5C0006D6DF7 /* EmojiCollectionViewCell.swift */; };
 		8E7D0AC72838D7A1006D6DF7 /* UICollectionView+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D0AC62838D7A1006D6DF7 /* UICollectionView+Util.swift */; };
 		8E7D0ACC28391A9E006D6DF7 /* emojis.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8E7D0ACB28391A9E006D6DF7 /* emojis.csv */; };
 		8E7D9A7F282BEF66007BCDE0 /* QRCodeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D9A7E282BEF66007BCDE0 /* QRCodeGenerator.swift */; };
+		8E86BAD228C8D55A003D7F23 /* sindre-profile-picture-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E86BAD128C8D55A003D7F23 /* sindre-profile-picture-2.png */; };
+		8E88E4BA28C62BB700807667 /* UILabel+Visuals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E88E4B928C62BB700807667 /* UILabel+Visuals.swift */; };
+		8E88E4BF28C64CFA00807667 /* PlayerGraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E88E4BE28C64CFA00807667 /* PlayerGraphViewController.swift */; };
+		8E88E4C228C64D2E00807667 /* PlayerGraphViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E88E4C128C64D2E00807667 /* PlayerGraphViewModel.swift */; };
 		8E973322283231F40012E236 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E973321283231F40012E236 /* SettingsViewModel.swift */; };
 		8E9849C8282BCDC80020266B /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9849C7282BCDC80020266B /* CircleView.swift */; };
 		8E9888AA286B115300A97552 /* UIColor+CoreImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E38B573283B97C8009E0387 /* UIColor+CoreImage.swift */; };
@@ -143,7 +153,7 @@
 		8E31E23F28364A6F0085238C /* MyInvitesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInvitesViewController.swift; sourceTree = "<group>"; };
 		8E31E24128364B0A0085238C /* MyInvitesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInvitesViewModel.swift; sourceTree = "<group>"; };
 		8E3293E3283D8E8800B7CCDC /* PlayerDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDetailsViewController.swift; sourceTree = "<group>"; };
-		8E3293E6283D8FBA00B7CCDC /* InvitePlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitePlayerViewModel.swift; sourceTree = "<group>"; };
+		8E3293E6283D8FBA00B7CCDC /* PlayerDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDetailsViewModel.swift; sourceTree = "<group>"; };
 		8E38B573283B97C8009E0387 /* UIColor+CoreImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+CoreImage.swift"; sourceTree = "<group>"; };
 		8E38B575283BC5AD009E0387 /* Bundle+Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Version.swift"; sourceTree = "<group>"; };
 		8E38B577283BC9F1009E0387 /* OSError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSError.swift; sourceTree = "<group>"; };
@@ -161,6 +171,12 @@
 		8E43DF00286EE3C800D9B50D /* SeasonsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonsViewController.swift; sourceTree = "<group>"; };
 		8E43DF02286EE5F500D9B50D /* SeasonsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonsViewModel.swift; sourceTree = "<group>"; };
 		8E457B932860C03D00F9D133 /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
+		8E52844F28C9294100CD415D /* PlayerStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerStatsView.swift; sourceTree = "<group>"; };
+		8E5D566B28C77F6B00F67B14 /* oyvind-profile-picure.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "oyvind-profile-picure.png"; sourceTree = "<group>"; };
+		8E5D566D28C7818100F67B14 /* sindre-profile-picture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sindre-profile-picture.png"; sourceTree = "<group>"; };
+		8E5D566F28C782E200F67B14 /* konstantinos-profile-picture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "konstantinos-profile-picture.png"; sourceTree = "<group>"; };
+		8E5D567128C7AE7100F67B14 /* MetricsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsView.swift; sourceTree = "<group>"; };
+		8E5D567528C7AF3400F67B14 /* MatchHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchHistoryView.swift; sourceTree = "<group>"; };
 		8E678F0128A298FE00B22690 /* FirebaseSportsAPI+AsyncAwait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseSportsAPI+AsyncAwait.swift"; sourceTree = "<group>"; };
 		8E6995D42844E0CE001355D2 /* LocalNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManager.swift; sourceTree = "<group>"; };
 		8E6B33DF28426DFB00E73EDD /* ScannerFrameLinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerFrameLinesView.swift; sourceTree = "<group>"; };
@@ -182,13 +198,17 @@
 		8E70C137282AEE2F009A9452 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		8E70C139282AEE7E009A9452 /* SportsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportsAPI.swift; sourceTree = "<group>"; };
 		8E70C13B282BAF51009A9452 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		8E7C415A286F2F34004C105E /* SeasonResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonResultTableViewCell.swift; sourceTree = "<group>"; };
+		8E7C415A286F2F34004C105E /* SeasonWinnerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonWinnerTableViewCell.swift; sourceTree = "<group>"; };
 		8E7D0AC42838D5C0006D6DF7 /* EmojiCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCollectionViewCell.swift; sourceTree = "<group>"; };
 		8E7D0AC62838D7A1006D6DF7 /* UICollectionView+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Util.swift"; sourceTree = "<group>"; };
 		8E7D0ACB28391A9E006D6DF7 /* emojis.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = emojis.csv; sourceTree = "<group>"; };
 		8E7D9A7E282BEF66007BCDE0 /* QRCodeGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeGenerator.swift; sourceTree = "<group>"; };
 		8E7F45BC2862948100473557 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		8E7F45BE2862948100473557 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		8E86BAD128C8D55A003D7F23 /* sindre-profile-picture-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sindre-profile-picture-2.png"; sourceTree = "<group>"; };
+		8E88E4B928C62BB700807667 /* UILabel+Visuals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Visuals.swift"; sourceTree = "<group>"; };
+		8E88E4BE28C64CFA00807667 /* PlayerGraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerGraphViewController.swift; sourceTree = "<group>"; };
+		8E88E4C128C64D2E00807667 /* PlayerGraphViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerGraphViewModel.swift; sourceTree = "<group>"; };
 		8E973321283231F40012E236 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		8E9849C7282BCDC80020266B /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		8E9C7287283A722600974DAA /* OfficeSports.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OfficeSports.entitlements; sourceTree = "<group>"; };
@@ -308,6 +328,7 @@
 		8E23087F282D540E00AF60EB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8E5D566A28C77F5700F67B14 /* Images */,
 				8E7D0ACA28391A82006D6DF7 /* Emojis */,
 				8E3293E0283D83BA00B7CCDC /* Firebase */,
 				8E9C7287283A722600974DAA /* OfficeSports.entitlements */,
@@ -365,7 +386,7 @@
 			isa = PBXGroup;
 			children = (
 				8E31E24128364B0A0085238C /* MyInvitesViewModel.swift */,
-				8E3293E6283D8FBA00B7CCDC /* InvitePlayerViewModel.swift */,
+				8E3293E6283D8FBA00B7CCDC /* PlayerDetailsViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -389,6 +410,17 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		8E5D566A28C77F5700F67B14 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				8E86BAD128C8D55A003D7F23 /* sindre-profile-picture-2.png */,
+				8E5D566F28C782E200F67B14 /* konstantinos-profile-picture.png */,
+				8E5D566B28C77F6B00F67B14 /* oyvind-profile-picure.png */,
+				8E5D566D28C7818100F67B14 /* sindre-profile-picture.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
 		8E70C110282AB9BB009A9452 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -404,6 +436,7 @@
 				8E38B575283BC5AD009E0387 /* Bundle+Version.swift */,
 				8E2D0CC0284FB374006FDE2E /* UIStackView+Convenience.swift */,
 				8E3F337A28651F340061CD6B /* UserDefaults+CodeWidget.swift */,
+				8E88E4B928C62BB700807667 /* UILabel+Visuals.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -418,7 +451,10 @@
 				8E70C125282ACCB5009A9452 /* ProfileView.swift */,
 				8E9849C7282BCDC80020266B /* CircleView.swift */,
 				8E6B33DF28426DFB00E73EDD /* ScannerFrameLinesView.swift */,
-				8E7C415A286F2F34004C105E /* SeasonResultTableViewCell.swift */,
+				8E7C415A286F2F34004C105E /* SeasonWinnerTableViewCell.swift */,
+				8E5D567128C7AE7100F67B14 /* MetricsView.swift */,
+				8E5D567528C7AF3400F67B14 /* MatchHistoryView.swift */,
+				8E52844F28C9294100CD415D /* PlayerStatsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -491,6 +527,39 @@
 				8E7F45BE2862948100473557 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8E88E4BB28C64CC900807667 /* Graph */ = {
+			isa = PBXGroup;
+			children = (
+				8E88E4C028C64D1900807667 /* ViewModels */,
+				8E88E4BD28C64CE100807667 /* ViewControllers */,
+				8E88E4BC28C64CD900807667 /* Views */,
+			);
+			path = Graph;
+			sourceTree = "<group>";
+		};
+		8E88E4BC28C64CD900807667 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8E88E4BD28C64CE100807667 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				8E88E4BE28C64CFA00807667 /* PlayerGraphViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		8E88E4C028C64D1900807667 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				8E88E4C128C64D2E00807667 /* PlayerGraphViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		8EA2126F283EF16C00B37315 /* Views */ = {
@@ -569,6 +638,7 @@
 		8EE62002282AB7AA00C01289 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				8E88E4BB28C64CC900807667 /* Graph */,
 				8E3293E1283D8E5600B7CCDC /* Invitations */,
 				8E24F4562834A6EB00BC808B /* Common */,
 				8E230870282CFC7D00AF60EB /* Main */,
@@ -690,10 +760,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				8EE32D68283E8D88009AD89C /* plistinject in Resources */,
+				8E5D566E28C7818100F67B14 /* sindre-profile-picture.png in Resources */,
 				8EE61FFB282AB79D00C01289 /* LaunchScreen.storyboard in Resources */,
 				8EE61FF8282AB79D00C01289 /* Assets.xcassets in Resources */,
 				8E230881282D543300AF60EB /* GoogleService-Info.plist in Resources */,
+				8E5D566C28C77F6B00F67B14 /* oyvind-profile-picure.png in Resources */,
+				8E86BAD228C8D55A003D7F23 /* sindre-profile-picture-2.png in Resources */,
 				8E7D0ACC28391A9E006D6DF7 /* emojis.csv in Resources */,
+				8E5D567028C782E200F67B14 /* konstantinos-profile-picture.png in Resources */,
 				8E9C728B283AB93C00974DAA /* fastlane in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -758,19 +832,24 @@
 			files = (
 				8EC37F0C287D6318000D7A14 /* TeamPickerViewController.swift in Sources */,
 				8E38B57E283C3D01009E0387 /* AchievementsViewController.swift in Sources */,
+				8E52845028C9294100CD415D /* PlayerStatsView.swift in Sources */,
 				8E7D9A7F282BEF66007BCDE0 /* QRCodeGenerator.swift in Sources */,
 				8EF13879283791AE001D8DA6 /* MockSportsAPI.swift in Sources */,
 				8E70C11F282AC499009A9452 /* OSMatch.swift in Sources */,
+				8E88E4BA28C62BB700807667 /* UILabel+Visuals.swift in Sources */,
 				8E457B942860C03D00F9D133 /* ConfettiView.swift in Sources */,
 				8E3293E4283D8E8800B7CCDC /* PlayerDetailsViewController.swift in Sources */,
+				8E5D567628C7AF3400F67B14 /* MatchHistoryView.swift in Sources */,
 				8E287F56283B1013005BBE28 /* UIButton+Loading.swift in Sources */,
 				8E70C11C282AC3F2009A9452 /* ScannerViewController.swift in Sources */,
 				8E38B574283B97C8009E0387 /* UIColor+CoreImage.swift in Sources */,
-				8E3293E7283D8FBA00B7CCDC /* InvitePlayerViewModel.swift in Sources */,
+				8E3293E7283D8FBA00B7CCDC /* PlayerDetailsViewModel.swift in Sources */,
 				8EF1387D2837EEEC001D8DA6 /* MatchTableViewCell.swift in Sources */,
 				8EF1387F2837FDD3001D8DA6 /* RegisterMatchViewModel.swift in Sources */,
+				8E5D567228C7AE7100F67B14 /* MetricsView.swift in Sources */,
 				8E70C121282AC510009A9452 /* OSPlayer.swift in Sources */,
 				8E973322283231F40012E236 /* SettingsViewModel.swift in Sources */,
+				8E88E4BF28C64CFA00807667 /* PlayerGraphViewController.swift in Sources */,
 				8E43DEFF286E296E00D9B50D /* OSSeasonStats.swift in Sources */,
 				8EE558352847B0B400199CC6 /* OSSport.swift in Sources */,
 				8EA21271283EF18A00B37315 /* OSButton.swift in Sources */,
@@ -778,7 +857,7 @@
 				8E6995D52844E0CE001355D2 /* LocalNotificationManager.swift in Sources */,
 				8E38B576283BC5AD009E0387 /* Bundle+Version.swift in Sources */,
 				8E70C117282ABD3E009A9452 /* FloatingMenu.swift in Sources */,
-				8E7C415B286F2F34004C105E /* SeasonResultTableViewCell.swift in Sources */,
+				8E7C415B286F2F34004C105E /* SeasonWinnerTableViewCell.swift in Sources */,
 				8EE61FF3282AB79C00C01289 /* ContainerViewController.swift in Sources */,
 				8EC84E8E282BD5B10093C9A0 /* PlayerProfileViewController.swift in Sources */,
 				8E23086F282CFC6B00AF60EB /* SettingsViewController.swift in Sources */,
@@ -823,6 +902,7 @@
 				8E70C12F282AD0AE009A9452 /* UITableView+Util.swift in Sources */,
 				8E70C12D282AD01A009A9452 /* UIView+Visuals.swift in Sources */,
 				8E7D0AC72838D7A1006D6DF7 /* UICollectionView+Util.swift in Sources */,
+				8E88E4C228C64D2E00807667 /* PlayerGraphViewModel.swift in Sources */,
 				8EDFA363282E418000A51292 /* CompoundField.swift in Sources */,
 				8E70C114282ABC56009A9452 /* SportViewController.swift in Sources */,
 				8E38B578283BC9F1009E0387 /* OSError.swift in Sources */,
@@ -873,7 +953,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 0.6.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tietoevry.officesports.codewidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Code Widget Development Profile";
@@ -904,7 +984,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 0.6.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tietoevry.officesports.codewidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Code Widget Development Profile";
@@ -1055,7 +1135,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.6.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tietoevry.officesports;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development com.tietoevry.officesports";
@@ -1091,7 +1171,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.6.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tietoevry.officesports;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development com.tietoevry.officesports";

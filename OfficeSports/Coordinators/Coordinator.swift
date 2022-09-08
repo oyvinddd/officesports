@@ -83,6 +83,11 @@ final class Coordinator {
         messageWindow.showMessage(message)
     }
     
+    func presentPlayerGraph(from viewController: UIViewController) {
+        let viewModel = PlayerGraphViewModel(api: FirebaseSportsAPI())
+        viewController.present(PlayerGraphViewController(viewModel: viewModel), animated: true)
+    }
+    
     func presentSeasons(from viewController: UIViewController) {
         let viewModel = SeasonsViewModel(api: FirebaseSportsAPI())
         viewController.present(SeasonsViewController(viewModel: viewModel), animated: true)
@@ -110,7 +115,7 @@ final class Coordinator {
     }
     
     func presentPlayerDetails(_ player: OSPlayer, sport: OSSport) {
-        let viewModel = InvitePlayerViewModel(api: FirebaseSportsAPI())
+        let viewModel = PlayerDetailsViewModel(api: FirebaseSportsAPI())
         let viewController = PlayerDetailsViewController(viewModel: viewModel, player: player, sport: sport)
         window?.rootViewController?.present(viewController, animated: false)
     }

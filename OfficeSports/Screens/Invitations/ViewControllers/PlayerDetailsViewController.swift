@@ -13,9 +13,6 @@ private let kBackgroundMinFade: CGFloat = 0
 private let kAnimDuration: TimeInterval = 0.15
 private let kAnimDelay: TimeInterval = 0
 
-private let profileImageDiameter: CGFloat = 100
-private let profileImageRadius: CGFloat = profileImageDiameter / 2
-
 private let inviteThreshold: TimeInterval = 60 * 15 // 15 minutes
 
 final class PlayerDetailsViewController: UIViewController {
@@ -35,59 +32,43 @@ final class PlayerDetailsViewController: UIViewController {
         return view
     }()
     
-    private lazy var dialogHandle: UIView = {
-        let view = UIView.createView(UIColor.OS.Text.subtitle, cornerRadius: 3)
-        view.alpha = 0.8
-        return view
-    }()
-    
     private lazy var contentWrap: UIView = {
         return UIView.createView(.clear)
     }()
     
-    private lazy var profileImageWrap: UIView = {
-        let imageWrap = UIView.createView(.white)
-        imageWrap.applyCornerRadius(profileImageRadius)
-        imageWrap.applyMediumDropShadow(.black)
-        return imageWrap
+    private lazy var profileBackgroundView: UIView = {
+        let backgroundColor = UIColor.OS.hashedProfileColor(player.nickname)
+        let view = UIView.createView(backgroundColor)
+        view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        view.layer.cornerRadius = 20
+        return view
     }()
     
-    private lazy var profileImageBackground: UIView = {
-        let profileColor = UIColor.OS.hashedProfileColor(player.nickname)
-        let profileImageBackground = UIView.createView(profileColor)
-        profileImageBackground.applyCornerRadius((profileImageDiameter - 16) / 2)
-        return profileImageBackground
+    private lazy var closeButton: UIButton = {
+        let image = UIImage(systemName: "xmark", withConfiguration: nil)
+        let button = UIButton.createButton(.black, tintColor: .white, image: image)
+        button.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
+        button.applyCornerRadius(20)
+        button.alpha = 0.3
+        return button
     }()
     
     private lazy var profileEmjoiLabel: UILabel = {
         let label = UILabel.createLabel(.black, alignment: .center)
-        label.font = UIFont.systemFont(ofSize: 60)
+        label.font = UIFont.systemFont(ofSize: 100)
+        label.applyLargeDropShadow(.black)
         return label
     }()
     
-    private lazy var nicknameLabel: UILabel = {
-        let label = UILabel.createLabel(UIColor.OS.Text.normal, alignment: .center)
-        label.font = UIFont.systemFont(ofSize: 26, weight: .medium)
-        label.numberOfLines = 1
-        return label
-    }()
-    
-    private lazy var playerDetailsLabel: UILabel = {
-        let label = UILabel.createLabel(UIColor.OS.Text.subtitle, alignment: .center)
-        label.font = UIFont.systemFont(ofSize: 18)
-        label.numberOfLines = 1
-        return label
+    private lazy var matchHistoryView: MatchHistoryView = {
+        let title = "Your history with \(player.nickname.lowercased())"
+        let player = OSAccount.current.player
+        return MatchHistoryView(title: title, currentPlayer: player)
     }()
     
     private lazy var inviteButton: OSButton = {
         let button = OSButton("Invite to match", type: .primaryInverted, state: .disabled)
         button.addTarget(self, action: #selector(inviteButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    private lazy var closeButton: OSButton = {
-        let button = OSButton("Close", type: .secondaryInverted)
-        button.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -106,13 +87,13 @@ final class PlayerDetailsViewController: UIViewController {
         return -dialogView.frame.height
     }
     
-    private let viewModel: InvitePlayerViewModel
+    private let viewModel: PlayerDetailsViewModel
     private let player: OSPlayer
     private let sport: OSSport
     
     private var subscribers = Set<AnyCancellable>()
     
-    init(viewModel: InvitePlayerViewModel, player: OSPlayer, sport: OSSport) {
+    init(viewModel: PlayerDetailsViewModel, player: OSPlayer, sport: OSSport) {
         self.viewModel = viewModel
         self.player = player
         self.sport = sport
@@ -129,6 +110,7 @@ final class PlayerDetailsViewController: UIViewController {
         setupSubscribers()
         setupChildViews()
         configureUI()
+        fetchMatchHistoryWithPlayer()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -154,70 +136,82 @@ final class PlayerDetailsViewController: UIViewController {
                 self.inviteButton.buttonState = .disabled
             }
         }.store(in: &subscribers)
+        
+        viewModel.$latestMatches
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.history, on: matchHistoryView)
+            .store(in: &subscribers)
     }
     
+    
     private func setupChildViews() {
+        let score = player.points(sport)
+        let matches = player.noOfmatchesForSport(sport)
+        let winsStr = matches > 0 ? "\(calculateWinRate())%" : "-"
+        let matchesStr = matches != 1 ? "Matches" : "Match"
+        
+        let scoreView = MetricsView(metric: String(describing: score), title: "Points", backgroundColor: UIColor.OS.Sport.foosball)
+        let matchesView = MetricsView(metric: String(describing: matches), title: matchesStr, backgroundColor: UIColor.OS.Sport.pool)
+        let winsView = MetricsView(metric: winsStr, title: "Win rate", backgroundColor: UIColor.OS.Sport.tableTennis)
+        
         NSLayoutConstraint.pinToView(view, backgroundView)
         
         view.addSubview(dialogView)
         dialogView.addSubview(contentWrap)
-        dialogView.addSubview(dialogHandle)
-        contentWrap.addSubview(profileImageWrap)
-        contentWrap.addSubview(nicknameLabel)
-        contentWrap.addSubview(playerDetailsLabel)
+        contentWrap.addSubview(profileBackgroundView)
+        contentWrap.addSubview(scoreView)
+        contentWrap.addSubview(matchesView)
+        contentWrap.addSubview(winsView)
+        contentWrap.addSubview(matchHistoryView)
         contentWrap.addSubview(inviteButton)
-        contentWrap.addSubview(closeButton)
-        profileImageWrap.addSubview(profileImageBackground)
-        
-        NSLayoutConstraint.pinToView(profileImageBackground, profileEmjoiLabel)
+        profileBackgroundView.addSubview(profileEmjoiLabel)
+        profileBackgroundView.addSubview(closeButton)
         
         NSLayoutConstraint.activate([
             dialogView.leftAnchor.constraint(equalTo: view.leftAnchor),
             dialogView.rightAnchor.constraint(equalTo: view.rightAnchor),
             dialogBottomConstraint,
-            dialogHandle.centerXAnchor.constraint(equalTo: dialogView.centerXAnchor),
-            dialogHandle.topAnchor.constraint(equalTo: dialogView.topAnchor, constant: 10),
-            dialogHandle.widthAnchor.constraint(equalToConstant: 40),
-            dialogHandle.heightAnchor.constraint(equalToConstant: 6),
             contentWrap.leftAnchor.constraint(equalTo: dialogView.leftAnchor),
             contentWrap.rightAnchor.constraint(equalTo: dialogView.rightAnchor),
-            contentWrap.topAnchor.constraint(equalTo: dialogHandle.topAnchor, constant: 8),
+            contentWrap.topAnchor.constraint(equalTo: dialogView.topAnchor),
             contentWrap.bottomAnchor.constraint(equalTo: dialogView.safeAreaLayoutGuide.bottomAnchor),
-            profileImageWrap.widthAnchor.constraint(equalToConstant: profileImageDiameter),
-            profileImageWrap.topAnchor.constraint(equalTo: contentWrap.topAnchor, constant: 32),
-            profileImageWrap.heightAnchor.constraint(equalTo: profileImageWrap.widthAnchor),
-            profileImageWrap.centerXAnchor.constraint(equalTo: contentWrap.centerXAnchor),
-            profileImageBackground.leftAnchor.constraint(equalTo: profileImageWrap.leftAnchor, constant: 8),
-            profileImageBackground.rightAnchor.constraint(equalTo: profileImageWrap.rightAnchor, constant: -8),
-            profileImageBackground.topAnchor.constraint(equalTo: profileImageWrap.topAnchor, constant: 8),
-            profileImageBackground.bottomAnchor.constraint(equalTo: profileImageWrap.bottomAnchor, constant: -8),
-            nicknameLabel.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
-            nicknameLabel.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
-            nicknameLabel.topAnchor.constraint(equalTo: profileImageWrap.bottomAnchor, constant: 16),
-            playerDetailsLabel.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
-            playerDetailsLabel.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
-            playerDetailsLabel.topAnchor.constraint(equalTo: nicknameLabel.bottomAnchor, constant: 6),
+            profileBackgroundView.leftAnchor.constraint(equalTo: dialogView.leftAnchor),
+            profileBackgroundView.rightAnchor.constraint(equalTo: dialogView.rightAnchor),
+            profileBackgroundView.topAnchor.constraint(equalTo: dialogView.topAnchor),
+            closeButton.rightAnchor.constraint(equalTo: profileBackgroundView.rightAnchor, constant: -16),
+            closeButton.topAnchor.constraint(equalTo: profileBackgroundView.topAnchor, constant: 16),
+            closeButton.widthAnchor.constraint(equalToConstant: 40),
+            closeButton.heightAnchor.constraint(equalTo: closeButton.widthAnchor),
+            profileEmjoiLabel.centerXAnchor.constraint(equalTo: profileBackgroundView.centerXAnchor),
+            profileEmjoiLabel.centerYAnchor.constraint(equalTo: profileBackgroundView.centerYAnchor),
+            profileEmjoiLabel.topAnchor.constraint(equalTo: profileBackgroundView.topAnchor, constant: 32),
+            profileEmjoiLabel.bottomAnchor.constraint(equalTo: profileBackgroundView.bottomAnchor, constant: -32),
+            scoreView.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
+            scoreView.topAnchor.constraint(equalTo: profileBackgroundView.bottomAnchor, constant: 16),
+            matchesView.leftAnchor.constraint(equalTo: scoreView.rightAnchor, constant: 16),
+            matchesView.rightAnchor.constraint(equalTo: winsView.leftAnchor, constant: -16),
+            matchesView.topAnchor.constraint(equalTo: scoreView.topAnchor),
+            matchesView.bottomAnchor.constraint(equalTo: scoreView.bottomAnchor),
+            matchesView.widthAnchor.constraint(equalTo: scoreView.widthAnchor),
+            winsView.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
+            winsView.topAnchor.constraint(equalTo: matchesView.topAnchor),
+            winsView.bottomAnchor.constraint(equalTo: matchesView.bottomAnchor),
+            winsView.widthAnchor.constraint(equalTo: matchesView.widthAnchor),
+            matchHistoryView.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
+            matchHistoryView.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
+            matchHistoryView.topAnchor.constraint(equalTo: scoreView.bottomAnchor, constant: 64),
             inviteButton.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
             inviteButton.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
-            inviteButton.topAnchor.constraint(equalTo: playerDetailsLabel.bottomAnchor, constant: 32),
-            inviteButton.heightAnchor.constraint(equalToConstant: 50),
-            closeButton.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
-            closeButton.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
-            closeButton.topAnchor.constraint(equalTo: inviteButton.bottomAnchor, constant: 16),
-            closeButton.bottomAnchor.constraint(equalTo: contentWrap.safeAreaLayoutGuide.bottomAnchor, constant: -16),
-            closeButton.heightAnchor.constraint(equalToConstant: 50)
+            inviteButton.topAnchor.constraint(equalTo: matchHistoryView.bottomAnchor, constant: 32),
+            inviteButton.bottomAnchor.constraint(equalTo: contentWrap.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            inviteButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     
     private func configureUI() {
         view.backgroundColor = .clear
         profileEmjoiLabel.text = player.emoji
-        nicknameLabel.text = player.nickname
-        if let stats = player.statsForSport(sport) {
-            let matchesString = stats.matchesPlayed != 1 ? "\(stats.matchesPlayed) matches" : "\(stats.matchesPlayed) match"
-            playerDetailsLabel.text = "\(stats.score) pts • \(matchesString)"
-            inviteButton.setTitle("Invite to \(sport.humanReadableName) match", for: .normal)
-        }
+        inviteButton.setTitle("Invite to \(sport.humanReadableName) match", for: .normal)
     }
     
     private func toggleDialog(enabled: Bool) {
@@ -254,6 +248,28 @@ final class PlayerDetailsViewController: UIViewController {
         return intervalSinceLast >= inviteThreshold
     }
     
+    private func calculateWinRate() -> Int {
+        let noOfMatches = player.noOfmatchesForSport(sport)
+        let noOfWins = player.noOfWinsForSport(sport)
+        guard noOfMatches > 0 else {
+            return 0
+        }
+        return Int((Float(noOfWins) / Float(noOfMatches) * 100.0).rounded())
+    }
+    
+    private func fetchMatchHistoryWithPlayer() {
+        // need to get the ID's of the players we want to compare
+        guard let id1 = OSAccount.current.userId, let id2 = player.id else {
+            return
+        }
+        // exit early if we the player is ourselves
+        guard OSAccount.current.player != player else {
+            matchHistoryView.disable()
+            return
+        }
+        viewModel.fetchLatestMatches(sport: sport, player1Id: id1, player2Id: id2)
+    }
+    
     // MARK: - Button Handling
     
     @objc private func backgroundTapped(_ sender: UITapGestureRecognizer) {
@@ -268,7 +284,7 @@ final class PlayerDetailsViewController: UIViewController {
         viewModel.invitePlayer(player, sport: sport)
     }
     
-    @objc private func cancelButtonTapped(_ sender: OSButton) {
+    @objc private func closeButtonTapped(_ sender: UIButton) {
         toggleDialog(enabled: false)
     }
 }

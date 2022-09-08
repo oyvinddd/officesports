@@ -8,41 +8,42 @@
 import UIKit
 
 final class MockSportsAPI: SportsAPI {
-    
+
     private static let fst = [
-        OSStats(sport: .foosball, score: 0, matchesPlayed: 1, seasonWins: 0),
-        OSStats(sport: .foosball, score: 1, matchesPlayed: 20, seasonWins: 0),
-        OSStats(sport: .foosball, score: 0, matchesPlayed: 2, seasonWins: 0),
-        OSStats(sport: .foosball, score: 11, matchesPlayed: 10, seasonWins: 0),
-        OSStats(sport: .foosball, score: 0, matchesPlayed: 20, seasonWins: 0),
-        OSStats(sport: .foosball, score: 0, matchesPlayed: 700, seasonWins: 0),
-        OSStats(sport: .foosball, score: 110, matchesPlayed: 2, seasonWins: 0),
-        OSStats(sport: .foosball, score: 0, matchesPlayed: 2, seasonWins: 0),
-        OSStats(sport: .foosball, score: 100, matchesPlayed: 1, seasonWins: 0)
+        OSStats(sport: .foosball, score: 0, matchesPlayed: 1, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .foosball, score: 1, matchesPlayed: 20, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .foosball, score: 0, matchesPlayed: 2, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .foosball, score: 11, matchesPlayed: 10, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .foosball, score: 0, matchesPlayed: 20, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .foosball, score: 0, matchesPlayed: 700, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .foosball, score: 110, matchesPlayed: 2, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .foosball, score: 0, matchesPlayed: 2, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .foosball, score: 100, matchesPlayed: 1, matchesWon: 0, seasonWins: 0)
     ]
     
     private static let tst = [
-        OSStats(sport: .tableTennis, score: 0, matchesPlayed: 1, seasonWins: 0),
-        OSStats(sport: .tableTennis, score: 1, matchesPlayed: 2, seasonWins: 0),
-        OSStats(sport: .tableTennis, score: 200, matchesPlayed: 300, seasonWins: 0),
-        OSStats(sport: .tableTennis, score: 11, matchesPlayed: 10, seasonWins: 0),
-        OSStats(sport: .tableTennis, score: 0, matchesPlayed: 1000, seasonWins: 0),
-        OSStats(sport: .tableTennis, score: 0, matchesPlayed: 7, seasonWins: 0),
-        OSStats(sport: .tableTennis, score: 44, matchesPlayed: 30, seasonWins: 0),
-        OSStats(sport: .tableTennis, score: 0, matchesPlayed: 32, seasonWins: 0),
-        OSStats(sport: .tableTennis, score: 0, matchesPlayed: 1, seasonWins: 0)
+        OSStats(sport: .tableTennis, score: 0, matchesPlayed: 1, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .tableTennis, score: 1, matchesPlayed: 2, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .tableTennis, score: 200, matchesPlayed: 300, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .tableTennis, score: 11, matchesPlayed: 10, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .tableTennis, score: 0, matchesPlayed: 1000, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .tableTennis, score: 0, matchesPlayed: 7, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .tableTennis, score: 44, matchesPlayed: 30, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .tableTennis, score: 0, matchesPlayed: 32, matchesWon: 0, seasonWins: 0),
+        OSStats(sport: .tableTennis, score: 0, matchesPlayed: 1, matchesWon: 0, seasonWins: 0)
     ]
     
     private let players = [
         OSAccount.current.player!,
-        OSPlayer(nickname: "heimegut", emoji: "💩", foosballStats: fst[1], tableTennisStats: tst[1]),
-        OSPlayer(nickname: "salmaaan", emoji: "🧐", foosballStats: fst[2], tableTennisStats: tst[2]),
-        OSPlayer(nickname: "patidati", emoji: "👻", foosballStats: fst[3], tableTennisStats: tst[3]),
-        OSPlayer(nickname: "sekse", emoji: "🤖", foosballStats: fst[4], tableTennisStats: tst[4]),
-        OSPlayer(nickname: "dimling", emoji: "👨🏻‍🎨", foosballStats: fst[5], tableTennisStats: tst[5]),
-        OSPlayer(nickname: "konstant", emoji: "☀️", foosballStats: fst[6], tableTennisStats: tst[6]),
-        OSPlayer(nickname: "eirik", emoji: "👑", foosballStats: fst[7], tableTennisStats: tst[7]),
-        OSPlayer(nickname: "panzertax", emoji: "🐹", foosballStats: fst[8], tableTennisStats: tst[8])
+        
+        OSPlayer(nickname: "heimegut", emoji: "💩", team: OSTeam(id: "id#123", name: "Ekornes AS"), foosballStats: fst[1], tableTennisStats: tst[1]),
+        OSPlayer(nickname: "salmaaan", emoji: "🧐", team: OSTeam(id: "id#123", name: "Ekornes AS"), foosballStats: fst[2], tableTennisStats: tst[2]),
+        OSPlayer(nickname: "patidati", emoji: "👻", team: OSTeam(id: "id#123", name: "Ekornes AS"), foosballStats: fst[3], tableTennisStats: tst[3]),
+        OSPlayer(nickname: "sekse", emoji: "🤖", team: OSTeam(id: "id#123", name: "Ekornes AS"), foosballStats: fst[4], tableTennisStats: tst[4]),
+        OSPlayer(nickname: "dimling", emoji: "👨🏻‍🎨", team: OSTeam(id: "id#123", name: "Ekornes AS"), foosballStats: fst[5], tableTennisStats: tst[5]),
+        OSPlayer(nickname: "konstant", emoji: "☀️", team: OSTeam(id: "id#123", name: "Ekornes AS"), foosballStats: fst[6], tableTennisStats: tst[6]),
+        OSPlayer(nickname: "eirik", emoji: "👑", team: OSTeam(id: "id#123", name: "Ekornes AS"), foosballStats: fst[7], tableTennisStats: tst[7]),
+        OSPlayer(nickname: "panzertax", emoji: "🐹", team: OSTeam(id: "id#123", name: "Ekornes AS"), foosballStats: fst[8], tableTennisStats: tst[8])
     ]
     
     private lazy var scoreboard: [OSPlayer] = {
@@ -76,9 +77,9 @@ final class MockSportsAPI: SportsAPI {
     }
     
     func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam?, result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
-        let foosballStats = OSStats(sport: .foosball, score: 0, matchesPlayed: 0, seasonWins: 0)
-        let tableTennisStats = OSStats(sport: .tableTennis, score: 0, matchesPlayed: 0, seasonWins: 0)
-        let player = OSPlayer(id: "id#1337", nickname: nickname, emoji: emoji, foosballStats: foosballStats, tableTennisStats: tableTennisStats)
+        let foosballStats = OSStats(sport: .foosball, score: 0, matchesPlayed: 0, matchesWon: 0, seasonWins: 0)
+        let tableTennisStats = OSStats(sport: .tableTennis, score: 0, matchesPlayed: 0, matchesWon: 0, seasonWins: 0)
+        let player = OSPlayer(id: "id#1337", nickname: nickname, emoji: emoji, team: OSTeam.noTeam, foosballStats: foosballStats, tableTennisStats: tableTennisStats)
         result(.success(player))
     }
     
@@ -113,6 +114,15 @@ final class MockSportsAPI: SportsAPI {
             filteredMatches = matches.filter({ $0.sport == .tableTennis })
         }
         result(.success(filteredMatches))
+    }
+    
+    func getLatestMatches(sport: OSSport, winnerId: String, loserId: String, result: @escaping ((Result<[OSMatch], Error>) -> Void)) {
+        let player1 = OSPlayer(nickname: "oyvinddd", emoji: "🙂", team: OSTeam.noTeam)
+        let player2 = OSPlayer(nickname: "salmaaan", emoji: "😞", team: OSTeam.noTeam)
+        let match1 = OSMatch(sport: sport, winner: player1, loser: player2, winnerDt: 12, loserDt: 12)
+        let match2 = OSMatch(sport: sport, winner: player1, loser: player2, winnerDt: 8, loserDt: 8)
+        let match3 = OSMatch(sport: sport, winner: player1, loser: player2, winnerDt: 4, loserDt: 4)
+        result(.success([match1, match2, match3]))
     }
     
     func invitePlayer(_ player: OSPlayer, sport: OSSport, result: @escaping ((Result<OSInvite, Error>) -> Void)) {
@@ -183,6 +193,14 @@ extension MockSportsAPI {
     func getMatchHistory(sport: OSSport) async throws -> [OSMatch] {
         return try await withCheckedThrowingContinuation({ continuation in
             getMatchHistory(sport: sport) { result in
+                continuation.resume(with: result)
+            }
+        })
+    }
+    
+    func getLatestMatches(sport: OSSport, winnerId: String, loserId: String) async throws -> [OSMatch] {
+        return try await withCheckedThrowingContinuation({ continuation in
+            getLatestMatches(sport: sport, winnerId: winnerId, loserId: loserId) { result in
                 continuation.resume(with: result)
             }
         })

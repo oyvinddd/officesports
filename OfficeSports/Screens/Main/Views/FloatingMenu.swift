@@ -18,11 +18,13 @@ protocol FloatingMenuDelegate: AnyObject {
     
     func foosballButtonTapped()
     
-    func invitesButtonTapped()
+    func poolButtonTapped()
     
     func tableTennisButtonDoubleTapped()
     
     func foosballButtonDoubleTapped()
+    
+    func poolButtonDoubleTapped()
 }
 
 final class FloatingMenu: UIView {
@@ -59,9 +61,10 @@ final class FloatingMenu: UIView {
         return button
     }()
     
-    private lazy var mbInvites: MenuButton = {
-        let button = MenuButton(.clear, image: UIImage(systemName: "bell.badge", withConfiguration: buttonImageConfig))
-        button.addTarget(self, action: #selector(invitesButtonTapped), for: .touchUpInside)
+    private lazy var mbPool: MenuButton = {
+        let button = MenuButton(.clear, image: UIImage(named: "Pool")!.withRenderingMode(.alwaysTemplate))
+        button.addTarget(self, action: #selector(poolButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(poolButtonDoubleTapped), for: .touchDownRepeat)
         return button
     }()
     
@@ -74,6 +77,8 @@ final class FloatingMenu: UIView {
     }()
     
     private var selectedViewLeftConstraint: NSLayoutConstraint?
+    private var noOfButtons = 1
+    
     private weak var delegate: FloatingMenuDelegate?
     
     init(delegate: FloatingMenuDelegate?) {
@@ -89,17 +94,25 @@ final class FloatingMenu: UIView {
     }
     
     func adjustSelectionFromOuterScrollView(_ scrollView: UIScrollView) {
+        let buttonWidth: CGFloat = 60
+        let menuWidth: CGFloat = frame.width
+        let noOfSports: CGFloat = CGFloat(noOfButtons - 1)
+        
         var xOffsetPercent = scrollView.contentOffset.x * 100 / scrollView.contentSize.width
         if xOffsetPercent < 0 {
             xOffsetPercent = 0
         }
-        selectedViewLeftConstraint!.constant = xOffsetPercent * (frame.width/2) / 100
+        let xOffsetInMenu = (menuWidth - buttonWidth * (noOfSports - 1)) * xOffsetPercent / 100
+        selectedViewLeftConstraint!.constant = xOffsetInMenu
     }
     
     func adjustselectionFromInnerScrollView(_ scrollView: UIScrollView) {
+        let buttonWidth: CGFloat = 60
+        
         // get the current content offset in percent whenever users is scrolling the scroll view
         let xOffsetPercent = scrollView.contentOffset.x * 100 / scrollView.contentSize.width
-        selectedViewLeftConstraint!.constant = xOffsetPercent * (3/4) * frame.width / 100 + (frame.width / 4)
+        let xOffsetInMenu = (frame.width - buttonWidth) * xOffsetPercent / 100
+        selectedViewLeftConstraint!.constant = xOffsetInMenu + buttonWidth
     }
     
     private func setupChildViews() {
@@ -107,10 +120,27 @@ final class FloatingMenu: UIView {
         
         NSLayoutConstraint.pinToView(self, stackView)
         
+        let showTableTennis = UserDefaultsHelper.loadToggledStateFor(sport: .tableTennis)
+        let showFoosball = UserDefaultsHelper.loadToggledStateFor(sport: .foosball)
+        let showPool = UserDefaultsHelper.loadToggledStateFor(sport: .pool)
+        
         stackView.addArrangedSubview(mbScanner)
-        stackView.addArrangedSubview(mbTableTennis)
-        stackView.addArrangedSubview(mbFoosball)
-        stackView.addArrangedSubview(mbInvites)
+        
+        if showTableTennis {
+            stackView.addArrangedSubview(mbTableTennis)
+            mbTableTennis.widthAnchor.constraint(equalTo: heightAnchor).isActive = true
+            noOfButtons += 1
+        }
+        if showFoosball {
+            stackView.addArrangedSubview(mbFoosball)
+            mbFoosball.widthAnchor.constraint(equalTo: heightAnchor).isActive = true
+            noOfButtons += 1
+        }
+        if showPool {
+            stackView.addArrangedSubview(mbPool)
+            mbPool.widthAnchor.constraint(equalTo: heightAnchor).isActive = true
+            noOfButtons += 1
+        }
         
         selectedViewLeftConstraint = selectedView.leftAnchor.constraint(equalTo: leftAnchor)
         
@@ -146,9 +176,9 @@ final class FloatingMenu: UIView {
         delegate?.foosballButtonTapped()
     }
     
-    @objc private func invitesButtonTapped(_ sender: MenuButton) {
+    @objc private func poolButtonTapped(_ sender: MenuButton) {
         feedbackGenerator.impactOccurred()
-        delegate?.invitesButtonTapped()
+        delegate?.poolButtonTapped()
     }
     
     @objc private func tableTennisButtonDoubleTapped(_ sender: MenuButton) {
@@ -157,6 +187,10 @@ final class FloatingMenu: UIView {
     
     @objc private func foosballButtonDoubleTapped(_ sender: MenuButton) {
         delegate?.foosballButtonDoubleTapped()
+    }
+    
+    @objc private func poolButtonDoubleTapped(_ sender: MenuButton) {
+        delegate?.poolButtonDoubleTapped()
     }
 }
 

@@ -15,9 +15,15 @@ protocol TeamSelectionDelegate: AnyObject {
 
 final class TeamPickerViewController: UIViewController {
     
-    private lazy var infoLabel: UILabel = {
-        let label = UILabel.createLabel(UIColor.OS.Text.normal, alignment: .center, text: "Pick a team! 🌈")
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel.createLabel(UIColor.OS.Text.normal, alignment: .center, text: "Join a team! 🌈")
         label.font = UIFont.boldSystemFont(ofSize: 32)
+        return label
+    }()
+    
+    private lazy var informationLabel: UILabel = {
+        let label = UILabel.createLabel(UIColor.OS.Text.normal, alignment: .center, text: "If you join a team you will only see members of the same team on the scoreboard.")
+        label.font = UIFont.systemFont(ofSize: 18)
         return label
     }()
     
@@ -40,9 +46,15 @@ final class TeamPickerViewController: UIViewController {
         return button
     }()
     
+    private lazy var closeButton: OSButton = {
+        let button = OSButton("Close", type: .secondaryInverted, state: .normal)
+        button.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
     private let viewModel: TeamsViewModel
     private var subscribers = Set<AnyCancellable>()
-    private var currentTeam: OSTeam?
+    private var currentTeam: OSTeam? = OSAccount.current.player?.team ?? OSTeam.noTeam
     
     weak var delegate: TeamSelectionDelegate?
     
@@ -84,16 +96,21 @@ final class TeamPickerViewController: UIViewController {
     }
     
     private func setupChildViews() {
-        view.addSubview(infoLabel)
+        view.addSubview(titleLabel)
+        view.addSubview(informationLabel)
         view.addSubview(tableView)
         view.addSubview(bottomWrap)
         bottomWrap.addSubview(selectButton)
+        bottomWrap.addSubview(closeButton)
         
         NSLayoutConstraint.activate([
-            infoLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
-            infoLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
-            infoLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 32),
-            infoLabel.bottomAnchor.constraint(equalTo: tableView.topAnchor, constant: -16),
+            titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
+            titleLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
+            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 64),
+            informationLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
+            informationLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
+            informationLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            informationLabel.bottomAnchor.constraint(equalTo: tableView.topAnchor, constant: -32),
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
             bottomWrap.leftAnchor.constraint(equalTo: view.leftAnchor),
@@ -102,9 +119,13 @@ final class TeamPickerViewController: UIViewController {
             bottomWrap.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             selectButton.leftAnchor.constraint(equalTo: bottomWrap.leftAnchor, constant: 16),
             selectButton.rightAnchor.constraint(equalTo: bottomWrap.rightAnchor, constant: -16),
-            selectButton.topAnchor.constraint(equalTo: bottomWrap.topAnchor, constant: 16),
-            selectButton.bottomAnchor.constraint(equalTo: bottomWrap.safeAreaLayoutGuide.bottomAnchor, constant: -16),
-            selectButton.heightAnchor.constraint(equalToConstant: 50)
+            selectButton.topAnchor.constraint(equalTo: bottomWrap.topAnchor, constant: 32),
+            selectButton.bottomAnchor.constraint(equalTo: closeButton.topAnchor, constant: -16),
+            selectButton.heightAnchor.constraint(equalToConstant: 50),
+            closeButton.leftAnchor.constraint(equalTo: bottomWrap.leftAnchor, constant: 16),
+            closeButton.rightAnchor.constraint(equalTo: bottomWrap.rightAnchor, constant: -16),
+            closeButton.bottomAnchor.constraint(equalTo: bottomWrap.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            closeButton.heightAnchor.constraint(equalTo: selectButton.heightAnchor)
         ])
     }
     
@@ -112,11 +133,15 @@ final class TeamPickerViewController: UIViewController {
         view.backgroundColor = .white
     }
     
-    @objc private func selectButtonTapped(sender: UIButton) {
+    @objc private func selectButtonTapped(_ sender: UIButton) {
         dismiss(animated: true)
         if let team = currentTeam {
             delegate?.didSelectTeam(team)
         }
+    }
+    
+    @objc private func closeButtonTapped(_ sender: UIButton) {
+        dismiss(animated: true)
     }
 }
 
@@ -131,16 +156,8 @@ extension TeamPickerViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(for: TeamTableViewCell.self, for: indexPath)
         let team = viewModel.teams[indexPath.row]
-        let enabled = teamIsSelected(team)
-        cell.configure(with: team, enabled: enabled)
+        cell.configure(with: team, enabled: team == currentTeam)
         return cell
-    }
-    
-    private func teamIsSelected(_ team: OSTeam) -> Bool {
-        guard let teamId1 = currentTeam?.id, let teamId2 = team.id else {
-            return false
-        }
-        return teamId1 == teamId2
     }
 }
 

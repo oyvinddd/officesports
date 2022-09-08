@@ -27,9 +27,7 @@ final class ContainerViewController: UIViewController {
     }()
     
     private lazy var profileView: ProfileView = {
-        let screenIndex = UserDefaultsHelper.loadDefaultScreen()
-        let initialSport = screenIndex == 2 ? OSSport.foosball : OSSport.tableTennis
-        return ProfileView(account: OSAccount.current, initialSport: initialSport, delegate: self)
+        return ProfileView(initialSport: determineInitialSport(), delegate: self)
     }()
     
     private lazy var outerScrollView: UIScrollView = {
@@ -66,10 +64,35 @@ final class ContainerViewController: UIViewController {
         return SportViewController(viewModel: viewModel, delegate: self)
     }()
     
-    private lazy var invitesViewController: MyInvitesViewController = {
-        let viewModel = MyInvitesViewModel(api: FirebaseSportsAPI())
-        return MyInvitesViewController(viewModel: viewModel)
+    private lazy var poolViewController: SportViewController = {
+        let viewModel = SportViewModel(api: FirebaseSportsAPI(), sport: .pool)
+        return SportViewController(viewModel: viewModel, delegate: self)
     }()
+    
+    private lazy var activeViewControllers: [UIViewController] = {
+        let showTableTennis = UserDefaultsHelper.loadToggledStateFor(sport: .tableTennis)
+        let showFoosball = UserDefaultsHelper.loadToggledStateFor(sport: .foosball)
+        let showPool = UserDefaultsHelper.loadToggledStateFor(sport: .pool)
+        
+        var viewControllers: [UIViewController] = [scannerViewController]
+        if showTableTennis {
+            viewControllers.append(tableTennisViewController)
+        }
+        if showFoosball {
+            viewControllers.append(foosballViewController)
+        }
+        if showPool {
+            viewControllers.append(poolViewController)
+        }
+        return viewControllers
+    }()
+    
+    private var firstSportViewController: UIViewController? {
+        if activeViewControllers.count < 2 {
+            return nil
+        }
+        return activeViewControllers[1]
+    }
     
     private let viewModel: PlayerProfileViewModel
     
@@ -95,9 +118,12 @@ final class ContainerViewController: UIViewController {
     }
     
     func resetScrollViewsAndReloadData() {
-        scrollToViewController(tableTennisViewController, animated: true)
+        if let viewController = firstSportViewController {
+            scrollToViewController(viewController, animated: true)
+        }
         foosballViewController.reloadSportData()
         tableTennisViewController.reloadSportData()
+        poolViewController.reloadSportData()
     }
     
     private func setupChildViews() {
@@ -134,45 +160,57 @@ final class ContainerViewController: UIViewController {
             innerStackView.topAnchor.constraint(equalTo: innerScrollView.topAnchor),
             innerStackView.bottomAnchor.constraint(equalTo: innerScrollView.bottomAnchor),
             innerStackView.centerYAnchor.constraint(equalTo: innerScrollView.centerYAnchor),
-            floatingMenu.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 64),
-            floatingMenu.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -64),
+            floatingMenu.leftAnchor.constraint(greaterThanOrEqualTo: view.leftAnchor, constant: 16),
+            floatingMenu.rightAnchor.constraint(lessThanOrEqualTo: view.rightAnchor, constant: -16),
             floatingMenu.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
-            floatingMenu.heightAnchor.constraint(equalToConstant: 64)
+            floatingMenu.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            floatingMenu.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
     
     private func setupChildViewControllers() {
+        let showTableTennis = UserDefaultsHelper.loadToggledStateFor(sport: .tableTennis)
+        let showFoosball = UserDefaultsHelper.loadToggledStateFor(sport: .foosball)
+        let showPool = UserDefaultsHelper.loadToggledStateFor(sport: .pool)
+        
         scannerViewController.didMove(toParent: self)
-        tableTennisViewController.didMove(toParent: self)
-        foosballViewController.didMove(toParent: self)
-        invitesViewController.didMove(toParent: self)
         
-        let tableTennisView = tableTennisViewController.view!
-        let foosballView = foosballViewController.view!
-        let invitesView = invitesViewController.view!
+        if showTableTennis {
+            tableTennisViewController.didMove(toParent: self)
+            let tableTennisView = tableTennisViewController.view!
+            innerStackView.addArrangedSubview(tableTennisView)
+            
+            tableTennisView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+            tableTennisView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        }
         
-        innerStackView.addArrangedSubview(tableTennisView)
-        innerStackView.addArrangedSubview(foosballView)
-        innerStackView.addArrangedSubview(invitesView)
+        if showFoosball {
+            foosballViewController.didMove(toParent: self)
+            let foosballView = foosballViewController.view!
+            innerStackView.addArrangedSubview(foosballView)
+            
+            foosballView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+            foosballView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        }
         
-        NSLayoutConstraint.activate([
-            invitesView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            invitesView.heightAnchor.constraint(equalTo: view.heightAnchor),
-            tableTennisView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            tableTennisView.heightAnchor.constraint(equalTo: view.heightAnchor),
-            foosballView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            foosballView.heightAnchor.constraint(equalTo: view.heightAnchor)
-        ])
+        if showPool {
+            poolViewController.didMove(toParent: self)
+            let poolView = poolViewController.view!
+            innerStackView.addArrangedSubview(poolView)
+            
+            poolView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+            poolView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        }
     }
     
     private func configureTableViewInsets() {
-        let padding: CGFloat = 32
+        let padding: CGFloat = 0
         let topInset = profileView.frame.maxY
         let bottomInset = view.frame.height - floatingMenu.frame.minY + padding
         let contentInset = UIEdgeInsets(top: topInset, left: 0, bottom: bottomInset, right: 0)
         tableTennisViewController.applyContentInsetToTableView(contentInset)
         foosballViewController.applyContentInsetToTableView(contentInset)
-        invitesViewController.applyContentInsetToTableView(contentInset)
+        poolViewController.applyContentInsetToTableView(contentInset)
     }
     
     private func scrollToViewController(_ viewController: UIViewController, animated: Bool = false) {
@@ -194,22 +232,32 @@ final class ContainerViewController: UIViewController {
     }
     
     private func showDefaultViewController(animated: Bool) {
-        let defaultIndex = UserDefaultsHelper.loadDefaultScreen()
-        switch defaultIndex {
-        case 0: // scanner screen
-            scrollToViewController(scannerViewController, animated: animated)
-        case 1: // table tennis screen
+        if UserDefaultsHelper.sportIsDefaultScreen() {
             scrollToViewController(tableTennisViewController, animated: animated)
-        default: // foosball screen
-            scrollToViewController(foosballViewController, animated: animated)
+        } else {
+            scrollToViewController(scannerViewController, animated: animated)
         }
+    }
+    
+    private func determineInitialSport() -> OSSport {
+        guard activeViewControllers.count >= 2 else {
+            return .tableTennis
+        }
+        let firstSportViewController = activeViewControllers[1]
+        if firstSportViewController == tableTennisViewController {
+            return .tableTennis
+        }
+        if firstSportViewController == foosballViewController {
+            return .foosball
+        }
+        return .pool
     }
     
     @objc private func scrollViewTapped(_ sender: UITapGestureRecognizer) {
         let touchPoint = sender.location(ofTouch: 0, in: view)
         if isShowingViewController(tableTennisViewController)
             || isShowingViewController(foosballViewController)
-            || isShowingViewController(invitesViewController) {
+            || isShowingViewController(poolViewController) {
             profileView.handleTouch(point: touchPoint)
         }
         scannerViewController.handleTouch(point: touchPoint)
@@ -219,14 +267,15 @@ final class ContainerViewController: UIViewController {
 // MARK: - Profile View Delegate Conformance
 
 extension ContainerViewController: ProfileViewDelegate {
-    
+
     func profilePictureTapped() {
-        // prevent showing of QR code if user is on the invites screen
-        guard !isShowingViewController(invitesViewController) else {
-            return
-        }
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         profileView.displayQrCode()
+    }
+    
+    func invitesButtonTapped() {
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        Coordinator.global.presentSettings(from: self)
     }
     
     func settingsButtonTapped() {
@@ -251,15 +300,22 @@ extension ContainerViewController: FloatingMenuDelegate {
         scrollToViewController(tableTennisViewController, animated: true)
     }
     
-    func invitesButtonTapped() {
-        scrollToViewController(invitesViewController, animated: true)
-    }
-    
-    func foosballButtonDoubleTapped() {
-        profileView.displayQrCode()
+    func poolButtonTapped() {
+        scrollToViewController(poolViewController, animated: true)
     }
     
     func tableTennisButtonDoubleTapped() {
+        tableTennisViewController.scrollTableViewToTop(animated: true)
+        profileView.displayQrCode()
+    }
+    
+    func foosballButtonDoubleTapped() {
+        foosballViewController.scrollTableViewToTop(animated: true)
+        profileView.displayQrCode()
+    }
+    
+    func poolButtonDoubleTapped() {
+        poolViewController.scrollTableViewToTop(animated: true)
         profileView.displayQrCode()
     }
 }
@@ -302,18 +358,32 @@ extension ContainerViewController: UIScrollViewDelegate {
         let xOffset = scrollView.contentOffset.x
         let width = scrollView.frame.width
         // update profile view based on inner scroll view content offset
+        
         if scrollView == innerScrollView {
-            if xOffset < width { // table tennis screen is showing
-                profileView.configureForSport(.tableTennis)
-                foosballViewController.scrollTableViewToTop(animated: false)
-            } else if xOffset < width * 2 { // foosball screen is showing
-                profileView.configureForSport(.foosball)
-                tableTennisViewController.scrollTableViewToTop(animated: false)
-            } else if xOffset >= width * 2 { // invites screen is showing
-                profileView.configureForSport(.unknown)
-                tableTennisViewController.scrollTableViewToTop(animated: false)
-                foosballViewController.scrollTableViewToTop(animated: false)
+            if xOffset < width {
+                let sport = sportFromViewControllerAtIndex(0)
+                profileView.configureForSport(sport)
+            } else if xOffset < width * 2 {
+                let sport = sportFromViewControllerAtIndex(1)
+                profileView.configureForSport(sport)
+            } else if xOffset >= width * 2 {
+                let sport = sportFromViewControllerAtIndex(2)
+                profileView.configureForSport(sport)
             }
+            tableTennisViewController.scrollTableViewToTop(animated: false)
+            foosballViewController.scrollTableViewToTop(animated: false)
+            poolViewController.scrollTableViewToTop(animated: false)
         }
+    }
+    
+    private func sportFromViewControllerAtIndex(_ index: Int) -> OSSport {
+        let viewController = activeViewControllers[index + 1] // index 0 = camera, so increment by one
+        if viewController == tableTennisViewController {
+            return .tableTennis
+        }
+        if viewController == foosballViewController {
+            return .foosball
+        }
+        return .pool
     }
 }

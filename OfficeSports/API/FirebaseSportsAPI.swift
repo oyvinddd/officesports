@@ -15,7 +15,8 @@ private let fbCloudFuncBaseUrl = "https://us-central1-officesports-5d7ac.cloudfu
 private let fbCloudFuncRegisterMatchUrl = "/winMatch"
 
 private let maxResultsInScoreboard = 200
-private let maxResultsInRecentMatches = 100
+private let maxResultsInRecentMatches = 300
+private let maxResultsInLatestMatches = 10
 
 private let fbPlayersCollection = "players"
 private let fbMatchesCollection = "matches"
@@ -100,9 +101,6 @@ final class FirebaseSportsAPI: SportsAPI {
         let fields = ["nickname", "emoji", "team"]
         var data: [String: Any] = ["nickname": nickname, "emoji": emoji]
         
-        // if user is part of a team, add an additional condition to the query
-        // for filtering scoreboard on the given team name to only show players
-        // from that specific team
         if let team = team {
             do {
                 data["team"] = try Firestore.Encoder().encode(team)
@@ -110,7 +108,7 @@ final class FirebaseSportsAPI: SportsAPI {
                 print(error)
             }
         }
-        let player = OSPlayer(id: uid, nickname: nickname, emoji: emoji, team: team)
+        let player = OSPlayer(id: uid, nickname: nickname, emoji: emoji, team: team ?? OSTeam.noTeam)
         
         playersCollection.document(uid).setData(data, mergeFields: fields) { error in
             guard let error = error else {
@@ -138,9 +136,8 @@ final class FirebaseSportsAPI: SportsAPI {
     }
     
     func getScoreboard(sport: OSSport, result: @escaping ((Result<[OSPlayer], Error>) -> Void)) {
-        let fieldPath = sport == .foosball ? "foosballStats.score" : "tableTennisStats.score"
         var query = playersCollection
-            .order(by: fieldPath, descending: true)
+            .order(by: fieldPathForSport(sport), descending: true)
             .limit(to: maxResultsInScoreboard)
         
         // if player has chosen a team, only show scoreboard of players that has joined the same team
@@ -171,6 +168,31 @@ final class FirebaseSportsAPI: SportsAPI {
                 return
             }
             result(.failure(error))
+        }
+    }
+    
+    func getLatestMatches(sport: OSSport, winnerId: String, loserId: String, result: @escaping ((Result<[OSMatch], Error>) -> Void)) {
+        guard winnerId != loserId else {
+            result(.failure(OSError.identicalUserIds))
+            return
+        }
+        // create the query for recent matches between two players
+        let query = matchesCollection
+            .whereField(FieldPath(["winner", "userId"]), isEqualTo: winnerId)
+            .whereField(FieldPath(["loser", "userId"]), isEqualTo: loserId)
+            .order(by: "date", descending: true)
+            .limit(to: maxResultsInLatestMatches)
+        
+        // execute the query
+        query.getDocuments { (snapshot, error) in
+            if let error = error {
+                result(.failure(error))
+                return
+            }
+            let matches = snapshot?.documents.compactMap({ docSnapshot -> OSMatch? in
+                return try? docSnapshot.data(as: OSMatch.self)
+            })
+            result(.success(matches ?? []))
         }
     }
     
@@ -244,7 +266,7 @@ final class FirebaseSportsAPI: SportsAPI {
             return
         }
         
-        // 24 hourse from now
+        // 24 hours from now
         // let calendar = Calendar.current
         // let date = calendar.date(byAdding: .hour, value: -24, to: Date())!
         
@@ -353,5 +375,18 @@ final class FirebaseSportsAPI: SportsAPI {
             }
         }
         return matches
+    }
+    
+    private func fieldPathForSport(_ sport: OSSport) -> String {
+        switch sport {
+        case .foosball:
+            return "foosballStats.score"
+        case .tableTennis:
+            return "tableTennisStats.score"
+        case .pool:
+            return "poolStats.score"
+        case .unknown:
+            return ""
+        }
     }
 }

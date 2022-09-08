@@ -8,10 +8,12 @@
 import Foundation
 import FirebaseFirestoreSwift
 
-struct OSPlayer: Identifiable, Codable {
+private let defaultPoints: Int = 1200
+
+struct OSPlayer: Identifiable, Codable, Equatable {
     
     enum CodingKeys: String, CodingKey {
-        case id, nickname, emoji, foosballStats, tableTennisStats, team
+        case id, userId, nickname, emoji, foosballStats, tableTennisStats, poolStats, team
     }
     
     @DocumentID public var id: String?
@@ -19,20 +21,23 @@ struct OSPlayer: Identifiable, Codable {
     var nickname: String
     
     var emoji: String
-    
-    var team: OSTeam
 
     var foosballStats: OSStats?
     
     var tableTennisStats: OSStats?
     
-    init(id: String? = nil, nickname: String, emoji: String, team: OSTeam, foosballStats: OSStats? = nil, tableTennisStats: OSStats? = nil) {
+    var poolStats: OSStats?
+    
+    var team: OSTeam?
+    
+    init(id: String? = nil, nickname: String, emoji: String, team: OSTeam, foosballStats: OSStats? = nil, tableTennisStats: OSStats? = nil, poolStats: OSStats? = nil) {
         self.id = id
         self.nickname = nickname
         self.emoji = emoji
-        self.team = team
         self.foosballStats = foosballStats
         self.tableTennisStats = tableTennisStats
+        self.poolStats = poolStats
+        self.team = team
     }
     
     func encode(to encoder: Encoder) throws {
@@ -42,6 +47,7 @@ struct OSPlayer: Identifiable, Codable {
             try container.encode(emoji, forKey: .emoji)
             try container.encode(foosballStats, forKey: .foosballStats)
             try container.encode(tableTennisStats, forKey: .tableTennisStats)
+            try container.encode(poolStats, forKey: .poolStats)
             try container.encode(team, forKey: .team)
         } catch let error {
             print("Error encoding player: \(error)")
@@ -50,25 +56,50 @@ struct OSPlayer: Identifiable, Codable {
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decodeIfPresent(String.self, forKey: .userId)
         nickname = try container.decode(String.self, forKey: .nickname)
         emoji = try container.decode(String.self, forKey: .emoji)
         foosballStats = try? container.decode(OSStats.self, forKey: .foosballStats)
         tableTennisStats = try? container.decode(OSStats.self, forKey: .tableTennisStats)
+        poolStats = try? container.decode(OSStats.self, forKey: .poolStats)
         team = try? container.decode(OSTeam.self, forKey: .team)
     }
     
     func statsForSport(_ sport: OSSport) -> OSStats? {
-        sport == .foosball ? foosballStats : tableTennisStats
+        switch sport {
+        case .foosball:
+            return foosballStats
+        case .tableTennis:
+            return tableTennisStats
+        case .pool:
+            return poolStats
+        default:
+            return nil
+        }
     }
     
-    func scoreForSport(_ sport: OSSport) -> Int? {
-        return statsForSport(sport)?.score
+    func points(_ sport: OSSport) -> Int {
+        return statsForSport(sport)?.score ?? defaultPoints
     }
     
-    func totalSeasonWins() -> Int {
-        var totalWins = 0
-        totalWins += (foosballStats?.seasonWins ?? 0)
-        totalWins += (tableTennisStats?.seasonWins ?? 0)
-        return totalWins
+    func noOfmatchesForSport(_ sport: OSSport) -> Int {
+        return statsForSport(sport)?.matchesPlayed ?? 0
+    }
+    
+    func noOfWinsForSport(_ sport: OSSport) -> Int {
+        return statsForSport(sport)?.matchesWon ?? 0
+    }
+    
+    func totalSeasonWinsForSport(_ sport: OSSport) -> Int {
+        return statsForSport(sport)?.seasonWins ?? 0
+    }
+    
+    // MARK: - Equatable protocol conformance
+    
+    static func == (lhs: OSPlayer, rhs: OSPlayer) -> Bool {
+        if let id1 = lhs.id, let id2 = rhs.id {
+            return id1 == id2
+        }
+        return false
     }
 }

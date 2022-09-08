@@ -11,7 +11,10 @@ private let userDefaultsSharedSuiteName = "group.com.tietoevry.officesports"
 private let userDefaultsPlayerKey = "player"
 private let userDefaultsInviteTimestampKey = "inviteTimestamp"
 private let userDefaultsDefaultScreenKey = "defaultScreen"
-private let userDefaultsIsNotFirstRun = "isNotFirstRun"
+private let userDefaultsIsNotFirstRunKey = "isNotFirstRun"
+private let userDefaultsTennisToggledKey = "tennisToggled"
+private let userDefaultsFoosballToggledKey = "foosballToggled"
+private let userDefaultsPoolToggledKey = "poolToggled"
 
 struct UserDefaultsHelper {
     
@@ -43,21 +46,12 @@ struct UserDefaultsHelper {
         return Date(timeIntervalSince1970: timestampDouble)
     }
     
-    static func saveDefaultScreen(index: Int) {
-        var validIndex = index
-        if validIndex < 0 {
-            validIndex = 0
-        } else if validIndex > 2 {
-            validIndex = 2
-        }
-        standardDefaults.set(validIndex, forKey: userDefaultsDefaultScreenKey)
+    static func saveDefaultScreen(isSport: Bool) {
+        standardDefaults.set(isSport, forKey: userDefaultsDefaultScreenKey)
     }
     
-    static func loadDefaultScreen() -> Int {
-        if let defaultScreenIndex = standardDefaults.value(forKey: userDefaultsDefaultScreenKey) as? Int {
-            return defaultScreenIndex
-        }
-        return 1 // 1 = table tennis screen is the fallback
+    static func sportIsDefaultScreen() -> Bool {
+        return standardDefaults.bool(forKey: userDefaultsDefaultScreenKey)
     }
     
     static func clearProfileDetails() {
@@ -70,10 +64,41 @@ struct UserDefaultsHelper {
     }
     
     static func checkAndUpdateIsFirstRun() -> Bool {
-        if !standardDefaults.bool(forKey: userDefaultsIsNotFirstRun) {
-            standardDefaults.set(true, forKey: userDefaultsIsNotFirstRun)
+        if !standardDefaults.bool(forKey: userDefaultsIsNotFirstRunKey) {
+            standardDefaults.set(true, forKey: userDefaultsIsNotFirstRunKey)
             return true
         }
         return false
+    }
+    
+    static func loadToggledStateFor(sport: OSSport) -> Bool {
+        var sportKey = ""
+        
+        switch sport {
+        case .foosball:
+            sportKey = userDefaultsFoosballToggledKey
+        case .tableTennis:
+            sportKey = userDefaultsTennisToggledKey
+        case .pool:
+            sportKey = userDefaultsPoolToggledKey
+        default:
+            sportKey = userDefaultsTennisToggledKey
+        }
+        
+        let toggled = standardDefaults.value(forKey: sportKey) as? Bool
+        return toggled ?? true
+    }
+    
+    static func saveToggledStateFor(sport: OSSport, toggled: Bool) {
+        switch sport {
+        case .foosball:
+            standardDefaults.set(toggled, forKey: userDefaultsFoosballToggledKey)
+        case .tableTennis:
+            standardDefaults.set(toggled, forKey: userDefaultsTennisToggledKey)
+        case .pool:
+            standardDefaults.set(toggled, forKey: userDefaultsPoolToggledKey)
+        default:
+            return
+        }
     }
 }

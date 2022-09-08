@@ -21,6 +21,10 @@ extension UIColor {
             static let mainDark = UIColor(hex: 0x4C56C8)
             
             static let separator = UIColor(hex: 0xF1F0F2)
+            
+            static let pointsBackground = UIColor(hex: 0xD587B6)
+            
+            static let totalWinsBackground = UIColor(hex: 0x8C77CE)
         }
         
         enum Text {
@@ -35,6 +39,8 @@ extension UIColor {
             static let foosball = UIColor(hex: 0xEB9F6C)
             
             static let tableTennis = UIColor(hex: 0x6CBEA8)
+            
+            static let pool = UIColor(hex: 0xE3615D)
         }
         
         enum Status {
@@ -123,6 +129,8 @@ extension UIColor {
                 return UIColor.OS.Sport.foosball
             case .tableTennis:
                 return UIColor.OS.Sport.tableTennis
+            case .pool:
+                return UIColor.OS.Sport.pool
             case .unknown:
                 return UIColor.black
             }

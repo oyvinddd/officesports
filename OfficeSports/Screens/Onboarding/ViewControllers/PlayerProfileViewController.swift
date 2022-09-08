@@ -19,7 +19,7 @@ final class PlayerProfileViewController: UIViewController {
         button.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
         button.backgroundColor = .white
         button.applyCornerRadius(20)
-        button.alpha = 0.9
+        button.alpha = 0.7
         return button
     }()
     
@@ -169,7 +169,8 @@ final class PlayerProfileViewController: UIViewController {
             titleLabel.text = "Update profile"
             emojiField.text = player.emoji
             nicknameField.text = player.nickname
-            teamField.text = player.team?.name ?? nil
+            teamField.text = player.team?.name
+            continueButton.setTitle("Update", for: .normal)
         } else {
             closeButton.isHidden = true
             emojiField.text = selectedEmoji
@@ -236,8 +237,8 @@ extension PlayerProfileViewController: UITextFieldDelegate {
         let viewController = TeamPickerViewController(viewModel: viewModel, delegate: self)
         
         if let sheet = viewController.sheetPresentationController {
-            sheet.detents = [.medium(), .large()]
-            sheet.largestUndimmedDetentIdentifier = .medium
+            sheet.detents = [.large()]
+            sheet.largestUndimmedDetentIdentifier = .none
             sheet.prefersScrollingExpandsWhenScrolledToEdge = false
             sheet.prefersEdgeAttachedInCompactHeight = true
             sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
