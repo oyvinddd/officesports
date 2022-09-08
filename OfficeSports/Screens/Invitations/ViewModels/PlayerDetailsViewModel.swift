@@ -44,8 +44,10 @@ final class PlayerDetailsViewModel {
     func fetchLatestMatches(sport: OSSport, player1Id: String, player2Id: String) {
         Task {
             do {
-                let matches = try await api.getLatestMatches(sport: sport, winnerId: player1Id, loserId: player2Id)
-                self.latestMatches = matches
+                var matches1 = try await api.getLatestMatches(sport: sport, winnerId: player1Id, loserId: player2Id)
+                let matches2 = try await api.getLatestMatches(sport: sport, winnerId: player2Id, loserId: player1Id)
+                matches1.append(contentsOf: matches2)
+                self.latestMatches = matches1
             } catch let error {
                 // we don't really care too much if this fails
                 print(error)
