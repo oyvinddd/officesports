@@ -35,6 +35,15 @@ struct OSMatch: Codable {
         return OSMatch.dateFormatter.string(from: date)
     }
     
+    init(sport: OSSport, winner: OSPlayer, loser: OSPlayer, winnerDt: Int, loserDt: Int) {
+        self.date = Date()
+        self.sport = sport
+        self.winner = winner
+        self.loser = loser
+        self.winnerDelta = winnerDt
+        self.loserDelta = loserDt
+    }
+    
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         date = try? container.decode(Date.self, forKey: .date)

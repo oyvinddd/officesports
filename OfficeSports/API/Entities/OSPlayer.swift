@@ -21,8 +21,6 @@ struct OSPlayer: Identifiable, Codable, Equatable {
     var nickname: String
     
     var emoji: String
-    
-    var team: OSTeam
 
     var foosballStats: OSStats?
     

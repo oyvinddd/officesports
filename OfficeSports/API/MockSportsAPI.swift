@@ -117,7 +117,12 @@ final class MockSportsAPI: SportsAPI {
     }
     
     func getLatestMatches(sport: OSSport, winnerId: String, loserId: String, result: @escaping ((Result<[OSMatch], Error>) -> Void)) {
-        // TODO: create and return some mock data here
+        let player1 = OSPlayer(nickname: "oyvinddd", emoji: "🙂")
+        let player2 = OSPlayer(nickname: "salmaaan", emoji: "😞")
+        let match1 = OSMatch(sport: sport, winner: player1, loser: player2, winnerDt: 12, loserDt: 12)
+        let match2 = OSMatch(sport: sport, winner: player1, loser: player2, winnerDt: 8, loserDt: 8)
+        let match3 = OSMatch(sport: sport, winner: player1, loser: player2, winnerDt: 4, loserDt: 4)
+        result(.success([match1, match2, match3]))
     }
     
     func invitePlayer(_ player: OSPlayer, sport: OSSport, result: @escaping ((Result<OSInvite, Error>) -> Void)) {

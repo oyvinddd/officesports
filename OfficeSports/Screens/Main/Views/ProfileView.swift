@@ -265,24 +265,6 @@ final class ProfileView: UIView {
             .map({ $0!.emoji })
             .assign(to: \.text, on: profileEmojiLabel)
             .store(in: &subscribers)
-        
-        /*
-        OSAccount.current.$player
-            .receive(on: DispatchQueue.main)
-            .map({ "\($0?.foosballStats?.score ?? 0) pts" })
-            .assign(to: \.text, on: foosballScoreLabel)
-            .store(in: &subscribers)
-        OSAccount.current.$player
-            .receive(on: DispatchQueue.main)
-            .map({ "\($0?.tableTennisStats?.score ?? 0) pts" })
-            .assign(to: \.text, on: tableTennisScoreLabel)
-            .store(in: &subscribers)
-        OSAccount.current.$player
-            .receive(on: DispatchQueue.main)
-            .compactMap({ "🏆 x \($0?.totalSeasonWins() ?? 0)" })
-            .assign(to: \.text, on: totalWinsLabel)
-            .store(in: &subscribers)
-         */
     }
     
     private func setupChildViews() {
