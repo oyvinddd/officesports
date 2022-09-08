@@ -32,11 +32,20 @@ final class MatchHistoryView: UIView {
         MatchView(), MatchView(), MatchView()
     ]
     
-    init(title: String) {
+    private var currentPlayer: OSPlayer?
+    
+    var history: [OSMatch] = [] {
+        didSet {
+            populateHistoryView(history)
+        }
+    }
+    
+    init(title: String, currentPlayer: OSPlayer?) {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         setupChildViews()
         historyLabel.text = title
+        self.currentPlayer = currentPlayer
     }
     
     required init?(coder: NSCoder) {
@@ -67,10 +76,14 @@ final class MatchHistoryView: UIView {
         ])
     }
     
-    func updateHistoryView(results: [Bool?], animated: Bool = false) {
-        var mutableResults: [Bool?] = results
+    private func populateHistoryView(_ history: [OSMatch], animated: Bool = false) {
+        guard !history.isEmpty else {
+            return
+        }
+        var mutableCopy: [OSMatch] = history
         for matchView in matchViews {
-            let status = mutableResults.popLast() ?? nil
+            let match = mutableCopy.popLast() ?? nil
+            let status = match?.winner == currentPlayer
             matchView.updateMatchStatus(didWin: status, animated: animated)
         }
     }
@@ -113,6 +126,7 @@ private final class MatchView: UIView {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         setupChildViews()
+        updateMatchStatus(didWin: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -135,6 +149,7 @@ private final class MatchView: UIView {
             innerView.isHidden = true
             return
         }
+        innerView.isHidden = false
         if didWin {
             innerView.backgroundColor = UIColor.OS.Status.success
         } else {

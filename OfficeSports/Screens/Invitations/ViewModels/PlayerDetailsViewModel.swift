@@ -46,7 +46,6 @@ final class PlayerDetailsViewModel {
             do {
                 let matches = try await api.getLatestMatches(sport: sport, winnerId: player1Id, loserId: player2Id)
                 self.latestMatches = matches
-                print(self.latestMatches)
             } catch let error {
                 // we don't really care too much if this fails
                 print(error)

@@ -18,8 +18,8 @@ final class PlayerStatsView: UIView {
         label.font = UIFont.boldSystemFont(ofSize: 17)
         
         label.layer.shadowColor = UIColor.black.cgColor
-        label.layer.shadowRadius = 1
-        label.layer.shadowOpacity = 0.6
+        label.layer.shadowRadius = 2
+        label.layer.shadowOpacity = 0.7
         label.layer.shadowOffset = CGSize(width: 1, height: 1)
         label.layer.masksToBounds = false
         
@@ -35,8 +35,8 @@ final class PlayerStatsView: UIView {
         label.font = UIFont.boldSystemFont(ofSize: 17)
         
         label.layer.shadowColor = UIColor.black.cgColor
-        label.layer.shadowRadius = 1
-        label.layer.shadowOpacity = 0.6
+        label.layer.shadowRadius = 2
+        label.layer.shadowOpacity = 0.7
         label.layer.shadowOffset = CGSize(width: 1, height: 1)
         label.layer.masksToBounds = false
         

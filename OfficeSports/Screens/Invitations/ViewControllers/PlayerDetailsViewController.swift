@@ -61,7 +61,9 @@ final class PlayerDetailsViewController: UIViewController {
     }()
     
     private lazy var matchHistoryView: MatchHistoryView = {
-        return MatchHistoryView(title: "Your history with \(player.nickname.lowercased())")
+        let title = "Your history with \(player.nickname.lowercased())"
+        let player = OSAccount.current.player
+        return MatchHistoryView(title: title, currentPlayer: player)
     }()
     
     private lazy var inviteButton: OSButton = {
@@ -134,7 +136,13 @@ final class PlayerDetailsViewController: UIViewController {
                 self.inviteButton.buttonState = .disabled
             }
         }.store(in: &subscribers)
+        
+        viewModel.$latestMatches
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.history, on: matchHistoryView)
+            .store(in: &subscribers)
     }
+    
     
     private func setupChildViews() {
         let score = player.scoreForSport(sport)
@@ -145,7 +153,6 @@ final class PlayerDetailsViewController: UIViewController {
         let scoreView = MetricsView(metric: String(describing: score), title: "Points", backgroundColor: UIColor.OS.Sport.foosball)
         let matchesView = MetricsView(metric: String(describing: matches), title: matchesStr, backgroundColor: UIColor.OS.Sport.pool)
         let winsView = MetricsView(metric: winsStr, title: "Win rate", backgroundColor: UIColor.OS.Sport.tableTennis)
-        
         
         NSLayoutConstraint.pinToView(view, backgroundView)
         

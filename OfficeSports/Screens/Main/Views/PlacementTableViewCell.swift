@@ -38,6 +38,11 @@ final class PlacementTableViewCell: UITableViewCell {
         return label
     }()
     
+    private lazy var separator: UIView = {
+        let view = UIView.createView(UIColor.OS.General.separator)
+        return view
+    }()
+    
     private lazy var placementLabel: UILabel = {
         return UILabel.createLabel(UIColor.OS.Text.normal, alignment: .right)
     }()
@@ -73,6 +78,7 @@ final class PlacementTableViewCell: UITableViewCell {
         profileEmojiLabel.text = player.emoji
         usernameLabel.text = player.nickname.lowercased()
         scoreLabel.text = "\(player.scoreForSport(sport)) pts"
+        separator.isHidden = isLast
     }
     
     func configure(with player: OSPlayer, _ sport: OSSport, _ isFirst: Bool, _ isLast: Bool) {
@@ -107,6 +113,7 @@ final class PlacementTableViewCell: UITableViewCell {
         contentWrap.addSubview(scoreLabel)
         contentWrap.addSubview(placementLabel)
         contentWrap.addSubview(specialIndicatorLabel)
+        contentWrap.addSubview(separator)
         
         NSLayoutConstraint.pinToView(profileImageWrap, profileEmojiLabel)
         NSLayoutConstraint.activate([
@@ -130,7 +137,11 @@ final class PlacementTableViewCell: UITableViewCell {
             placementLabel.widthAnchor.constraint(equalToConstant: 50),
             specialIndicatorLabel.rightAnchor.constraint(equalTo: placementLabel.leftAnchor, constant: 8),
             specialIndicatorLabel.centerYAnchor.constraint(equalTo: contentWrap.centerYAnchor),
-            specialIndicatorLabel.widthAnchor.constraint(equalToConstant: 30)
+            specialIndicatorLabel.widthAnchor.constraint(equalToConstant: 30),
+            separator.leftAnchor.constraint(equalTo: contentWrap.leftAnchor),
+            separator.rightAnchor.constraint(equalTo: contentWrap.rightAnchor),
+            separator.bottomAnchor.constraint(equalTo: contentWrap.bottomAnchor),
+            separator.heightAnchor.constraint(equalToConstant: 1)
         ])
     }
     
