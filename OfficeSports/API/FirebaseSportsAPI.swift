@@ -15,7 +15,8 @@ private let fbCloudFuncBaseUrl = "https://us-central1-officesports-5d7ac.cloudfu
 private let fbCloudFuncRegisterMatchUrl = "/winMatch"
 
 private let maxResultsInScoreboard = 200
-private let maxResultsInRecentMatches = 200
+private let maxResultsInRecentMatches = 300
+private let maxResultsInLatestMatches = 10
 
 private let fbPlayersCollection = "players"
 private let fbMatchesCollection = "matches"
@@ -181,7 +182,7 @@ final class FirebaseSportsAPI: SportsAPI {
             .whereField(FieldPath(["winner", "userId"]), isEqualTo: winnerId)
             .whereField(FieldPath(["loser", "userId"]), isEqualTo: loserId)
             .order(by: "date", descending: true)
-            .limit(to: 10)
+            .limit(to: maxResultsInLatestMatches)
         
         // execute the query
         query.getDocuments { (snapshot, error) in

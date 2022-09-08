@@ -47,6 +47,7 @@
 		8E43DF01286EE3C800D9B50D /* SeasonsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E43DF00286EE3C800D9B50D /* SeasonsViewController.swift */; };
 		8E43DF03286EE5F500D9B50D /* SeasonsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E43DF02286EE5F500D9B50D /* SeasonsViewModel.swift */; };
 		8E457B942860C03D00F9D133 /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E457B932860C03D00F9D133 /* ConfettiView.swift */; };
+		8E52845028C9294100CD415D /* PlayerStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E52844F28C9294100CD415D /* PlayerStatsView.swift */; };
 		8E5D566C28C77F6B00F67B14 /* oyvind-profile-picure.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E5D566B28C77F6B00F67B14 /* oyvind-profile-picure.png */; };
 		8E5D566E28C7818100F67B14 /* sindre-profile-picture.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E5D566D28C7818100F67B14 /* sindre-profile-picture.png */; };
 		8E5D567028C782E200F67B14 /* konstantinos-profile-picture.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E5D566F28C782E200F67B14 /* konstantinos-profile-picture.png */; };
@@ -170,6 +171,7 @@
 		8E43DF00286EE3C800D9B50D /* SeasonsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonsViewController.swift; sourceTree = "<group>"; };
 		8E43DF02286EE5F500D9B50D /* SeasonsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonsViewModel.swift; sourceTree = "<group>"; };
 		8E457B932860C03D00F9D133 /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
+		8E52844F28C9294100CD415D /* PlayerStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerStatsView.swift; sourceTree = "<group>"; };
 		8E5D566B28C77F6B00F67B14 /* oyvind-profile-picure.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "oyvind-profile-picure.png"; sourceTree = "<group>"; };
 		8E5D566D28C7818100F67B14 /* sindre-profile-picture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sindre-profile-picture.png"; sourceTree = "<group>"; };
 		8E5D566F28C782E200F67B14 /* konstantinos-profile-picture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "konstantinos-profile-picture.png"; sourceTree = "<group>"; };
@@ -452,6 +454,7 @@
 				8E7C415A286F2F34004C105E /* SeasonResultTableViewCell.swift */,
 				8E5D567128C7AE7100F67B14 /* MetricsView.swift */,
 				8E5D567528C7AF3400F67B14 /* MatchHistoryView.swift */,
+				8E52844F28C9294100CD415D /* PlayerStatsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -829,6 +832,7 @@
 			files = (
 				8EC37F0C287D6318000D7A14 /* TeamPickerViewController.swift in Sources */,
 				8E38B57E283C3D01009E0387 /* AchievementsViewController.swift in Sources */,
+				8E52845028C9294100CD415D /* PlayerStatsView.swift in Sources */,
 				8E7D9A7F282BEF66007BCDE0 /* QRCodeGenerator.swift in Sources */,
 				8EF13879283791AE001D8DA6 /* MockSportsAPI.swift in Sources */,
 				8E70C11F282AC499009A9452 /* OSMatch.swift in Sources */,

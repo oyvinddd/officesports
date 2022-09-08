@@ -146,18 +146,8 @@ final class ProfileView: UIView {
         return label
     }()
     
-    private lazy var foosballScoreLabel: UILabel = {
-        let label = UILabel.createLabel(UIColor.OS.Text.subtitle, alignment: .center)
-        label.font = UIFont.systemFont(ofSize: 24)
-        label.numberOfLines = 1
-        return label
-    }()
-    
-    private lazy var tableTennisScoreLabel: UILabel = {
-        let label = UILabel.createLabel(UIColor.OS.Text.subtitle, alignment: .center)
-        label.font = UIFont.systemFont(ofSize: 24)
-        label.numberOfLines = 1
-        return label
+    private lazy var playerStatsView: PlayerStatsView = {
+        return PlayerStatsView(points: 1200, totalWins: 0)
     }()
     
     weak var delegate: ProfileViewDelegate?
@@ -177,8 +167,6 @@ final class ProfileView: UIView {
         
         profileEmojiLabel.text = account.emoji
         nicknameLabel.text = account.nickname?.lowercased()
-        foosballScoreLabel.text = "\(foosballStats?.score ?? 1200) pts"
-        tableTennisScoreLabel.text = "\(tableTennisStats?.score ?? 1200) pts"
         setupSubscribers()
         setupChildViews()
         configureForSport(initialSport)
@@ -228,9 +216,7 @@ final class ProfileView: UIView {
             self.sportImageWrap.alpha = sportImageWrapAlpha
             self.sportImageBackground.backgroundColor = sportImageBackgroundColor
             self.foosballEmojiLabel.alpha = foosballEmojiAlpha
-            self.foosballScoreLabel.alpha = foosballEmojiAlpha
             self.tableTennisEmojiLabel.alpha = tableTennisEmojiAlpha
-            self.tableTennisScoreLabel.alpha = tableTennisEmojiAlpha
             self.poolEmojiLabel.alpha = poolEmojiAlpha
         }
     }
@@ -279,6 +265,8 @@ final class ProfileView: UIView {
             .map({ $0!.emoji })
             .assign(to: \.text, on: profileEmojiLabel)
             .store(in: &subscribers)
+        
+        /*
         OSAccount.current.$player
             .receive(on: DispatchQueue.main)
             .map({ "\($0?.foosballStats?.score ?? 0) pts" })
@@ -289,7 +277,6 @@ final class ProfileView: UIView {
             .map({ "\($0?.tableTennisStats?.score ?? 0) pts" })
             .assign(to: \.text, on: tableTennisScoreLabel)
             .store(in: &subscribers)
-        /*
         OSAccount.current.$player
             .receive(on: DispatchQueue.main)
             .compactMap({ "🏆 x \($0?.totalSeasonWins() ?? 0)" })
@@ -306,8 +293,7 @@ final class ProfileView: UIView {
         profileImageWrap.addSubview(profileImageBackground)
         addSubview(sportImageWrap)
         addSubview(nicknameLabel)
-        addSubview(foosballScoreLabel)
-        addSubview(tableTennisScoreLabel)
+        addSubview(playerStatsView)
         
         NSLayoutConstraint.pinToView(codeImageWrap, codeImageView, padding: 6)
         NSLayoutConstraint.pinToView(profileImageBackground, profileEmojiLabel)
@@ -344,14 +330,9 @@ final class ProfileView: UIView {
             nicknameLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 16),
             nicknameLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
             nicknameLabel.topAnchor.constraint(equalTo: sportImageWrap.bottomAnchor, constant: 16),
-            foosballScoreLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 16),
-            foosballScoreLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
-            foosballScoreLabel.topAnchor.constraint(equalTo: nicknameLabel.bottomAnchor, constant: 6),
-            foosballScoreLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
-            tableTennisScoreLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 16),
-            tableTennisScoreLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
-            tableTennisScoreLabel.topAnchor.constraint(equalTo: nicknameLabel.bottomAnchor, constant: 6),
-            tableTennisScoreLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20)
+            playerStatsView.topAnchor.constraint(equalTo: nicknameLabel.bottomAnchor, constant: 12),
+            playerStatsView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
+            playerStatsView.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
     }
     
