@@ -180,6 +180,7 @@ final class FirebaseSportsAPI: SportsAPI {
         let query = matchesCollection
             .whereField(FieldPath(["winner", "userId"]), isEqualTo: winnerId)
             .whereField(FieldPath(["loser", "userId"]), isEqualTo: loserId)
+            .whereField("sport", isEqualTo: sport.rawValue)
             .order(by: "date", descending: true)
             .limit(to: maxResultsInLatestMatches)
         
