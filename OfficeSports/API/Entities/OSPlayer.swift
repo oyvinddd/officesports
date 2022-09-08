@@ -11,7 +11,7 @@ import FirebaseFirestoreSwift
 struct OSPlayer: Identifiable, Codable, Equatable {
     
     enum CodingKeys: String, CodingKey {
-        case id, nickname, emoji, foosballStats, tableTennisStats, poolStats, team
+        case id, userId, nickname, emoji, foosballStats, tableTennisStats, poolStats, team
     }
     
     @DocumentID public var id: String?
@@ -54,6 +54,7 @@ struct OSPlayer: Identifiable, Codable, Equatable {
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decodeIfPresent(String.self, forKey: .userId)
         nickname = try container.decode(String.self, forKey: .nickname)
         emoji = try container.decode(String.self, forKey: .emoji)
         foosballStats = try? container.decode(OSStats.self, forKey: .foosballStats)
