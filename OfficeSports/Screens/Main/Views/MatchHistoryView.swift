@@ -80,11 +80,13 @@ final class MatchHistoryView: UIView {
         guard !history.isEmpty else {
             return
         }
-        var mutableCopy: [OSMatch] = history
-        for matchView in matchViews {
-            let match = mutableCopy.popLast() ?? nil
-            let status = match?.winner == currentPlayer
-            matchView.updateMatchStatus(didWin: status, animated: animated)
+        
+        for (index, match) in history.enumerated() {
+            guard index < matchViews.count else {
+                return
+            }
+            let status = match.winner == currentPlayer
+            matchViews[index].updateMatchStatus(didWin: status)
         }
     }
     
@@ -118,7 +120,7 @@ private final class MatchView: UIView {
     
     private lazy var innerView: UIView = {
         let view = UIView.createView(UIColor.OS.Status.success, cornerRadius: innerRadius)
-        view.alpha = 0.8
+        view.alpha = 0.6
         return view
     }()
     

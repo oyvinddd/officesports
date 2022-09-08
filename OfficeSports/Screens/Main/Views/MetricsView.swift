@@ -12,12 +12,14 @@ final class MetricsView: UIView {
     private lazy var metricLabel: UILabel = {
         let label = UILabel.createLabel(UIColor.white)
         label.font = UIFont.systemFont(ofSize: 29, weight: .semibold)
+        label.alpha = 0.9
         return label
     }()
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel.createLabel(UIColor.white)
         label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        label.alpha = 0.7
         return label
     }()
     
