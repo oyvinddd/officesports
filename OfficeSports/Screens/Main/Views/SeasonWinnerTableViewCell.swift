@@ -1,5 +1,5 @@
 //
-//  PlacementTableViewCell.swift
+//  SeasonWinnerTableViewCell.swift
 //  Office Sports
 //
 //  Created by Øyvind Hauge on 10/05/2022.
@@ -12,7 +12,7 @@ private let springEmoji = "🌿"
 private let autumnEmoji = "🍁"
 private let summerEmoji = "🏖"
 
-final class SeasonResultTableViewCell: UITableViewCell {
+final class SeasonWinnerTableViewCell: UITableViewCell {
     
     private static var dateFormatter: DateFormatter {
         let dateFormatter = DateFormatter()
@@ -53,8 +53,12 @@ final class SeasonResultTableViewCell: UITableViewCell {
         return UILabel.createLabel(UIColor.OS.Text.normal, alignment: .right)
     }()
     
+    private lazy var separator: UIView = {
+        return UIView.createView(UIColor.OS.General.separator)
+    }()
+    
     init() {
-        super.init(style: .default, reuseIdentifier: String(describing: SeasonResultTableViewCell.self))
+        super.init(style: .default, reuseIdentifier: String(describing: SeasonWinnerTableViewCell.self))
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -70,7 +74,7 @@ final class SeasonResultTableViewCell: UITableViewCell {
     
     func configure(with season: OSSeasonStats, _ isFirst: Bool, _ isLast: Bool) {
         let winner = season.winner
-        let dateString = SeasonResultTableViewCell.dateFormatter.string(from: season.date)
+        let dateString = SeasonWinnerTableViewCell.dateFormatter.string(from: season.date)
         var scoreString = ""
         if season.sport == .tableTennis, let score = winner.tableTennisStats?.score {
             scoreString = " • \(score) pts"
@@ -84,6 +88,7 @@ final class SeasonResultTableViewCell: UITableViewCell {
         nicknameLabel.text = "\(winner.nickname.lowercased()) 👑"
         seasonLabel.text = "\(dateString)\(scoreString)"
         seasonTypeLabel.text = seasonTypeFromDate(season.date)
+        separator.isHidden = isLast
     }
     
     private func applyCornerRadius(isFirstElement: Bool, isLastElement: Bool) {
@@ -111,6 +116,7 @@ final class SeasonResultTableViewCell: UITableViewCell {
         contentWrap.addSubview(nicknameLabel)
         contentWrap.addSubview(seasonLabel)
         contentWrap.addSubview(seasonTypeLabel)
+        contentWrap.addSubview(separator)
         
         NSLayoutConstraint.pinToView(profileImageWrap, profileEmojiLabel)
         NSLayoutConstraint.activate([
@@ -131,7 +137,11 @@ final class SeasonResultTableViewCell: UITableViewCell {
             seasonLabel.rightAnchor.constraint(greaterThanOrEqualTo: seasonTypeLabel.leftAnchor, constant: -8),
             seasonTypeLabel.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
             seasonTypeLabel.centerYAnchor.constraint(equalTo: contentWrap.centerYAnchor),
-            seasonTypeLabel.widthAnchor.constraint(equalToConstant: 50)
+            seasonTypeLabel.widthAnchor.constraint(equalToConstant: 50),
+            separator.leftAnchor.constraint(equalTo: contentWrap.leftAnchor),
+            separator.rightAnchor.constraint(equalTo: contentWrap.rightAnchor),
+            separator.bottomAnchor.constraint(equalTo: contentWrap.bottomAnchor),
+            separator.heightAnchor.constraint(equalToConstant: 1)
         ])
     }
     

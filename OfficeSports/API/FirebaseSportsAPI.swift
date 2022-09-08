@@ -136,9 +136,8 @@ final class FirebaseSportsAPI: SportsAPI {
     }
     
     func getScoreboard(sport: OSSport, result: @escaping ((Result<[OSPlayer], Error>) -> Void)) {
-        let fieldPath = sport == .foosball ? "foosballStats.score" : "tableTennisStats.score"
         var query = playersCollection
-            .order(by: fieldPath, descending: true)
+            .order(by: fieldPathForSport(sport), descending: true)
             .limit(to: maxResultsInScoreboard)
         
         // if player has chosen a team, only show scoreboard of players that has joined the same team
@@ -376,5 +375,18 @@ final class FirebaseSportsAPI: SportsAPI {
             }
         }
         return matches
+    }
+    
+    private func fieldPathForSport(_ sport: OSSport) -> String {
+        switch sport {
+        case .foosball:
+            return "foosballStats.score"
+        case .tableTennis:
+            return "tableTennisStats.score"
+        case .pool:
+            return "poolStats.score"
+        case .unknown:
+            return ""
+        }
     }
 }

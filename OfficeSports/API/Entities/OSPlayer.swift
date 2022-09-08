@@ -8,6 +8,8 @@
 import Foundation
 import FirebaseFirestoreSwift
 
+private let defaultPoints: Int = 1200
+
 struct OSPlayer: Identifiable, Codable, Equatable {
     
     enum CodingKeys: String, CodingKey {
@@ -76,26 +78,20 @@ struct OSPlayer: Identifiable, Codable, Equatable {
         }
     }
     
-    func scoreForSport(_ sport: OSSport) -> Int {
-        return statsForSport(sport)?.score ?? 0
+    func points(_ sport: OSSport) -> Int {
+        return statsForSport(sport)?.score ?? defaultPoints
     }
     
     func noOfmatchesForSport(_ sport: OSSport) -> Int {
-        guard let stats = statsForSport(sport) else {
-            return 0
-        }
-        return stats.matchesPlayed
+        return statsForSport(sport)?.matchesPlayed ?? 0
     }
     
     func noOfWinsForSport(_ sport: OSSport) -> Int {
         return statsForSport(sport)?.matchesWon ?? 0
     }
     
-    func totalSeasonWins() -> Int {
-        var totalWins = 0
-        totalWins += (foosballStats?.seasonWins ?? 0)
-        totalWins += (tableTennisStats?.seasonWins ?? 0)
-        return totalWins
+    func totalSeasonWinsForSport(_ sport: OSSport) -> Int {
+        return statsForSport(sport)?.seasonWins ?? 0
     }
     
     // MARK: - Equatable protocol conformance

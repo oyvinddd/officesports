@@ -20,7 +20,7 @@ final class SeasonsViewController: UIViewController, SeasonsHeaderDelegate {
     private lazy var tableView: UITableView = {
         let tableView = UITableView.createTableView(.clear, style: .grouped)
         tableView.registerCell(SportFilterTableViewCell.self)
-        tableView.registerCell(SeasonResultTableViewCell.self)
+        tableView.registerCell(SeasonWinnerTableViewCell.self)
         tableView.sectionHeaderHeight = 8
         tableView.sectionFooterHeight = 8
         tableView.dataSource = self
@@ -132,7 +132,7 @@ extension SeasonsViewController: UITableViewDataSource {
             cell.isUserInteractionEnabled = false // TODO: remove this whenever foosball filter has been implemented
             return cell
         }
-        let cell = tableView.dequeueReusableCell(for: SeasonResultTableViewCell.self, for: indexPath)
+        let cell = tableView.dequeueReusableCell(for: SeasonWinnerTableViewCell.self, for: indexPath)
         
         let isFirst = indexPath.row == 0
         let isLast = indexPath.row == viewModel.seasons.count - 1

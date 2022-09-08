@@ -7,6 +7,9 @@
 
 import UIKit
 
+private let defaultPoints: Int = 1200
+private let defaultTotalWins: Int = 0
+
 final class PlayerStatsView: UIView {
     
     private lazy var pointsWrap: UIView = {
@@ -78,5 +81,12 @@ final class PlayerStatsView: UIView {
             totalWinsLabel.topAnchor.constraint(equalTo: totalWinsWrap.topAnchor, constant: 8),
             totalWinsLabel.bottomAnchor.constraint(equalTo: totalWinsWrap.bottomAnchor, constant: -8)
         ])
+    }
+    
+    func updateStats(points: Int?, totalWins: Int?) {
+        let pts = points ?? defaultPoints
+        let wins = totalWins ?? defaultTotalWins
+        pointsLabel.text = "💎 x \(pts)"
+        totalWinsLabel.text = "🏆 x \(wins)"
     }
 }

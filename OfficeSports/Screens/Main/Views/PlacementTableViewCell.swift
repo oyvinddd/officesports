@@ -76,7 +76,7 @@ final class PlacementTableViewCell: UITableViewCell {
         profileImageWrap.backgroundColor = UIColor.OS.hashedProfileColor(player.nickname)
         profileEmojiLabel.text = player.emoji
         usernameLabel.text = player.nickname.lowercased()
-        scoreLabel.text = "\(player.scoreForSport(sport)) pts"
+        scoreLabel.text = "\(player.points(sport)) pts"
         separator.isHidden = isLast
     }
     
