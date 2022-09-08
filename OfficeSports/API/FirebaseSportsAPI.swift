@@ -141,7 +141,7 @@ final class FirebaseSportsAPI: SportsAPI {
             .limit(to: maxResultsInScoreboard)
         
         // if player has chosen a team, only show scoreboard of players that has joined the same team
-        if let currentTeamId = OSAccount.current.player?.team.id {
+        if let currentTeamId = OSAccount.current.player?.team?.id {
             query = query.whereField("team.id", isEqualTo: currentTeamId)
         }
         

@@ -117,8 +117,8 @@ final class MockSportsAPI: SportsAPI {
     }
     
     func getLatestMatches(sport: OSSport, winnerId: String, loserId: String, result: @escaping ((Result<[OSMatch], Error>) -> Void)) {
-        let player1 = OSPlayer(nickname: "oyvinddd", emoji: "🙂")
-        let player2 = OSPlayer(nickname: "salmaaan", emoji: "😞")
+        let player1 = OSPlayer(nickname: "oyvinddd", emoji: "🙂", team: OSTeam.noTeam)
+        let player2 = OSPlayer(nickname: "salmaaan", emoji: "😞", team: OSTeam.noTeam)
         let match1 = OSMatch(sport: sport, winner: player1, loser: player2, winnerDt: 12, loserDt: 12)
         let match2 = OSMatch(sport: sport, winner: player1, loser: player2, winnerDt: 8, loserDt: 8)
         let match3 = OSMatch(sport: sport, winner: player1, loser: player2, winnerDt: 4, loserDt: 4)

@@ -169,7 +169,7 @@ final class PlayerProfileViewController: UIViewController {
             titleLabel.text = "Update profile"
             emojiField.text = player.emoji
             nicknameField.text = player.nickname
-            teamField.text = player.team.name
+            teamField.text = player.team?.name
             continueButton.setTitle("Update", for: .normal)
         } else {
             closeButton.isHidden = true
