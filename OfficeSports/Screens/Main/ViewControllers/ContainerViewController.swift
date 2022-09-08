@@ -358,20 +358,32 @@ extension ContainerViewController: UIScrollViewDelegate {
         let xOffset = scrollView.contentOffset.x
         let width = scrollView.frame.width
         // update profile view based on inner scroll view content offset
+        
         if scrollView == innerScrollView {
-            if xOffset < width { // table tennis screen is showing
-                profileView.configureForSport(.tableTennis)
-                foosballViewController.scrollTableViewToTop(animated: false)
-                poolViewController.scrollTableViewToTop(animated: false)
-            } else if xOffset < width * 2 { // foosball screen is showing
-                profileView.configureForSport(.foosball)
-                tableTennisViewController.scrollTableViewToTop(animated: false)
-                poolViewController.scrollTableViewToTop(animated: false)
-            } else if xOffset >= width * 2 { // pool screen is showing
-                profileView.configureForSport(.pool)
-                tableTennisViewController.scrollTableViewToTop(animated: false)
-                foosballViewController.scrollTableViewToTop(animated: false)
+            if xOffset < width {
+                let sport = sportFromViewControllerAtIndex(0)
+                profileView.configureForSport(sport)
+            } else if xOffset < width * 2 {
+                let sport = sportFromViewControllerAtIndex(1)
+                profileView.configureForSport(sport)
+            } else if xOffset >= width * 2 {
+                let sport = sportFromViewControllerAtIndex(2)
+                profileView.configureForSport(sport)
             }
+            tableTennisViewController.scrollTableViewToTop(animated: false)
+            foosballViewController.scrollTableViewToTop(animated: false)
+            poolViewController.scrollTableViewToTop(animated: false)
         }
+    }
+    
+    private func sportFromViewControllerAtIndex(_ index: Int) -> OSSport {
+        let viewController = activeViewControllers[index + 1] // index 0 = camera, so increment by one
+        if viewController == tableTennisViewController {
+            return .tableTennis
+        }
+        if viewController == foosballViewController {
+            return .foosball
+        }
+        return .pool
     }
 }
