@@ -23,6 +23,8 @@ protocol FloatingMenuDelegate: AnyObject {
     func tableTennisButtonDoubleTapped()
     
     func foosballButtonDoubleTapped()
+    
+    func poolButtonDoubleTapped()
 }
 
 final class FloatingMenu: UIView {
@@ -62,6 +64,7 @@ final class FloatingMenu: UIView {
     private lazy var mbPool: MenuButton = {
         let button = MenuButton(.clear, image: UIImage(named: "Pool")!.withRenderingMode(.alwaysTemplate))
         button.addTarget(self, action: #selector(poolButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(poolButtonDoubleTapped), for: .touchDownRepeat)
         return button
     }()
     
@@ -184,6 +187,10 @@ final class FloatingMenu: UIView {
     
     @objc private func foosballButtonDoubleTapped(_ sender: MenuButton) {
         delegate?.foosballButtonDoubleTapped()
+    }
+    
+    @objc private func poolButtonDoubleTapped(_ sender: MenuButton) {
+        delegate?.poolButtonDoubleTapped()
     }
 }
 

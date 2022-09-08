@@ -295,11 +295,18 @@ extension ContainerViewController: FloatingMenuDelegate {
         scrollToViewController(poolViewController, animated: true)
     }
     
-    func foosballButtonDoubleTapped() {
+    func tableTennisButtonDoubleTapped() {
+        tableTennisViewController.scrollTableViewToTop(animated: true)
         profileView.displayQrCode()
     }
     
-    func tableTennisButtonDoubleTapped() {
+    func foosballButtonDoubleTapped() {
+        foosballViewController.scrollTableViewToTop(animated: true)
+        profileView.displayQrCode()
+    }
+    
+    func poolButtonDoubleTapped() {
+        poolViewController.scrollTableViewToTop(animated: true)
         profileView.displayQrCode()
     }
 }
