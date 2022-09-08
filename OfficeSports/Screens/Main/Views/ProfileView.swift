@@ -94,7 +94,8 @@ final class ProfileView: UIView {
     }()
     
     private lazy var profileImageBackground: UIView = {
-        let profileColor = UIColor.OS.hashedProfileColor(account.nickname ?? "")
+        let nickname = OSAccount.current.nickname ?? ""
+        let profileColor = UIColor.OS.hashedProfileColor(nickname)
         let profileImageBackground = UIView.createView(profileColor)
         profileImageBackground.applyCornerRadius((profileImageDiameter - 16) / 2)
         return profileImageBackground
@@ -150,26 +151,20 @@ final class ProfileView: UIView {
         return PlayerStatsView(points: 1200, totalWins: 0)
     }()
     
-    weak var delegate: ProfileViewDelegate?
-    
     private var subscribers = Set<AnyCancellable>()
-    private var account: OSAccount
     private var isDisplayingQrCode: Bool = false
     
-    init(account: OSAccount, initialSport: OSSport, delegate: ProfileViewDelegate?) {
-        self.account = account
+    weak var delegate: ProfileViewDelegate?
+    
+    init(initialSport: OSSport, delegate: ProfileViewDelegate?) {
         self.delegate = delegate
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
-        
-        let foosballStats = account.player?.foosballStats
-        let tableTennisStats = account.player?.tableTennisStats
-        
-        profileEmojiLabel.text = account.emoji
-        nicknameLabel.text = account.nickname?.lowercased()
         setupSubscribers()
         setupChildViews()
         configureForSport(initialSport)
+        profileEmojiLabel.text = OSAccount.current.emoji
+        nicknameLabel.text = OSAccount.current.nickname?.lowercased()
     }
     
     required init?(coder: NSCoder) {
@@ -177,6 +172,11 @@ final class ProfileView: UIView {
     }
     
     func configureForSport(_ sport: OSSport) {
+        // update player stats labels with stats for the given sport
+        let points = OSAccount.current.player?.points(sport)
+        let totalWins = OSAccount.current.player?.totalSeasonWinsForSport(sport)
+        playerStatsView.updateStats(points: points, totalWins: totalWins)
+        
         var sportImageWrapAlpha: CGFloat = 1
         var sportImageBackgroundColor = UIColor.OS.Sport.foosball
         var foosballEmojiAlpha: CGFloat = 1

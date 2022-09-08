@@ -27,8 +27,7 @@ final class ContainerViewController: UIViewController {
     }()
     
     private lazy var profileView: ProfileView = {
-        let initialSport = determineInitialSport()
-        return ProfileView(account: OSAccount.current, initialSport: initialSport, delegate: self)
+        return ProfileView(initialSport: determineInitialSport(), delegate: self)
     }()
     
     private lazy var outerScrollView: UIScrollView = {
@@ -88,6 +87,13 @@ final class ContainerViewController: UIViewController {
         return viewControllers
     }()
     
+    private var firstSportViewController: UIViewController? {
+        if activeViewControllers.count < 2 {
+            return nil
+        }
+        return activeViewControllers[1]
+    }
+    
     private let viewModel: PlayerProfileViewModel
     
     init(viewModel: PlayerProfileViewModel) {
@@ -112,9 +118,12 @@ final class ContainerViewController: UIViewController {
     }
     
     func resetScrollViewsAndReloadData() {
-        scrollToViewController(tableTennisViewController, animated: true)
+        if let viewController = firstSportViewController {
+            scrollToViewController(viewController, animated: true)
+        }
         foosballViewController.reloadSportData()
         tableTennisViewController.reloadSportData()
+        poolViewController.reloadSportData()
     }
     
     private func setupChildViews() {

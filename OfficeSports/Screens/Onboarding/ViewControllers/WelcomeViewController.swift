@@ -14,6 +14,7 @@ final class WelcomeViewController: UIViewController {
         let label = UILabel.createLabel(.white, alignment: .center)
         label.font = UIFont.boldSystemFont(ofSize: 36)
         label.text = "Welcome to Office Sports! 🥳✨"
+        label.applyLargeDropShadow(.black)
         return label
     }()
     
