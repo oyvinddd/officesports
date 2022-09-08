@@ -53,4 +53,11 @@ struct OSMatch: Codable {
         winnerDelta = try container.decode(Int.self, forKey: .winnerDelta)
         loserDelta = try container.decode(Int.self, forKey: .loserDelta)
     }
+    
+    static func <(lhs: OSMatch, rhs: OSMatch) -> Bool {
+        guard let date1 = lhs.date, let date2 = rhs.date else {
+            return false
+        }
+        return date1 < date2
+    }
 }
