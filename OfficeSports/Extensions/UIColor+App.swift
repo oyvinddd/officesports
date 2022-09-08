@@ -21,6 +21,10 @@ extension UIColor {
             static let mainDark = UIColor(hex: 0x4C56C8)
             
             static let separator = UIColor(hex: 0xF1F0F2)
+            
+            static let pointsBackground = UIColor(hex: 0xD587B6)
+            
+            static let totalWinsBackground = UIColor(hex: 0x8C77CE)
         }
         
         enum Text {
