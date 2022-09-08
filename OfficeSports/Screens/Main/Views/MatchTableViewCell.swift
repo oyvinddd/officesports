@@ -26,6 +26,10 @@ final class MatchTableViewCell: UITableViewCell {
         return label
     }()
     
+    private lazy var separator: UIView = {
+        return UIView.createView(UIColor.OS.General.separator)
+    }()
+    
     var match: OSMatch? {
         didSet {
             updateUI()
@@ -59,12 +63,14 @@ final class MatchTableViewCell: UITableViewCell {
         }
         contentWrap.layer.cornerRadius = 15
         contentWrap.layer.maskedCorners = mask
+        separator.isHidden = isLastElement
     }
     
     private func setupChildViews() {
         contentView.addSubview(contentWrap)
         contentWrap.addSubview(matchDateLabel)
         contentWrap.addSubview(matchResultLabel)
+        contentWrap.addSubview(separator)
         
         NSLayoutConstraint.activate([
             contentWrap.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16),
@@ -77,7 +83,11 @@ final class MatchTableViewCell: UITableViewCell {
             matchResultLabel.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
             matchResultLabel.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
             matchResultLabel.topAnchor.constraint(equalTo: matchDateLabel.bottomAnchor, constant: 4),
-            matchResultLabel.bottomAnchor.constraint(equalTo: contentWrap.bottomAnchor, constant: -16)
+            matchResultLabel.bottomAnchor.constraint(equalTo: contentWrap.bottomAnchor, constant: -16),
+            separator.leftAnchor.constraint(equalTo: contentWrap.leftAnchor),
+            separator.rightAnchor.constraint(equalTo: contentWrap.rightAnchor),
+            separator.bottomAnchor.constraint(equalTo: contentWrap.bottomAnchor),
+            separator.heightAnchor.constraint(equalToConstant: 1)
         ])
     }
     
