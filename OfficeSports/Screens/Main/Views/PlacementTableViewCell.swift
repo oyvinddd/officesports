@@ -39,8 +39,7 @@ final class PlacementTableViewCell: UITableViewCell {
     }()
     
     private lazy var separator: UIView = {
-        let view = UIView.createView(UIColor.OS.General.separator)
-        return view
+        return UIView.createView(UIColor.OS.General.separator)
     }()
     
     private lazy var placementLabel: UILabel = {
