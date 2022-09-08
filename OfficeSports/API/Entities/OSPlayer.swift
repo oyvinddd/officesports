@@ -30,9 +30,7 @@ struct OSPlayer: Identifiable, Codable, Equatable {
     
     var poolStats: OSStats?
     
-    var team: OSTeam?
-    
-    init(id: String? = nil, nickname: String, emoji: String, team: OSTeam? = nil, foosballStats: OSStats? = nil, tableTennisStats: OSStats? = nil, poolStats: OSStats? = nil) {
+    init(id: String? = nil, nickname: String, emoji: String, team: OSTeam, foosballStats: OSStats? = nil, tableTennisStats: OSStats? = nil, poolStats: OSStats? = nil) {
         self.id = id
         self.nickname = nickname
         self.emoji = emoji
@@ -64,7 +62,7 @@ struct OSPlayer: Identifiable, Codable, Equatable {
         foosballStats = try? container.decode(OSStats.self, forKey: .foosballStats)
         tableTennisStats = try? container.decode(OSStats.self, forKey: .tableTennisStats)
         poolStats = try? container.decode(OSStats.self, forKey: .poolStats)
-        team = try? container.decode(OSTeam.self, forKey: .team)
+        team = try container.decode(OSTeam.self, forKey: .team)
     }
     
     func statsForSport(_ sport: OSSport) -> OSStats? {

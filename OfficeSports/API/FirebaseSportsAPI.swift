@@ -108,7 +108,7 @@ final class FirebaseSportsAPI: SportsAPI {
                 print(error)
             }
         }
-        let player = OSPlayer(id: uid, nickname: nickname, emoji: emoji, team: team)
+        let player = OSPlayer(id: uid, nickname: nickname, emoji: emoji, team: team ?? OSTeam.noTeam)
         
         playersCollection.document(uid).setData(data, mergeFields: fields) { error in
             guard let error = error else {
@@ -141,7 +141,7 @@ final class FirebaseSportsAPI: SportsAPI {
             .limit(to: maxResultsInScoreboard)
         
         // if player has chosen a team, only show scoreboard of players that has joined the same team
-        if let currentTeamId = OSAccount.current.player?.team?.id {
+        if let currentTeamId = OSAccount.current.player?.team.id {
             query = query.whereField("team.id", isEqualTo: currentTeamId)
         }
         

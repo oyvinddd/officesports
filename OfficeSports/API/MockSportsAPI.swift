@@ -35,14 +35,15 @@ final class MockSportsAPI: SportsAPI {
     
     private let players = [
         OSAccount.current.player!,
-        OSPlayer(nickname: "heimegut", emoji: "💩", foosballStats: fst[1], tableTennisStats: tst[1]),
-        OSPlayer(nickname: "salmaaan", emoji: "🧐", foosballStats: fst[2], tableTennisStats: tst[2]),
-        OSPlayer(nickname: "patidati", emoji: "👻", foosballStats: fst[3], tableTennisStats: tst[3]),
-        OSPlayer(nickname: "sekse", emoji: "🤖", foosballStats: fst[4], tableTennisStats: tst[4]),
-        OSPlayer(nickname: "dimling", emoji: "👨🏻‍🎨", foosballStats: fst[5], tableTennisStats: tst[5]),
-        OSPlayer(nickname: "konstant", emoji: "☀️", foosballStats: fst[6], tableTennisStats: tst[6]),
-        OSPlayer(nickname: "eirik", emoji: "👑", foosballStats: fst[7], tableTennisStats: tst[7]),
-        OSPlayer(nickname: "panzertax", emoji: "🐹", foosballStats: fst[8], tableTennisStats: tst[8])
+        
+        OSPlayer(nickname: "heimegut", emoji: "💩", team: OSTeam(id: "id#123", name: "Ekornes AS"), foosballStats: fst[1], tableTennisStats: tst[1]),
+        OSPlayer(nickname: "salmaaan", emoji: "🧐", team: OSTeam(id: "id#123", name: "Ekornes AS"), foosballStats: fst[2], tableTennisStats: tst[2]),
+        OSPlayer(nickname: "patidati", emoji: "👻", team: OSTeam(id: "id#123", name: "Ekornes AS"), foosballStats: fst[3], tableTennisStats: tst[3]),
+        OSPlayer(nickname: "sekse", emoji: "🤖", team: OSTeam(id: "id#123", name: "Ekornes AS"), foosballStats: fst[4], tableTennisStats: tst[4]),
+        OSPlayer(nickname: "dimling", emoji: "👨🏻‍🎨", team: OSTeam(id: "id#123", name: "Ekornes AS"), foosballStats: fst[5], tableTennisStats: tst[5]),
+        OSPlayer(nickname: "konstant", emoji: "☀️", team: OSTeam(id: "id#123", name: "Ekornes AS"), foosballStats: fst[6], tableTennisStats: tst[6]),
+        OSPlayer(nickname: "eirik", emoji: "👑", team: OSTeam(id: "id#123", name: "Ekornes AS"), foosballStats: fst[7], tableTennisStats: tst[7]),
+        OSPlayer(nickname: "panzertax", emoji: "🐹", team: OSTeam(id: "id#123", name: "Ekornes AS"), foosballStats: fst[8], tableTennisStats: tst[8])
     ]
     
     private lazy var scoreboard: [OSPlayer] = {
@@ -78,7 +79,7 @@ final class MockSportsAPI: SportsAPI {
     func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam?, result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
         let foosballStats = OSStats(sport: .foosball, score: 0, matchesPlayed: 0, matchesWon: 0, seasonWins: 0)
         let tableTennisStats = OSStats(sport: .tableTennis, score: 0, matchesPlayed: 0, matchesWon: 0, seasonWins: 0)
-        let player = OSPlayer(id: "id#1337", nickname: nickname, emoji: emoji, foosballStats: foosballStats, tableTennisStats: tableTennisStats)
+        let player = OSPlayer(id: "id#1337", nickname: nickname, emoji: emoji, team: OSTeam.noTeam, foosballStats: foosballStats, tableTennisStats: tableTennisStats)
         result(.success(player))
     }
     
