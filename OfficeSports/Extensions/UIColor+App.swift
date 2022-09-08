@@ -40,7 +40,7 @@ extension UIColor {
             
             static let tableTennis = UIColor(hex: 0x6CBEA8)
             
-            static let pool = UIColor(hex: 0xC86286)
+            static let pool = UIColor(hex: 0xE3615D)
         }
         
         enum Status {

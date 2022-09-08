@@ -26,18 +26,6 @@ final class AboutViewController: UIViewController {
         return button
     }()
     
-    private lazy var oyvindView: DeveloperView = {
-        return DeveloperView(image: UIImage(named: "oyvind-profile-picure.png"), role: "Design • iOS")
-    }()
-    
-    private lazy var sindreView: DeveloperView = {
-        return DeveloperView(image: UIImage(named: "sindre-profile-picture-2.png"), role: "Backend")
-    }()
-    
-    private lazy var konstantinosView: DeveloperView = {
-        return DeveloperView(image: UIImage(named: "konstantinos-profile-picture.png"), role: "Android")
-    }()
-    
     private lazy var versionLabel: UILabel = {
         let text = "Version \(Bundle.main.appVersionNumber ?? "") (\(Bundle.main.appBuildNumber ?? "")) ⚡️"
         let label = UILabel.createLabel(.white, alignment: .center, text: text)
@@ -65,9 +53,6 @@ final class AboutViewController: UIViewController {
     private func setupChildViews() {
         view.addSubview(titleLabel)
         view.addSubview(closeButton)
-        view.addSubview(oyvindView)
-        view.addSubview(sindreView)
-        view.addSubview(konstantinosView)
         view.addSubview(versionLabel)
         
         NSLayoutConstraint.activate([
@@ -84,14 +69,29 @@ final class AboutViewController: UIViewController {
     }
     
     private func setupGravity() {
-        let gravityViews = [oyvindView, sindreView, konstantinosView]
+        let viewWidth = view.frame.width
+        
+        let oyvindView = DeveloperView(image: UIImage(named: "oyvind-profile-picure.png"), role: "Design • iOS")
+        oyvindView.frame = CGRect(x: 75, y: -300, width: 150, height: 170)
+        
+        let sindreView = DeveloperView(image: UIImage(named: "sindre-profile-picture-2.png"), role: "Backend")
+        sindreView.frame = CGRect(x: 230, y: -400, width: 140, height: 170)
+        
+        let konstantView = DeveloperView(image: UIImage(named: "konstantinos-profile-picture.png"), role: "Android")
+        konstantView.frame = CGRect(x: 20, y: -180, width: 150, height: 170)
+        
+        view.addSubview(oyvindView)
+        view.addSubview(sindreView)
+        view.addSubview(konstantView)
+        
+        let gravityViews = [oyvindView, sindreView, konstantView]
         
         animator = UIDynamicAnimator(referenceView: view)
         gravity = UIGravityBehavior(items: gravityViews)
         
         let collision = UICollisionBehavior(items: gravityViews)
         
-        let rect = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - 100)
+        let rect = CGRect(x: 0, y: -1000, width: view.frame.width, height: view.frame.height - 100 + 1000)
         collision.addBoundary(withIdentifier: "barrier" as NSCopying, for: UIBezierPath(rect: rect))
         
         animator.addBehavior(collision)
@@ -109,10 +109,7 @@ final class AboutViewController: UIViewController {
 private final class DeveloperView: UIView {
     
     private lazy var profileImageView: UIImageView = {
-        let imageView = UIImageView.createImageView(nil)
-        imageView.layer.masksToBounds = true
-        imageView.layer.cornerRadius = 7
-        return imageView
+        return UIImageView.createImageView(nil)
     }()
     
     private lazy var rolelabel: UILabel = {

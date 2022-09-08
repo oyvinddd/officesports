@@ -36,6 +36,10 @@ final class SportViewController: UIViewController {
         return tableView
     }()
     
+    private lazy var feedbackGenerator: UIImpactFeedbackGenerator = {
+        return UIImpactFeedbackGenerator(style: .medium)
+    }()
+    
     weak var delegate: SportViewControllerDelegate?
     
     private let viewModel: SportViewModel
@@ -197,6 +201,7 @@ extension SportViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        feedbackGenerator.impactOccurred()
         if showScoreboard {
             let player = indexPath.section == 1 ? viewModel.scoreboard[indexPath.row] : viewModel.idlePlayers[indexPath.row]
             Coordinator.global.presentPlayerDetails(player, sport: viewModel.sport)

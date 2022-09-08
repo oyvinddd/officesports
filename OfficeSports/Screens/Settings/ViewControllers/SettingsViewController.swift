@@ -50,14 +50,6 @@ final class SettingsViewController: UIViewController {
         return button
     }()
     
-//    private lazy var signOutView: UIView = {
-//        let view = UIView.createView(.red)
-//        
-//        let button = UIButton.create
-//        
-//        return view
-//    }()
-    
     private lazy var signOutConfirmController: UIAlertController = {
         let alertController = UIAlertController(title: "Are you sure you want to sign out?", message: nil, preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: "Yes", style: .default) { [unowned self] _ in
