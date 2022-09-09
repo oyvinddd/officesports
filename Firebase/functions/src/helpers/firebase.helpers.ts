@@ -3,7 +3,7 @@ import { Match } from "../types/Match";
 import type { Player } from "../types/Player";
 import { Season } from "../types/Season";
 import { Sport } from "../types/Sport";
-import { getEmptyStats, getSportStats } from "./sport.helpers";
+import { getEmptyStats, getSportScore, getSportStats } from "./sport.helpers";
 
 admin.initializeApp({
   storageBucket: "officesports-5d7ac.appspot.com",
@@ -32,6 +32,7 @@ const playerConverter: admin.firestore.FirestoreDataConverter<Player> = {
       tableTennisStats: snapshot.get("tableTennisStats"),
       team: snapshot.get("team"),
       teamId: snapshot.get("teamId") ?? snapshot.get("team").id,
+      stats: snapshot.get("stats") ?? [snapshot.get("foosballStats")],
     };
 
     return player;
@@ -95,6 +96,11 @@ export const updatePlayer = async (player: Player): Promise<void> => {
     tableTennisStats:
       player.tableTennisStats ?? getEmptyStats(Sport.TableTennis),
     poolStats: player.poolStats ?? getEmptyStats(Sport.Pool),
+    stats: player.stats ?? [
+      player.foosballStats ?? getEmptyStats(Sport.Foosball),
+      player.tableTennisStats ?? getEmptyStats(Sport.TableTennis),
+      player.poolStats ?? getEmptyStats(Sport.Pool),
+    ],
     team: player.team,
     teamId: player.teamId ?? player.team.id,
   };
@@ -113,22 +119,6 @@ export const getLeader = async (
   sport: Sport,
   team?: string,
 ): Promise<Player | null> => {
-  let orderByField: string;
-
-  switch (sport) {
-    case Sport.Foosball:
-      orderByField = "foosballStats.score";
-      break;
-    case Sport.TableTennis:
-      orderByField = "tableTennisStats.score";
-      break;
-    case Sport.Pool:
-      orderByField = "poolStats.score";
-      break;
-    case Sport.Unknown:
-      throw new Error("Wtf, sport is unknown");
-  }
-
   const allPlayers = getPlayerCollection();
   let playerQuery;
 
@@ -138,16 +128,15 @@ export const getLeader = async (
     playerQuery = allPlayers;
   }
 
-  const playerSnap = await playerQuery
-    .limit(2)
-    .orderBy(orderByField, "desc")
-    .withConverter(playerConverter)
-    .get();
+  const getSpecificSportScore = getSportScore(sport);
+  const sortBySportScoreDesc = (player1: Player, player2: Player) =>
+    getSpecificSportScore(player2) - getSpecificSportScore(player1);
 
-  const [firstPlaceSnap, secondPlaceSnap] = playerSnap.docs;
+  const playerSnap = await playerQuery.withConverter(playerConverter).get();
 
-  const firstPlace = firstPlaceSnap.data();
-  const secondPlace = secondPlaceSnap.data();
+  const [firstPlace, secondPlace] = playerSnap.docs
+    .map(playerSnap => playerSnap.data())
+    .sort(sortBySportScoreDesc);
 
   const firstPlaceStats = getSportStats(firstPlace, sport);
   const secondPlaceStats = getSportStats(secondPlace, sport);
@@ -168,14 +157,6 @@ export const incrementTotalSeasonWins = async (
 ) => {
   const stats = getSportStats(player, sport);
   stats.seasonWins += 1;
-
-  if (sport === Sport.Foosball) {
-    player.foosballStats = stats;
-  } else if (sport === Sport.TableTennis) {
-    player.tableTennisStats = stats;
-  } else if (sport === Sport.Pool) {
-    player.poolStats = stats;
-  }
 
   updatePlayer(player);
 };
@@ -209,6 +190,12 @@ export const resetScoreboards = async (initialScore: number): Promise<void> => {
       player.poolStats.score = initialScore;
       player.poolStats.matchesPlayed = 0;
       player.poolStats.matchesWon = 0;
+    }
+
+    for (const stat of player.stats) {
+      stat.score = initialScore;
+      stat.matchesPlayed = 0;
+      stat.matchesWon = 0;
     }
 
     await updatePlayer(player);
