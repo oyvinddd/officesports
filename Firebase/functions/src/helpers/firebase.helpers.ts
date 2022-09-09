@@ -22,19 +22,25 @@ const getMatchCollection = () => getCollection<Match>("matches");
 const getSeasonCollection = () => getCollection<Season>("seasons");
 
 const playerConverter: admin.firestore.FirestoreDataConverter<Player> = {
-  fromFirestore: snapshot => ({
-    userId: snapshot.id,
-    emoji: snapshot.get("emoji"),
-    nickname: snapshot.get("nickname"),
-    foosballStats: snapshot.get("foosballStats"),
-    tableTennisStats: snapshot.get("tableTennisStats"),
-    team: snapshot.get("team"),
-    teamId: snapshot.get("teamId") ?? snapshot.get("team").id,
-  }),
+  fromFirestore: snapshot => {
+    const player: Player = {
+      userId: snapshot.id,
+      emoji: snapshot.get("emoji"),
+      nickname: snapshot.get("nickname"),
+      foosballStats: snapshot.get("foosballStats"),
+      poolStats: snapshot.get("poolStats"),
+      tableTennisStats: snapshot.get("tableTennisStats"),
+      team: snapshot.get("team"),
+      teamId: snapshot.get("teamId") ?? snapshot.get("team").id,
+    };
+
+    return player;
+  },
   toFirestore: player => ({
     emoji: player.emoji,
     nickname: player.nickname,
     foosballStats: player.foosballStats,
+    poolStats: player.poolStats,
     tableTennisStats: player.tableTennisStats,
     team: player.team,
     // @ts-expect-error `player.team` is a Team (or undefined)
@@ -43,24 +49,32 @@ const playerConverter: admin.firestore.FirestoreDataConverter<Player> = {
 };
 
 const matchConverter: admin.firestore.FirestoreDataConverter<Match> = {
-  fromFirestore: snapshot => ({
-    date: snapshot.get("date"),
-    loser: snapshot.get("loser"),
-    loserDelta: snapshot.get("loserDelta"),
-    sport: snapshot.get("sport"),
-    winner: snapshot.get("winner"),
-    winnerDelta: snapshot.get("winnerDelta"),
-  }),
+  fromFirestore: snapshot => {
+    const match: Match = {
+      date: snapshot.get("date"),
+      loser: snapshot.get("loser"),
+      loserDelta: snapshot.get("loserDelta"),
+      sport: snapshot.get("sport"),
+      winner: snapshot.get("winner"),
+      winnerDelta: snapshot.get("winnerDelta"),
+    };
+
+    return match;
+  },
   toFirestore: match => match,
 };
 
 const seasonConverter: admin.firestore.FirestoreDataConverter<Season> = {
-  fromFirestore: snapshot => ({
-    date: snapshot.get("date"),
-    sport: snapshot.get("sport"),
-    winner: snapshot.get("winner"),
-  }),
-  toFirestore: match => match,
+  fromFirestore: snapshot => {
+    const season: Season = {
+      date: snapshot.get("date"),
+      sport: snapshot.get("sport"),
+      winner: snapshot.get("winner"),
+    };
+
+    return season;
+  },
+  toFirestore: season => season,
 };
 
 export const getPlayer = async (id: string): Promise<Player | undefined> => {
@@ -74,19 +88,21 @@ export const getPlayer = async (id: string): Promise<Player | undefined> => {
 };
 
 export const updatePlayer = async (player: Player): Promise<void> => {
+  const updatedPlayer: Omit<Player, "userId"> = {
+    emoji: player.emoji,
+    nickname: player.nickname,
+    foosballStats: player.foosballStats ?? getEmptyStats(Sport.Foosball),
+    tableTennisStats:
+      player.tableTennisStats ?? getEmptyStats(Sport.TableTennis),
+    poolStats: player.poolStats ?? getEmptyStats(Sport.Pool),
+    team: player.team,
+    teamId: player.teamId ?? player.team.id,
+  };
+
   await getPlayerCollection()
     .withConverter(playerConverter)
     .doc(player.userId)
-    .update({
-      emoji: player.emoji,
-      nickname: player.nickname,
-      foosballStats: player.foosballStats ?? getEmptyStats(Sport.Foosball),
-      tableTennisStats:
-        player.tableTennisStats ?? getEmptyStats(Sport.TableTennis),
-      poolStats: player.poolStats ?? getEmptyStats(Sport.Pool),
-      team: player.team,
-      teamId: player.teamId ?? player.team.id,
-    });
+    .update(updatedPlayer);
 };
 
 export const addMatch = async (match: Match): Promise<void> => {
