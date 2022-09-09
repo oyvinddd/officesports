@@ -8,5 +8,7 @@ export type Player = {
   foosballStats?: Stats;
   tableTennisStats?: Stats;
   poolStats?: Stats;
+  /** @deprecated Use teamId instead */
   team: Team;
+  teamId: string;
 };
