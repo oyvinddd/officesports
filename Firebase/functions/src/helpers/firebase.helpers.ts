@@ -31,6 +31,7 @@ const playerConverter: admin.firestore.FirestoreDataConverter<Player> = {
       poolStats: snapshot.get("poolStats"),
       tableTennisStats: snapshot.get("tableTennisStats"),
       team: snapshot.get("team"),
+      teamId: snapshot.get("teamId") ?? snapshot.get("team").id,
     };
 
     return player;
@@ -42,6 +43,8 @@ const playerConverter: admin.firestore.FirestoreDataConverter<Player> = {
     poolStats: player.poolStats,
     tableTennisStats: player.tableTennisStats,
     team: player.team,
+    // @ts-expect-error `player.team` is a Team (or undefined)
+    teamId: player.teamId ?? player.team?.id,
   }),
 };
 
@@ -93,6 +96,7 @@ export const updatePlayer = async (player: Player): Promise<void> => {
       player.tableTennisStats ?? getEmptyStats(Sport.TableTennis),
     poolStats: player.poolStats ?? getEmptyStats(Sport.Pool),
     team: player.team,
+    teamId: player.teamId ?? player.team.id,
   };
 
   await getPlayerCollection()
