@@ -19,6 +19,11 @@ export const sportNames: Record<Sport, string> = {
 };
 
 export const getSportStats = (player: Player, sport: Sport): Stats => {
+  const sportStats = player.stats.find(stat => stat.sport === sport);
+  if (sportStats) {
+    return sportStats;
+  }
+
   switch (sport) {
     case Sport.Foosball:
       return (player.foosballStats ??= getEmptyStats(Sport.Foosball));
@@ -30,3 +35,8 @@ export const getSportStats = (player: Player, sport: Sport): Stats => {
       throw new Error(`Sport '${sport}' is not allowed.`);
   }
 };
+
+export const getSportScore =
+  (sport: Sport) =>
+  (player: Player): number =>
+    player.stats.find(stat => stat.sport === sport)?.score ?? 0;

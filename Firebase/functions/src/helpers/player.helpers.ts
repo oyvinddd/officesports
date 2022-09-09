@@ -14,4 +14,12 @@ export const setEmptyPlayerStats = (player: Player): void => {
   if (!player.poolStats) {
     player.poolStats = getEmptyStats(Sport.Pool);
   }
+
+  if (!player.stats) {
+    player.stats = [
+      getEmptyStats(Sport.Foosball),
+      getEmptyStats(Sport.TableTennis),
+      getEmptyStats(Sport.Pool),
+    ];
+  }
 };

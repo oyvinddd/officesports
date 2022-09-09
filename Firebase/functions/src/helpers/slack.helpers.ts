@@ -53,6 +53,8 @@ const formatSportMessage = (
 };
 
 const seasonToString = ({ sport, winner }: Season): string => {
+  const stats = getSportStats(winner, sport);
+
   switch (sport) {
     case Sport.Foosball:
       return formatSportMessage("⚽️", sport, winner);
