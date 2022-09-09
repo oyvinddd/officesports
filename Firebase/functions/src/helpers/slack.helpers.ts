@@ -10,7 +10,7 @@ import { initialScore } from "../constants";
 import { Player } from "../types/Player";
 import { Season } from "../types/Season";
 import { Sport } from "../types/Sport";
-import { getSportName, getSportStats } from "./sport.helpers";
+import { sportNames, getSportStats } from "./sport.helpers";
 
 dotenv.config();
 
@@ -32,14 +32,34 @@ const postMessage = async (
   return await slackClient.chat.postMessage({ text, blocks, channel });
 };
 
+const capitalize = (str: string): string => {
+  if (!str) {
+    return "";
+  }
+
+  const [firstLetter, ...rest] = str;
+  return `${firstLetter.toUpperCase()}${rest.join("")}`;
+};
+
+const formatSportMessage = (
+  emoji: string,
+  sport: Sport,
+  winner: Player,
+): string => {
+  const stats = getSportStats(winner, sport);
+  const sportName = capitalize(sportNames[sport]);
+
+  return ` - ${emoji} ${sportName}: ${winner.nickname} ${winner.emoji} with ${stats.score} points`;
+};
+
 const seasonToString = ({ sport, winner }: Season): string => {
   switch (sport) {
     case Sport.Foosball:
-      return ` - ⚽️ Foosball: ${winner.nickname} ${winner.emoji} with ${winner.foosballStats?.score} points`;
+      return formatSportMessage("⚽️", sport, winner);
     case Sport.TableTennis:
-      return ` - 🏓 Table tennis: ${winner.nickname} ${winner.emoji} with ${winner.tableTennisStats?.score} points`;
+      return formatSportMessage("🏓", sport, winner);
     case Sport.Pool:
-      return ` - 🎱 Pool: ${winner.nickname} ${winner.emoji} with ${winner.poolStats?.score} points`;
+      return formatSportMessage("🎱", sport, winner);
     default:
       return "";
   }
@@ -96,7 +116,7 @@ export const formatLeaderText = (
   sport: Sport,
   leader: Player | null,
 ): Array<Block | KnownBlock> => {
-  const sportName = getSportName(sport);
+  const sportName = sportNames[sport];
 
   if (!leader) {
     return [
