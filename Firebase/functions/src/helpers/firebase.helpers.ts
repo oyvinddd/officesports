@@ -38,7 +38,7 @@ const playerConverter: admin.firestore.FirestoreDataConverter<Player> = {
     tableTennisStats: player.tableTennisStats,
     team: player.team,
     // @ts-expect-error `player.team` is a Team (or undefined)
-    teamId: player.teamId ?? player.team?.id
+    teamId: player.teamId ?? player.team?.id,
   }),
 };
 
