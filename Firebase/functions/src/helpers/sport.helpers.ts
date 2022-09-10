@@ -19,6 +19,7 @@ export const sportNames: Record<Sport, string> = {
 };
 
 export const getSportStats = (player: Player, sport: Sport): Stats => {
+  // TODO: Remove when `player.*Stats` are removed
   if (!player.stats) {
     player.stats = [
       player.foosballStats ?? getEmptyStats(Sport.Foosball),
