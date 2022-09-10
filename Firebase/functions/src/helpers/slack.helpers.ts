@@ -41,30 +41,19 @@ const capitalize = (str: string): string => {
   return `${firstLetter.toUpperCase()}${rest.join("")}`;
 };
 
-const formatSportMessage = (
-  emoji: string,
-  sport: Sport,
-  winner: Player,
-): string => {
-  const stats = getSportStats(winner, sport);
-  const sportName = capitalize(sportNames[sport]);
-
-  return ` - ${emoji} ${sportName}: ${winner.nickname} ${winner.emoji} with ${stats.score} points`;
+const sportEmoji: Record<Sport, string> = {
+  [Sport.Foosball]: "⚽️",
+  [Sport.TableTennis]: "🏓",
+  [Sport.Pool]: "🎱",
+  [Sport.Unknown]: "⁉️",
 };
 
-const seasonToString = ({ sport, winner }: Season): string => {
+const formatSeasonMessage = ({ sport, winner }: Season): string => {
+  const emoji = sportEmoji[sport];
+  const sportName = capitalize(sportNames[sport]);
   const stats = getSportStats(winner, sport);
 
-  switch (sport) {
-    case Sport.Foosball:
-      return formatSportMessage("⚽️", sport, winner);
-    case Sport.TableTennis:
-      return formatSportMessage("🏓", sport, winner);
-    case Sport.Pool:
-      return formatSportMessage("🎱", sport, winner);
-    default:
-      return "";
-  }
+  return ` - ${emoji} ${sportName}: ${winner.nickname} ${winner.emoji} with ${stats.score} points`;
 };
 
 export const postSeasonResults = async (
@@ -72,7 +61,7 @@ export const postSeasonResults = async (
 ): Promise<ChatPostMessageResponse> => {
   const monthFormatter = new Intl.DateTimeFormat("en", { month: "long" });
 
-  const seasonSummaries = seasons.map(seasonToString).join("\n\n");
+  const seasonSummaries = seasons.map(formatSeasonMessage).join("\n\n");
   const monthName = monthFormatter.format(seasons[0].date.toDate());
 
   const text = dedent`
