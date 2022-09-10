@@ -201,8 +201,8 @@ extension SportViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        feedbackGenerator.impactOccurred()
         if showScoreboard {
+            feedbackGenerator.impactOccurred()
             let player = indexPath.section == 1 ? viewModel.scoreboard[indexPath.row] : viewModel.idlePlayers[indexPath.row]
             Coordinator.global.presentPlayerDetails(player, sport: viewModel.sport)
         }
