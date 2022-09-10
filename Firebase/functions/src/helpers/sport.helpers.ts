@@ -19,21 +19,20 @@ export const sportNames: Record<Sport, string> = {
 };
 
 export const getSportStats = (player: Player, sport: Sport): Stats => {
+  if (!player.stats) {
+    player.stats = [
+      player.foosballStats ?? getEmptyStats(Sport.Foosball),
+      player.tableTennisStats ?? getEmptyStats(Sport.TableTennis),
+      player.poolStats ?? getEmptyStats(Sport.Pool),
+    ];
+  }
+
   const sportStats = player.stats.find(stat => stat.sport === sport);
   if (sportStats) {
     return sportStats;
   }
 
-  switch (sport) {
-    case Sport.Foosball:
-      return (player.foosballStats ??= getEmptyStats(Sport.Foosball));
-    case Sport.TableTennis:
-      return (player.tableTennisStats ??= getEmptyStats(Sport.TableTennis));
-    case Sport.Pool:
-      return (player.poolStats ??= getEmptyStats(Sport.Pool));
-    default:
-      throw new Error(`Sport '${sport}' is not allowed.`);
-  }
+  return getEmptyStats(sport);
 };
 
 export const getSportScore =
