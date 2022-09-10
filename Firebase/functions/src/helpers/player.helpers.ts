@@ -10,4 +10,8 @@ export const setEmptyPlayerStats = (player: Player): void => {
   if (!player.tableTennisStats) {
     player.tableTennisStats = getEmptyStats(Sport.TableTennis);
   }
+
+  if (!player.poolStats) {
+    player.poolStats = getEmptyStats(Sport.Pool);
+  }
 };
