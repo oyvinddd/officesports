@@ -3,15 +3,14 @@ import * as firebase from "firebase-admin";
 import * as functions from "firebase-functions";
 import HttpStatus from "http-status-enum";
 import { initialScore, tietoevryCreateTeamId } from "./constants";
+import { addMatch } from "./firebase/match";
+import { getPlayer, updatePlayer } from "./firebase/player";
+import { storeSeason } from "./firebase/season";
 import { sendErrorStatus } from "./helpers/api.helpers";
 import {
-  addMatch,
   getLeader,
-  getPlayer,
   incrementTotalSeasonWins,
   resetScoreboards,
-  storeSeason,
-  updatePlayer,
 } from "./helpers/firebase.helpers";
 import { setEmptyPlayerStats } from "./helpers/player.helpers";
 import * as slackHelpers from "./helpers/slack.helpers";
