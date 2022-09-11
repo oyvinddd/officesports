@@ -13,10 +13,12 @@ private let defaultPoints: Int = 1200
 struct OSPlayer: Identifiable, Codable, Equatable {
     
     enum CodingKeys: String, CodingKey {
-        case id, userId, nickname, emoji, foosballStats, tableTennisStats, poolStats, team
+        case id, userId, nickname, emoji, teamId, foosballStats, tableTennisStats, poolStats, team
     }
     
     @DocumentID public var id: String?
+    
+    var teamId: String?
     
     var nickname: String
     
@@ -49,6 +51,7 @@ struct OSPlayer: Identifiable, Codable, Equatable {
             try container.encode(tableTennisStats, forKey: .tableTennisStats)
             try container.encode(poolStats, forKey: .poolStats)
             try container.encode(team, forKey: .team)
+            try? container.encode(teamId, forKey: .teamId)
         } catch let error {
             print("Error encoding player: \(error)")
         }
@@ -63,6 +66,7 @@ struct OSPlayer: Identifiable, Codable, Equatable {
         tableTennisStats = try? container.decode(OSStats.self, forKey: .tableTennisStats)
         poolStats = try? container.decode(OSStats.self, forKey: .poolStats)
         team = try? container.decode(OSTeam.self, forKey: .team)
+        teamId = try? container.decodeIfPresent(String.self, forKey: .teamId)
     }
     
     func statsForSport(_ sport: OSSport) -> OSStats? {
