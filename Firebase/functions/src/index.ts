@@ -14,7 +14,7 @@ import {
 } from "./helpers/firebase.helpers";
 import { setEmptyPlayerStats } from "./helpers/player.helpers";
 import * as slackHelpers from "./helpers/slack.helpers";
-import { getSportStats } from "./helpers/sport.helpers";
+import { getSportStats, sportNames } from "./helpers/sport.helpers";
 import { validateWinMatchBody } from "./helpers/validation.helpers";
 import { ErrorCodes } from "./types/ErrorCodes";
 import { Match } from "./types/Match";
@@ -240,8 +240,13 @@ export const slackGetLeader = functions
     } else if (sport === "") {
       const foosballLeader = await getLeader(Sport.Foosball);
       const tableTennisLeader = await getLeader(Sport.TableTennis);
+      const poolLeader = await getLeader(Sport.Pool);
 
-      console.log("All leaders", { foosballLeader, tableTennisLeader });
+      console.log("All leaders", {
+        foosballLeader,
+        tableTennisLeader,
+        poolLeader,
+      });
 
       const foosballBlocks = slackHelpers.formatLeaderText(
         Sport.Foosball,
@@ -251,21 +256,23 @@ export const slackGetLeader = functions
         Sport.TableTennis,
         tableTennisLeader,
       );
+      const poolBlocks = slackHelpers.formatLeaderText(Sport.Pool, poolLeader);
 
       const res: SlackCommandResponse = {
         response_type: "ephemeral",
-        blocks: [...foosballBlocks, ...tableTennisBlocks],
+        blocks: [...foosballBlocks, ...tableTennisBlocks, ...poolBlocks],
       };
       response.send(res);
     }
   });
 
-const resetScoreboardsFunction = async () => {
-  const seasonWinnerFoosball = await getLeader(Sport.Foosball);
-  const seasonWinnerTableTennis = await getLeader(Sport.TableTennis);
+const isSport = (value: string | Sport): value is Sport =>
+  typeof value !== "string";
 
-  console.log("Foosball winner", seasonWinnerFoosball);
-  console.log("Table tennis winner", seasonWinnerTableTennis);
+const resetScoreboardsFunction = async () => {
+  const sports = Object.values(Sport)
+    .filter(isSport)
+    .filter(sport => sport !== Sport.Unknown);
 
   const now = new Date();
   const seasonStartDate = new Date();
@@ -275,37 +282,25 @@ const resetScoreboardsFunction = async () => {
     Math.floor(seasonStartDate.getTime() / 1000),
     0,
   );
-
   console.log("Timestamp:", timestamp);
 
   const seasonsWithWinners: Array<Season> = [];
 
-  if (seasonWinnerFoosball) {
-    console.log("Foosball has season winner. Incrementing total season wins");
-    await incrementTotalSeasonWins(seasonWinnerFoosball, Sport.Foosball);
+  for (const sport of sports) {
+    const seasonWinner = await getLeader(sport);
+    if (!seasonWinner) {
+      continue;
+    }
 
-    console.log("Storing foosball season");
-    await storeSeason(seasonWinnerFoosball, Sport.Foosball, timestamp);
+    console.log(`${sportNames[sport]} winner`, seasonWinner);
+    await incrementTotalSeasonWins(seasonWinner, sport);
 
-    seasonsWithWinners.push({
-      winner: seasonWinnerFoosball,
-      sport: Sport.Foosball,
-      date: timestamp,
-    });
-  }
-
-  if (seasonWinnerTableTennis) {
-    console.log(
-      "Table tennis has season winner. Incrementing total season wins",
-    );
-    await incrementTotalSeasonWins(seasonWinnerTableTennis, Sport.TableTennis);
-
-    console.log("Storing table tennis season");
-    await storeSeason(seasonWinnerTableTennis, Sport.TableTennis, timestamp);
+    console.log(`Storing ${sportNames[sport]} season`);
+    await storeSeason(seasonWinner, sport, timestamp);
 
     seasonsWithWinners.push({
-      winner: seasonWinnerTableTennis,
-      sport: Sport.TableTennis,
+      winner: seasonWinner,
+      sport,
       date: timestamp,
     });
   }
