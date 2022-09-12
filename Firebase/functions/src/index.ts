@@ -6,6 +6,7 @@ import { initialScore, tietoevryCreateTeamId } from "./constants";
 import { addMatch } from "./firebase/match";
 import { getPlayer, updatePlayer } from "./firebase/player";
 import { storeSeason } from "./firebase/season";
+import { getTeams } from "./firebase/team";
 import { sendErrorStatus } from "./helpers/api.helpers";
 import {
   getLeader,
@@ -285,30 +286,43 @@ const resetScoreboardsFunction = async () => {
   console.log("Timestamp:", timestamp);
 
   const seasonsWithWinners: Array<Season> = [];
+  const teams = await getTeams();
 
-  for (const sport of sports) {
-    const seasonWinner = await getLeader(sport);
-    if (!seasonWinner) {
+  for (const team of teams) {
+    const teamId = team.id;
+    if (!teamId) {
       continue;
     }
 
-    console.log(`${sportNames[sport]} winner`, seasonWinner);
-    await incrementTotalSeasonWins(seasonWinner, sport);
+    for (const sport of sports) {
+      const seasonWinner = await getLeader(sport, teamId);
+      if (!seasonWinner) {
+        continue;
+      }
 
-    console.log(`Storing ${sportNames[sport]} season`);
-    await storeSeason(seasonWinner, sport, timestamp);
+      console.log(`${sportNames[sport]} winner`, seasonWinner);
+      await incrementTotalSeasonWins(seasonWinner, sport);
 
-    seasonsWithWinners.push({
-      winner: seasonWinner,
-      sport,
-      date: timestamp,
-    });
+      console.log(`Storing ${sportNames[sport]} season`);
+      await storeSeason(seasonWinner, sport, timestamp, teamId);
+
+      seasonsWithWinners.push({
+        winner: seasonWinner,
+        sport,
+        date: timestamp,
+        teamId,
+      });
+    }
+
+    console.log("Resetting score boards");
+    await resetScoreboards(initialScore);
+
+    await slackHelpers.postSeasonResults(
+      seasonsWithWinners.filter(
+        season => season.teamId === tietoevryCreateTeamId,
+      ),
+    );
   }
-
-  console.log("Resetting score boards");
-  await resetScoreboards(initialScore);
-
-  await slackHelpers.postSeasonResults(seasonsWithWinners);
 };
 
 export const resetScoreboardsCron = functions
