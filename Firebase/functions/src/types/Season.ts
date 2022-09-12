@@ -6,4 +6,5 @@ export type Season = {
   date: firestore.Timestamp;
   winner: Player;
   sport: Sport;
+  teamId: string;
 };

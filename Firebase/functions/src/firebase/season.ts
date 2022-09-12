@@ -12,6 +12,7 @@ const seasonConverter: admin.firestore.FirestoreDataConverter<Season> = {
       date: snapshot.get("date"),
       sport: snapshot.get("sport"),
       winner: snapshot.get("winner"),
+      teamId: snapshot.get("teamId"),
     };
 
     return season;
@@ -23,8 +24,9 @@ export const storeSeason = async (
   winner: Player,
   sport: Sport,
   date: admin.firestore.Timestamp,
+  teamId: string,
 ): Promise<void> => {
   await getSeasonCollection()
     .withConverter(seasonConverter)
-    .add({ winner, sport, date });
+    .add({ winner, sport, date, teamId });
 };

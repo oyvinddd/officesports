@@ -286,48 +286,43 @@ const resetScoreboardsFunction = async () => {
   console.log("Timestamp:", timestamp);
 
   const seasonsWithWinners: Array<Season> = [];
-
-<<<<<<< HEAD
-  for (const sport of sports) {
-    const seasonWinner = await getLeader(sport);
-    if (!seasonWinner) {
-      continue;
-    }
-=======
   const teams = await getTeams();
 
-  if (seasonWinnerFoosball) {
-    console.log("Foosball has season winner. Incrementing total season wins");
-    await incrementTotalSeasonWins(seasonWinnerFoosball, Sport.Foosball);
+  for (const team of teams) {
+    const teamId = team.id;
+    if (!teamId) {
+      continue;
+    }
 
-    console.log("Storing foosball season");
-    await storeSeason(seasonWinnerFoosball, Sport.Foosball, timestamp);
+    for (const sport of sports) {
+      const seasonWinner = await getLeader(sport, teamId);
+      if (!seasonWinner) {
+        continue;
+      }
 
-    seasonsWithWinners.push({
-      winner: seasonWinnerFoosball,
-      sport: Sport.Foosball,
-      date: timestamp,
-    });
+      console.log(`${sportNames[sport]} winner`, seasonWinner);
+      await incrementTotalSeasonWins(seasonWinner, sport);
+
+      console.log(`Storing ${sportNames[sport]} season`);
+      await storeSeason(seasonWinner, sport, timestamp, teamId);
+
+      seasonsWithWinners.push({
+        winner: seasonWinner,
+        sport,
+        date: timestamp,
+        teamId,
+      });
+    }
+
+    console.log("Resetting score boards");
+    await resetScoreboards(initialScore);
+
+    await slackHelpers.postSeasonResults(
+      seasonsWithWinners.filter(
+        season => season.teamId === tietoevryCreateTeamId,
+      ),
+    );
   }
->>>>>>> fa9beb3 (feat: fetch all teams)
-
-    console.log(`${sportNames[sport]} winner`, seasonWinner);
-    await incrementTotalSeasonWins(seasonWinner, sport);
-
-    console.log(`Storing ${sportNames[sport]} season`);
-    await storeSeason(seasonWinner, sport, timestamp);
-
-    seasonsWithWinners.push({
-      winner: seasonWinner,
-      sport,
-      date: timestamp,
-    });
-  }
-
-  console.log("Resetting score boards");
-  await resetScoreboards(initialScore);
-
-  await slackHelpers.postSeasonResults(seasonsWithWinners);
 };
 
 export const resetScoreboardsCron = functions
