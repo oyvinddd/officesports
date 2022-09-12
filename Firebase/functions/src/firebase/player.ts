@@ -67,9 +67,9 @@ export const updatePlayer = async (player: Player): Promise<void> => {
       player.tableTennisStats ?? getEmptyStats(Sport.TableTennis),
     poolStats: player.poolStats ?? getEmptyStats(Sport.Pool),
     stats: player.stats ?? [
-      (player.foosballStats ?? getEmptyStats(Sport.Foosball)),
-      (player.tableTennisStats ?? getEmptyStats(Sport.TableTennis)),
-      (player.poolStats ?? getEmptyStats(Sport.Pool)),
+      player.foosballStats ?? getEmptyStats(Sport.Foosball),
+      player.tableTennisStats ?? getEmptyStats(Sport.TableTennis),
+      player.poolStats ?? getEmptyStats(Sport.Pool),
     ],
     team: player.team,
     teamId: player.teamId ?? player.team.id ?? undefined,
