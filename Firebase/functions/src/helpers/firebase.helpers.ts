@@ -102,7 +102,7 @@ export const updatePlayer = async (player: Player): Promise<void> => {
       player.poolStats ?? getEmptyStats(Sport.Pool),
     ],
     team: player.team,
-    teamId: player.teamId ?? player.team.id,
+    teamId: player.teamId ?? player.team.id ?? undefined,
   };
 
   await getPlayerCollection()

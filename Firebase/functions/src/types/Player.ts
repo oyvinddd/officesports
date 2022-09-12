@@ -14,5 +14,5 @@ export type Player = {
   stats: Array<Stats>;
   /** @deprecated Use teamId instead */
   team: Team;
-  teamId: string;
+  teamId?: string | null;
 };
