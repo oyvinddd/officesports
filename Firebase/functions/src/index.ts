@@ -6,6 +6,7 @@ import { initialScore, tietoevryCreateTeamId } from "./constants";
 import { addMatch } from "./firebase/match";
 import { getPlayer, updatePlayer } from "./firebase/player";
 import { storeSeason } from "./firebase/season";
+import { getTeams } from "./firebase/team";
 import { sendErrorStatus } from "./helpers/api.helpers";
 import {
   getLeader,
@@ -286,11 +287,29 @@ const resetScoreboardsFunction = async () => {
 
   const seasonsWithWinners: Array<Season> = [];
 
+<<<<<<< HEAD
   for (const sport of sports) {
     const seasonWinner = await getLeader(sport);
     if (!seasonWinner) {
       continue;
     }
+=======
+  const teams = await getTeams();
+
+  if (seasonWinnerFoosball) {
+    console.log("Foosball has season winner. Incrementing total season wins");
+    await incrementTotalSeasonWins(seasonWinnerFoosball, Sport.Foosball);
+
+    console.log("Storing foosball season");
+    await storeSeason(seasonWinnerFoosball, Sport.Foosball, timestamp);
+
+    seasonsWithWinners.push({
+      winner: seasonWinnerFoosball,
+      sport: Sport.Foosball,
+      date: timestamp,
+    });
+  }
+>>>>>>> fa9beb3 (feat: fetch all teams)
 
     console.log(`${sportNames[sport]} winner`, seasonWinner);
     await incrementTotalSeasonWins(seasonWinner, sport);
