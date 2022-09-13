@@ -9,4 +9,5 @@ export type Match = {
   loser: Player;
   winnerDelta: number;
   loserDelta: number;
+  teamId?: string;
 };

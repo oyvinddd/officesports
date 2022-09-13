@@ -13,6 +13,7 @@ const matchConverter: admin.firestore.FirestoreDataConverter<Match> = {
       sport: snapshot.get("sport"),
       winner: snapshot.get("winner"),
       winnerDelta: snapshot.get("winnerDelta"),
+      teamId: snapshot.get("teamId"),
     };
 
     return match;

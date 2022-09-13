@@ -27,6 +27,8 @@ struct OSMatch: Codable {
     var loserDelta: Int
     
     var winnerDelta: Int
+
+    var teamId: String?
     
     func dateToString() -> String {
         guard let date = date else {
@@ -35,13 +37,14 @@ struct OSMatch: Codable {
         return OSMatch.dateFormatter.string(from: date)
     }
     
-    init(sport: OSSport, winner: OSPlayer, loser: OSPlayer, winnerDt: Int, loserDt: Int) {
+    init(sport: OSSport, winner: OSPlayer, loser: OSPlayer, winnerDt: Int, loserDt: Int, teamId: String? = nil) {
         self.date = Date()
         self.sport = sport
         self.winner = winner
         self.loser = loser
         self.winnerDelta = winnerDt
         self.loserDelta = loserDt
+        self.teamId = teamId
     }
     
     init(from decoder: Decoder) throws {
@@ -52,9 +55,10 @@ struct OSMatch: Codable {
         loser = try container.decode(OSPlayer.self, forKey: .loser)
         winnerDelta = try container.decode(Int.self, forKey: .winnerDelta)
         loserDelta = try container.decode(Int.self, forKey: .loserDelta)
+        teamId = try? container.decode(String.self, forKey: .teamId)
     }
     
-    static func <(lhs: OSMatch, rhs: OSMatch) -> Bool {
+    static func < (lhs: OSMatch, rhs: OSMatch) -> Bool {
         guard let date1 = lhs.date, let date2 = rhs.date else {
             return false
         }
