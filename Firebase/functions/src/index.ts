@@ -100,6 +100,12 @@ export const winMatch = functions.https.onRequest(
       loserDelta: newLoserScore - oldLoserScore,
     };
 
+    const sameTeam =
+      (winner.teamId ?? winner.team.id) === (loser.teamId ?? loser.team.id);
+    if (sameTeam) {
+      match.teamId = winner.teamId ?? winner.team.id ?? undefined;
+    }
+
     addMatch(match);
 
     winnerStats.matchesPlayed += 1;
