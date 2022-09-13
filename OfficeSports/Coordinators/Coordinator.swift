@@ -97,6 +97,12 @@ final class Coordinator {
         viewController.present(playerProfileViewController, animated: true)
     }
     
+    func presentInvites(from viewController: UIViewController) {
+        let viewModel = MyInvitesViewModel(api: FirebaseSportsAPI())
+        let invitesViewController = MyInvitesViewController(viewModel: viewModel)
+        viewController.present(invitesViewController, animated: true)
+    }
+    
     func presentSettings(from viewController: UIViewController) {
         viewController.present(SettingsViewController(), animated: false)
     }

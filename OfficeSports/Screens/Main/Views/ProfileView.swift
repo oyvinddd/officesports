@@ -31,8 +31,8 @@ final class ProfileView: UIView {
         let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .semibold, scale: .large)
         let image = UIImage(systemName: "tray.fill", withConfiguration: config)
         let button = UIButton.createButton(.clear, .clear, title: nil)
-        button.addTarget(self, action: #selector(settingsButtonTapped), for: .touchUpInside)
-        button.tintColor = UIColor.OS.Text.disabled
+        button.addTarget(self, action: #selector(invitesButtonTapped), for: .touchUpInside)
+        button.tintColor = UIColor.OS.Text.normal
         button.setImage(image, for: .normal)
         return button
     }()
@@ -244,6 +244,8 @@ final class ProfileView: UIView {
     func handleTouch(point: CGPoint) {
         if settingsButton.frame.contains(point) {
             settingsButton.sendActions(for: .touchUpInside)
+        } else if invitesButton.frame.contains(point) {
+            invitesButton.sendActions(for: .touchUpInside)
         } else if profileImageWrap.frame.contains(point) {
             delegate?.profilePictureTapped()
         }
@@ -324,7 +326,7 @@ final class ProfileView: UIView {
         delegate?.profilePictureTapped()
     }
     
-    @objc private func invitesButtonTapped(_ sender: UITapGestureRecognizer) {
+    @objc private func invitesButtonTapped(_ sender: UIButton) {
         delegate?.invitesButtonTapped()
     }
     

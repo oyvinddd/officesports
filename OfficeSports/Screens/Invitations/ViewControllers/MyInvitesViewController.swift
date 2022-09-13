@@ -85,7 +85,7 @@ final class MyInvitesViewController: UIViewController {
     }
     
     private func configureUI() {
-        view.backgroundColor = .clear
+        view.backgroundColor = UIColor.OS.General.main
     }
 }
 

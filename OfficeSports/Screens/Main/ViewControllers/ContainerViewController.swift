@@ -275,7 +275,7 @@ extension ContainerViewController: ProfileViewDelegate {
     
     func invitesButtonTapped() {
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-        Coordinator.global.presentSettings(from: self)
+        Coordinator.global.presentInvites(from: self)
     }
     
     func settingsButtonTapped() {
