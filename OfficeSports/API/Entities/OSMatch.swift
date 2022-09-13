@@ -37,7 +37,7 @@ struct OSMatch: Codable {
         return OSMatch.dateFormatter.string(from: date)
     }
     
-    init(sport: OSSport, winner: OSPlayer, loser: OSPlayer, winnerDt: Int, loserDt: Int, teamId: String = nil) {
+    init(sport: OSSport, winner: OSPlayer, loser: OSPlayer, winnerDt: Int, loserDt: Int, teamId: String? = nil) {
         self.date = Date()
         self.sport = sport
         self.winner = winner
@@ -58,7 +58,7 @@ struct OSMatch: Codable {
         teamId = try? container.decode(String.self, forKey: .teamId)
     }
     
-    static func <(lhs: OSMatch, rhs: OSMatch) -> Bool {
+    static func < (lhs: OSMatch, rhs: OSMatch) -> Bool {
         guard let date1 = lhs.date, let date2 = rhs.date else {
             return false
         }

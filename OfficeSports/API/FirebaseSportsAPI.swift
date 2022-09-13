@@ -156,8 +156,11 @@ final class FirebaseSportsAPI: SportsAPI {
     }
     
     func getMatchHistory(sport: OSSport, result: @escaping ((Result<[OSMatch], Error>) -> Void)) {
+        //OSAccount.current.
+        
         let query = matchesCollection
             .whereField("sport", isEqualTo: sport.rawValue)
+          //  .whereField("teamId", isEqualTo: <#T##Any#>)
             .order(by: "date", descending: true)
             .limit(to: maxResultsInRecentMatches)
         
