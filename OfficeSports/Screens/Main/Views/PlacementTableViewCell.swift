@@ -7,6 +7,14 @@
 
 import UIKit
 
+private let firstPlace = "🥇"
+private let secondPlace = "🥈"
+private let thirdPlace = "🥉"
+private let lastPlace = "💩"
+
+private let activeIndicatorDiameter: CGFloat = 16
+private let activeIndicatorRadius = activeIndicatorDiameter / 2
+
 final class PlacementTableViewCell: UITableViewCell {
     
     private lazy var contentWrap: UIView = {
@@ -28,6 +36,7 @@ final class PlacementTableViewCell: UITableViewCell {
     private lazy var usernameLabel: UILabel = {
         let label = UILabel.createLabel(UIColor.OS.Text.normal)
         label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.numberOfLines = 1
         return label
     }()
     
@@ -48,6 +57,16 @@ final class PlacementTableViewCell: UITableViewCell {
     
     private lazy var specialIndicatorLabel: UILabel = {
         return UILabel.createLabel(UIColor.OS.Text.normal, alignment: .center)
+    }()
+    
+    private lazy var activeIndicatorWrap: UIView = {
+        let view = UIView.createView(.white, cornerRadius: activeIndicatorRadius)
+        NSLayoutConstraint.pinToView(view, activeIndicatorView, padding: 2.4)
+        return view
+    }()
+    
+    private lazy var activeIndicatorView: UIView = {
+        return UIView.createView(UIColor.OS.Text.disabled, cornerRadius: activeIndicatorRadius - 2.4)
     }()
     
     private let placementFontNormal = UIFont.boldSystemFont(ofSize: 18)
@@ -73,6 +92,7 @@ final class PlacementTableViewCell: UITableViewCell {
         applyCornerRadius(isFirstElement: isFirst, isLastElement: isLast)
         configurePlacementLabel(placement, isLast: isLast)
         configureSpecialLabel(isFanatical, isMostBoring)
+        configureActiveStatus(player: player)
         profileImageWrap.backgroundColor = UIColor.OS.hashedProfileColor(player.nickname)
         profileEmojiLabel.text = player.emoji
         usernameLabel.text = player.nickname.lowercased()
@@ -113,6 +133,7 @@ final class PlacementTableViewCell: UITableViewCell {
         contentWrap.addSubview(placementLabel)
         contentWrap.addSubview(specialIndicatorLabel)
         contentWrap.addSubview(separator)
+        contentWrap.addSubview(activeIndicatorWrap)
         
         NSLayoutConstraint.pinToView(profileImageWrap, profileEmojiLabel)
         NSLayoutConstraint.activate([
@@ -140,7 +161,11 @@ final class PlacementTableViewCell: UITableViewCell {
             separator.leftAnchor.constraint(equalTo: contentWrap.leftAnchor),
             separator.rightAnchor.constraint(equalTo: contentWrap.rightAnchor),
             separator.bottomAnchor.constraint(equalTo: contentWrap.bottomAnchor),
-            separator.heightAnchor.constraint(equalToConstant: 1)
+            separator.heightAnchor.constraint(equalToConstant: 1),
+            activeIndicatorWrap.widthAnchor.constraint(equalToConstant: activeIndicatorDiameter),
+            activeIndicatorWrap.heightAnchor.constraint(equalTo: activeIndicatorWrap.widthAnchor),
+            activeIndicatorWrap.rightAnchor.constraint(equalTo: profileImageWrap.rightAnchor, constant: 3),
+            activeIndicatorWrap.bottomAnchor.constraint(equalTo: profileImageWrap.bottomAnchor)
         ])
     }
     
@@ -156,16 +181,16 @@ final class PlacementTableViewCell: UITableViewCell {
         // configure text label
         switch placement {
         case 0:
-            placementLabel.text = "🥇"
+            placementLabel.text = firstPlace
         case 1:
-            placementLabel.text = "🥈"
+            placementLabel.text = secondPlace
         case 2:
-            placementLabel.text = "🥉"
+            placementLabel.text = thirdPlace
         default:
             placementLabel.text = "\(placement + 1)th"
         }
         if isLast {
-            placementLabel.text = "💩"
+            placementLabel.text = lastPlace
         }
     }
     
@@ -176,6 +201,14 @@ final class PlacementTableViewCell: UITableViewCell {
             specialIndicatorLabel.text = "🧊"
         } else {
             specialIndicatorLabel.text = ""
+        }
+    }
+    
+    private func configureActiveStatus(player: OSPlayer) {
+        if player.wasRecentlyActive() {
+            activeIndicatorView.backgroundColor = UIColor.OS.Status.success
+        } else {
+            activeIndicatorView.backgroundColor = UIColor.OS.Text.disabled
         }
     }
 }
