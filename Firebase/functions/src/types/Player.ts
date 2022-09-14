@@ -1,3 +1,4 @@
+import type { firestore } from "firebase-admin";
 import type { Stats } from "./Stats";
 import type { Team } from "./Team";
 
@@ -15,4 +16,5 @@ export type Player = {
   /** @deprecated Use teamId instead */
   team: Team;
   teamId?: string | null;
+  lastActive?: firestore.Timestamp;
 };
