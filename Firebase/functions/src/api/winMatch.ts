@@ -80,8 +80,13 @@ export const winMatch = functions.https.onRequest(
 
     console.log({ newWinnerScore, newLoserScore });
 
+    const now = new firebase.firestore.Timestamp(
+      Math.floor(Date.now() / 1000),
+      0,
+    );
+
     const match: Match = {
-      date: new firebase.firestore.Timestamp(Math.floor(Date.now() / 1000), 0),
+      date: now,
       sport,
       winner,
       loser,
@@ -101,6 +106,9 @@ export const winMatch = functions.https.onRequest(
 
     loserStats.matchesPlayed += 1;
     loserStats.score = newLoserScore;
+
+    winner.lastActive = now;
+    loser.lastActive = now;
 
     const isDebug = testIds.includes(loser.userId);
     if (!isDebug) {
