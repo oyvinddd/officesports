@@ -56,8 +56,6 @@ export const resetScoreboards = async (initialScore: number): Promise<void> => {
   console.log("All players", allPlayers);
 
   for (const player of allPlayers) {
-    player.lastActive = undefined;
-
     if (player.foosballStats) {
       player.foosballStats.score = initialScore;
       player.foosballStats.matchesPlayed = 0;
