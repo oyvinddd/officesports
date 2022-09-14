@@ -3,6 +3,7 @@ import { getCollection } from "../helpers/firebase.helpers";
 import { getEmptyStats } from "../helpers/sport.helpers";
 import { Player } from "../types/Player";
 import { Sport } from "../types/Sport";
+import { Team } from "../types/Team";
 
 const getPlayerCollection = () => getCollection<Player>("players");
 
@@ -19,20 +20,20 @@ const playerConverter: admin.firestore.FirestoreDataConverter<Player> = {
       teamId: snapshot.get("teamId") ?? snapshot.get("team").id,
       stats: snapshot.get("stats") ?? [snapshot.get("foosballStats")],
       lastActive: snapshot.get("lastActive"),
+      winStreak: snapshot.get("winStreak") ?? 0,
     };
 
     return player;
   },
-  toFirestore: player => ({
-    emoji: player.emoji,
-    nickname: player.nickname,
-    foosballStats: player.foosballStats,
-    poolStats: player.poolStats,
-    tableTennisStats: player.tableTennisStats,
-    team: player.team,
-    // @ts-expect-error `player.team` is a Team (or undefined)
-    teamId: player.teamId ?? player.team?.id,
-  }),
+  toFirestore: player => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { userId, teamId, ...rest } = player;
+
+    return {
+      teamId: teamId ?? (player.team as Team | undefined)?.id,
+      ...rest,
+    };
+  },
 };
 
 export const getPlayer = async (id: string): Promise<Player | undefined> => {
@@ -75,6 +76,7 @@ export const updatePlayer = async (player: Player): Promise<void> => {
     team: player.team,
     teamId: player.teamId ?? player.team.id ?? undefined,
     lastActive: player.lastActive,
+    winStreak: player.winStreak,
   };
 
   await getPlayerCollection()
