@@ -108,7 +108,10 @@ export const winMatch = functions.https.onRequest(
     loserStats.score = newLoserScore;
 
     winner.lastActive = now;
+    winner.winStreak += 1;
+
     loser.lastActive = now;
+    loser.winStreak = 0;
 
     const isDebug = testIds.includes(loser.userId);
     if (!isDebug) {
