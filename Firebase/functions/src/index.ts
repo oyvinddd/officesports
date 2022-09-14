@@ -2,7 +2,7 @@ import EloRating from "elo-rating";
 import * as firebase from "firebase-admin";
 import * as functions from "firebase-functions";
 import HttpStatus from "http-status-enum";
-import { initialScore, tietoevryCreateTeamId } from "./constants";
+import { initialScore, testIds, tietoevryCreateTeamId } from "./constants";
 import { addMatch } from "./firebase/match";
 import { getPlayer, updatePlayer } from "./firebase/player";
 import { storeSeason } from "./firebase/season";
@@ -106,8 +106,6 @@ export const winMatch = functions.https.onRequest(
       match.teamId = winner.teamId ?? winner.team.id ?? undefined;
     }
 
-    addMatch(match);
-
     winnerStats.matchesPlayed += 1;
     winnerStats.matchesWon += 1;
     winnerStats.score = newWinnerScore;
@@ -115,8 +113,12 @@ export const winMatch = functions.https.onRequest(
     loserStats.matchesPlayed += 1;
     loserStats.score = newLoserScore;
 
-    updatePlayer(winner);
-    updatePlayer(loser);
+    const isDebug = testIds.includes(loser.userId);
+    if (!isDebug) {
+      addMatch(match);
+      updatePlayer(winner);
+      updatePlayer(loser);
+    }
 
     console.log({ match });
 

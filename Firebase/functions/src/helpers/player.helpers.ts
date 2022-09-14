@@ -15,11 +15,11 @@ export const setEmptyPlayerStats = (player: Player): void => {
     player.poolStats = getEmptyStats(Sport.Pool);
   }
 
-  if (!player.stats) {
-    player.stats = [
-      getEmptyStats(Sport.Foosball),
-      getEmptyStats(Sport.TableTennis),
-      getEmptyStats(Sport.Pool),
-    ];
-  }
+  // if (!player.stats) {
+  player.stats = [
+    player.foosballStats ?? getEmptyStats(Sport.Foosball),
+    player.tableTennisStats ?? getEmptyStats(Sport.TableTennis),
+    player.poolStats ?? getEmptyStats(Sport.Pool),
+  ];
+  // }
 };
