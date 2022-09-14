@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 private let nicknameMinLength = 3
-private let nicknameMaxLength = 22
+private let nicknameMaxLength = 16
 
 final class PlayerProfileViewModel {
     
