@@ -33,7 +33,7 @@ final class ProfileView: UIView {
         let image = UIImage(systemName: "tray.fill", withConfiguration: config)
         let button = UIButton.createButton(.clear, .clear, title: nil)
         button.addTarget(self, action: #selector(invitesButtonTapped), for: .touchUpInside)
-        button.tintColor = UIColor.OS.Text.normal
+        button.tintColor = UIColor.OS.Text.disabled
         button.setImage(image, for: .normal)
         return button
     }()
@@ -328,7 +328,8 @@ final class ProfileView: UIView {
     }
     
     @objc private func invitesButtonTapped(_ sender: UIButton) {
-        delegate?.invitesButtonTapped()
+        // FIXME: enable when feature is done
+        // delegate?.invitesButtonTapped()
     }
     
     @objc private func settingsButtonTapped(_ sender: UIButton) {
