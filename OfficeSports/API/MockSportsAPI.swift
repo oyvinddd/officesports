@@ -131,8 +131,10 @@ final class MockSportsAPI: SportsAPI {
     }
     
     func getActiveInvites(result: @escaping ((Result<[OSInvite], Error>) -> Void)) {
-        let invite = OSInvite(date: Date(), sport: .foosball, inviterId: "id#1", inviteeId: "id#2", inviteeNickname: "heimegut")
-        result(.success([invite]))
+        let invite1 = OSInvite(date: Date(), sport: .foosball, inviterId: "id#1", inviteeId: "id#2", inviteeNickname: "heimegut")
+        let invite2 = OSInvite(date: Date(), sport: .pool, inviterId: "id#3", inviteeId: "id#4", inviteeNickname: "sindre")
+        let invite3 = OSInvite(date: Date(), sport: .tableTennis, inviterId: "id#5", inviteeId: "id#6", inviteeNickname: "salmaaan")
+        result(.success([invite1, invite2, invite3]))
     }
     
     func getSeasonStats(result: @escaping ((Result<[OSSeasonStats], Error>) -> Void)) {

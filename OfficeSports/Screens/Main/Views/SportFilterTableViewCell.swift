@@ -17,7 +17,11 @@ protocol SportFilterDelegate: AnyObject {
 final class SportFilterTableViewCell: UITableViewCell {
     
     private lazy var contentWrap: UIView = {
-        return UIView.createView(.white, cornerRadius: 15)
+        let view = UIView.createView(.white)
+        var mask = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner)
+        view.layer.cornerRadius = 15
+        view.layer.maskedCorners = mask
+        return view
     }()
     
     private lazy var leftButton: UIButton = {
@@ -34,7 +38,11 @@ final class SportFilterTableViewCell: UITableViewCell {
         return button
     }()
     
-    private lazy var separatorView: UIView = {
+    private lazy var verticalSeparatorView: UIView = {
+        return UIView.createView(UIColor.OS.General.separator)
+    }()
+    
+    private lazy var horizontalSeparatorView: UIView = {
         return UIView.createView(UIColor.OS.General.separator)
     }()
     
@@ -74,14 +82,15 @@ final class SportFilterTableViewCell: UITableViewCell {
         contentView.addSubview(contentWrap)
         contentWrap.addSubview(leftButton)
         contentWrap.addSubview(rightButton)
-        contentWrap.addSubview(separatorView)
+        contentWrap.addSubview(verticalSeparatorView)
+        contentWrap.addSubview(horizontalSeparatorView)
         
         NSLayoutConstraint.activate([
             leftButton.leftAnchor.constraint(equalTo: contentWrap.leftAnchor),
             leftButton.topAnchor.constraint(equalTo: contentWrap.topAnchor),
             leftButton.bottomAnchor.constraint(equalTo: contentWrap.bottomAnchor),
             leftButton.rightAnchor.constraint(equalTo: rightButton.leftAnchor),
-            leftButton.heightAnchor.constraint(equalToConstant: 40),
+            leftButton.heightAnchor.constraint(equalToConstant: 50),
             rightButton.rightAnchor.constraint(equalTo: contentWrap.rightAnchor),
             rightButton.topAnchor.constraint(equalTo: contentWrap.topAnchor),
             rightButton.bottomAnchor.constraint(equalTo: contentWrap.bottomAnchor),
@@ -91,10 +100,14 @@ final class SportFilterTableViewCell: UITableViewCell {
             contentWrap.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16),
             contentWrap.topAnchor.constraint(equalTo: contentView.topAnchor),
             contentWrap.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            separatorView.centerXAnchor.constraint(equalTo: contentWrap.centerXAnchor),
-            separatorView.heightAnchor.constraint(equalTo: contentWrap.heightAnchor),
-            separatorView.centerYAnchor.constraint(equalTo: contentWrap.centerYAnchor),
-            separatorView.widthAnchor.constraint(equalToConstant: 1)
+            verticalSeparatorView.centerXAnchor.constraint(equalTo: contentWrap.centerXAnchor),
+            verticalSeparatorView.heightAnchor.constraint(equalTo: contentWrap.heightAnchor),
+            verticalSeparatorView.centerYAnchor.constraint(equalTo: contentWrap.centerYAnchor),
+            verticalSeparatorView.widthAnchor.constraint(equalToConstant: 1),
+            horizontalSeparatorView.leftAnchor.constraint(equalTo: contentWrap.leftAnchor),
+            horizontalSeparatorView.rightAnchor.constraint(equalTo: contentWrap.rightAnchor),
+            horizontalSeparatorView.bottomAnchor.constraint(equalTo: contentWrap.bottomAnchor),
+            horizontalSeparatorView.heightAnchor.constraint(equalToConstant: 1)
         ])
     }
     

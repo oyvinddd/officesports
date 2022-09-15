@@ -8,13 +8,14 @@
 import UIKit
 import Combine
 
+private let codeTransitionDuration: TimeInterval = 0.3          // seconds
+private let codeHideDelayDuration: TimeInterval = 4             // seconds
+private let emojiFadeTransitionDuration: TimeInterval = 0.15    // seconds
+
 private let profileImageDiameter: CGFloat = 128
 private let sportImageDiameter: CGFloat = 60
 private let profileImageRadius: CGFloat = profileImageDiameter / 2
 private let sportImageRadius: CGFloat = sportImageDiameter / 2
-private let codeTransitionDuration: TimeInterval = 0.3          // seconds
-private let codeHideDelayDuration: TimeInterval = 4             // seconds
-private let emojiFadeTransitionDuration: TimeInterval = 0.15    // seconds
 
 protocol ProfileViewDelegate: AnyObject {
     

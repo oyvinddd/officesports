@@ -98,8 +98,17 @@ final class Coordinator {
     }
     
     func presentInvites(from viewController: UIViewController) {
-        let viewModel = MyInvitesViewModel(api: FirebaseSportsAPI())
+        let viewModel = MyInvitesViewModel(api: MockSportsAPI())
         let invitesViewController = MyInvitesViewController(viewModel: viewModel)
+        // TODO: this should be a VC extention instead
+        if let sheet = invitesViewController.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.largestUndimmedDetentIdentifier = .none
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+            sheet.prefersEdgeAttachedInCompactHeight = true
+            sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+            sheet.prefersGrabberVisible = true
+        }
         viewController.present(invitesViewController, animated: true)
     }
     
