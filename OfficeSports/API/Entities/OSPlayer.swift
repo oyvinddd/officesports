@@ -86,7 +86,7 @@ struct OSPlayer: Identifiable, Codable, Equatable {
         }
     }
     
-    func points(_ sport: OSSport) -> Int {
+    func pointsForSport(_ sport: OSSport) -> Int {
         return statsForSport(sport)?.score ?? defaultPoints
     }
     

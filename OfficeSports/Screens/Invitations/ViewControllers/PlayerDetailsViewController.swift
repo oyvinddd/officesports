@@ -145,7 +145,7 @@ final class PlayerDetailsViewController: UIViewController {
     
     
     private func setupChildViews() {
-        let score = player.points(sport)
+        let score = player.pointsForSport(sport)
         let matches = player.noOfmatchesForSport(sport)
         let winsStr = matches > 0 ? "\(calculateWinRate())%" : "-"
         let matchesStr = matches != 1 ? "Matches" : "Match"

@@ -174,7 +174,7 @@ final class ProfileView: UIView {
     
     func configureForSport(_ sport: OSSport) {
         // update player stats labels with stats for the given sport
-        let points = OSAccount.current.player?.points(sport)
+        let points = OSAccount.current.player?.pointsForSport(sport)
         let totalWins = OSAccount.current.player?.totalSeasonWinsForSport(sport)
         playerStatsView.updateStats(points: points, totalWins: totalWins)
         

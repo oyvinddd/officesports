@@ -29,7 +29,7 @@ struct QRCodeGenerator {
         do {
             let json = try JSONEncoder().encode(payload)
             if let jsonString = String(data: json, encoding: .utf8) {
-                let data = jsonString.data(using: String.Encoding.ascii)
+                let data = jsonString.data(using: String.Encoding.utf8)
                 return generate(from: data, color: color, backgroundColor: backgroundColor)
             }
         } catch let error {
