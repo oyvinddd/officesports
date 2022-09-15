@@ -13,7 +13,7 @@ private let defaultPoints: Int = 1200
 struct OSPlayer: Identifiable, Codable, Equatable {
     
     enum CodingKeys: String, CodingKey {
-        case id, userId, nickname, emoji, teamId, foosballStats, tableTennisStats, poolStats, team
+        case id, userId, nickname, emoji, teamId, foosballStats, tableTennisStats, poolStats, team, lastActive
     }
     
     @DocumentID public var id: String?
@@ -32,7 +32,9 @@ struct OSPlayer: Identifiable, Codable, Equatable {
     
     var team: OSTeam?
     
-    init(id: String? = nil, nickname: String, emoji: String, team: OSTeam, foosballStats: OSStats? = nil, tableTennisStats: OSStats? = nil, poolStats: OSStats? = nil) {
+    var lastActive: Date?
+    
+    init(id: String? = nil, nickname: String, emoji: String, team: OSTeam, foosballStats: OSStats? = nil, tableTennisStats: OSStats? = nil, poolStats: OSStats? = nil, lastActive: Date? = nil) {
         self.id = id
         self.nickname = nickname
         self.emoji = emoji
@@ -52,6 +54,7 @@ struct OSPlayer: Identifiable, Codable, Equatable {
             try container.encode(poolStats, forKey: .poolStats)
             try container.encode(team, forKey: .team)
             try? container.encode(teamId, forKey: .teamId)
+            try? container.encode(lastActive, forKey: .lastActive)
         } catch let error {
             print("Error encoding player: \(error)")
         }
@@ -67,6 +70,7 @@ struct OSPlayer: Identifiable, Codable, Equatable {
         poolStats = try? container.decode(OSStats.self, forKey: .poolStats)
         team = try? container.decode(OSTeam.self, forKey: .team)
         teamId = try? container.decodeIfPresent(String.self, forKey: .teamId)
+        lastActive = try? container.decodeIfPresent(Date.self, forKey: .lastActive)
     }
     
     func statsForSport(_ sport: OSSport) -> OSStats? {
@@ -82,7 +86,7 @@ struct OSPlayer: Identifiable, Codable, Equatable {
         }
     }
     
-    func points(_ sport: OSSport) -> Int {
+    func pointsForSport(_ sport: OSSport) -> Int {
         return statsForSport(sport)?.score ?? defaultPoints
     }
     
@@ -96,6 +100,19 @@ struct OSPlayer: Identifiable, Codable, Equatable {
     
     func totalSeasonWinsForSport(_ sport: OSSport) -> Int {
         return statsForSport(sport)?.seasonWins ?? 0
+    }
+    
+    func wasRecentlyActive() -> Bool {
+        let calendar = Calendar.current
+        let now = Date.now
+        
+        guard let date = lastActive else {
+            return false
+        }
+        guard let twoHoursAgo = calendar.date(byAdding: .hour, value: -2, to: now) else {
+            return false
+        }
+        return (twoHoursAgo...now).contains(date)
     }
     
     // MARK: - Equatable protocol conformance

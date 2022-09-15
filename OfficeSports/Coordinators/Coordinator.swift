@@ -97,6 +97,21 @@ final class Coordinator {
         viewController.present(playerProfileViewController, animated: true)
     }
     
+    func presentInvites(from viewController: UIViewController) {
+        let viewModel = MyInvitesViewModel(api: MockSportsAPI())
+        let invitesViewController = MyInvitesViewController(viewModel: viewModel)
+        // TODO: this should be a VC extention instead
+        if let sheet = invitesViewController.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.largestUndimmedDetentIdentifier = .none
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+            sheet.prefersEdgeAttachedInCompactHeight = true
+            sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+            sheet.prefersGrabberVisible = true
+        }
+        viewController.present(invitesViewController, animated: true)
+    }
+    
     func presentSettings(from viewController: UIViewController) {
         viewController.present(SettingsViewController(), animated: false)
     }

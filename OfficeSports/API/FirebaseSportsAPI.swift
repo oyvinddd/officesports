@@ -13,6 +13,7 @@ import FirebaseFirestoreSwift
 
 private let fbCloudFuncBaseUrl = "https://us-central1-officesports-5d7ac.cloudfunctions.net"
 private let fbCloudFuncRegisterMatchUrl = "/winMatch"
+private let fbCloudFuncCreateOrUpdatePlayer = "/createPlayer"
 
 private let maxResultsInScoreboard = 200
 private let maxResultsInRecentMatches = 300

@@ -51,10 +51,10 @@ final class InviteTableViewCell: UITableViewCell {
         super.init(coder: aDecoder)
     }
     
-    func configure(with invite: OSInvite, _ isFirst: Bool, _ isLast: Bool) {
-        applyCornerRadius(isFirstElement: isFirst, isLastElement: isLast)
+    func configure(with invite: OSInvite, _ isLast: Bool) {
+        applyCornerRadius(isLastElement: isLast)
         sportImageWrap.backgroundColor = UIColor.OS.colorForSport(invite.sport)
-        sportEmojiLabel.text = invite.sport == .foosball ? "⚽️" : "🏓"
+        sportEmojiLabel.text = invite.sport.emoji
         playerLabel.text = "Invite from \(invite.inviteeNickname)!"
     }
     
@@ -85,17 +85,12 @@ final class InviteTableViewCell: UITableViewCell {
         ])
     }
     
-    private func applyCornerRadius(isFirstElement: Bool, isLastElement: Bool) {
-        guard isFirstElement || isLastElement else {
+    private func applyCornerRadius(isLastElement: Bool) {
+        guard isLastElement else {
             contentWrap.layer.maskedCorners = []
             return
         }
-        
         var mask = CACornerMask()
-        if isFirstElement {
-            mask.insert(.layerMaxXMinYCorner)
-            mask.insert(.layerMinXMinYCorner)
-        }
         if isLastElement {
             mask.insert(.layerMinXMaxYCorner)
             mask.insert(.layerMaxXMaxYCorner)

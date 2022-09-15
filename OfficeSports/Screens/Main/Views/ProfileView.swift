@@ -8,13 +8,14 @@
 import UIKit
 import Combine
 
+private let codeTransitionDuration: TimeInterval = 0.3          // seconds
+private let codeHideDelayDuration: TimeInterval = 4             // seconds
+private let emojiFadeTransitionDuration: TimeInterval = 0.15    // seconds
+
 private let profileImageDiameter: CGFloat = 128
 private let sportImageDiameter: CGFloat = 60
 private let profileImageRadius: CGFloat = profileImageDiameter / 2
 private let sportImageRadius: CGFloat = sportImageDiameter / 2
-private let codeTransitionDuration: TimeInterval = 0.3          // seconds
-private let codeHideDelayDuration: TimeInterval = 4             // seconds
-private let emojiFadeTransitionDuration: TimeInterval = 0.15    // seconds
 
 protocol ProfileViewDelegate: AnyObject {
     
@@ -31,7 +32,7 @@ final class ProfileView: UIView {
         let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .semibold, scale: .large)
         let image = UIImage(systemName: "tray.fill", withConfiguration: config)
         let button = UIButton.createButton(.clear, .clear, title: nil)
-        button.addTarget(self, action: #selector(settingsButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(invitesButtonTapped), for: .touchUpInside)
         button.tintColor = UIColor.OS.Text.disabled
         button.setImage(image, for: .normal)
         return button
@@ -173,7 +174,7 @@ final class ProfileView: UIView {
     
     func configureForSport(_ sport: OSSport) {
         // update player stats labels with stats for the given sport
-        let points = OSAccount.current.player?.points(sport)
+        let points = OSAccount.current.player?.pointsForSport(sport)
         let totalWins = OSAccount.current.player?.totalSeasonWinsForSport(sport)
         playerStatsView.updateStats(points: points, totalWins: totalWins)
         
@@ -244,6 +245,8 @@ final class ProfileView: UIView {
     func handleTouch(point: CGPoint) {
         if settingsButton.frame.contains(point) {
             settingsButton.sendActions(for: .touchUpInside)
+        } else if invitesButton.frame.contains(point) {
+            invitesButton.sendActions(for: .touchUpInside)
         } else if profileImageWrap.frame.contains(point) {
             delegate?.profilePictureTapped()
         }
@@ -324,8 +327,9 @@ final class ProfileView: UIView {
         delegate?.profilePictureTapped()
     }
     
-    @objc private func invitesButtonTapped(_ sender: UITapGestureRecognizer) {
-        delegate?.invitesButtonTapped()
+    @objc private func invitesButtonTapped(_ sender: UIButton) {
+        // FIXME: enable when feature is done
+        // delegate?.invitesButtonTapped()
     }
     
     @objc private func settingsButtonTapped(_ sender: UIButton) {

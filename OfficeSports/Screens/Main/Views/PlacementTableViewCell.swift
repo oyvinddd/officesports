@@ -7,6 +7,14 @@
 
 import UIKit
 
+private let firstPlace = "🥇"
+private let secondPlace = "🥈"
+private let thirdPlace = "🥉"
+private let lastPlace = "💩"
+
+private let activeIndicatorDiameter: CGFloat = 16
+private let activeIndicatorRadius = activeIndicatorDiameter / 2
+
 final class PlacementTableViewCell: UITableViewCell {
     
     private lazy var contentWrap: UIView = {
@@ -28,6 +36,7 @@ final class PlacementTableViewCell: UITableViewCell {
     private lazy var usernameLabel: UILabel = {
         let label = UILabel.createLabel(UIColor.OS.Text.normal)
         label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.numberOfLines = 1
         return label
     }()
     
@@ -50,6 +59,16 @@ final class PlacementTableViewCell: UITableViewCell {
         return UILabel.createLabel(UIColor.OS.Text.normal, alignment: .center)
     }()
     
+    private lazy var activeIndicatorWrap: UIView = {
+        let view = UIView.createView(.white, cornerRadius: activeIndicatorRadius)
+        NSLayoutConstraint.pinToView(view, activeIndicatorView, padding: 2.4)
+        return view
+    }()
+    
+    private lazy var activeIndicatorView: UIView = {
+        return UIView.createView(UIColor.OS.Text.disabled, cornerRadius: activeIndicatorRadius - 2.4)
+    }()
+    
     private let placementFontNormal = UIFont.boldSystemFont(ofSize: 18)
     private let placementFontEmoji = UIFont.systemFont(ofSize: 28)
     
@@ -70,13 +89,14 @@ final class PlacementTableViewCell: UITableViewCell {
     
     // swiftlint:disable function_parameter_count
     func configure(with player: OSPlayer, _ sport: OSSport, _ placement: Int, _ isFanatical: Bool, _ isMostBoring: Bool, _ isFirst: Bool, _ isLast: Bool) {
-        applyCornerRadius(isFirstElement: isFirst, isLastElement: isLast)
+        applyCornerRadius(isLastElement: isLast)
         configurePlacementLabel(placement, isLast: isLast)
         configureSpecialLabel(isFanatical, isMostBoring)
+        configureActiveStatus(player: player)
         profileImageWrap.backgroundColor = UIColor.OS.hashedProfileColor(player.nickname)
         profileEmojiLabel.text = player.emoji
         usernameLabel.text = player.nickname.lowercased()
-        scoreLabel.text = "\(player.points(sport)) pts"
+        scoreLabel.text = "\(player.pointsForSport(sport)) pts"
         separator.isHidden = isLast
     }
     
@@ -86,21 +106,14 @@ final class PlacementTableViewCell: UITableViewCell {
         placementLabel.text = ""
     }
     
-    private func applyCornerRadius(isFirstElement: Bool, isLastElement: Bool) {
-        guard isFirstElement || isLastElement else {
+    private func applyCornerRadius(isLastElement: Bool) {
+        guard isLastElement else {
             contentWrap.layer.maskedCorners = []
             return
         }
-        
         var mask = CACornerMask()
-        if isFirstElement {
-            mask.insert(.layerMaxXMinYCorner)
-            mask.insert(.layerMinXMinYCorner)
-        }
-        if isLastElement {
-            mask.insert(.layerMinXMaxYCorner)
-            mask.insert(.layerMaxXMaxYCorner)
-        }
+        mask.insert(.layerMinXMaxYCorner)
+        mask.insert(.layerMaxXMaxYCorner)
         contentWrap.layer.cornerRadius = 15
         contentWrap.layer.maskedCorners = mask
     }
@@ -113,6 +126,7 @@ final class PlacementTableViewCell: UITableViewCell {
         contentWrap.addSubview(placementLabel)
         contentWrap.addSubview(specialIndicatorLabel)
         contentWrap.addSubview(separator)
+        contentWrap.addSubview(activeIndicatorWrap)
         
         NSLayoutConstraint.pinToView(profileImageWrap, profileEmojiLabel)
         NSLayoutConstraint.activate([
@@ -140,7 +154,11 @@ final class PlacementTableViewCell: UITableViewCell {
             separator.leftAnchor.constraint(equalTo: contentWrap.leftAnchor),
             separator.rightAnchor.constraint(equalTo: contentWrap.rightAnchor),
             separator.bottomAnchor.constraint(equalTo: contentWrap.bottomAnchor),
-            separator.heightAnchor.constraint(equalToConstant: 1)
+            separator.heightAnchor.constraint(equalToConstant: 1),
+            activeIndicatorWrap.widthAnchor.constraint(equalToConstant: activeIndicatorDiameter),
+            activeIndicatorWrap.heightAnchor.constraint(equalTo: activeIndicatorWrap.widthAnchor),
+            activeIndicatorWrap.rightAnchor.constraint(equalTo: profileImageWrap.rightAnchor, constant: 3),
+            activeIndicatorWrap.bottomAnchor.constraint(equalTo: profileImageWrap.bottomAnchor)
         ])
     }
     
@@ -156,16 +174,16 @@ final class PlacementTableViewCell: UITableViewCell {
         // configure text label
         switch placement {
         case 0:
-            placementLabel.text = "🥇"
+            placementLabel.text = firstPlace
         case 1:
-            placementLabel.text = "🥈"
+            placementLabel.text = secondPlace
         case 2:
-            placementLabel.text = "🥉"
+            placementLabel.text = thirdPlace
         default:
             placementLabel.text = "\(placement + 1)th"
         }
         if isLast {
-            placementLabel.text = "💩"
+            placementLabel.text = lastPlace
         }
     }
     
@@ -176,6 +194,14 @@ final class PlacementTableViewCell: UITableViewCell {
             specialIndicatorLabel.text = "🧊"
         } else {
             specialIndicatorLabel.text = ""
+        }
+    }
+    
+    private func configureActiveStatus(player: OSPlayer) {
+        if player.wasRecentlyActive() {
+            activeIndicatorView.backgroundColor = UIColor.OS.Status.success
+        } else {
+            activeIndicatorView.backgroundColor = UIColor.OS.Text.disabled
         }
     }
 }
