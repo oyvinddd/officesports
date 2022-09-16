@@ -100,7 +100,7 @@ final class ScannerViewController: UIViewController {
             frameLinesView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50),
             infoMessageView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
             infoMessageView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
-            infoMessageView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100)
+            infoMessageView.topAnchor.constraint(equalTo: frameLinesView.bottomAnchor, constant: 32)
         ])
     }
     
