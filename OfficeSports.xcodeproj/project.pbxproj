@@ -80,6 +80,7 @@
 		8E7D0AC72838D7A1006D6DF7 /* UICollectionView+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D0AC62838D7A1006D6DF7 /* UICollectionView+Util.swift */; };
 		8E7D0ACC28391A9E006D6DF7 /* emojis.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8E7D0ACB28391A9E006D6DF7 /* emojis.csv */; };
 		8E7D9A7F282BEF66007BCDE0 /* QRCodeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D9A7E282BEF66007BCDE0 /* QRCodeGenerator.swift */; };
+		8E8121EC28D491B200C048CA /* OSRank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8121EB28D491B200C048CA /* OSRank.swift */; };
 		8E86BAD228C8D55A003D7F23 /* sindre-profile-picture-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E86BAD128C8D55A003D7F23 /* sindre-profile-picture-2.png */; };
 		8E88E4BA28C62BB700807667 /* UILabel+Visuals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E88E4B928C62BB700807667 /* UILabel+Visuals.swift */; };
 		8E88E4BF28C64CFA00807667 /* PlayerGraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E88E4BE28C64CFA00807667 /* PlayerGraphViewController.swift */; };
@@ -205,6 +206,7 @@
 		8E7D9A7E282BEF66007BCDE0 /* QRCodeGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeGenerator.swift; sourceTree = "<group>"; };
 		8E7F45BC2862948100473557 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		8E7F45BE2862948100473557 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		8E8121EB28D491B200C048CA /* OSRank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSRank.swift; sourceTree = "<group>"; };
 		8E86BAD128C8D55A003D7F23 /* sindre-profile-picture-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sindre-profile-picture-2.png"; sourceTree = "<group>"; };
 		8E88E4B928C62BB700807667 /* UILabel+Visuals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Visuals.swift"; sourceTree = "<group>"; };
 		8E88E4BE28C64CFA00807667 /* PlayerGraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerGraphViewController.swift; sourceTree = "<group>"; };
@@ -474,6 +476,7 @@
 				8E25B0F7283CD3F100FE2FB3 /* OSStats.swift */,
 				8EE558342847B0B400199CC6 /* OSSport.swift */,
 				8E43DEFE286E296E00D9B50D /* OSSeasonStats.swift */,
+				8E8121EB28D491B200C048CA /* OSRank.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -867,6 +870,7 @@
 				8EF1387B2837CF3A001D8DA6 /* OSCodePayload.swift in Sources */,
 				8E31E24228364B0A0085238C /* MyInvitesViewModel.swift in Sources */,
 				8E24F4592834A75900BC808B /* MessageWindow.swift in Sources */,
+				8E8121EC28D491B200C048CA /* OSRank.swift in Sources */,
 				8EF418A4283CFF39005CAE09 /* AboutViewController.swift in Sources */,
 				8E2EE76B2836783C0096659D /* FirebaseSportsAPI.swift in Sources */,
 				8E25B0F8283CD3F100FE2FB3 /* OSStats.swift in Sources */,

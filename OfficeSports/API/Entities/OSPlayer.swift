@@ -34,6 +34,19 @@ struct OSPlayer: Identifiable, Codable, Equatable {
     
     var lastActive: Date?
     
+    var wasRecentlyActive: Bool {
+        let calendar = Calendar.current
+        let now = Date.now
+        
+        guard let date = lastActive else {
+            return false
+        }
+        guard let twoHoursAgo = calendar.date(byAdding: .hour, value: -2, to: now) else {
+            return false
+        }
+        return (twoHoursAgo...now).contains(date)
+    }
+    
     init(id: String? = nil, nickname: String, emoji: String, team: OSTeam, foosballStats: OSStats? = nil, tableTennisStats: OSStats? = nil, poolStats: OSStats? = nil, lastActive: Date? = nil) {
         self.id = id
         self.nickname = nickname
@@ -102,17 +115,11 @@ struct OSPlayer: Identifiable, Codable, Equatable {
         return statsForSport(sport)?.seasonWins ?? 0
     }
     
-    func wasRecentlyActive() -> Bool {
-        let calendar = Calendar.current
-        let now = Date.now
-        
-        guard let date = lastActive else {
-            return false
+    func rankForSport(_ sport: OSSport) -> OSRank {
+        if let stats = statsForSport(sport) {
+            return OSRank.rankFromElo(stats.score)
         }
-        guard let twoHoursAgo = calendar.date(byAdding: .hour, value: -2, to: now) else {
-            return false
-        }
-        return (twoHoursAgo...now).contains(date)
+        return .unranked
     }
     
     // MARK: - Equatable protocol conformance
