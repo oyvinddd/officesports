@@ -198,7 +198,7 @@ final class PlacementTableViewCell: UITableViewCell {
     }
     
     private func configureActiveStatus(player: OSPlayer) {
-        if player.wasRecentlyActive() {
+        if player.wasRecentlyActive {
             activeIndicatorView.backgroundColor = UIColor.OS.Status.success
         } else {
             activeIndicatorView.backgroundColor = UIColor.OS.Text.disabled
