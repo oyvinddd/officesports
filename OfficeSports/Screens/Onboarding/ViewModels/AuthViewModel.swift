@@ -27,12 +27,12 @@ final class AuthViewModel {
         self.api = api
     }
     
-    func signIn(from viewController: UIViewController) {
+    func signInWithGoogle(from viewController: UIViewController) {
         state = .loading
         
         Task {
             do {
-                _ = try await api.signIn(viewController: viewController)
+                _ = try await api.signInWithGoogle(from: viewController)
                 
                 do {
                     let player = try await api.getPlayerProfile()
@@ -47,6 +47,10 @@ final class AuthViewModel {
                 state = .signInFailure(error)
             }
         }
+    }
+    
+    func signInWithApple(from viewController: UIViewController) {
+        state = .loading
     }
     
     func signOut() {

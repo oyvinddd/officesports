@@ -62,7 +62,12 @@ final class MockSportsAPI: SportsAPI {
     private var profileNickname = "oyvindhauge"
     private var signedIn = false
     
-    func signIn(_ viewController: UIViewController, result: @escaping (Result<Bool, Error>) -> Void) {
+    func signInWithGoogle(from viewController: UIViewController, result: @escaping ((Result<Bool, Error>) -> Void)) {
+        signedIn = true
+        result(.success(true))
+    }
+    
+    func signInWithApple(from viewController: UIViewController, result: @escaping ((Result<Bool, Error>) -> Void)) {
         signedIn = true
         result(.success(true))
     }
@@ -152,9 +157,17 @@ final class MockSportsAPI: SportsAPI {
 
 extension MockSportsAPI {
     
-    func signIn(viewController: UIViewController) async throws -> Bool {
+    func signInWithGoogle(from viewController: UIViewController) async throws -> Bool {
         return try await withCheckedThrowingContinuation({ continuation in
-            signIn(viewController) { result in
+            signInWithGoogle(from: viewController) { result in
+                continuation.resume(with: result)
+            }
+        })
+    }
+    
+    func signInWithApple(from viewController: UIViewController) async throws -> Bool {
+        return try await withCheckedThrowingContinuation({ continuation in
+            signInWithApple(from: viewController) { result in
                 continuation.resume(with: result)
             }
         })

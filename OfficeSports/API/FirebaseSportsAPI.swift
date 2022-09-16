@@ -50,7 +50,7 @@ final class FirebaseSportsAPI: SportsAPI {
         database.collection(fbTeamsCollection)
     }
     
-    func signIn(_ viewController: UIViewController, result: @escaping (Result<Bool, Error>) -> Void) {
+    func signInWithGoogle(from viewController: UIViewController, result: @escaping (Result<Bool, Error>) -> Void) {
         guard let clientID = FirebaseApp.app()?.options.clientID else {
             return
         }
@@ -79,6 +79,9 @@ final class FirebaseSportsAPI: SportsAPI {
                 }
             }
         }
+    }
+    
+    func signInWithApple(from viewController: UIViewController, result: @escaping ((Result<Bool, Error>) -> Void)) {
     }
     
     func signOut() -> Error? {
