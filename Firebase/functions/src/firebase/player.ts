@@ -1,5 +1,6 @@
 import * as admin from "firebase-admin";
 import { getCollection } from "../helpers/firebase.helpers";
+import { getEmptyPlayer } from "../helpers/player.helpers";
 import { getEmptyStats } from "../helpers/sport.helpers";
 import { Player } from "../types/Player";
 import { Sport } from "../types/Sport";
@@ -83,4 +84,28 @@ export const updatePlayer = async (player: Player): Promise<void> => {
     .withConverter(playerConverter)
     .doc(player.userId)
     .update(updatedPlayer);
+};
+
+export const createPlayer = async (
+  player: Omit<Player, "userId">,
+): Promise<Player> => {
+  const playerWithAllProps: Player = {
+    userId: "",
+    ...getEmptyPlayer(),
+    ...player,
+  };
+
+  const newPlayer = (
+    await (
+      await getPlayerCollection()
+        .withConverter(playerConverter)
+        .add(playerWithAllProps)
+    ).get()
+  ).data();
+
+  if (!newPlayer) {
+    throw new Error(`Could not create player \`${player.nickname}\``);
+  }
+
+  return newPlayer;
 };
