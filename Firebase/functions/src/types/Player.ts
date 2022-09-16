@@ -16,6 +16,6 @@ export type Player = {
   /** @deprecated Use teamId instead */
   team: Team;
   teamId?: string | null;
-  lastActive?: firestore.Timestamp;
+  lastActive?: firestore.Timestamp | null;
   winStreak: number;
 };

@@ -23,3 +23,19 @@ export const setEmptyPlayerStats = (player: Player): void => {
   ];
   // }
 };
+
+export const getEmptyPlayer = (): Omit<Player, "userId"> => {
+  return {
+    emoji: "🔳",
+    nickname: "nickname",
+    stats: [
+      getEmptyStats(Sport.Foosball),
+      getEmptyStats(Sport.TableTennis),
+      getEmptyStats(Sport.Pool),
+    ],
+    winStreak: 0,
+    lastActive: null,
+    teamId: null,
+    team: { id: null, name: "No team" },
+  };
+};

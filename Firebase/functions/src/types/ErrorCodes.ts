@@ -6,4 +6,8 @@ export enum ErrorCodes {
   WinMatchMethodNotAllowed = "ERROR0005",
   WinnerNotFound = "ERROR0006",
   LoserNotFound = "ERROR0007",
+  UpsertPlayerMethodNotAllowed = "ERROR0008",
+  CouldNotCreatePlayer = "ERROR0009",
+  NicknameIsAlreadyTaken = "ERROR0010",
+  NicknameDoesNotValidate = "ERROR0011",
 }
