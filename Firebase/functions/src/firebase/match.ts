@@ -14,6 +14,8 @@ const matchConverter: admin.firestore.FirestoreDataConverter<Match> = {
       winner: snapshot.get("winner"),
       winnerDelta: snapshot.get("winnerDelta"),
       teamId: snapshot.get("teamId"),
+      winners: snapshot.get("winners") ?? [snapshot.get("winner")],
+      losers: snapshot.get("losers") ?? [snapshot.get("loser")],
     };
 
     return match;

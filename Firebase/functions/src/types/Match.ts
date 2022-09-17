@@ -7,6 +7,8 @@ export type Match = {
   sport: Sport;
   winner: Player;
   loser: Player;
+  winners: Array<Player>;
+  losers: Array<Player>;
   winnerDelta: number;
   loserDelta: number;
   teamId?: string;

@@ -10,8 +10,11 @@ import { setEmptyPlayerStats } from "../helpers/player.helpers";
 import { getSportStats } from "../helpers/sport.helpers";
 import { validateWinMatchBody } from "../helpers/validation.helpers";
 import { ErrorCodes } from "../types/ErrorCodes";
+import { ErrorWithMessage } from "../types/ErrorWithMessage";
 import { Match } from "../types/Match";
 import { WinMatchBody } from "../types/WinMatchBody";
+
+const isDefined = <T>(value: T | null | undefined): value is T => value != null;
 
 export const winMatch = functions.https.onRequest(
   async (request, response): Promise<void> => {
@@ -33,50 +36,75 @@ export const winMatch = functions.https.onRequest(
       sendErrorStatus(response, HttpStatus.BAD_REQUEST, bodyErrors);
     }
 
-    const { winnerId, loserId, sport }: WinMatchBody = request.body;
+    const {
+      winnerId,
+      winnerIds: wIds,
+      loserId,
+      loserIds: lIds,
+      sport,
+    }: WinMatchBody = request.body;
 
     console.log({ body: request.body });
 
-    const winner = await getPlayer(winnerId);
-    const loser = await getPlayer(loserId);
+    const winnerIds = [...new Set([winnerId ?? wIds[0], ...(wIds ?? [])])];
+    const loserIds = [...new Set([loserId ?? lIds[0], ...(lIds ?? [])])];
 
-    console.log({ winnerId, loserId, sport, winner, loser });
+    const winners = await Promise.all(winnerIds.map(getPlayer));
+    const losers = await Promise.all(loserIds.map(getPlayer));
 
-    if (!winner) {
-      sendErrorStatus(response, HttpStatus.BAD_REQUEST, [
-        {
+    console.log({ winnerId, loserId: loserId, sport, winners, losers });
+
+    const someWinnersCouldNotBeFound = !winners.every(isDefined);
+    const someLosersCouldNotBeFound = !losers.every(isDefined);
+
+    if (someWinnersCouldNotBeFound || someLosersCouldNotBeFound) {
+      const errors: Array<ErrorWithMessage> = [];
+
+      if (someWinnersCouldNotBeFound) {
+        errors.push({
           errorCode: ErrorCodes.WinnerNotFound,
           message: `Player with id '${winnerId} not found`,
-        },
-      ]);
-      return;
-    }
+        });
+        return;
+      }
 
-    if (!loser) {
-      sendErrorStatus(response, HttpStatus.BAD_REQUEST, [
-        {
+      if (someLosersCouldNotBeFound) {
+        errors.push({
           errorCode: ErrorCodes.LoserNotFound,
           message: `Player with id '${loserId} not found`,
-        },
-      ]);
+        });
+      }
+
+      sendErrorStatus(response, HttpStatus.BAD_REQUEST, errors);
       return;
     }
 
-    setEmptyPlayerStats(winner);
-    setEmptyPlayerStats(loser);
+    winners.forEach(setEmptyPlayerStats);
+    losers.forEach(setEmptyPlayerStats);
 
-    const winnerStats = getSportStats(winner, sport);
-    const loserStats = getSportStats(loser, sport);
+    const winnerStats = winners.map(winner => getSportStats(winner, sport));
+    const loserStats = losers.map(loser => getSportStats(loser, sport));
 
-    if (!winnerStats || !loserStats) {
+    if (!winnerStats.every(isDefined) || !loserStats.every(isDefined)) {
       throw new Error(`Missing stats for sport ${sport}`);
     }
 
-    const oldWinnerScore = winnerStats.score ?? initialScore;
-    const oldLoserScore = loserStats.score ?? initialScore;
+    const averageWinnerScore =
+      winnerStats.reduce(
+        (sum, { score }) => (sum += score ?? initialScore),
+        0,
+      ) / winners.length;
+    const averageLoserScore =
+      loserStats.reduce((sum, { score }) => (sum += score ?? initialScore), 0) /
+      losers.length;
+
+    // const oldWinnerScore = winnerStats.score ?? initialScore;
+    // const oldLoserScore = loserStats.score ?? initialScore;
 
     const { playerRating: newWinnerScore, opponentRating: newLoserScore } =
-      EloRating.calculate(oldWinnerScore, oldLoserScore);
+      EloRating.calculate(averageWinnerScore, averageLoserScore);
+
+    const delta = newWinnerScore - averageWinnerScore;
 
     console.log({ newWinnerScore, newLoserScore });
 
@@ -88,36 +116,58 @@ export const winMatch = functions.https.onRequest(
     const match: Match = {
       date: now,
       sport,
-      winner,
-      loser,
-      winnerDelta: newWinnerScore - oldWinnerScore,
-      loserDelta: newLoserScore - oldLoserScore,
+      winner: winners[0],
+      loser: losers[0],
+      winners,
+      losers,
+      winnerDelta: delta,
+      loserDelta: -delta,
     };
 
-    const sameTeam =
-      (winner.teamId ?? winner.team.id) === (loser.teamId ?? loser.team.id);
+    const allPlayers = [...winners, ...losers];
+    const sameTeam = allPlayers.every(
+      player =>
+        (player.teamId ?? player.team?.id) ===
+        (winners[0].teamId ?? winners[0].team?.id),
+    );
+
     if (sameTeam) {
-      match.teamId = winner.teamId ?? winner.team.id ?? undefined;
+      match.teamId = winners[0].teamId ?? winners[0].team.id ?? undefined;
     }
 
-    winnerStats.matchesPlayed += 1;
-    winnerStats.matchesWon += 1;
-    winnerStats.score = newWinnerScore;
+    const allStats = [...winnerStats, ...loserStats];
+    allStats.forEach(player => {
+      player.matchesPlayed += 1;
+    });
 
-    loserStats.matchesPlayed += 1;
-    loserStats.score = newLoserScore;
+    winnerStats.forEach(winner => {
+      winner.matchesWon += 1;
+      winner.score += delta;
+    });
 
-    winner.lastActive = now;
-    winner.winStreak += 1;
+    loserStats.forEach(loser => {
+      loser.score -= delta;
+    });
 
-    loser.lastActive = now;
-    loser.winStreak = 0;
+    allPlayers.forEach(player => {
+      player.lastActive = now;
+    });
 
-    const isDebug = testIds.includes(loser.userId);
+    winners.forEach(winner => {
+      winner.winStreak += 1;
+    });
+
+    losers.forEach(loser => {
+      loser.winStreak = 0;
+    });
+
+    const isDebug = lIds.some(id => testIds.includes(id));
     if (!isDebug) {
       addMatch(match);
-      updatePlayer(winner);
-      updatePlayer(loser);
+
+      allPlayers.forEach(player => {
+        updatePlayer(player);
+      });
     }
 
     console.log({ match });
