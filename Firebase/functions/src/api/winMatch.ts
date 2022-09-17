@@ -12,9 +12,12 @@ import { validateWinMatchBody } from "../helpers/validation.helpers";
 import { ErrorCodes } from "../types/ErrorCodes";
 import { ErrorWithMessage } from "../types/ErrorWithMessage";
 import { Match } from "../types/Match";
+import { Player } from "../types/Player";
 import { WinMatchBody } from "../types/WinMatchBody";
 
 const isDefined = <T>(value: T | null | undefined): value is T => value != null;
+const validateTeam = (player: Player): boolean =>
+  player.team.id != null || player.teamId != null;
 
 export const winMatch = functions.https.onRequest(
   async (request, response): Promise<void> => {
@@ -79,6 +82,26 @@ export const winMatch = functions.https.onRequest(
       return;
     }
 
+    const allPlayers = [...winners, ...losers];
+    const isDebug = lIds.some(id => testIds.includes(id));
+    if (!isDebug) {
+      const allPlayersArePartOfATeam = allPlayers.every(validateTeam);
+      if (!allPlayersArePartOfATeam) {
+        const errors: Array<ErrorWithMessage> = [];
+
+        const playersWithoutATeam = allPlayers.filter(
+          player => !validateTeam(player),
+        );
+        playersWithoutATeam.map(player => ({
+          errorCode: ErrorCodes.PlayerMissingTeam,
+          message: `Player with id '${player} is not part of a team`,
+        }));
+
+        sendErrorStatus(response, HttpStatus.BAD_REQUEST, errors);
+        return;
+      }
+    }
+
     winners.forEach(setEmptyPlayerStats);
     losers.forEach(setEmptyPlayerStats);
 
@@ -124,7 +147,6 @@ export const winMatch = functions.https.onRequest(
       loserDelta: -delta,
     };
 
-    const allPlayers = [...winners, ...losers];
     const sameTeam = allPlayers.every(
       player =>
         (player.teamId ?? player.team?.id) ===
@@ -161,7 +183,6 @@ export const winMatch = functions.https.onRequest(
       loser.winStreak = 0;
     });
 
-    const isDebug = lIds.some(id => testIds.includes(id));
     if (!isDebug) {
       addMatch(match);
 
