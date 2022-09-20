@@ -37,6 +37,8 @@ enum OSError: LocalizedError {
     
     case identicalUserIds
     
+    case invalidPlayerCombo
+    
     var errorDescription: String? {
         switch self {
         case .unknown:
@@ -67,6 +69,8 @@ enum OSError: LocalizedError {
             return "You need to wait 15 minutes between every time you invite someone to a match 🕑"
         case .identicalUserIds:
             return "User IDs are identical"
+        case .invalidPlayerCombo:
+            return "Player combination is invalid"
         }
     }
 }

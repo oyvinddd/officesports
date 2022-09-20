@@ -221,7 +221,9 @@ final class RegisterMatchViewController: UIViewController {
         guard let winnerId = OSAccount.current.userId else {
             return
         }
-        let registration = OSMatchRegistration(sport: payload.sport, winnerId: winnerId, loserId: payload.userId)
+        let winnerIds = [winnerId]
+        let loserIds = [payload.userId]
+        let registration = OSMatchRegistration(sport: payload.sport, winnerIds: winnerIds, loserIds: loserIds)
         viewModel.registerMatch(registration)
     }
     

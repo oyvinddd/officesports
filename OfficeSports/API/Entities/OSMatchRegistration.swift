@@ -11,7 +11,7 @@ struct OSMatchRegistration: Codable {
     
     var sport: OSSport
     
-    var winnerId: String
+    var winnerIds: [String]
     
-    var loserId: String
+    var loserIds: [String]
 }

@@ -37,7 +37,7 @@
 		8E3F33612864E1720061CD6B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E7F45BE2862948100473557 /* SwiftUI.framework */; };
 		8E3F33642864E1720061CD6B /* CodeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3F33632864E1720061CD6B /* CodeWidget.swift */; };
 		8E3F33662864E1730061CD6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E3F33652864E1730061CD6B /* Assets.xcassets */; };
-		8E3F336A2864E1730061CD6B /* CodeWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 8E3F335F2864E1720061CD6B /* CodeWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		8E3F336A2864E1730061CD6B /* CodeWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8E3F335F2864E1720061CD6B /* CodeWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8E3F337B28651F340061CD6B /* UserDefaults+CodeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3F337A28651F340061CD6B /* UserDefaults+CodeWidget.swift */; };
 		8E3F337C286520310061CD6B /* OSCodePayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1387A2837CF3A001D8DA6 /* OSCodePayload.swift */; };
 		8E3F337D2865203F0061CD6B /* OSSport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE558342847B0B400199CC6 /* OSSport.swift */; };
@@ -81,6 +81,9 @@
 		8E7D0ACC28391A9E006D6DF7 /* emojis.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8E7D0ACB28391A9E006D6DF7 /* emojis.csv */; };
 		8E7D9A7F282BEF66007BCDE0 /* QRCodeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D9A7E282BEF66007BCDE0 /* QRCodeGenerator.swift */; };
 		8E8121EC28D491B200C048CA /* OSRank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8121EB28D491B200C048CA /* OSRank.swift */; };
+		8E8121F228D4B2D600C048CA /* SingleDuoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8121F128D4B2D600C048CA /* SingleDuoView.swift */; };
+		8E8121F428D4BC7900C048CA /* DuoProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8121F328D4BC7900C048CA /* DuoProgressView.swift */; };
+		8E8121F628D5D2E900C048CA /* FloatingScannerMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8121F528D5D2E900C048CA /* FloatingScannerMenu.swift */; };
 		8E86BAD228C8D55A003D7F23 /* sindre-profile-picture-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E86BAD128C8D55A003D7F23 /* sindre-profile-picture-2.png */; };
 		8E88E4BA28C62BB700807667 /* UILabel+Visuals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E88E4B928C62BB700807667 /* UILabel+Visuals.swift */; };
 		8E88E4BF28C64CFA00807667 /* PlayerGraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E88E4BE28C64CFA00807667 /* PlayerGraphViewController.swift */; };
@@ -124,15 +127,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		8E7F45C92862948200473557 /* Embed App Extensions */ = {
+		8E7F45C92862948200473557 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				8E3F336A2864E1730061CD6B /* CodeWidgetExtension.appex in Embed App Extensions */,
+				8E3F336A2864E1730061CD6B /* CodeWidgetExtension.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -207,6 +210,9 @@
 		8E7F45BC2862948100473557 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		8E7F45BE2862948100473557 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		8E8121EB28D491B200C048CA /* OSRank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSRank.swift; sourceTree = "<group>"; };
+		8E8121F128D4B2D600C048CA /* SingleDuoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleDuoView.swift; sourceTree = "<group>"; };
+		8E8121F328D4BC7900C048CA /* DuoProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuoProgressView.swift; sourceTree = "<group>"; };
+		8E8121F528D5D2E900C048CA /* FloatingScannerMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingScannerMenu.swift; sourceTree = "<group>"; };
 		8E86BAD128C8D55A003D7F23 /* sindre-profile-picture-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sindre-profile-picture-2.png"; sourceTree = "<group>"; };
 		8E88E4B928C62BB700807667 /* UILabel+Visuals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Visuals.swift"; sourceTree = "<group>"; };
 		8E88E4BE28C64CFA00807667 /* PlayerGraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerGraphViewController.swift; sourceTree = "<group>"; };
@@ -315,13 +321,11 @@
 		8E230871282CFC8500AF60EB /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				8E70C11B282AC3F2009A9452 /* ScannerViewController.swift */,
 				8E70C113282ABC56009A9452 /* SportViewController.swift */,
 				8EE61FF2282AB79C00C01289 /* ContainerViewController.swift */,
 				8E38B57D283C3D01009E0387 /* AchievementsViewController.swift */,
 				8E38B581283C5895009E0387 /* PreferencesViewController.swift */,
 				8EF418A3283CFF39005CAE09 /* AboutViewController.swift */,
-				8EF9DD46285DE32900088A60 /* RegisterMatchViewController.swift */,
 				8E43DF00286EE3C800D9B50D /* SeasonsViewController.swift */,
 			);
 			path = ViewControllers;
@@ -457,6 +461,7 @@
 				8E5D567128C7AE7100F67B14 /* MetricsView.swift */,
 				8E5D567528C7AF3400F67B14 /* MatchHistoryView.swift */,
 				8E52844F28C9294100CD415D /* PlayerStatsView.swift */,
+				8E8121F528D5D2E900C048CA /* FloatingScannerMenu.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -498,7 +503,6 @@
 			children = (
 				8E70C131282AD1F0009A9452 /* SportViewModel.swift */,
 				8E973321283231F40012E236 /* SettingsViewModel.swift */,
-				8EF1387E2837FDD3001D8DA6 /* RegisterMatchViewModel.swift */,
 				8E43DF02286EE5F500D9B50D /* SeasonsViewModel.swift */,
 			);
 			path = ViewModels;
@@ -530,6 +534,42 @@
 				8E7F45BE2862948100473557 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8E8121ED28D4B1EB00C048CA /* Scanner */ = {
+			isa = PBXGroup;
+			children = (
+				8E8121F028D4B20800C048CA /* ViewModels */,
+				8E8121EF28D4B1FF00C048CA /* ViewControllers */,
+				8E8121EE28D4B1F900C048CA /* Views */,
+			);
+			path = Scanner;
+			sourceTree = "<group>";
+		};
+		8E8121EE28D4B1F900C048CA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8E8121F128D4B2D600C048CA /* SingleDuoView.swift */,
+				8E8121F328D4BC7900C048CA /* DuoProgressView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8E8121EF28D4B1FF00C048CA /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				8EF9DD46285DE32900088A60 /* RegisterMatchViewController.swift */,
+				8E70C11B282AC3F2009A9452 /* ScannerViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		8E8121F028D4B20800C048CA /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				8EF1387E2837FDD3001D8DA6 /* RegisterMatchViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		8E88E4BB28C64CC900807667 /* Graph */ = {
@@ -641,6 +681,7 @@
 		8EE62002282AB7AA00C01289 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				8E8121ED28D4B1EB00C048CA /* Scanner */,
 				8E88E4BB28C64CC900807667 /* Graph */,
 				8E3293E1283D8E5600B7CCDC /* Invitations */,
 				8E24F4562834A6EB00BC808B /* Common */,
@@ -689,7 +730,7 @@
 				8EE61FE7282AB79C00C01289 /* Sources */,
 				8EE61FE8282AB79C00C01289 /* Frameworks */,
 				8EE61FE9282AB79C00C01289 /* Resources */,
-				8E7F45C92862948200473557 /* Embed App Extensions */,
+				8E7F45C92862948200473557 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -715,7 +756,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1340;
-				LastUpgradeCheck = 1330;
+				LastUpgradeCheck = 1400;
 				TargetAttributes = {
 					8E3F335E2864E1720061CD6B = {
 						CreatedOnToolsVersion = 13.4.1;
@@ -836,12 +877,14 @@
 				8EC37F0C287D6318000D7A14 /* TeamPickerViewController.swift in Sources */,
 				8E38B57E283C3D01009E0387 /* AchievementsViewController.swift in Sources */,
 				8E52845028C9294100CD415D /* PlayerStatsView.swift in Sources */,
+				8E8121F228D4B2D600C048CA /* SingleDuoView.swift in Sources */,
 				8E7D9A7F282BEF66007BCDE0 /* QRCodeGenerator.swift in Sources */,
 				8EF13879283791AE001D8DA6 /* MockSportsAPI.swift in Sources */,
 				8E70C11F282AC499009A9452 /* OSMatch.swift in Sources */,
 				8E88E4BA28C62BB700807667 /* UILabel+Visuals.swift in Sources */,
 				8E457B942860C03D00F9D133 /* ConfettiView.swift in Sources */,
 				8E3293E4283D8E8800B7CCDC /* PlayerDetailsViewController.swift in Sources */,
+				8E8121F428D4BC7900C048CA /* DuoProgressView.swift in Sources */,
 				8E5D567628C7AF3400F67B14 /* MatchHistoryView.swift in Sources */,
 				8E287F56283B1013005BBE28 /* UIButton+Loading.swift in Sources */,
 				8E70C11C282AC3F2009A9452 /* ScannerViewController.swift in Sources */,
@@ -860,6 +903,7 @@
 				8E6995D52844E0CE001355D2 /* LocalNotificationManager.swift in Sources */,
 				8E38B576283BC5AD009E0387 /* Bundle+Version.swift in Sources */,
 				8E70C117282ABD3E009A9452 /* FloatingMenu.swift in Sources */,
+				8E8121F628D5D2E900C048CA /* FloatingScannerMenu.swift in Sources */,
 				8E7C415B286F2F34004C105E /* SeasonWinnerTableViewCell.swift in Sources */,
 				8EE61FF3282AB79C00C01289 /* ContainerViewController.swift in Sources */,
 				8EC84E8E282BD5B10093C9A0 /* PlayerProfileViewController.swift in Sources */,
