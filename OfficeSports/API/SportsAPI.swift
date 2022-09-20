@@ -17,7 +17,7 @@ protocol SportsAPI {
     func deleteAccount(result: @escaping ((Error?) -> Void))
     
     @available(*, renamed: "createOrUpdatePlayerProfile(nickname:emoji:team:)")
-    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam?, result: @escaping ((Result<OSPlayer, Error>) -> Void))
+    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam, result: @escaping ((Result<OSPlayer, Error>) -> Void))
     
     @available(*, renamed: "getPlayerProfile()")
     func getPlayerProfile(result: @escaping ((Result<OSPlayer, Error>) -> Void))
@@ -50,7 +50,7 @@ protocol SportsAPI {
     
     func signIn(viewController: UIViewController) async throws -> Bool
     
-    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam?) async throws -> OSPlayer
+    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam) async throws -> OSPlayer
     
     func getPlayerProfile() async throws -> OSPlayer
     

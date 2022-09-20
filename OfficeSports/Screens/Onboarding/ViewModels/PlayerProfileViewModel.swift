@@ -64,7 +64,7 @@ final class PlayerProfileViewModel {
         return lowercasedNickname
     }
     
-    func registerPlayerProfile(nickname: String, emoji: String, team: OSTeam?) {
+    func registerPlayerProfile(nickname: String, emoji: String, team: OSTeam) {
         state = .loading
         
         Task {

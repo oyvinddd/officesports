@@ -76,10 +76,10 @@ final class MockSportsAPI: SportsAPI {
         result(nil)
     }
     
-    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam?, result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
+    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam, result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
         let foosballStats = OSStats(sport: .foosball, score: 0, matchesPlayed: 0, matchesWon: 0, seasonWins: 0)
         let tableTennisStats = OSStats(sport: .tableTennis, score: 0, matchesPlayed: 0, matchesWon: 0, seasonWins: 0)
-        let player = OSPlayer(id: "id#1337", nickname: nickname, emoji: emoji, team: OSTeam.noTeam, foosballStats: foosballStats, tableTennisStats: tableTennisStats)
+        let player = OSPlayer(id: "id#1337", nickname: nickname, emoji: emoji, team: team, foosballStats: foosballStats, tableTennisStats: tableTennisStats)
         result(.success(player))
     }
     
@@ -117,8 +117,8 @@ final class MockSportsAPI: SportsAPI {
     }
     
     func getLatestMatches(sport: OSSport, winnerId: String, loserId: String, result: @escaping ((Result<[OSMatch], Error>) -> Void)) {
-        let player1 = OSPlayer(nickname: "oyvinddd", emoji: "🙂", team: OSTeam.noTeam)
-        let player2 = OSPlayer(nickname: "salmaaan", emoji: "😞", team: OSTeam.noTeam)
+        let player1 = OSPlayer(nickname: "oyvinddd", emoji: "🙂", team: OSTeam(id: "id#1", name: "DNB"))
+        let player2 = OSPlayer(nickname: "salmaaan", emoji: "😞", team: OSTeam(id: "id#2", name: "Miles"))
         let match1 = OSMatch(sport: sport, winner: player1, loser: player2, winnerDt: 12, loserDt: 12)
         let match2 = OSMatch(sport: sport, winner: player1, loser: player2, winnerDt: 8, loserDt: 8)
         let match3 = OSMatch(sport: sport, winner: player1, loser: player2, winnerDt: 4, loserDt: 4)
@@ -160,7 +160,7 @@ extension MockSportsAPI {
         })
     }
     
-    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam?) async throws -> OSPlayer {
+    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam) async throws -> OSPlayer {
         return try await withCheckedThrowingContinuation({ continuation in
             createOrUpdatePlayerProfile(nickname: nickname, emoji: emoji, team: team) { result in
                 continuation.resume(with: result)

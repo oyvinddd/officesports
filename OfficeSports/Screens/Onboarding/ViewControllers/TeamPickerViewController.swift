@@ -54,7 +54,7 @@ final class TeamPickerViewController: UIViewController {
     
     private let viewModel: TeamsViewModel
     private var subscribers = Set<AnyCancellable>()
-    private var currentTeam: OSTeam? = OSAccount.current.player?.team ?? OSTeam.noTeam
+    private var currentTeam: OSTeam? = OSAccount.current.player?.team
     
     weak var delegate: TeamSelectionDelegate?
     

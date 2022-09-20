@@ -26,7 +26,7 @@ private let fbSeasonsCollection = "seasons"
 private let fbTeamsCollection = "teams"
 
 final class FirebaseSportsAPI: SportsAPI {
-
+    
     private let database = Firestore.firestore()
     
     private var playersCollection: CollectionReference {
@@ -93,7 +93,7 @@ final class FirebaseSportsAPI: SportsAPI {
         fatalError("Delete account endpoint has not been implementet yet!")
     }
     
-    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam?, result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
+    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam, result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
         guard let uid = OSAccount.current.userId else {
             result(.failure(OSError.unauthorized))
             return
@@ -101,15 +101,13 @@ final class FirebaseSportsAPI: SportsAPI {
         
         let fields = ["nickname", "emoji", "team"]
         var data: [String: Any] = ["nickname": nickname, "emoji": emoji]
-        
-        if let team = team {
-            do {
-                data["team"] = try Firestore.Encoder().encode(team)
-            } catch let error {
-                print(error)
-            }
+        do {
+            data["team"] = try Firestore.Encoder().encode(team)
+        } catch let error {
+            print(error)
         }
-        let player = OSPlayer(id: uid, nickname: nickname, emoji: emoji, team: team ?? OSTeam.noTeam)
+        
+        let player = OSPlayer(id: uid, nickname: nickname, emoji: emoji, team: team)
         
         playersCollection.document(uid).setData(data, mergeFields: fields) { error in
             guard let error = error else {

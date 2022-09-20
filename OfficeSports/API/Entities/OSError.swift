@@ -39,6 +39,8 @@ enum OSError: LocalizedError {
     
     case invalidPlayerCombo
     
+    case noTeamSelected
+    
     var errorDescription: String? {
         switch self {
         case .unknown:
@@ -71,6 +73,8 @@ enum OSError: LocalizedError {
             return "User IDs are identical"
         case .invalidPlayerCombo:
             return "Player combination is invalid"
+        case .noTeamSelected:
+            return "You need to be a part of a team"
         }
     }
 }
