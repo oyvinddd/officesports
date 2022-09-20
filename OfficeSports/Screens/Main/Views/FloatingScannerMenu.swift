@@ -213,4 +213,3 @@ private final class MenuButton: UIButton {
         }
     }
 }
-

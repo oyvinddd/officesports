@@ -143,7 +143,6 @@ final class PlayerDetailsViewController: UIViewController {
             .store(in: &subscribers)
     }
     
-    
     private func setupChildViews() {
         let score = player.pointsForSport(sport)
         let matches = player.noOfmatchesForSport(sport)
