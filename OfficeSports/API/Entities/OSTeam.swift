@@ -10,8 +10,6 @@ import FirebaseFirestoreSwift
 
 struct OSTeam: Identifiable, Codable, Equatable {
     
-    static let noTeam = OSTeam(id: nil, name: "No team")
-    
     enum CodingKeys: String, CodingKey {
         case id, name
     }
