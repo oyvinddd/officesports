@@ -81,8 +81,6 @@ struct UserDefaultsHelper {
             sportKey = userDefaultsTennisToggledKey
         case .pool:
             sportKey = userDefaultsPoolToggledKey
-        default:
-            sportKey = userDefaultsTennisToggledKey
         }
         
         let toggled = standardDefaults.value(forKey: sportKey) as? Bool
@@ -97,8 +95,6 @@ struct UserDefaultsHelper {
             standardDefaults.set(toggled, forKey: userDefaultsTennisToggledKey)
         case .pool:
             standardDefaults.set(toggled, forKey: userDefaultsPoolToggledKey)
-        default:
-            return
         }
     }
 }

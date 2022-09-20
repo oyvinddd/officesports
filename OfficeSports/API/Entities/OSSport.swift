@@ -9,8 +9,6 @@ import Foundation
 
 enum OSSport: Int, Codable {
     
-    case unknown = -1
-    
     case foosball = 0
     
     case tableTennis = 1
@@ -25,8 +23,6 @@ enum OSSport: Int, Codable {
             return "table tennis"
         case .pool:
             return "pool"
-        case .unknown:
-            return "unknown sport"
         }
     }
     
@@ -64,10 +60,8 @@ enum OSSport: Int, Codable {
             return .foosball
         case 1:
             return .tableTennis
-        case 2:
-            return .pool
         default:
-            return .unknown
+            return .pool
         }
     }
 }
