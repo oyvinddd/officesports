@@ -390,8 +390,6 @@ final class FirebaseSportsAPI: SportsAPI {
             return "tableTennisStats.score"
         case .pool:
             return "poolStats.score"
-        case .unknown:
-            return ""
         }
     }
 }
