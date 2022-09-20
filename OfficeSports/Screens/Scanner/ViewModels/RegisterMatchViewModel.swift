@@ -28,11 +28,8 @@ final class RegisterMatchViewModel {
     }
     
     func registerMatch(_ registration: OSMatchRegistration) {
-        // players are not allowed to register matches if it's currently weekend.
-        // all matches counting towards a player's score should be played at the office.
-        guard !Calendar.current.isDateInWeekend(Date.now) else {
-            let message = OSMessage("Not allowed to register matches during the weekend 🍺", .info)
-            Coordinator.global.send(message)
+        guard !isWeekendAndIsNotTestUser(registration) else {
+            Coordinator.global.send(OSError.noWeekendRegistrations)
             return
         }
         state = .loading
@@ -44,5 +41,16 @@ final class RegisterMatchViewModel {
                 state = .failure(error)
             }
         }
+    }
+    
+    private func isWeekendAndIsNotTestUser(_ registration: OSMatchRegistration) -> Bool {
+        // bypass weekend check if we're working with test users
+        for id in registration.winnerIds + registration.loserIds where id.contains("test_") {
+            print("Test user(s) found! Can register matches even if it's weekend 👻")
+            return false
+        }
+        // players are not allowed to register matches if it's currently weekend.
+        // all matches counting towards a player's score should be played at the office.
+        return !Calendar.current.isDateInWeekend(Date.now)
     }
 }
