@@ -17,7 +17,7 @@ extension FirebaseSportsAPI {
         })
     }
     
-    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam?) async throws -> OSPlayer {
+    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam) async throws -> OSPlayer {
         return try await withCheckedThrowingContinuation({ continuation in
             createOrUpdatePlayerProfile(nickname: nickname, emoji: emoji, team: team) { result in
                 continuation.resume(with: result)
