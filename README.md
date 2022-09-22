@@ -22,4 +22,4 @@ SPM (Swift Package Manager) is used for dependency management. Currently, the on
 
 ### Function deployments
 
-The Web API is run as functions in Firebase. To deploy these, run `npm run deploy`.
+The Web API is run as functions in Firebase. To deploy these, run `npm run deploy` inside the `Firebase/functions` directory. You will be prompted to log in to an account that has write access to the functions.
