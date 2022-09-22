@@ -49,8 +49,8 @@ export const winMatch = functions.https.onRequest(
 
     console.log({ body: request.body });
 
-    const winnerIds = [...new Set([winnerId ?? wIds[0], ...(wIds ?? [])])];
-    const loserIds = [...new Set([loserId ?? lIds[0], ...(lIds ?? [])])];
+    const winnerIds = [...new Set([winnerId ?? wIds![0], ...(wIds ?? [])])];
+    const loserIds = [...new Set([loserId ?? lIds![0], ...(lIds ?? [])])];
 
     const winners = await Promise.all(winnerIds.map(getPlayer));
     const losers = await Promise.all(loserIds.map(getPlayer));
@@ -83,7 +83,7 @@ export const winMatch = functions.https.onRequest(
     }
 
     const allPlayers = [...winners, ...losers];
-    const isDebug = lIds.some(id => testIds.includes(id));
+    const isDebug = loserIds?.some(id => testIds.includes(id));
     if (!isDebug) {
       const allPlayersArePartOfATeam = allPlayers.every(validateTeam);
       if (!allPlayersArePartOfATeam) {
