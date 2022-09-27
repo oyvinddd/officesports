@@ -11,4 +11,9 @@ export enum ErrorCodes {
   NicknameIsAlreadyTaken = "ERROR0010",
   NicknameDoesNotValidate = "ERROR0011",
   PlayerMissingTeam = "ERROR0012",
+  InvalidPlayerId = "ERROR0013",
+  InvalidTeamId = "ERROR0014",
+  InvalidPassword = "ERROR0015",
+  TeamNotFound = "ERROR0016",
+  InvalidTeamPassword = "ERROR0017",
 }
