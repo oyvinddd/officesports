@@ -24,3 +24,11 @@ export const getTeams = async (): Promise<Array<Team>> => {
   const { docs } = await getTeamCollection().withConverter(teamConverter).get();
   return docs.map(doc => doc.data());
 };
+
+export const getTeam = async (teamId: string): Promise<Team | undefined> => {
+  const team = (
+    await getTeamCollection().withConverter(teamConverter).doc(teamId).get()
+  ).data();
+
+  return team;
+};
