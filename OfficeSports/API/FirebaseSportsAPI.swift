@@ -87,6 +87,7 @@ final class FirebaseSportsAPI: SportsAPI {
     
     // https://firebase.google.com/docs/auth/ios/apple?authuser=0&hl=en
     func signInWithApple(from viewController: UIViewController, result: @escaping ((Result<Bool, Error>) -> Void)) {
+        /*
         let nonce = randomNonceString()
         currentNonce = nonce
         let appleIDProvider = ASAuthorizationAppleIDProvider()
@@ -98,6 +99,7 @@ final class FirebaseSportsAPI: SportsAPI {
         authorizationController.delegate = self
         authorizationController.presentationContextProvider = self
         authorizationController.performRequests()
+         */
     }
     
     func signOut() -> Error? {
@@ -414,6 +416,7 @@ final class FirebaseSportsAPI: SportsAPI {
     }
 }
 
+/*
 extension FirebaseSportsAPI: ASAuthorizationControllerDelegate {
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
@@ -499,3 +502,4 @@ extension FirebaseSportsAPI: ASAuthorizationControllerDelegate {
         return hashString
     }
 }
+*/
