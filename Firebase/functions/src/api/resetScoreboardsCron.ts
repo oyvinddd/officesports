@@ -21,9 +21,7 @@ const isSport = (value: string | Sport): value is Sport =>
   typeof value !== "string";
 
 const resetScoreboardsFunction = async () => {
-  const sports = Object.values(Sport)
-    .filter(isSport)
-    .filter(sport => sport !== Sport.Unknown);
+  const sports = Object.values(Sport).filter(isSport);
 
   const now = new Date();
   const seasonStartDate = new Date();
