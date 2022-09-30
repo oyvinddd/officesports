@@ -48,6 +48,7 @@ const sportEmoji: Record<Sport, string> = {
   [Sport.Foosball]: "⚽️",
   [Sport.TableTennis]: "🏓",
   [Sport.Pool]: "🎱",
+  [Sport.VideoGames]: "🎮",
 };
 
 const formatSeasonMessage = ({ sport, winner }: Season): string => {
