@@ -32,9 +32,15 @@ final class WelcomeViewController: UIViewController {
         return circleView
     }()
     
-    private lazy var signInButton: OSButton = {
+    private lazy var googleSignInButton: OSButton = {
         let button = OSButton("Sign in with Google", type: .primary)
-        button.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(googleButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var appleSignInButton: OSButton = {
+        let button = OSButton("Sign in with Apple", type: .primary)
+        button.addTarget(self, action: #selector(appleButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -71,11 +77,11 @@ final class WelcomeViewController: UIViewController {
             .sink { [unowned self] state in
                 switch state {
                 case .loading:
-                    self.signInButton.toggleLoading(true)
+                    self.googleSignInButton.toggleLoading(true)
                 case .signInSuccess:
                     Coordinator.global.checkAndHandleAppState()
                 case .signInFailure(let error):
-                    self.signInButton.toggleLoading(false)
+                    self.googleSignInButton.toggleLoading(false)
                     Coordinator.global.send(OSMessage(error.localizedDescription, .failure))
                 default:
                     // do nothing
@@ -88,7 +94,8 @@ final class WelcomeViewController: UIViewController {
         view.addSubview(welcomeLabel)
         view.addSubview(foosballCircleView)
         view.addSubview(tableTennisCircleView)
-        view.addSubview(signInButton)
+        view.addSubview(googleSignInButton)
+        view.addSubview(appleSignInButton)
         view.addSubview(versionLabel)
         
         NSLayoutConstraint.activate([
@@ -103,10 +110,14 @@ final class WelcomeViewController: UIViewController {
             tableTennisCircleView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -26),
             tableTennisCircleView.widthAnchor.constraint(equalToConstant: 100),
             tableTennisCircleView.heightAnchor.constraint(equalTo: tableTennisCircleView.widthAnchor),
-            signInButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 64),
-            signInButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -64),
-            signInButton.topAnchor.constraint(equalTo: tableTennisCircleView.bottomAnchor, constant: 64),
-            signInButton.heightAnchor.constraint(equalToConstant: 50),
+            googleSignInButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
+            googleSignInButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
+            googleSignInButton.topAnchor.constraint(equalTo: tableTennisCircleView.bottomAnchor, constant: 64),
+            googleSignInButton.heightAnchor.constraint(equalToConstant: 50),
+            appleSignInButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
+            appleSignInButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
+            appleSignInButton.topAnchor.constraint(equalTo: googleSignInButton.bottomAnchor, constant: 20),
+            appleSignInButton.heightAnchor.constraint(equalToConstant: 50),
             versionLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
             versionLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
             versionLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
@@ -117,7 +128,11 @@ final class WelcomeViewController: UIViewController {
         view.backgroundColor = UIColor.OS.General.main
     }
     
-    @objc private func signInButtonTapped(_ sender: UIButton) {
-        viewModel.signIn(from: self)
+    @objc private func googleButtonTapped(_ sender: UIButton) {
+        viewModel.signInWithGoogle(from: self)
+    }
+    
+    @objc private func appleButtonTapped(_ sender: UIButton) {
+        viewModel.signInWithApple(from: self)
     }
 }

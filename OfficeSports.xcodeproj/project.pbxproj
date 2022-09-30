@@ -37,7 +37,7 @@
 		8E3F33612864E1720061CD6B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E7F45BE2862948100473557 /* SwiftUI.framework */; };
 		8E3F33642864E1720061CD6B /* CodeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3F33632864E1720061CD6B /* CodeWidget.swift */; };
 		8E3F33662864E1730061CD6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E3F33652864E1730061CD6B /* Assets.xcassets */; };
-		8E3F336A2864E1730061CD6B /* CodeWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 8E3F335F2864E1720061CD6B /* CodeWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		8E3F336A2864E1730061CD6B /* CodeWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8E3F335F2864E1720061CD6B /* CodeWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8E3F337B28651F340061CD6B /* UserDefaults+CodeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3F337A28651F340061CD6B /* UserDefaults+CodeWidget.swift */; };
 		8E3F337C286520310061CD6B /* OSCodePayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1387A2837CF3A001D8DA6 /* OSCodePayload.swift */; };
 		8E3F337D2865203F0061CD6B /* OSSport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE558342847B0B400199CC6 /* OSSport.swift */; };
@@ -81,6 +81,9 @@
 		8E7D0ACC28391A9E006D6DF7 /* emojis.csv in Resources */ = {isa = PBXBuildFile; fileRef = 8E7D0ACB28391A9E006D6DF7 /* emojis.csv */; };
 		8E7D9A7F282BEF66007BCDE0 /* QRCodeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D9A7E282BEF66007BCDE0 /* QRCodeGenerator.swift */; };
 		8E8121EC28D491B200C048CA /* OSRank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8121EB28D491B200C048CA /* OSRank.swift */; };
+		8E8121F228D4B2D600C048CA /* SingleDuoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8121F128D4B2D600C048CA /* SingleDuoView.swift */; };
+		8E8121F428D4BC7900C048CA /* DuoProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8121F328D4BC7900C048CA /* DuoProgressView.swift */; };
+		8E8121F628D5D2E900C048CA /* FloatingScannerMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8121F528D5D2E900C048CA /* FloatingScannerMenu.swift */; };
 		8E86BAD228C8D55A003D7F23 /* sindre-profile-picture-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E86BAD128C8D55A003D7F23 /* sindre-profile-picture-2.png */; };
 		8E88E4BA28C62BB700807667 /* UILabel+Visuals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E88E4B928C62BB700807667 /* UILabel+Visuals.swift */; };
 		8E88E4BF28C64CFA00807667 /* PlayerGraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E88E4BE28C64CFA00807667 /* PlayerGraphViewController.swift */; };
@@ -95,6 +98,10 @@
 		8EC37F0C287D6318000D7A14 /* TeamPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC37F0B287D6318000D7A14 /* TeamPickerViewController.swift */; };
 		8EC84E8E282BD5B10093C9A0 /* PlayerProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC84E8D282BD5B10093C9A0 /* PlayerProfileViewController.swift */; };
 		8ECB86312875AAAD007C9FA5 /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECB86302875AAAD007C9FA5 /* QRCodeView.swift */; };
+		8ECF58DF28D9BD470054A468 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8ECF58DE28D9BD470054A468 /* FirebaseCrashlytics */; };
+		8ED1876228E609C200F2C080 /* JoinTeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED1876128E609C200F2C080 /* JoinTeamViewController.swift */; };
+		8ED1876428E60C0500F2C080 /* JoinTeamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED1876328E60C0500F2C080 /* JoinTeamViewModel.swift */; };
+		8ED1876628E6348D00F2C080 /* UIViewController+Sheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED1876528E6348D00F2C080 /* UIViewController+Sheet.swift */; };
 		8EDFA363282E418000A51292 /* CompoundField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDFA362282E418000A51292 /* CompoundField.swift */; };
 		8EE011AE287776250015D67B /* TeamsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE011AD287776250015D67B /* TeamsViewModel.swift */; };
 		8EE32D68283E8D88009AD89C /* plistinject in Resources */ = {isa = PBXBuildFile; fileRef = 8EE32D67283E8D88009AD89C /* plistinject */; };
@@ -124,15 +131,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		8E7F45C92862948200473557 /* Embed App Extensions */ = {
+		8E7F45C92862948200473557 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				8E3F336A2864E1730061CD6B /* CodeWidgetExtension.appex in Embed App Extensions */,
+				8E3F336A2864E1730061CD6B /* CodeWidgetExtension.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -207,6 +214,9 @@
 		8E7F45BC2862948100473557 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		8E7F45BE2862948100473557 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		8E8121EB28D491B200C048CA /* OSRank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSRank.swift; sourceTree = "<group>"; };
+		8E8121F128D4B2D600C048CA /* SingleDuoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleDuoView.swift; sourceTree = "<group>"; };
+		8E8121F328D4BC7900C048CA /* DuoProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuoProgressView.swift; sourceTree = "<group>"; };
+		8E8121F528D5D2E900C048CA /* FloatingScannerMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingScannerMenu.swift; sourceTree = "<group>"; };
 		8E86BAD128C8D55A003D7F23 /* sindre-profile-picture-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sindre-profile-picture-2.png"; sourceTree = "<group>"; };
 		8E88E4B928C62BB700807667 /* UILabel+Visuals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Visuals.swift"; sourceTree = "<group>"; };
 		8E88E4BE28C64CFA00807667 /* PlayerGraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerGraphViewController.swift; sourceTree = "<group>"; };
@@ -221,6 +231,9 @@
 		8EC37F0B287D6318000D7A14 /* TeamPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamPickerViewController.swift; sourceTree = "<group>"; };
 		8EC84E8D282BD5B10093C9A0 /* PlayerProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerProfileViewController.swift; sourceTree = "<group>"; };
 		8ECB86302875AAAD007C9FA5 /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
+		8ED1876128E609C200F2C080 /* JoinTeamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinTeamViewController.swift; sourceTree = "<group>"; };
+		8ED1876328E60C0500F2C080 /* JoinTeamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinTeamViewModel.swift; sourceTree = "<group>"; };
+		8ED1876528E6348D00F2C080 /* UIViewController+Sheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Sheet.swift"; sourceTree = "<group>"; };
 		8EDFA362282E418000A51292 /* CompoundField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundField.swift; sourceTree = "<group>"; };
 		8EE011AD287776250015D67B /* TeamsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamsViewModel.swift; sourceTree = "<group>"; };
 		8EE32D67283E8D88009AD89C /* plistinject */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = plistinject; sourceTree = "<group>"; };
@@ -257,6 +270,7 @@
 			files = (
 				8E23087E282D530300AF60EB /* FirebaseAuth in Frameworks */,
 				8E230884282D567D00AF60EB /* GoogleSignIn in Frameworks */,
+				8ECF58DF28D9BD470054A468 /* FirebaseCrashlytics in Frameworks */,
 				8E6DF2992834CEB20009ACA1 /* FirebaseFirestore in Frameworks */,
 				8E6DF29B2834CEB20009ACA1 /* FirebaseFirestoreSwift in Frameworks */,
 			);
@@ -298,6 +312,7 @@
 				8E70C137282AEE2F009A9452 /* WelcomeViewController.swift */,
 				8E230888282D788D00AF60EB /* EmojiPickerViewController.swift */,
 				8EC37F0B287D6318000D7A14 /* TeamPickerViewController.swift */,
+				8ED1876128E609C200F2C080 /* JoinTeamViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -315,13 +330,11 @@
 		8E230871282CFC8500AF60EB /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				8E70C11B282AC3F2009A9452 /* ScannerViewController.swift */,
 				8E70C113282ABC56009A9452 /* SportViewController.swift */,
 				8EE61FF2282AB79C00C01289 /* ContainerViewController.swift */,
 				8E38B57D283C3D01009E0387 /* AchievementsViewController.swift */,
 				8E38B581283C5895009E0387 /* PreferencesViewController.swift */,
 				8EF418A3283CFF39005CAE09 /* AboutViewController.swift */,
-				8EF9DD46285DE32900088A60 /* RegisterMatchViewController.swift */,
 				8E43DF00286EE3C800D9B50D /* SeasonsViewController.swift */,
 			);
 			path = ViewControllers;
@@ -344,6 +357,7 @@
 				8E230886282D575D00AF60EB /* AuthViewModel.swift */,
 				8E176F6E28329E4A00377497 /* PlayerProfileViewModel.swift */,
 				8EE011AD287776250015D67B /* TeamsViewModel.swift */,
+				8ED1876328E60C0500F2C080 /* JoinTeamViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -439,6 +453,7 @@
 				8E2D0CC0284FB374006FDE2E /* UIStackView+Convenience.swift */,
 				8E3F337A28651F340061CD6B /* UserDefaults+CodeWidget.swift */,
 				8E88E4B928C62BB700807667 /* UILabel+Visuals.swift */,
+				8ED1876528E6348D00F2C080 /* UIViewController+Sheet.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -457,6 +472,7 @@
 				8E5D567128C7AE7100F67B14 /* MetricsView.swift */,
 				8E5D567528C7AF3400F67B14 /* MatchHistoryView.swift */,
 				8E52844F28C9294100CD415D /* PlayerStatsView.swift */,
+				8E8121F528D5D2E900C048CA /* FloatingScannerMenu.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -498,7 +514,6 @@
 			children = (
 				8E70C131282AD1F0009A9452 /* SportViewModel.swift */,
 				8E973321283231F40012E236 /* SettingsViewModel.swift */,
-				8EF1387E2837FDD3001D8DA6 /* RegisterMatchViewModel.swift */,
 				8E43DF02286EE5F500D9B50D /* SeasonsViewModel.swift */,
 			);
 			path = ViewModels;
@@ -530,6 +545,42 @@
 				8E7F45BE2862948100473557 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8E8121ED28D4B1EB00C048CA /* Scanner */ = {
+			isa = PBXGroup;
+			children = (
+				8E8121F028D4B20800C048CA /* ViewModels */,
+				8E8121EF28D4B1FF00C048CA /* ViewControllers */,
+				8E8121EE28D4B1F900C048CA /* Views */,
+			);
+			path = Scanner;
+			sourceTree = "<group>";
+		};
+		8E8121EE28D4B1F900C048CA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8E8121F128D4B2D600C048CA /* SingleDuoView.swift */,
+				8E8121F328D4BC7900C048CA /* DuoProgressView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8E8121EF28D4B1FF00C048CA /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				8EF9DD46285DE32900088A60 /* RegisterMatchViewController.swift */,
+				8E70C11B282AC3F2009A9452 /* ScannerViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		8E8121F028D4B20800C048CA /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				8EF1387E2837FDD3001D8DA6 /* RegisterMatchViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		8E88E4BB28C64CC900807667 /* Graph */ = {
@@ -641,6 +692,7 @@
 		8EE62002282AB7AA00C01289 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				8E8121ED28D4B1EB00C048CA /* Scanner */,
 				8E88E4BB28C64CC900807667 /* Graph */,
 				8E3293E1283D8E5600B7CCDC /* Invitations */,
 				8E24F4562834A6EB00BC808B /* Common */,
@@ -689,7 +741,8 @@
 				8EE61FE7282AB79C00C01289 /* Sources */,
 				8EE61FE8282AB79C00C01289 /* Frameworks */,
 				8EE61FE9282AB79C00C01289 /* Resources */,
-				8E7F45C92862948200473557 /* Embed App Extensions */,
+				8E7F45C92862948200473557 /* Embed Foundation Extensions */,
+				8ECF58DD28D9B61B0054A468 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -702,6 +755,7 @@
 				8E230883282D567D00AF60EB /* GoogleSignIn */,
 				8E6DF2982834CEB20009ACA1 /* FirebaseFirestore */,
 				8E6DF29A2834CEB20009ACA1 /* FirebaseFirestoreSwift */,
+				8ECF58DE28D9BD470054A468 /* FirebaseCrashlytics */,
 			);
 			productName = "Office Sports";
 			productReference = 8EE61FEB282AB79C00C01289 /* OfficeSports.app */;
@@ -715,7 +769,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1340;
-				LastUpgradeCheck = 1330;
+				LastUpgradeCheck = 1400;
 				TargetAttributes = {
 					8E3F335E2864E1720061CD6B = {
 						CreatedOnToolsVersion = 13.4.1;
@@ -795,6 +849,25 @@
 			shellPath = /bin/sh;
 			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
+		8ECF58DD28D9B61B0054A468 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+		};
 		8EE32D65283E8D4B009AD89C /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -836,12 +909,14 @@
 				8EC37F0C287D6318000D7A14 /* TeamPickerViewController.swift in Sources */,
 				8E38B57E283C3D01009E0387 /* AchievementsViewController.swift in Sources */,
 				8E52845028C9294100CD415D /* PlayerStatsView.swift in Sources */,
+				8E8121F228D4B2D600C048CA /* SingleDuoView.swift in Sources */,
 				8E7D9A7F282BEF66007BCDE0 /* QRCodeGenerator.swift in Sources */,
 				8EF13879283791AE001D8DA6 /* MockSportsAPI.swift in Sources */,
 				8E70C11F282AC499009A9452 /* OSMatch.swift in Sources */,
 				8E88E4BA28C62BB700807667 /* UILabel+Visuals.swift in Sources */,
 				8E457B942860C03D00F9D133 /* ConfettiView.swift in Sources */,
 				8E3293E4283D8E8800B7CCDC /* PlayerDetailsViewController.swift in Sources */,
+				8E8121F428D4BC7900C048CA /* DuoProgressView.swift in Sources */,
 				8E5D567628C7AF3400F67B14 /* MatchHistoryView.swift in Sources */,
 				8E287F56283B1013005BBE28 /* UIButton+Loading.swift in Sources */,
 				8E70C11C282AC3F2009A9452 /* ScannerViewController.swift in Sources */,
@@ -860,6 +935,7 @@
 				8E6995D52844E0CE001355D2 /* LocalNotificationManager.swift in Sources */,
 				8E38B576283BC5AD009E0387 /* Bundle+Version.swift in Sources */,
 				8E70C117282ABD3E009A9452 /* FloatingMenu.swift in Sources */,
+				8E8121F628D5D2E900C048CA /* FloatingScannerMenu.swift in Sources */,
 				8E7C415B286F2F34004C105E /* SeasonWinnerTableViewCell.swift in Sources */,
 				8EE61FF3282AB79C00C01289 /* ContainerViewController.swift in Sources */,
 				8EC84E8E282BD5B10093C9A0 /* PlayerProfileViewController.swift in Sources */,
@@ -875,6 +951,7 @@
 				8E2EE76B2836783C0096659D /* FirebaseSportsAPI.swift in Sources */,
 				8E25B0F8283CD3F100FE2FB3 /* OSStats.swift in Sources */,
 				8EE011AE287776250015D67B /* TeamsViewModel.swift in Sources */,
+				8ED1876428E60C0500F2C080 /* JoinTeamViewModel.swift in Sources */,
 				8EE61FEF282AB79C00C01289 /* AppDelegate.swift in Sources */,
 				8E70C119282ABD6F009A9452 /* UIKit+Factory.swift in Sources */,
 				8E31E23E283649230085238C /* OSInvite.swift in Sources */,
@@ -893,9 +970,11 @@
 				8E230887282D575D00AF60EB /* AuthViewModel.swift in Sources */,
 				8E2D0CC1284FB374006FDE2E /* UIStackView+Convenience.swift in Sources */,
 				8E70C136282ADF7A009A9452 /* OSAccount.swift in Sources */,
+				8ED1876228E609C200F2C080 /* JoinTeamViewController.swift in Sources */,
 				8EEEAB74286268DB001D8BF5 /* InviteFilterTableViewCell.swift in Sources */,
 				8E230889282D788D00AF60EB /* EmojiPickerViewController.swift in Sources */,
 				8E70C126282ACCB5009A9452 /* ProfileView.swift in Sources */,
+				8ED1876628E6348D00F2C080 /* UIViewController+Sheet.swift in Sources */,
 				8EAB6DA6282BE4B500FA1362 /* Coordinator.swift in Sources */,
 				8E678F0228A298FF00B22690 /* FirebaseSportsAPI+AsyncAwait.swift in Sources */,
 				8E9C7289283AB3C800974DAA /* OSTeam.swift in Sources */,
@@ -946,21 +1025,24 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 2SMFLM66R9;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 2SMFLM66R9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CodeWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = CodeWidget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tietoevry.officesports.codewidget;
+				MARKETING_VERSION = 1.2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mthirtyone.officesports.codewidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Code Widget Development Profile";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Office Sports Code Widget Development Profile";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -978,20 +1060,22 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2SMFLM66R9;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 2SMFLM66R9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CodeWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = CodeWidget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tietoevry.officesports.codewidget;
+				MARKETING_VERSION = 1.2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mthirtyone.officesports.codewidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Code Widget Development Profile";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Office Sports Code Widget Development Profile";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1032,7 +1116,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1121,9 +1205,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = OfficeSports/Resources/OfficeSports.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 2SMFLM66R9;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 2SMFLM66R9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OfficeSports/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Office Sports";
@@ -1135,15 +1222,16 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tietoevry.officesports;
+				MARKETING_VERSION = 1.2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mthirtyone.officesports;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development com.tietoevry.officesports";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Office Sports Development Profile";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1158,9 +1246,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = OfficeSports/Resources/OfficeSports.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2SMFLM66R9;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 2SMFLM66R9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OfficeSports/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Office Sports";
@@ -1172,15 +1262,16 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tietoevry.officesports;
+				MARKETING_VERSION = 1.2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mthirtyone.officesports;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development com.tietoevry.officesports";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Office Sports Development Profile";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1266,6 +1357,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8E23087C282D530300AF60EB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestoreSwift;
+		};
+		8ECF58DE28D9BD470054A468 /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8E23087C282D530300AF60EB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -1,13 +1,13 @@
 //
-//  TeamsViewModel.swift
+//  JoinTeamViewModel.swift
 //  OfficeSports
 //
-//  Created by Øyvind Hauge on 07/07/2022.
+//  Created by Øyvind Hauge on 29/09/2022.
 //
 
 import Foundation
 
-final class TeamsViewModel {
+final class JoinTeamViewModel {
     
     enum State {
         
@@ -38,6 +38,13 @@ final class TeamsViewModel {
             } catch let error {
                 state = .failure(error)
             }
+        }
+    }
+    
+    func joinTeam() {
+        state = .loading
+        Task {
+            
         }
     }
 }

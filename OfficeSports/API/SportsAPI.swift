@@ -9,15 +9,18 @@ import UIKit
 
 protocol SportsAPI {
     
-    @available(*, renamed: "signIn(viewController:)")
-    func signIn(_ viewController: UIViewController, result: @escaping ((Result<Bool, Error>) -> Void))
+    @available(*, renamed: "signInWithGoogle(viewController:)")
+    func signInWithGoogle(from viewController: UIViewController, result: @escaping ((Result<Bool, Error>) -> Void))
+    
+    @available(*, renamed: "signInWithApple(viewController:)")
+    func signInWithApple(from viewController: UIViewController, result: @escaping ((Result<Bool, Error>) -> Void))
     
     func signOut() -> Error?
     
     func deleteAccount(result: @escaping ((Error?) -> Void))
     
     @available(*, renamed: "createOrUpdatePlayerProfile(nickname:emoji:team:)")
-    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam?, result: @escaping ((Result<OSPlayer, Error>) -> Void))
+    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam, result: @escaping ((Result<OSPlayer, Error>) -> Void))
     
     @available(*, renamed: "getPlayerProfile()")
     func getPlayerProfile(result: @escaping ((Result<OSPlayer, Error>) -> Void))
@@ -48,9 +51,11 @@ protocol SportsAPI {
     
     // MARK: - Async/await API
     
-    func signIn(viewController: UIViewController) async throws -> Bool
+    func signInWithGoogle(from viewController: UIViewController) async throws -> Bool
     
-    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam?) async throws -> OSPlayer
+    func signInWithApple(from viewController: UIViewController) async throws -> Bool
+    
+    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam) async throws -> OSPlayer
     
     func getPlayerProfile() async throws -> OSPlayer
     

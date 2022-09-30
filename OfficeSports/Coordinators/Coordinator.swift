@@ -13,9 +13,9 @@ enum AppState {
     
     case unauthorized
     
-    case missingOrg
-    
     case missingProfileDetails
+    
+    case missingTeam
 }
 
 final class Coordinator {
@@ -44,12 +44,17 @@ final class Coordinator {
     }()
     
     private lazy var containerViewController: ContainerViewController = {
-       return ContainerViewController(viewModel: PlayerProfileViewModel(api: FirebaseSportsAPI()))
+        return ContainerViewController(viewModel: PlayerProfileViewModel(api: FirebaseSportsAPI()))
     }()
     
     private lazy var playerProfileViewController: PlayerProfileViewController = {
         let viewModel = PlayerProfileViewModel(api: FirebaseSportsAPI())
         return PlayerProfileViewController(viewModel: viewModel)
+    }()
+    
+    private lazy var teamPickerViewController: TeamPickerViewController = {
+        let viewModel = TeamsViewModel(api: FirebaseSportsAPI())
+        return TeamPickerViewController(viewModel: viewModel, delegate: nil)
     }()
     
     init(account: OSAccount, window: UIWindow?) {
@@ -62,6 +67,8 @@ final class Coordinator {
             changeAppState(.unauthorized)
         } else if !account.hasValidProfileDetails {
             changeAppState(.missingProfileDetails)
+        } else if !account.hasValidTeam {
+            changeAppState(.missingTeam)
         } else {
             changeAppState(.authorized)
         }
@@ -164,8 +171,10 @@ final class Coordinator {
         switch currentState {
         case .authorized:
             viewController = containerViewController
-        case .missingProfileDetails, .missingOrg:
+        case .missingProfileDetails:
             viewController = playerProfileViewController
+        case .missingTeam:
+            viewController = teamPickerViewController
         case .unauthorized:
             viewController = welcomeViewController
         }

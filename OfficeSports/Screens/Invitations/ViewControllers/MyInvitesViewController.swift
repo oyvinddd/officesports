@@ -133,7 +133,6 @@ extension MyInvitesViewController: UITableViewDataSource {
             return cell
         }
         let cell = tableView.dequeueReusableCell(for: InviteTableViewCell.self, for: indexPath)
-        let isFirst = indexPath.row == 0
         let isLast = indexPath.row == viewModel.invites.count - 1
         cell.configure(with: viewModel.invites[indexPath.row], isLast)
         return cell

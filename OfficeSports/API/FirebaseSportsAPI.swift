@@ -5,6 +5,8 @@
 //  Created by Øyvind Hauge on 19/05/2022.
 //
 
+import CryptoKit
+import AuthenticationServices
 import FirebaseCore
 import GoogleSignIn
 import FirebaseAuth
@@ -13,11 +15,8 @@ import FirebaseFirestoreSwift
 
 private let fbCloudFuncBaseUrl = "https://us-central1-officesports-5d7ac.cloudfunctions.net"
 private let fbCloudFuncRegisterMatchUrl = "/winMatch"
-private let fbCloudFuncCreateOrUpdatePlayer = "/createPlayer"
-
-private let maxResultsInScoreboard = 200
-private let maxResultsInRecentMatches = 300
-private let maxResultsInLatestMatches = 10
+private let fbCloudFuncCreateOrUpdatePlayer = "/upsertPlayer"
+private let fbCloudFuncJoinTeam = "/joinTeam"
 
 private let fbPlayersCollection = "players"
 private let fbMatchesCollection = "matches"
@@ -25,14 +24,18 @@ private let fbInvitesCollection = "invites"
 private let fbSeasonsCollection = "seasons"
 private let fbTeamsCollection = "teams"
 
-final class FirebaseSportsAPI: SportsAPI {
+private let maxResultsInScoreboard = 200
+private let maxResultsInRecentMatches = 300
+private let maxResultsInLatestMatches = 10
 
+final class FirebaseSportsAPI: SportsAPI {
+    
     private let database = Firestore.firestore()
     
     private var playersCollection: CollectionReference {
         database.collection(fbPlayersCollection)
     }
-    
+                                                                    
     private var matchesCollection: CollectionReference {
         database.collection(fbMatchesCollection)
     }
@@ -49,7 +52,9 @@ final class FirebaseSportsAPI: SportsAPI {
         database.collection(fbTeamsCollection)
     }
     
-    func signIn(_ viewController: UIViewController, result: @escaping (Result<Bool, Error>) -> Void) {
+    private var currentNonce: String?
+    
+    func signInWithGoogle(from viewController: UIViewController, result: @escaping (Result<Bool, Error>) -> Void) {
         guard let clientID = FirebaseApp.app()?.options.clientID else {
             return
         }
@@ -80,6 +85,23 @@ final class FirebaseSportsAPI: SportsAPI {
         }
     }
     
+    // https://firebase.google.com/docs/auth/ios/apple?authuser=0&hl=en
+    func signInWithApple(from viewController: UIViewController, result: @escaping ((Result<Bool, Error>) -> Void)) {
+        /*
+        let nonce = randomNonceString()
+        currentNonce = nonce
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        request.nonce = sha256(nonce)
+        
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.delegate = self
+        authorizationController.presentationContextProvider = self
+        authorizationController.performRequests()
+         */
+    }
+    
     func signOut() -> Error? {
         do {
             try Auth.auth().signOut()
@@ -93,7 +115,7 @@ final class FirebaseSportsAPI: SportsAPI {
         fatalError("Delete account endpoint has not been implementet yet!")
     }
     
-    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam?, result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
+    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam, result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
         guard let uid = OSAccount.current.userId else {
             result(.failure(OSError.unauthorized))
             return
@@ -101,15 +123,13 @@ final class FirebaseSportsAPI: SportsAPI {
         
         let fields = ["nickname", "emoji", "team"]
         var data: [String: Any] = ["nickname": nickname, "emoji": emoji]
-        
-        if let team = team {
-            do {
-                data["team"] = try Firestore.Encoder().encode(team)
-            } catch let error {
-                print(error)
-            }
+        do {
+            data["team"] = try Firestore.Encoder().encode(team)
+        } catch let error {
+            print(error)
         }
-        let player = OSPlayer(id: uid, nickname: nickname, emoji: emoji, team: team ?? OSTeam.noTeam)
+        
+        let player = OSPlayer(id: uid, nickname: nickname, emoji: emoji, team: team)
         
         playersCollection.document(uid).setData(data, mergeFields: fields) { error in
             guard let error = error else {
@@ -202,8 +222,10 @@ final class FirebaseSportsAPI: SportsAPI {
     }
     
     func registerMatch(_ registration: OSMatchRegistration, result: @escaping ((Result<OSMatch, Error>) -> Void)) {
-        guard registration.winnerId != registration.loserId else {
-            result(.failure(OSError.invalidOpponent))
+        // firstly, check that there are no duplicate user IDs in any of the arrays
+        let allIds = registration.winnerIds + registration.loserIds
+        guard Set(allIds).count == allIds.count else {
+            result(.failure(OSError.invalidPlayerCombo))
             return
         }
         
@@ -278,7 +300,7 @@ final class FirebaseSportsAPI: SportsAPI {
         // find invites the current user has sent that are not older than 24 hours
         let query = invitesCollection
             .whereField("inviterId", isEqualTo: uid)
-            // .whereField("date", isGreaterThan: date)
+        // .whereField("date", isGreaterThan: date)
         
         query.getDocuments { (snapshot, error) in
             if let error = error {
@@ -390,8 +412,94 @@ final class FirebaseSportsAPI: SportsAPI {
             return "tableTennisStats.score"
         case .pool:
             return "poolStats.score"
-        case .unknown:
-            return ""
         }
     }
 }
+
+/*
+extension FirebaseSportsAPI: ASAuthorizationControllerDelegate {
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            guard let nonce = currentNonce else {
+                fatalError("Invalid state: A login callback was received, but no login request was sent.")
+            }
+            guard let appleIDToken = appleIDCredential.identityToken else {
+                print("Unable to fetch identity token")
+                return
+            }
+            guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
+                print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
+                return
+            }
+            // Initialize a Firebase credential.
+            let credential = OAuthProvider.credential(withProviderID: "apple.com",
+                                                      idToken: idTokenString,
+                                                      rawNonce: nonce)
+            // Sign in with Firebase.
+            Auth.auth().signIn(with: credential) { (authResult, error) in
+                guard let error = error else {
+                    // Error. If error.code == .MissingOrInvalidNonce, make sure
+                    // you're sending the SHA256-hashed nonce as a hex string with
+                    // your request to Apple.
+                    print(error)
+                    return
+                }
+                // User is signed in to Firebase with Apple.
+                // ...
+            }
+        }
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        // Handle error.
+        print("Sign in with Apple errored: \(error)")
+    }
+    
+    // Random 'nonce' string used when signing in with Apple
+    // Adapted from https://auth0.com/docs/api-auth/tutorials/nonce#generate-a-cryptographically-random-nonce
+    private func randomNonceString(length: Int = 32) -> String {
+        precondition(length > 0)
+        let charset: [Character] =
+        Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
+        var result = ""
+        var remainingLength = length
+        
+        while remainingLength > 0 {
+            let randoms: [UInt8] = (0 ..< 16).map { _ in
+                var random: UInt8 = 0
+                let errorCode = SecRandomCopyBytes(kSecRandomDefault, 1, &random)
+                if errorCode != errSecSuccess {
+                    fatalError(
+                        "Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)"
+                    )
+                }
+                return random
+            }
+            
+            randoms.forEach { random in
+                if remainingLength == 0 {
+                    return
+                }
+                
+                if random < charset.count {
+                    result.append(charset[Int(random)])
+                    remainingLength -= 1
+                }
+            }
+        }
+        
+        return result
+    }
+    
+    private func sha256(_ input: String) -> String {
+        let inputData = Data(input.utf8)
+        let hashedData = SHA256.hash(data: inputData)
+        let hashString = hashedData.compactMap {
+            String(format: "%02x", $0)
+        }.joined()
+        
+        return hashString
+    }
+}
+*/

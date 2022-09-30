@@ -10,8 +10,20 @@ import AVFoundation
 
 final class ScannerViewController: UIViewController {
     
+    private lazy var duoProgressView: DuoProgressView = {
+        let view = DuoProgressView(delegate: self)
+        view.isHidden = true
+        return view
+    }()
+    
     private lazy var frameLinesView: ScannerFrameLinesView = {
         return ScannerFrameLinesView()
+    }()
+    
+    private lazy var singleDuoView: SingleDuoView = {
+        let view = SingleDuoView(singleToggled: true)
+        view.isHidden = true
+        return view
     }()
     
     private lazy var cameraView: UIView = {
@@ -82,8 +94,9 @@ final class ScannerViewController: UIViewController {
         NSLayoutConstraint.pinToView(view, cameraView)
         NSLayoutConstraint.pinToView(view, shadowView)
         
+        view.addSubview(duoProgressView)
         view.addSubview(frameLinesView)
-        view.addSubview(infoMessageView)
+        view.addSubview(singleDuoView)
         
         NSLayoutConstraint.activate([
             activateCameraDescription.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
@@ -93,14 +106,18 @@ final class ScannerViewController: UIViewController {
             activateCameraButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
             activateCameraButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             activateCameraButton.heightAnchor.constraint(equalToConstant: 50),
+            duoProgressView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
+            duoProgressView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
+            duoProgressView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 64),
             frameLinesView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
             frameLinesView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
             frameLinesView.heightAnchor.constraint(equalTo: frameLinesView.widthAnchor),
             frameLinesView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            frameLinesView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50),
-            infoMessageView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32),
-            infoMessageView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32),
-            infoMessageView.topAnchor.constraint(equalTo: frameLinesView.bottomAnchor, constant: 32)
+            frameLinesView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -20),
+            singleDuoView.leftAnchor.constraint(equalTo: frameLinesView.leftAnchor),
+            singleDuoView.rightAnchor.constraint(equalTo: frameLinesView.rightAnchor),
+            singleDuoView.topAnchor.constraint(equalTo: frameLinesView.bottomAnchor, constant: 16),
+            singleDuoView.heightAnchor.constraint(equalToConstant: 44)
         ])
     }
     
@@ -244,6 +261,8 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
             guard let payload = payload else {
                 return
             }
+            
+            // TODO: need logic for separating between duo and single matches here
             isShowingMatchRegistration = true
             DispatchQueue.main.async {
                 Coordinator.global.presentRegisterMatch(payload: payload, delegate: self)
@@ -252,6 +271,8 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
     }
 }
 
+// MARK: - Register Match Delegate
+
 extension ScannerViewController: RegisterMatchDelegate {
     
     func dismissedMatchRegistration(match: OSMatch?) {
@@ -259,5 +280,16 @@ extension ScannerViewController: RegisterMatchDelegate {
         if match != nil {
             Coordinator.global.resetUIAfterMatchRegistration()
         }
+    }
+}
+
+// MARK: - Duo Progress View Delegate
+
+extension ScannerViewController: DuoProgressViewDelegate {
+    
+    func didRegisterPlayer(_ player: OSPlayer) {
+    }
+    
+    func didFinishRegisteringDuoMatch(_ registration: OSMatchRegistration) {
     }
 }

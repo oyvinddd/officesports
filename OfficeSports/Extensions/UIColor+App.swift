@@ -131,8 +131,6 @@ extension UIColor {
                 return UIColor.OS.Sport.tableTennis
             case .pool:
                 return UIColor.OS.Sport.pool
-            case .unknown:
-                return UIColor.black
             }
         }
         

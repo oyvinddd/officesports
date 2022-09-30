@@ -24,6 +24,10 @@ final class OSAccount {
         return player != nil
     }
     
+    var hasValidTeam: Bool {
+        return player?.team != nil && player?.teamId != nil
+    }
+    
     var nickname: String? {
         return player?.nickname
     }

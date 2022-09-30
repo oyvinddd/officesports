@@ -37,6 +37,12 @@ enum OSError: LocalizedError {
     
     case identicalUserIds
     
+    case invalidPlayerCombo
+    
+    case noTeamSelected
+    
+    case noWeekendRegistrations
+    
     var errorDescription: String? {
         switch self {
         case .unknown:
@@ -48,7 +54,7 @@ enum OSError: LocalizedError {
         case .nicknameTaken:
             return "Nickname already taken"
         case .missingPlayer:
-            return "Unauthorized. Missing player details"
+            return "Unauthorized. Missing player details."
         case .invalidQrCode:
             return "The QR code is not valid"
         case .invalidOpponent:
@@ -67,6 +73,12 @@ enum OSError: LocalizedError {
             return "You need to wait 15 minutes between every time you invite someone to a match 🕑"
         case .identicalUserIds:
             return "User IDs are identical"
+        case .invalidPlayerCombo:
+            return "Player combination is invalid"
+        case .noTeamSelected:
+            return "You need to be a part of a team"
+        case .noWeekendRegistrations:
+            return "Not allowed to register matches during the weekend 🍺"
         }
     }
 }
