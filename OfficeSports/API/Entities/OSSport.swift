@@ -38,8 +38,6 @@ enum OSSport: Int, Codable {
             return "🏓"
         case .pool:
             return "🎱"
-        default:
-            return ""
         }
     }
     

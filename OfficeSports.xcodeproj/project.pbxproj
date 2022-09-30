@@ -98,6 +98,7 @@
 		8EBDAA3C2962E3A700543E40 /* AuthUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBDAA3B2962E3A700543E40 /* AuthUtils.swift */; };
 		8EC37F0C287D6318000D7A14 /* TeamPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC37F0B287D6318000D7A14 /* TeamPickerViewController.swift */; };
 		8EC84E8E282BD5B10093C9A0 /* PlayerProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC84E8D282BD5B10093C9A0 /* PlayerProfileViewController.swift */; };
+		8EC8C3D228E73E1700392E06 /* CodeInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC8C3D128E73E1700392E06 /* CodeInputView.swift */; };
 		8ECB86312875AAAD007C9FA5 /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECB86302875AAAD007C9FA5 /* QRCodeView.swift */; };
 		8ECF58DF28D9BD470054A468 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8ECF58DE28D9BD470054A468 /* FirebaseCrashlytics */; };
 		8ED1876228E609C200F2C080 /* JoinTeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED1876128E609C200F2C080 /* JoinTeamViewController.swift */; };
@@ -232,6 +233,7 @@
 		8EBDAA3B2962E3A700543E40 /* AuthUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUtils.swift; sourceTree = "<group>"; };
 		8EC37F0B287D6318000D7A14 /* TeamPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamPickerViewController.swift; sourceTree = "<group>"; };
 		8EC84E8D282BD5B10093C9A0 /* PlayerProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerProfileViewController.swift; sourceTree = "<group>"; };
+		8EC8C3D128E73E1700392E06 /* CodeInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeInputView.swift; sourceTree = "<group>"; };
 		8ECB86302875AAAD007C9FA5 /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
 		8ED1876128E609C200F2C080 /* JoinTeamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinTeamViewController.swift; sourceTree = "<group>"; };
 		8ED1876328E60C0500F2C080 /* JoinTeamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinTeamViewModel.swift; sourceTree = "<group>"; };
@@ -648,6 +650,7 @@
 			children = (
 				8EDFA362282E418000A51292 /* CompoundField.swift */,
 				8E7D0AC42838D5C0006D6DF7 /* EmojiCollectionViewCell.swift */,
+				8EC8C3D128E73E1700392E06 /* CodeInputView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -960,6 +963,7 @@
 				8E24F4592834A75900BC808B /* MessageWindow.swift in Sources */,
 				8E8121EC28D491B200C048CA /* OSRank.swift in Sources */,
 				8EF418A4283CFF39005CAE09 /* AboutViewController.swift in Sources */,
+				8EC8C3D228E73E1700392E06 /* CodeInputView.swift in Sources */,
 				8E2EE76B2836783C0096659D /* FirebaseSportsAPI.swift in Sources */,
 				8E25B0F8283CD3F100FE2FB3 /* OSStats.swift in Sources */,
 				8EE011AE287776250015D67B /* TeamsViewModel.swift in Sources */,

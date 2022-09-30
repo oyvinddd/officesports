@@ -8,6 +8,10 @@
 import UIKit
 
 final class JoinTeamViewController: UIViewController {
+    
+    private lazy var codeInputView: CodeInputView = {
+        return CodeInputView(.red)
+    }()
 
     private let viewModel: JoinTeamViewModel
     
@@ -34,10 +38,4 @@ final class JoinTeamViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = .white
     }
-}
-
-// MARK: - Input Field
-
-private final class InputField: UIView {
-    
 }

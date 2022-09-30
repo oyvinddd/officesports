@@ -22,7 +22,7 @@ final class TeamPickerViewController: UIViewController {
     }()
     
     private lazy var informationLabel: UILabel = {
-        let label = UILabel.createLabel(.white, alignment: .center, text: "If you join a team you will only see members of the same team on the scoreboard.")
+        let label = UILabel.createLabel(.white, alignment: .center, text: "When you join a team you will only see members of the same team on the scoreboard.")
         label.font = UIFont.systemFont(ofSize: 18)
         return label
     }()
@@ -240,13 +240,19 @@ private final class TeamTableViewCell: UITableViewCell {
     }
     
     private func applyCornerRadius(isFirstElement: Bool, isLastElement: Bool) {
-        guard isLastElement else {
+        guard isFirstElement || isLastElement else {
             contentWrap.layer.maskedCorners = []
             return
         }
         var mask = CACornerMask()
-        mask.insert(.layerMinXMaxYCorner)
-        mask.insert(.layerMaxXMaxYCorner)
+        
+        if isFirstElement {
+            mask.insert(.layerMinXMinYCorner)
+            mask.insert(.layerMaxXMinYCorner)
+        } else {
+            mask.insert(.layerMinXMaxYCorner)
+            mask.insert(.layerMaxXMaxYCorner)
+        }
         contentWrap.layer.cornerRadius = 15
         contentWrap.layer.maskedCorners = mask
     }
@@ -280,10 +286,10 @@ private final class RadioButton: UIView {
     func toggle(enabled: Bool) {
         if enabled {
             backgroundColor = UIColor.OS.General.main
-            innerView.backgroundColor = .white
+            innerView.backgroundColor = UIColor.OS.General.main
         } else {
             backgroundColor = UIColor.OS.General.main
-            innerView.backgroundColor = UIColor.OS.General.main
+            innerView.backgroundColor = .white
         }
     }
     
