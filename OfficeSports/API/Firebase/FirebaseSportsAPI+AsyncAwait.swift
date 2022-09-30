@@ -9,22 +9,6 @@ import UIKit
 
 extension FirebaseSportsAPI {
     
-    func signInWithGoogle(from viewController: UIViewController) async throws -> Bool {
-        return try await withCheckedThrowingContinuation({ continuation in
-            signInWithGoogle(from: viewController) { result in
-                continuation.resume(with: result)
-            }
-        })
-    }
-    
-    func signInWithApple(from viewController: UIViewController) async throws -> Bool {
-        return try await withCheckedThrowingContinuation({ continuation in
-            signInWithApple(from: viewController) { result in
-                continuation.resume(with: result)
-            }
-        })
-    }
-    
     func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam) async throws -> OSPlayer {
         return try await withCheckedThrowingContinuation({ continuation in
             createOrUpdatePlayerProfile(nickname: nickname, emoji: emoji, team: team) { result in

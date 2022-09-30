@@ -99,6 +99,8 @@
 		8EC37F0C287D6318000D7A14 /* TeamPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC37F0B287D6318000D7A14 /* TeamPickerViewController.swift */; };
 		8EC84E8E282BD5B10093C9A0 /* PlayerProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC84E8D282BD5B10093C9A0 /* PlayerProfileViewController.swift */; };
 		8EC8C3D228E73E1700392E06 /* CodeInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC8C3D128E73E1700392E06 /* CodeInputView.swift */; };
+		8EC8C3D428E7415800392E06 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC8C3D328E7415800392E06 /* AuthAPI.swift */; };
+		8EC8C3D628E741F300392E06 /* FirebaseAuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC8C3D528E741F300392E06 /* FirebaseAuthAPI.swift */; };
 		8ECB86312875AAAD007C9FA5 /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECB86302875AAAD007C9FA5 /* QRCodeView.swift */; };
 		8ECF58DF28D9BD470054A468 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8ECF58DE28D9BD470054A468 /* FirebaseCrashlytics */; };
 		8ED1876228E609C200F2C080 /* JoinTeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED1876128E609C200F2C080 /* JoinTeamViewController.swift */; };
@@ -234,6 +236,8 @@
 		8EC37F0B287D6318000D7A14 /* TeamPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamPickerViewController.swift; sourceTree = "<group>"; };
 		8EC84E8D282BD5B10093C9A0 /* PlayerProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerProfileViewController.swift; sourceTree = "<group>"; };
 		8EC8C3D128E73E1700392E06 /* CodeInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeInputView.swift; sourceTree = "<group>"; };
+		8EC8C3D328E7415800392E06 /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
+		8EC8C3D528E741F300392E06 /* FirebaseAuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthAPI.swift; sourceTree = "<group>"; };
 		8ECB86302875AAAD007C9FA5 /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
 		8ED1876128E609C200F2C080 /* JoinTeamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinTeamViewController.swift; sourceTree = "<group>"; };
 		8ED1876328E60C0500F2C080 /* JoinTeamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinTeamViewModel.swift; sourceTree = "<group>"; };
@@ -504,9 +508,10 @@
 		8E70C127282ACD10009A9452 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				8E80D1E0297AD04D00B1E870 /* Firebase */,
+				8EC8C3D728E7420200392E06 /* Firebase */,
 				8E70C11D282AC424009A9452 /* Entities */,
 				8E70C139282AEE7E009A9452 /* SportsAPI.swift */,
+				8EC8C3D328E7415800392E06 /* AuthAPI.swift */,
 				8EF13878283791AE001D8DA6 /* MockSportsAPI.swift */,
 			);
 			path = API;
@@ -643,6 +648,16 @@
 				8EAB6DA5282BE4B500FA1362 /* Coordinator.swift */,
 			);
 			path = Coordinators;
+			sourceTree = "<group>";
+		};
+		8EC8C3D728E7420200392E06 /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				8E678F0128A298FE00B22690 /* FirebaseSportsAPI+AsyncAwait.swift */,
+				8EC8C3D528E741F300392E06 /* FirebaseAuthAPI.swift */,
+				8E2EE76A2836783C0096659D /* FirebaseSportsAPI.swift */,
+			);
+			path = Firebase;
 			sourceTree = "<group>";
 		};
 		8EDFA361282E416B00A51292 /* Views */ = {
@@ -926,6 +941,7 @@
 				8E52845028C9294100CD415D /* PlayerStatsView.swift in Sources */,
 				8E8121F228D4B2D600C048CA /* SingleDuoView.swift in Sources */,
 				8E7D9A7F282BEF66007BCDE0 /* QRCodeGenerator.swift in Sources */,
+				8EC8C3D628E741F300392E06 /* FirebaseAuthAPI.swift in Sources */,
 				8EF13879283791AE001D8DA6 /* MockSportsAPI.swift in Sources */,
 				8E70C11F282AC499009A9452 /* OSMatch.swift in Sources */,
 				8E88E4BA28C62BB700807667 /* UILabel+Visuals.swift in Sources */,
@@ -991,6 +1007,7 @@
 				8E230889282D788D00AF60EB /* EmojiPickerViewController.swift in Sources */,
 				8E70C126282ACCB5009A9452 /* ProfileView.swift in Sources */,
 				8ED1876628E6348D00F2C080 /* UIViewController+Sheet.swift in Sources */,
+				8EC8C3D428E7415800392E06 /* AuthAPI.swift in Sources */,
 				8EAB6DA6282BE4B500FA1362 /* Coordinator.swift in Sources */,
 				8E678F0228A298FF00B22690 /* FirebaseSportsAPI+AsyncAwait.swift in Sources */,
 				8E9C7289283AB3C800974DAA /* OSTeam.swift in Sources */,

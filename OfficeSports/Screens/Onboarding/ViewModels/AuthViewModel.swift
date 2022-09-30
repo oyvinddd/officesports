@@ -21,10 +21,12 @@ final class AuthViewModel {
     
     @Published private(set) var state: State = .idle
     
-    private let api: SportsAPI
+    private let authApi: AuthAPI
+    private let sportsApi: SportsAPI
     
-    init(api: SportsAPI) {
-        self.api = api
+    init(authApi: AuthAPI, sportsApi: SportsAPI) {
+        self.authApi = authApi
+        self.sportsApi = sportsApi
     }
     
     func signInWithGoogle(from viewController: UIViewController) {
@@ -66,7 +68,7 @@ final class AuthViewModel {
     }
     
     func signOut() {
-        guard let error = api.signOut() else {
+        guard let error = authApi.signOut() else {
             state = .signOutSuccess
             return
         }

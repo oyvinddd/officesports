@@ -39,7 +39,9 @@ final class Coordinator {
     }()
     
     private lazy var welcomeViewController: WelcomeViewController = {
-        let viewModel = AuthViewModel(api: FirebaseSportsAPI())
+        let authApi = FirebaseAuthAPI()
+        let sportsApi = FirebaseSportsAPI()
+        let viewModel = AuthViewModel(authApi: authApi, sportsApi: sportsApi)
         return WelcomeViewController(viewModel: viewModel)
     }()
     
