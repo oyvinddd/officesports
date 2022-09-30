@@ -99,6 +99,9 @@
 		8EC84E8E282BD5B10093C9A0 /* PlayerProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC84E8D282BD5B10093C9A0 /* PlayerProfileViewController.swift */; };
 		8ECB86312875AAAD007C9FA5 /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECB86302875AAAD007C9FA5 /* QRCodeView.swift */; };
 		8ECF58DF28D9BD470054A468 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8ECF58DE28D9BD470054A468 /* FirebaseCrashlytics */; };
+		8ED1876228E609C200F2C080 /* JoinTeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED1876128E609C200F2C080 /* JoinTeamViewController.swift */; };
+		8ED1876428E60C0500F2C080 /* JoinTeamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED1876328E60C0500F2C080 /* JoinTeamViewModel.swift */; };
+		8ED1876628E6348D00F2C080 /* UIViewController+Sheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED1876528E6348D00F2C080 /* UIViewController+Sheet.swift */; };
 		8EDFA363282E418000A51292 /* CompoundField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EDFA362282E418000A51292 /* CompoundField.swift */; };
 		8EE011AE287776250015D67B /* TeamsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE011AD287776250015D67B /* TeamsViewModel.swift */; };
 		8EE32D68283E8D88009AD89C /* plistinject in Resources */ = {isa = PBXBuildFile; fileRef = 8EE32D67283E8D88009AD89C /* plistinject */; };
@@ -228,6 +231,9 @@
 		8EC37F0B287D6318000D7A14 /* TeamPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamPickerViewController.swift; sourceTree = "<group>"; };
 		8EC84E8D282BD5B10093C9A0 /* PlayerProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerProfileViewController.swift; sourceTree = "<group>"; };
 		8ECB86302875AAAD007C9FA5 /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
+		8ED1876128E609C200F2C080 /* JoinTeamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinTeamViewController.swift; sourceTree = "<group>"; };
+		8ED1876328E60C0500F2C080 /* JoinTeamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinTeamViewModel.swift; sourceTree = "<group>"; };
+		8ED1876528E6348D00F2C080 /* UIViewController+Sheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Sheet.swift"; sourceTree = "<group>"; };
 		8EDFA362282E418000A51292 /* CompoundField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundField.swift; sourceTree = "<group>"; };
 		8EE011AD287776250015D67B /* TeamsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamsViewModel.swift; sourceTree = "<group>"; };
 		8EE32D67283E8D88009AD89C /* plistinject */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = plistinject; sourceTree = "<group>"; };
@@ -306,6 +312,7 @@
 				8E70C137282AEE2F009A9452 /* WelcomeViewController.swift */,
 				8E230888282D788D00AF60EB /* EmojiPickerViewController.swift */,
 				8EC37F0B287D6318000D7A14 /* TeamPickerViewController.swift */,
+				8ED1876128E609C200F2C080 /* JoinTeamViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -350,6 +357,7 @@
 				8E230886282D575D00AF60EB /* AuthViewModel.swift */,
 				8E176F6E28329E4A00377497 /* PlayerProfileViewModel.swift */,
 				8EE011AD287776250015D67B /* TeamsViewModel.swift */,
+				8ED1876328E60C0500F2C080 /* JoinTeamViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -445,6 +453,7 @@
 				8E2D0CC0284FB374006FDE2E /* UIStackView+Convenience.swift */,
 				8E3F337A28651F340061CD6B /* UserDefaults+CodeWidget.swift */,
 				8E88E4B928C62BB700807667 /* UILabel+Visuals.swift */,
+				8ED1876528E6348D00F2C080 /* UIViewController+Sheet.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -942,6 +951,7 @@
 				8E2EE76B2836783C0096659D /* FirebaseSportsAPI.swift in Sources */,
 				8E25B0F8283CD3F100FE2FB3 /* OSStats.swift in Sources */,
 				8EE011AE287776250015D67B /* TeamsViewModel.swift in Sources */,
+				8ED1876428E60C0500F2C080 /* JoinTeamViewModel.swift in Sources */,
 				8EE61FEF282AB79C00C01289 /* AppDelegate.swift in Sources */,
 				8E70C119282ABD6F009A9452 /* UIKit+Factory.swift in Sources */,
 				8E31E23E283649230085238C /* OSInvite.swift in Sources */,
@@ -960,9 +970,11 @@
 				8E230887282D575D00AF60EB /* AuthViewModel.swift in Sources */,
 				8E2D0CC1284FB374006FDE2E /* UIStackView+Convenience.swift in Sources */,
 				8E70C136282ADF7A009A9452 /* OSAccount.swift in Sources */,
+				8ED1876228E609C200F2C080 /* JoinTeamViewController.swift in Sources */,
 				8EEEAB74286268DB001D8BF5 /* InviteFilterTableViewCell.swift in Sources */,
 				8E230889282D788D00AF60EB /* EmojiPickerViewController.swift in Sources */,
 				8E70C126282ACCB5009A9452 /* ProfileView.swift in Sources */,
+				8ED1876628E6348D00F2C080 /* UIViewController+Sheet.swift in Sources */,
 				8EAB6DA6282BE4B500FA1362 /* Coordinator.swift in Sources */,
 				8E678F0228A298FF00B22690 /* FirebaseSportsAPI+AsyncAwait.swift in Sources */,
 				8E9C7289283AB3C800974DAA /* OSTeam.swift in Sources */,
