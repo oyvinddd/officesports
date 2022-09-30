@@ -11,7 +11,9 @@ import AVFoundation
 final class ScannerViewController: UIViewController {
     
     private lazy var duoProgressView: DuoProgressView = {
-        return DuoProgressView()
+        let view = DuoProgressView(delegate: self)
+        view.isHidden = true
+        return view
     }()
     
     private lazy var frameLinesView: ScannerFrameLinesView = {
@@ -19,7 +21,9 @@ final class ScannerViewController: UIViewController {
     }()
     
     private lazy var singleDuoView: SingleDuoView = {
-        return SingleDuoView(singleToggled: true)
+        let view = SingleDuoView(singleToggled: true)
+        view.isHidden = true
+        return view
     }()
     
     private lazy var cameraView: UIView = {
@@ -257,6 +261,8 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
             guard let payload = payload else {
                 return
             }
+            
+            // TODO: need logic for separating between duo and single matches here
             isShowingMatchRegistration = true
             DispatchQueue.main.async {
                 Coordinator.global.presentRegisterMatch(payload: payload, delegate: self)
@@ -265,6 +271,8 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
     }
 }
 
+// MARK: - Register Match Delegate
+
 extension ScannerViewController: RegisterMatchDelegate {
     
     func dismissedMatchRegistration(match: OSMatch?) {
@@ -272,5 +280,16 @@ extension ScannerViewController: RegisterMatchDelegate {
         if match != nil {
             Coordinator.global.resetUIAfterMatchRegistration()
         }
+    }
+}
+
+// MARK: - Duo Progress View Delegate
+
+extension ScannerViewController: DuoProgressViewDelegate {
+    
+    func didRegisterPlayer(_ player: OSPlayer) {
+    }
+    
+    func didFinishRegisteringDuoMatch(_ registration: OSMatchRegistration) {
     }
 }

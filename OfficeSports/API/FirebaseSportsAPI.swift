@@ -13,17 +13,18 @@ import FirebaseFirestoreSwift
 
 private let fbCloudFuncBaseUrl = "https://us-central1-officesports-5d7ac.cloudfunctions.net"
 private let fbCloudFuncRegisterMatchUrl = "/winMatch"
-private let fbCloudFuncCreateOrUpdatePlayer = "/createPlayer"
-
-private let maxResultsInScoreboard = 200
-private let maxResultsInRecentMatches = 300
-private let maxResultsInLatestMatches = 10
+private let fbCloudFuncCreateOrUpdatePlayer = "/upsertPlayer"
+private let fbCloudFuncJoinTeam = "/joinTeam"
 
 private let fbPlayersCollection = "players"
 private let fbMatchesCollection = "matches"
 private let fbInvitesCollection = "invites"
 private let fbSeasonsCollection = "seasons"
 private let fbTeamsCollection = "teams"
+
+private let maxResultsInScoreboard = 200
+private let maxResultsInRecentMatches = 300
+private let maxResultsInLatestMatches = 10
 
 final class FirebaseSportsAPI: SportsAPI {
     
@@ -32,7 +33,7 @@ final class FirebaseSportsAPI: SportsAPI {
     private var playersCollection: CollectionReference {
         database.collection(fbPlayersCollection)
     }
-    
+                                                                    
     private var matchesCollection: CollectionReference {
         database.collection(fbMatchesCollection)
     }

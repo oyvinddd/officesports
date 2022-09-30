@@ -94,8 +94,6 @@ struct OSPlayer: Identifiable, Codable, Equatable {
             return tableTennisStats
         case .pool:
             return poolStats
-        default:
-            return nil
         }
     }
     
