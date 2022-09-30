@@ -1,6 +1,10 @@
 import * as firebase from "firebase-admin";
 import * as functions from "firebase-functions";
-import { initialScore, tietoevryCreateTeamId } from "../constants";
+import {
+  initialScore,
+  tietoevryBankingTeamId,
+  tietoevryCreateTeamId,
+} from "../constants";
 import { storeSeason } from "../firebase/season";
 import { getTeams } from "../firebase/team";
 import {
@@ -63,11 +67,17 @@ const resetScoreboardsFunction = async () => {
     console.log("Resetting score boards");
     await resetScoreboards(initialScore);
 
-    await slackHelpers.postSeasonResults(
-      seasonsWithWinners.filter(
-        season => season.teamId === tietoevryCreateTeamId,
-      ),
+    const tietoevryCreateSeasons = seasonsWithWinners.filter(
+      season => season.teamId === tietoevryCreateTeamId,
     );
+    const tietoevryBankingSeasons = seasonsWithWinners.filter(
+      season => season.teamId === tietoevryBankingTeamId,
+    );
+
+    await slackHelpers.postSeasonResults([
+      tietoevryCreateSeasons,
+      tietoevryBankingSeasons,
+    ]);
   }
 };
 

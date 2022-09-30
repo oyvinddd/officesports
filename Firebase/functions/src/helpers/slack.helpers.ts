@@ -7,6 +7,7 @@ import {
 import dotenv from "dotenv";
 import dedent from "string-dedent";
 import { initialScore } from "../constants";
+import { getTeam } from "../firebase/team";
 import { Player } from "../types/Player";
 import { Season } from "../types/Season";
 import { Sport } from "../types/Sport";
@@ -20,6 +21,8 @@ const clientId = process.env.SLACK_CLIENT_ID;
 const clientSecret = process.env.SLACK_CLIENT_SECRET;
 
 const slackClient = new WebClient(slackToken);
+
+const isNotNil = <T>(value: T | undefined | null): value is T => !!value;
 
 const postMessage = async (
   text: string,
@@ -56,29 +59,54 @@ const formatSeasonMessage = ({ sport, winner }: Season): string => {
   return ` - ${emoji} ${sportName}: ${winner.nickname} ${winner.emoji} with ${stats.score} points`;
 };
 
-export const postSeasonResults = async (
+const formatTeamSeasonResults = async (
   seasons: Array<Season>,
-): Promise<ChatPostMessageResponse> => {
+): Promise<string | undefined> => {
+  const { teamId } = seasons[0];
+  const team = await getTeam(teamId);
+
+  if (!team) {
+    return;
+  }
+
   const monthFormatter = new Intl.DateTimeFormat("en", { month: "long" });
 
   const seasonSummaries = seasons.map(formatSeasonMessage).join("\n\n");
   const monthName = monthFormatter.format(seasons[0].date.toDate());
 
-  const text = dedent`
-    ${monthName} is over! ${
+  const heading = `${monthName} is over!`;
+  const summaryHeading = `${
     seasons.length === 0
-      ? "We sadly had no winners this month :("
+      ? `${team.name} sadly had no winners this month :(`
       : seasons.length === 1
-      ? "This was the only winner this season:"
-      : "These were the winners this season:"
-  }
+      ? `This was the only winner in ${team.name} this season:`
+      : `These were the winners in ${team.name} this season:`
+  }`;
 
-    ${seasonSummaries}
+  const text = dedent`
+    ${heading}
     
+    ${summaryHeading}
+    ${seasonSummaries}
+
     All scores are now reset to ${initialScore}. Good luck for next season! 🥳
   `;
 
-  return postMessage(text);
+  return text;
+};
+
+export const postSeasonResults = async (
+  seasons: Array<Array<Season>>,
+): Promise<Array<ChatPostMessageResponse>> => {
+  return (
+    await Promise.all(
+      seasons.map(async teamSeasons => {
+        const text = await formatTeamSeasonResults(teamSeasons);
+
+        return postMessage(text ?? "");
+      }),
+    )
+  ).filter(isNotNil);
 };
 
 export const authenticate = async (code: string): Promise<string | null> => {
