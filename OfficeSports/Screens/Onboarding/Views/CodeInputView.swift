@@ -68,6 +68,9 @@ final class CodeInputView: UIView, CodeInputFieldDelegate {
     func backspaceTapped(_ index: Int) {
         
     }
+    
+    func fieldSelected() {
+    }
 }
 
 // MARK: - Code Input Field
@@ -77,6 +80,8 @@ protocol CodeInputFieldDelegate: AnyObject {
     func characterTyped(_ index: Int)
     
     func backspaceTapped(_ index: Int)
+    
+    func fieldSelected()
 }
 
 private final class CodeInputField: UITextField, UITextFieldDelegate {
@@ -115,6 +120,7 @@ private final class CodeInputField: UITextField, UITextFieldDelegate {
     
     override public func becomeFirstResponder() -> Bool {
         toggle(active: true)
+        codeDelegate?.fieldSelected()
         return super.becomeFirstResponder()
     }
     

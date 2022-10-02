@@ -53,6 +53,7 @@ final class JoinTeamViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupKeyboardObservers()
         setupChildViews()
         configureUI()
     }
@@ -87,5 +88,39 @@ final class JoinTeamViewController: UIViewController {
     
     @objc private func shadowViewTapped() {
         dismiss(animated: false)
+    }
+}
+
+extension JoinTeamViewController {
+    
+    private func setupKeyboardObservers() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func keyboardWillShow(notification: Notification) {
+        adjustViews(showing: true, notification: notification)
+    }
+    
+    @objc private func keyboardWillHide(notification: Notification) {
+        adjustViews(showing: false, notification: notification)
+    }
+    
+    private func adjustViews(showing: Bool, notification: Notification) {
+        
+        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
+        guard let animationDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval else { return }
+        guard let curve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt else { return }
+        
+        let offset = showing ? keyboardSize.height : 0
+        dialogBottomConstraint?.constant = -offset
+        
+        UIView.animate(withDuration: animationDuration,
+                       delay: 0.0,
+                       options: UIView.AnimationOptions(rawValue: curve),
+                       animations: {
+                        self.view.layoutIfNeeded()
+        }, completion: nil)
     }
 }
