@@ -160,8 +160,8 @@ extension TeamPickerViewController: UITableViewDelegate {
     
     private func presentJoinTeamViewController(team: OSTeam) {
         let viewModel = JoinTeamViewModel(api: FirebaseSportsAPI())
-        let viewController = JoinTeamViewController(viewModel: viewModel)
-        present(viewController, animated: true)
+        let viewController = JoinTeamViewController(viewModel: viewModel, team: team)
+        present(viewController, animated: false)
     }
 }
 
