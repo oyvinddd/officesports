@@ -7,20 +7,23 @@
 
 import UIKit
 
+private let kAnimDuration: TimeInterval = 0.15
+private let kAnimDelay: TimeInterval = 0
+
 final class JoinTeamViewController: UIViewController {
-    
-    private lazy var contentWrap: UIView = {
-        let view = UIView.createView(.white)
-        view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        view.layer.cornerRadius = 8
-        return view
-    }()
     
     private lazy var shadowView: UIView = {
         let view = UIView.createView(.black)
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(shadowViewTapped))
         view.addGestureRecognizer(tapRecognizer)
         view.alpha = 0.6
+        return view
+    }()
+    
+    private lazy var contentWrap: UIView = {
+        let view = UIView.createView(.white)
+        view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        view.layer.cornerRadius = 8
         return view
     }()
     
@@ -34,8 +37,19 @@ final class JoinTeamViewController: UIViewController {
         return CodeInputView()
     }()
     
-    private var dialogBottomConstraint: NSLayoutConstraint?
-
+    private lazy var dialogBottomConstraint: NSLayoutConstraint = {
+        let constraint = contentWrap.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        constraint.constant = dialogHideConstant
+        return constraint
+    }()
+    
+    private var dialogHideConstant: CGFloat {
+        return contentWrap.frame.height
+    }
+    private var dialogShowConstant: CGFloat {
+        return 0
+    }
+    
     private let viewModel: JoinTeamViewModel
     private let team: OSTeam
     
@@ -58,6 +72,11 @@ final class JoinTeamViewController: UIViewController {
         configureUI()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        toggleDialog(enabled: true)
+    }
+    
     private func setupChildViews() {
         NSLayoutConstraint.pinToView(view, shadowView)
         
@@ -65,12 +84,10 @@ final class JoinTeamViewController: UIViewController {
         contentWrap.addSubview(titleLabel)
         contentWrap.addSubview(codeInputView)
         
-        dialogBottomConstraint = contentWrap.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        
         NSLayoutConstraint.activate([
             contentWrap.leftAnchor.constraint(equalTo: view.leftAnchor),
             contentWrap.rightAnchor.constraint(equalTo: view.rightAnchor),
-            dialogBottomConstraint!,
+            dialogBottomConstraint,
             titleLabel.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
             titleLabel.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
             titleLabel.topAnchor.constraint(equalTo: contentWrap.topAnchor, constant: 22),
@@ -86,8 +103,26 @@ final class JoinTeamViewController: UIViewController {
         view.backgroundColor = .clear
     }
     
+    private func toggleDialog(enabled: Bool) {
+        if enabled {
+            dialogBottomConstraint.constant = dialogShowConstant
+        } else {
+            dialogBottomConstraint.constant = dialogHideConstant
+        }
+        UIView.animate(
+            withDuration: kAnimDuration,
+            delay: kAnimDelay,
+            options: [.curveEaseOut]) {
+                self.view.layoutIfNeeded()
+            } completion: { [unowned self] _ in
+                if !enabled {
+                    self.dismiss(animated: false)
+                }
+            }
+    }
+    
     @objc private func shadowViewTapped() {
-        dismiss(animated: false)
+        toggleDialog(enabled: false)
     }
 }
 
@@ -114,7 +149,7 @@ extension JoinTeamViewController {
         guard let curve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt else { return }
         
         let offset = showing ? keyboardSize.height : 0
-        dialogBottomConstraint?.constant = -offset
+        dialogBottomConstraint.constant = -offset
         
         UIView.animate(withDuration: animationDuration,
                        delay: 0.0,
