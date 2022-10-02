@@ -126,6 +126,8 @@ final class JoinTeamViewController: UIViewController {
     }
 }
 
+// MARK: - Keyboard Handling
+
 extension JoinTeamViewController {
     
     private func setupKeyboardObservers() {

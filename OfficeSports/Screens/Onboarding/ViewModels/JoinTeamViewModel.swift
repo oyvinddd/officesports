@@ -41,10 +41,15 @@ final class JoinTeamViewModel {
         }
     }
     
-    func joinTeam() {
+    func joinTeam(_ team: OSTeam) {
         state = .loading
+        
         Task {
-            
+            do {
+                // TODO: ...
+            } catch let error {
+                state = .failure(error)
+            }
         }
     }
 }
