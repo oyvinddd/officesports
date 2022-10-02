@@ -15,6 +15,7 @@ export const sportNames: Record<Sport, string> = {
   [Sport.Foosball]: "foosball",
   [Sport.TableTennis]: "table tennis",
   [Sport.Pool]: "pool",
+  [Sport.VideoGames]: "video games",
 };
 
 export const getSportStats = (player: Player, sport: Sport): Stats => {
