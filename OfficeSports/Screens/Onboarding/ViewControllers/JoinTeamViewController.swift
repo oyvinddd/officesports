@@ -7,6 +7,8 @@
 
 import UIKit
 
+private let kBackgroundMaxFade: CGFloat = 0.6
+private let kBackgroundMinFade: CGFloat = 0
 private let kAnimDuration: TimeInterval = 0.15
 private let kAnimDelay: TimeInterval = 0
 
@@ -16,14 +18,14 @@ final class JoinTeamViewController: UIViewController {
         let view = UIView.createView(.black)
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(shadowViewTapped))
         view.addGestureRecognizer(tapRecognizer)
-        view.alpha = 0.6
+        view.alpha = kBackgroundMinFade
         return view
     }()
     
     private lazy var contentWrap: UIView = {
         let view = UIView.createView(.white)
         view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        view.layer.cornerRadius = 8
+        view.layer.cornerRadius = 20
         return view
     }()
     
@@ -90,7 +92,7 @@ final class JoinTeamViewController: UIViewController {
             dialogBottomConstraint,
             titleLabel.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
             titleLabel.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
-            titleLabel.topAnchor.constraint(equalTo: contentWrap.topAnchor, constant: 22),
+            titleLabel.topAnchor.constraint(equalTo: contentWrap.topAnchor, constant: 26),
             codeInputView.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
             codeInputView.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
             codeInputView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 22),
@@ -109,6 +111,7 @@ final class JoinTeamViewController: UIViewController {
         } else {
             dialogBottomConstraint.constant = dialogHideConstant
         }
+        shadowView.alpha = enabled ? kBackgroundMaxFade : kBackgroundMinFade
         UIView.animate(
             withDuration: kAnimDuration,
             delay: kAnimDelay,

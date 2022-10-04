@@ -7,15 +7,34 @@
 
 import UIKit
 
-final class CodeInputView: UIView, CodeInputFieldDelegate {
+private let maxCharacters: Int = 6
+
+protocol CodeInputDelegate: AnyObject {
+    func didType(input: String, finished: Bool)
+}
+
+final class CodeInputView: UIView {
     
-    var text: String {
-        return "text"
-    }
+    private weak var delegate: CodeInputDelegate?
     
     private lazy var stackView: UIStackView = {
         return UIStackView.createStackView(.clear, axis: .horizontal, spacing: 6)
     }()
+    
+    private var currentActiveIndex: Int {
+        return text.count
+    }
+    
+    private var inputFields: [CodeInputField]? {
+        return stackView.subviews as? [CodeInputField]
+    }
+    
+    var text: String {
+        guard let inputFields = inputFields else {
+            return ""
+        }
+        return inputFields.reduce("") { $0 + $1.text! }
+    }
     
     init() {
         super.init(frame: .zero)
@@ -27,16 +46,29 @@ final class CodeInputView: UIView, CodeInputFieldDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func becomeFirstResponder() -> Bool {
+        guard let firstField = inputFields?.first else {
+            return true
+        }
+        return firstField.becomeFirstResponder()
+    }
+    
     private func setupChildViews() {
         addSubview(stackView)
         
+        let civ1 = CodeInputField(index: 0, delegate: self)
+        civ1.inputAccessoryView?.isUserInteractionEnabled = false
+        civ1.inputAccessoryView = nil
+        civ1.reloadInputViews()
+        
         stackView.addArrangedSubviews(
-            CodeInputField(index: 0, self),
-            CodeInputField(index: 1, self),
-            CodeInputField(index: 2, self),
-            CodeInputField(index: 3, self),
-            CodeInputField(index: 4, self),
-            CodeInputField(index: 5, self)
+            civ1,
+            CodeInputField(index: 0, delegate: self),
+            CodeInputField(index: 1, delegate: self),
+            CodeInputField(index: 2, delegate: self),
+            CodeInputField(index: 3, delegate: self),
+            CodeInputField(index: 4, delegate: self),
+            CodeInputField(index: 5, delegate: self)
         )
         
         NSLayoutConstraint.activate([
@@ -46,65 +78,93 @@ final class CodeInputView: UIView, CodeInputFieldDelegate {
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
+}
+
+extension CodeInputView: UITextFieldDelegate {
     
-    private func selectNextInputField(_ index: Int) {
-        let noOfFields = stackView.subviews.count
-        let nextIndex = index == noOfFields - 1 ? 0 : index + 1
-        for view in stackView.subviews {
-            let field = view as? CodeInputField
-            field?.toggle(active: false)
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        /*
+        guard isValidInput(string) else {
+            return false
         }
-        let nextField = stackView.subviews[nextIndex] as? CodeInputField
-        nextField?.toggle(active: true)
-        _ = nextField?.becomeFirstResponder()
-    }
-    
-    // MARK: - Code Input Field Delegate Conformance
-    
-    func characterTyped(_ index: Int) {
-        selectNextInputField(index)
-    }
-    
-    func backspaceTapped(_ index: Int) {
+        */
+        guard let inputField = textField as? CodeInputField else {
+            return false
+        }
+        inputField.text = string
+        let currentIndex = inputField.index
         
+        if !string.isEmpty {
+            _ = cycleInputFields(index: currentIndex + 1)
+        }
+        delegate?.didType(input: text, finished: text.count == maxCharacters)
+        return true
     }
     
-    func fieldSelected() {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        (textField as? CodeInputField)?.toggle(active: true)
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        (textField as? CodeInputField)?.toggle(active: false)
+    }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        guard let inputField = textField as? CodeInputField else {
+            return false
+        }
+        return inputField.index <= currentActiveIndex
+    }
+    
+    private func isValidInput(_ input: String?) -> Bool {
+        guard let input = input else {
+            return false
+        }
+        let alphanumerics = CharacterSet.alphanumerics
+        return CharacterSet(charactersIn: input).isSubset(of: alphanumerics)
+    }
+    
+    private func cycleInputFields(index: Int) -> Bool {
+        guard let inputFields = inputFields else {
+            return false
+        }
+        if index > -1 && index < inputFields.count {
+            _ = inputFields[index].becomeFirstResponder()
+            return true
+        }
+        endEditing(true)
+        return false
     }
 }
 
 // MARK: - Code Input Field
 
-protocol CodeInputFieldDelegate: AnyObject {
-    
-    func characterTyped(_ index: Int)
-    
-    func backspaceTapped(_ index: Int)
-    
-    func fieldSelected()
-}
-
 private final class CodeInputField: UITextField, UITextFieldDelegate {
     
-    private let index: Int
+    let index: Int
     
-    weak var codeDelegate: CodeInputFieldDelegate?
-    
-    init(index: Int, _ codeDelegate: CodeInputFieldDelegate?) {
+    init(index: Int, delegate: UITextFieldDelegate?) {
         self.index = index
-        self.codeDelegate = codeDelegate
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
-        font = UIFont.systemFont(ofSize: 26, weight: .bold)
+        font = UIFont.systemFont(ofSize: 28, weight: .bold)
         backgroundColor = UIColor.OS.General.separator
-        textColor = UIColor.OS.Text.normal
+        textColor = UIColor.OS.Text.disabled
         textAlignment = .center
         isSecureTextEntry = true
+        autocapitalizationType = .none
+        textContentType = .none
+        autocorrectionType = .no
         layer.cornerRadius = 8
         layer.borderColor = UIColor.OS.General.separator.cgColor
         layer.masksToBounds = true
         layer.borderWidth = 1.8
-        delegate = self
+        self.delegate = delegate
+        inputAccessoryView = nil
+        inputAccessoryView?.isHidden = true
+        // FIXME: below stuff does not work
+        inputAccessoryView?.isUserInteractionEnabled = false
+        reloadInputViews()
     }
     
     required init?(coder: NSCoder) {
@@ -113,15 +173,9 @@ private final class CodeInputField: UITextField, UITextFieldDelegate {
     
     override public func deleteBackward() {
         if let text = text, text.isEmpty {
-            codeDelegate?.backspaceTapped(index)
+            //codeDelegate?.backspaceTapped(index)
         }
         super.deleteBackward()
-    }
-    
-    override public func becomeFirstResponder() -> Bool {
-        toggle(active: true)
-        codeDelegate?.fieldSelected()
-        return super.becomeFirstResponder()
     }
     
     override func caretRect(for position: UITextPosition) -> CGRect {
@@ -134,14 +188,5 @@ private final class CodeInputField: UITextField, UITextFieldDelegate {
         } else {
             layer.borderColor = UIColor.OS.General.separator.cgColor
         }
-    }
-    
-    // MARK: - Text Field Delegate
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if !string.isEmpty {
-            codeDelegate?.characterTyped(index)
-        }
-        return true
     }
 }
