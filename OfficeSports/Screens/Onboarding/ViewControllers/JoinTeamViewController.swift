@@ -106,16 +106,12 @@ final class JoinTeamViewController: UIViewController {
     }
     
     private func toggleDialog(enabled: Bool) {
-        if enabled {
-            dialogBottomConstraint.constant = dialogShowConstant
-        } else {
-            dialogBottomConstraint.constant = dialogHideConstant
-        }
-        shadowView.alpha = enabled ? kBackgroundMaxFade : kBackgroundMinFade
         UIView.animate(
             withDuration: kAnimDuration,
             delay: kAnimDelay,
             options: [.curveEaseOut]) {
+                self.shadowView.alpha = enabled ? kBackgroundMaxFade : kBackgroundMinFade
+                self.dialogBottomConstraint.constant = enabled ? self.dialogShowConstant : self.dialogHideConstant
                 self.view.layoutIfNeeded()
             } completion: { [unowned self] _ in
                 if !enabled {

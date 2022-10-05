@@ -151,6 +151,10 @@ final class MockSportsAPI: SportsAPI {
         let team2 = OSTeam(id: "id321", name: "Tietoevry Banking - Bergen")
         result(.success([team1, team2]))
     }
+    
+    func joinTeam(_ request: OSTeamRequest, result: @escaping OSResultBlock<OSTeam>) {
+        result(.success(OSTeam(id: "id#123", name: "Apple Inc.")))
+    }
 }
 
 // MARK: - Conform to the async/await versions of the API methods
@@ -248,6 +252,14 @@ extension MockSportsAPI {
     func getTeams() async throws -> [OSTeam] {
         return try await withCheckedThrowingContinuation({ continuation in
             getTeams { result in
+                continuation.resume(with: result)
+            }
+        })
+    }
+    
+    func joinTeam(request: OSTeamRequest) async throws -> OSTeam {
+        return try await withCheckedThrowingContinuation({ continuation in
+            joinTeam(request) { result in
                 continuation.resume(with: result)
             }
         })

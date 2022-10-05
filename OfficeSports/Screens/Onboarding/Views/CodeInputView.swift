@@ -56,13 +56,7 @@ final class CodeInputView: UIView {
     private func setupChildViews() {
         addSubview(stackView)
         
-        let civ1 = CodeInputField(index: 0, delegate: self)
-        civ1.inputAccessoryView?.isUserInteractionEnabled = false
-        civ1.inputAccessoryView = nil
-        civ1.reloadInputViews()
-        
         stackView.addArrangedSubviews(
-            civ1,
             CodeInputField(index: 0, delegate: self),
             CodeInputField(index: 1, delegate: self),
             CodeInputField(index: 2, delegate: self),
@@ -161,10 +155,9 @@ private final class CodeInputField: UITextField, UITextFieldDelegate {
         layer.borderWidth = 1.8
         self.delegate = delegate
         inputAccessoryView = nil
+        textContentType = .oneTimeCode
         inputAccessoryView?.isHidden = true
-        // FIXME: below stuff does not work
-        inputAccessoryView?.isUserInteractionEnabled = false
-        reloadInputViews()
+        returnKeyType = .done
     }
     
     required init?(coder: NSCoder) {

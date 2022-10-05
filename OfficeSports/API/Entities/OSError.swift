@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum OSError: LocalizedError {
+enum OSError: LocalizedError, Decodable {
     
     case unknown
     
@@ -42,6 +42,8 @@ enum OSError: LocalizedError {
     case noTeamSelected
     
     case noWeekendRegistrations
+    
+    case decodingFailed
     
     var errorDescription: String? {
         switch self {
@@ -79,6 +81,8 @@ enum OSError: LocalizedError {
             return "You need to be a part of a team"
         case .noWeekendRegistrations:
             return "Not allowed to register matches during the weekend 🍺"
+        case .decodingFailed:
+            return "Decoding failed"
         }
     }
 }

@@ -88,4 +88,12 @@ extension FirebaseSportsAPI {
             }
         })
     }
+    
+    func joinTeam(request: OSTeamRequest) async throws -> OSTeam {
+        return try await withCheckedThrowingContinuation({ continuation in
+            joinTeam(request) { result in
+                continuation.resume(with: result)
+            }
+        })
+    }
 }

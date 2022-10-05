@@ -15,9 +15,9 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 private let fbCloudFuncBaseUrl = "https://us-central1-officesports-5d7ac.cloudfunctions.net"
-private let fbCloudFuncRegisterMatchUrl = "/winMatch"
-private let fbCloudFuncCreateOrUpdatePlayer = "/upsertPlayer"
-private let fbCloudFuncJoinTeam = "/joinTeam"
+private let fbCloudFuncRegisterMatchUrl = "\(fbCloudFuncBaseUrl)/winMatch"
+private let fbCloudFuncCreateOrUpdatePlayerUrl = "\(fbCloudFuncBaseUrl)/upsertPlayer"
+private let fbCloudFuncJoinTeamUrl = "\(fbCloudFuncBaseUrl)/joinTeam"
 
 private let fbPlayersCollection = "players"
 private let fbMatchesCollection = "matches"
@@ -229,7 +229,7 @@ final class FirebaseSportsAPI: NSObject, SportsAPI {
         }
         
         // build http request
-        var request = URLRequest(url: URL(string: "\(fbCloudFuncBaseUrl)\(fbCloudFuncRegisterMatchUrl)")!)
+        var request = URLRequest(url: URL(string: fbCloudFuncRegisterMatchUrl)!)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
         request.httpBody = try? JSONEncoder().encode(registration)
@@ -362,6 +362,11 @@ final class FirebaseSportsAPI: NSObject, SportsAPI {
             }
             result(.success(teams))
         }
+    }
+    
+    func joinTeam(_ request: OSTeamRequest, result: @escaping OSResultBlock<OSTeam>) {
+        let request = URLRequestBuilder("POST", fbCloudFuncJoinTeamUrl).set(body: try? JSONEncoder().encode(request)).build()
+        URLSession.shared.dataTask(with: request, decodable: OSTeam.self, result: result).resume()
     }
     
     // ##################################

@@ -7,6 +7,8 @@
 
 import UIKit
 
+typealias OSResultBlock<T: Codable> = (Result<T, Error>) -> Void
+
 protocol SportsAPI {
     
     func deleteAccount(result: @escaping ((Error?) -> Void))
@@ -41,6 +43,9 @@ protocol SportsAPI {
     @available(*, renamed: "getTeams()")
     func getTeams(result: @escaping ((Result<[OSTeam], Error>) -> Void))
     
+    @available(*, renamed: "joinTeam(request:)")
+    func joinTeam(_ request: OSTeamRequest, result: @escaping OSResultBlock<OSTeam>)
+    
     // MARK: - Async/await API
     
     func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam) async throws -> OSPlayer
@@ -62,4 +67,6 @@ protocol SportsAPI {
     func getSeasonStats() async throws -> [OSSeasonStats]
     
     func getTeams() async throws -> [OSTeam]
+    
+    func joinTeam(request: OSTeamRequest) async throws -> OSTeam
 }
