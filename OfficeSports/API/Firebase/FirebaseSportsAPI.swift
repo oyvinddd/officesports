@@ -228,35 +228,11 @@ final class FirebaseSportsAPI: NSObject, SportsAPI {
             return
         }
         
-        // build http request
-        var request = URLRequest(url: URL(string: fbCloudFuncRegisterMatchUrl)!)
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpMethod = "POST"
-        request.httpBody = try? JSONEncoder().encode(registration)
+        // build request
+        let request = URLRequestBuilder("POST", fbCloudFuncRegisterMatchUrl).set(body: try? JSONEncoder().encode(registration)).build()
         
-        // execute request
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            if let error = error {
-                result(.failure(error))
-                return
-            }
-            guard let urlResponse = response as? HTTPURLResponse, let data = data else {
-                result(.failure(OSError.unknown))
-                return
-            }
-            guard 200 ..< 300 ~= urlResponse.statusCode else {
-                result(.failure(OSError.unknown))
-                return
-            }
-            
-            do {
-                let match = try JSONDecoder().decode(OSMatch.self, from: data)
-                result(.success(match))
-            } catch let error {
-                result(.failure(error))
-            }
-        }
-        task.resume()
+        // send request
+        URLSession.shared.dataTask(with: request, decodable: OSMatch.self, result: result).resume()
     }
     
     func invitePlayer(_ player: OSPlayer, sport: OSSport, result: @escaping ((Result<OSInvite, Error>) -> Void)) {
@@ -365,7 +341,13 @@ final class FirebaseSportsAPI: NSObject, SportsAPI {
     }
     
     func joinTeam(_ request: OSTeamRequest, result: @escaping OSResultBlock<OSTeam>) {
-        let request = URLRequestBuilder("POST", fbCloudFuncJoinTeamUrl).set(body: try? JSONEncoder().encode(request)).build()
+        // encode data
+        let data = try? JSONEncoder().encode(request)
+        
+        // build reqquest
+        let request = URLRequestBuilder("POST", fbCloudFuncJoinTeamUrl).set(body: data).build()
+        
+        // send request
         URLSession.shared.dataTask(with: request, decodable: OSTeam.self, result: result).resume()
     }
     
