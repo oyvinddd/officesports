@@ -27,6 +27,14 @@ export const getLeader = async (
   const allPlayers = await getPlayers(teamId);
   const [firstPlace, secondPlace] = allPlayers.sort(sortBySportScoreDesc);
 
+  if (!firstPlace) {
+    return null;
+  }
+
+  if (!secondPlace) {
+    return firstPlace;
+  }
+
   const firstPlaceStats = getSportStats(firstPlace, sport);
   const secondPlaceStats = getSportStats(secondPlace, sport);
 
