@@ -2,6 +2,7 @@ import * as functions from "firebase-functions";
 import HttpStatus from "http-status-enum";
 import { createPlayer, getPlayers, updatePlayer } from "../firebase/player";
 import { sendErrorStatus } from "../helpers/api.helpers";
+import { isDefined } from "../helpers/type.helpers";
 import { ErrorCodes } from "../types/ErrorCodes";
 import { Player } from "../types/Player";
 
@@ -24,9 +25,9 @@ export const upsertPlayer = functions.https.onRequest(
 
     const { player } = request.body as UpsertPlayerBody;
     const allPlayers = await getPlayers();
-    const existingPlayerWithSameNickname = allPlayers.find(
-      p => p.nickname === player.nickname,
-    );
+    const existingPlayerWithSameNickname = allPlayers
+      .filter(isDefined)
+      .find(p => p.nickname === player.nickname);
 
     // TODO: Validate nickname
     if (!player.nickname || player.nickname.length < 3) {
