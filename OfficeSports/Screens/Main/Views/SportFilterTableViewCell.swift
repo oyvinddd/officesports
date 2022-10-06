@@ -50,6 +50,8 @@ final class SportFilterTableViewCell: UITableViewCell {
         return UIImpactFeedbackGenerator(style: .medium)
     }()
     
+    private var leftButtonTactive: Bool = true
+    
     weak var delegate: SportFilterDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -117,14 +119,20 @@ final class SportFilterTableViewCell: UITableViewCell {
     }
     
     @objc private func leftButtonTapped(_ sender: UIButton) {
-        toggleLeftButton(enabled: true)
-        feedbackGenerator.impactOccurred()
-        delegate?.leftButtonTapped()
+        if !leftButtonTactive {
+            toggleLeftButton(enabled: true)
+            feedbackGenerator.impactOccurred()
+            delegate?.leftButtonTapped()
+            leftButtonTactive = true
+        }
     }
     
     @objc private func rightButtonTapped(_ sender: UIButton) {
-        toggleLeftButton(enabled: false)
-        feedbackGenerator.impactOccurred()
-        delegate?.rightButtonTapped()
+        if leftButtonTactive {
+            toggleLeftButton(enabled: false)
+            feedbackGenerator.impactOccurred()
+            delegate?.rightButtonTapped()
+            leftButtonTactive = false
+        }
     }
 }
