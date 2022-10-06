@@ -59,12 +59,12 @@ final class CodeInputView: UIView {
         addSubview(stackView)
         
         stackView.addArrangedSubviews(
-            CodeInputField(index: 0, delegate: self),
-            CodeInputField(index: 1, delegate: self),
-            CodeInputField(index: 2, delegate: self),
-            CodeInputField(index: 3, delegate: self),
-            CodeInputField(index: 4, delegate: self),
-            CodeInputField(index: 5, delegate: self)
+            CodeInputField(index: 0, delegate: self, deleteDelegate: self),
+            CodeInputField(index: 1, delegate: self, deleteDelegate: self),
+            CodeInputField(index: 2, delegate: self, deleteDelegate: self),
+            CodeInputField(index: 3, delegate: self, deleteDelegate: self),
+            CodeInputField(index: 4, delegate: self, deleteDelegate: self),
+            CodeInputField(index: 5, delegate: self, deleteDelegate: self)
         )
         
         NSLayoutConstraint.activate([
@@ -75,6 +75,8 @@ final class CodeInputView: UIView {
         ])
     }
 }
+
+// MARK: - Text Field Delegate
 
 extension CodeInputView: UITextFieldDelegate {
     
@@ -128,14 +130,31 @@ extension CodeInputView: UITextFieldDelegate {
     }
 }
 
+// MARK: - Delete Character Delegate
+
+extension CodeInputView: DeleteCharacterDelegate {
+    
+    func didDeleteCharacter(index: Int) {
+        _ = cycleInputFields(index: index - 1)
+    }
+}
+
 // MARK: - Code Input Field
+
+protocol DeleteCharacterDelegate: AnyObject {
+    
+    func didDeleteCharacter(index: Int)
+}
 
 private final class CodeInputField: UITextField, UITextFieldDelegate {
     
     let index: Int
     
-    init(index: Int, delegate: UITextFieldDelegate?) {
+    weak var deleteDelegate: DeleteCharacterDelegate?
+    
+    init(index: Int, delegate: UITextFieldDelegate?, deleteDelegate: DeleteCharacterDelegate?) {
         self.index = index
+        self.deleteDelegate = deleteDelegate
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         font = UIFont.systemFont(ofSize: 28, weight: .bold)
@@ -163,7 +182,7 @@ private final class CodeInputField: UITextField, UITextFieldDelegate {
     
     override public func deleteBackward() {
         if let text = text, text.isEmpty {
-            //codeDelegate?.backspaceTapped(index)
+            deleteDelegate?.didDeleteCharacter(index: index)
         }
         super.deleteBackward()
     }
