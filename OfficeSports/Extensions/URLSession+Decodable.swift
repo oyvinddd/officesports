@@ -23,8 +23,8 @@ extension URLSession {
                 guard 200 ..< 300 ~= urlResponse.statusCode else {
                     print("status code was \(urlResponse.statusCode), but expected 2xx")
                     do {
-                        let error = try JSONDecoder().decode(OSError.self, from: data)
-                        result(.failure(error))
+                        let errorContainer = try JSONDecoder().decode(OSErrorContainer.self, from: data)
+                        result(.failure(errorContainer.firstError))
                     } catch {
                         result(.failure(OSError.unknown))
                     }
