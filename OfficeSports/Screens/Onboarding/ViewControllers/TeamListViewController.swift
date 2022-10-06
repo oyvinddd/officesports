@@ -8,10 +8,41 @@
 import UIKit
 import Combine
 
+private let imageDiameter: CGFloat = 128
+private let imageRadius: CGFloat = imageDiameter / 2
+
 final class TeamListViewController: UIViewController {
     
+    private lazy var closeButton: UIButton = {
+        let image = UIImage(systemName: "xmark", withConfiguration: nil)
+        let button = UIButton.createButton(.white, tintColor: UIColor.OS.General.main, image: image)
+        button.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
+        button.backgroundColor = .white
+        button.applyCornerRadius(20)
+        button.alpha = 0.7
+        return button
+    }()
+    
+    private lazy var imageWrap: UIView = {
+        let imageWrap = UIView.createView(.white, cornerRadius: imageRadius)
+        imageWrap.applyMediumDropShadow(.black)
+        return imageWrap
+    }()
+    
+    private lazy var imageBackground: UIView = {
+        let profileImageBackground = UIView.createView(UIColor.OS.Profile.color18)
+        profileImageBackground.applyCornerRadius((imageDiameter - 16) / 2)
+        return profileImageBackground
+    }()
+    
+    private lazy var emojiLabel: UILabel = {
+        let label = UILabel.createLabel(.black, alignment: .center, text: "💼")
+        label.font = UIFont.systemFont(ofSize: 68, weight: .medium)
+        return label
+    }()
+    
     private lazy var titleLabel: UILabel = {
-        let label = UILabel.createLabel(.white, alignment: .center, text: "Join a team! 🌈")
+        let label = UILabel.createLabel(.white, alignment: .center, text: "Join a team")
         label.font = UIFont.boldSystemFont(ofSize: 32)
         return label
     }()
@@ -76,15 +107,32 @@ final class TeamListViewController: UIViewController {
     }
     
     private func setupChildViews() {
+        view.addSubview(closeButton)
+        view.addSubview(imageWrap)
+        imageWrap.addSubview(imageBackground)
         view.addSubview(titleLabel)
         view.addSubview(informationLabel)
         view.addSubview(tableView)
         view.addSubview(bottomWrap)
         
+        NSLayoutConstraint.pinToView(imageBackground, emojiLabel)
+        
         NSLayoutConstraint.activate([
+            closeButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
+            closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            closeButton.widthAnchor.constraint(equalToConstant: 40),
+            closeButton.heightAnchor.constraint(equalTo: closeButton.widthAnchor),
+            imageWrap.widthAnchor.constraint(equalToConstant: imageDiameter),
+            imageWrap.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
+            imageWrap.heightAnchor.constraint(equalTo: imageWrap.widthAnchor),
+            imageWrap.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            imageBackground.leftAnchor.constraint(equalTo: imageWrap.leftAnchor, constant: 8),
+            imageBackground.rightAnchor.constraint(equalTo: imageWrap.rightAnchor, constant: -8),
+            imageBackground.topAnchor.constraint(equalTo: imageWrap.topAnchor, constant: 8),
+            imageBackground.bottomAnchor.constraint(equalTo: imageWrap.bottomAnchor, constant: -8),
             titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
             titleLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
-            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 64),
+            titleLabel.topAnchor.constraint(equalTo: imageWrap.bottomAnchor, constant: 16),
             informationLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
             informationLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
             informationLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
@@ -97,6 +145,10 @@ final class TeamListViewController: UIViewController {
     
     private func configureUI() {
         view.backgroundColor = UIColor.OS.General.main
+    }
+    
+    @objc private func closeButtonTapped(_ sender: UIButton) {
+        dismiss(animated: true)
     }
 }
 
