@@ -11,7 +11,8 @@ import { getTeam } from "../firebase/team";
 import { Player } from "../types/Player";
 import { Season } from "../types/Season";
 import { Sport } from "../types/Sport";
-import { sportNames, getSportStats } from "./sport.helpers";
+import { sportNames, getSportStats, getEmptyStats } from "./sport.helpers";
+import { isDefined } from "./type.helpers";
 
 dotenv.config();
 
@@ -22,14 +23,16 @@ const clientSecret = process.env.SLACK_CLIENT_SECRET;
 
 const slackClient = new WebClient(slackToken);
 
-const isNotNil = <T>(value: T | undefined | null): value is T => !!value;
-
 const postMessage = async (
   text: string,
   blocks?: Array<Block | KnownBlock>,
-): Promise<ChatPostMessageResponse> => {
+): Promise<ChatPostMessageResponse | undefined> => {
   if (!channel) {
     throw new Error("Missing SLACK_CHANNEL environment variable");
+  }
+
+  if (!text) {
+    return;
   }
 
   return await slackClient.chat.postMessage({ text, blocks, channel });
@@ -56,12 +59,19 @@ const formatSeasonMessage = ({ sport, winner }: Season): string => {
   const sportName = capitalize(sportNames[sport]);
   const stats = getSportStats(winner, sport);
 
-  return ` - ${emoji} ${sportName}: ${winner.nickname} ${winner.emoji} with ${stats.score} points`;
+  return ` - ${emoji} ${sportName}: ${winner.nickname} ${winner.emoji} with ${
+    stats?.score ?? initialScore
+  } points`;
 };
 
 const formatTeamSeasonResults = async (
   seasons: Array<Season>,
 ): Promise<string | undefined> => {
+  const noSeasons = seasons.length === 0;
+  if (noSeasons) {
+    return;
+  }
+
   const { teamId } = seasons[0];
   const team = await getTeam(teamId);
 
@@ -100,13 +110,15 @@ export const postSeasonResults = async (
 ): Promise<Array<ChatPostMessageResponse>> => {
   return (
     await Promise.all(
-      seasons.map(async teamSeasons => {
+      seasons.filter(isDefined).map(async teamSeasons => {
+        console.log("Formatting team season results", teamSeasons);
         const text = await formatTeamSeasonResults(teamSeasons);
 
+        console.log("Posting text", text);
         return postMessage(text ?? "");
       }),
     )
-  ).filter(isNotNil);
+  ).filter(isDefined);
 };
 
 export const authenticate = async (code: string): Promise<string | null> => {
@@ -149,7 +161,7 @@ export const formatLeaderText = (
     ];
   }
 
-  const { score } = getSportStats(leader, sport);
+  const { score } = getSportStats(leader, sport) ?? getEmptyStats(sport);
 
   return [
     {

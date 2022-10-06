@@ -18,7 +18,11 @@ export const sportNames: Record<Sport, string> = {
   [Sport.VideoGames]: "video games",
 };
 
-export const getSportStats = (player: Player, sport: Sport): Stats => {
+export const getSportStats = (player: Player, sport: Sport): Stats | null => {
+  if (!player) {
+    return null;
+  }
+
   // TODO: Remove when `player.*Stats` are removed
   if (player.stats?.length !== 3) {
     player.stats = [

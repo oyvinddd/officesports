@@ -64,7 +64,8 @@ export const joinTeam = functions.https.onRequest(
     functions.logger.info("Joining team", request.body);
 
     const bodyErrors = validateJoinTeamBody(request.body);
-    if (bodyErrors) {
+    const hasBodyErrors = bodyErrors.length > 0;
+    if (hasBodyErrors) {
       sendErrorStatus(response, HttpStatus.BAD_REQUEST, bodyErrors);
       return;
     }
@@ -87,7 +88,7 @@ export const joinTeam = functions.https.onRequest(
 
       const passwordIsCorrect = inputPasswordHash === teamPasswordHash;
       if (!passwordIsCorrect) {
-        sendErrorStatus(response, HttpStatus.BAD_REQUEST, [
+        sendErrorStatus(response, HttpStatus.UNAUTHORIZED, [
           {
             errorCode: ErrorCodes.InvalidTeamPassword,
             message: "Invalid team password",

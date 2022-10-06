@@ -8,6 +8,7 @@ import { getPlayer, updatePlayer } from "../firebase/player";
 import { sendErrorStatus } from "../helpers/api.helpers";
 import { setEmptyPlayerStats } from "../helpers/player.helpers";
 import { getSportStats } from "../helpers/sport.helpers";
+import { isDefined } from "../helpers/type.helpers";
 import { validateWinMatchBody } from "../helpers/validation.helpers";
 import { ErrorCodes } from "../types/ErrorCodes";
 import { ErrorWithMessage } from "../types/ErrorWithMessage";
@@ -15,7 +16,6 @@ import { Match } from "../types/Match";
 import { Player } from "../types/Player";
 import { WinMatchBody } from "../types/WinMatchBody";
 
-const isDefined = <T>(value: T | null | undefined): value is T => value != null;
 const validateTeam = (player: Player): boolean =>
   player.team.id != null || player.teamId != null;
 

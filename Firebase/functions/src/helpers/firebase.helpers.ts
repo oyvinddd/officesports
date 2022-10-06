@@ -2,7 +2,8 @@ import * as admin from "firebase-admin";
 import { getPlayers, updatePlayer } from "../firebase/player";
 import type { Player } from "../types/Player";
 import { Sport } from "../types/Sport";
-import { getSportScore, getSportStats } from "./sport.helpers";
+import { getEmptyStats, getSportScore, getSportStats } from "./sport.helpers";
+import { isDefined } from "./type.helpers";
 
 admin.initializeApp({
   storageBucket: "officesports-5d7ac.appspot.com",
@@ -25,7 +26,17 @@ export const getLeader = async (
     getSpecificSportScore(player2) - getSpecificSportScore(player1);
 
   const allPlayers = await getPlayers(teamId);
-  const [firstPlace, secondPlace] = allPlayers.sort(sortBySportScoreDesc);
+  const [firstPlace, secondPlace] = allPlayers
+    .filter(isDefined)
+    .sort(sortBySportScoreDesc);
+
+  if (!firstPlace) {
+    return null;
+  }
+
+  if (!secondPlace) {
+    return firstPlace;
+  }
 
   const firstPlaceStats = getSportStats(firstPlace, sport);
   const secondPlaceStats = getSportStats(secondPlace, sport);
@@ -44,14 +55,14 @@ export const incrementTotalSeasonWins = async (
   player: Player,
   sport: Sport,
 ) => {
-  const stats = getSportStats(player, sport);
+  const stats = getSportStats(player, sport) || getEmptyStats(sport);
   stats.seasonWins += 1;
 
   updatePlayer(player);
 };
 
 export const resetScoreboards = async (initialScore: number): Promise<void> => {
-  const allPlayers = await getPlayers();
+  const allPlayers = (await getPlayers()).filter(isDefined);
 
   console.log("All players", allPlayers);
 
@@ -74,7 +85,7 @@ export const resetScoreboards = async (initialScore: number): Promise<void> => {
       player.poolStats.matchesWon = 0;
     }
 
-    for (const stat of player.stats) {
+    for (const stat of player.stats.filter(Boolean)) {
       stat.score = initialScore;
       stat.matchesPlayed = 0;
       stat.matchesWon = 0;

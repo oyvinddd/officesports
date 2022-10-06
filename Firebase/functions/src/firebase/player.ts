@@ -47,7 +47,9 @@ export const getPlayer = async (id: string): Promise<Player | undefined> => {
   return player;
 };
 
-export const getPlayers = async (teamId?: string): Promise<Array<Player>> => {
+export const getPlayers = async (
+  teamId?: string,
+): Promise<Array<Player | undefined>> => {
   const collection = getPlayerCollection();
   let query: admin.firestore.Query<Player>;
 
