@@ -59,13 +59,14 @@ final class OSAccount {
         print(
             "🔐 Signed in: [\(signedIn)]\n" +
             "🛂 User ID: [\(userId)]\n" +
-            "🧸 Emoji & nickname: [\(player?.emoji ?? "NA")] [\(player?.nickname ?? "NA")]\n"
+            "🧸 Emoji & nickname: [\(player?.emoji ?? "NA")] [\(player?.nickname ?? "NA")]\n" +
+            "🌈 Team ID: [\(player?.teamId ?? "none")]"
         )
     }
     
     private func checkShouldLogOutAndClearKeychain() {
         if UserDefaultsHelper.checkAndUpdateIsFirstRun() {
-            print("⚠️ This is the initial run of the app. Making sure we're logged out.")
+            print("⚠️ This is the initial run of the app so let's make sure we're logged out...")
             do {
                 try Auth.auth().signOut()
             } catch let error {

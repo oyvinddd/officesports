@@ -100,14 +100,14 @@ final class JoinTeamViewController: UIViewController {
                     joinButton.buttonState = .loading
                 case .success(let team):
                     self.joinButton.buttonState = .normal
-                    let message = OSMessage("Successfully joined \(team.name)! 🥳", .success)
-                    Coordinator.global.send(message)
+                    self.storeTeamIdAndProceed(team: team)
                 case .failure(let error):
                     self.joinButton.buttonState = .disabled
                     Coordinator.global.send(error)
                 }
             }.store(in: &subscribers)
     }
+    
     private func setupChildViews() {
         NSLayoutConstraint.pinToView(view, shadowView)
         
@@ -152,6 +152,13 @@ final class JoinTeamViewController: UIViewController {
                     self.dismiss(animated: false)
                 }
             }
+    }
+    
+    private func storeTeamIdAndProceed(team: OSTeam) {
+        let message = OSMessage("Successfully joined \(team.name)! 🥳", .success)
+        Coordinator.global.send(message)
+        OSAccount.current.player?.teamId = team.id
+        toggleDialog(enabled: false)
     }
     
     @objc private func shadowViewTapped() {
