@@ -54,9 +54,9 @@ final class Coordinator {
         return PlayerProfileViewController(viewModel: viewModel)
     }()
     
-    private lazy var teamPickerViewController: TeamPickerViewController = {
+    private lazy var teamPickerViewController: TeamListViewController = {
         let viewModel = TeamsViewModel(api: FirebaseSportsAPI())
-        return TeamPickerViewController(viewModel: viewModel, delegate: nil)
+        return TeamListViewController(viewModel: viewModel)
     }()
     
     init(account: OSAccount, window: UIWindow?) {

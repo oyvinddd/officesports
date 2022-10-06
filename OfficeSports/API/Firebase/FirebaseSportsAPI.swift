@@ -114,29 +114,19 @@ final class FirebaseSportsAPI: NSObject, SportsAPI {
         fatalError("Delete account endpoint has not been implementet yet!")
     }
     
-    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam, result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
-        guard let uid = OSAccount.current.userId else {
-            result(.failure(OSError.unauthorized))
-            return
+    func createOrUpdateProfile(nickname: String, emoji: String, result: @escaping OSResultBlock<OSPlayer>) {
+        var player: OSPlayer?
+        
+        if let currentPlayer = OSAccount.current.player {
+            player = currentPlayer
+        } else {
+            player = OSPlayer(nickname: nickname, emoji: emoji)
         }
         
-        let fields = ["nickname", "emoji", "team"]
-        var data: [String: Any] = ["nickname": nickname, "emoji": emoji]
-        do {
-            data["team"] = try Firestore.Encoder().encode(team)
-        } catch let error {
-            print(error)
-        }
+        let data = try? JSONEncoder().encode(player)
+        let request = URLRequestBuilder("POST", fbCloudFuncCreateOrUpdatePlayerUrl).set(body: data).build()
         
-        let player = OSPlayer(id: uid, nickname: nickname, emoji: emoji, team: team)
-        
-        playersCollection.document(uid).setData(data, mergeFields: fields) { error in
-            guard let error = error else {
-                result(.success(player))
-                return
-            }
-            result(.failure(error))
-        }
+        URLSession.shared.dataTask(with: request, decodable: OSPlayer.self, result: result).resume()
     }
     
     func getPlayerProfile(result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
@@ -160,9 +150,9 @@ final class FirebaseSportsAPI: NSObject, SportsAPI {
             .order(by: fieldPathForSport(sport), descending: true)
             .limit(to: maxResultsInScoreboard)
         
-        // if player has chosen a team, only show scoreboard of players that has joined the same team
-        if let currentTeamId = OSAccount.current.player?.team?.id {
-            query = query.whereField("team.id", isEqualTo: currentTeamId)
+        // only show scoreboard of players that is part of the same team
+        if let teamId = OSAccount.current.player?.teamId {
+            query = query.whereField("team.id", isEqualTo: teamId)
         }
         
         query.getDocuments { (snapshot, error) in
@@ -340,7 +330,7 @@ final class FirebaseSportsAPI: NSObject, SportsAPI {
         }
     }
     
-    func joinTeam(_ request: OSTeamRequest, result: @escaping OSResultBlock<OSTeam>) {
+    func joinTeam(_ request: OSJoinTeamRequest, result: @escaping OSResultBlock<OSTeam>) {
         // encode data
         let data = try? JSONEncoder().encode(request)
         

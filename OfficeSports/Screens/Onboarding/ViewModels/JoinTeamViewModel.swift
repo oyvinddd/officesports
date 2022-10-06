@@ -15,7 +15,7 @@ final class JoinTeamViewModel {
         
         case loading
         
-        case success
+        case success(OSTeam)
         
         case failure(Error)
     }
@@ -29,24 +29,20 @@ final class JoinTeamViewModel {
         self.api = api
     }
     
-    func fetchTeams() {
+    func joinTeam(_ team: OSTeam, password: String) {
         state = .loading
-        Task {
-            do {
-                teams = try await api.getTeams().sorted(by: { $0.name < $1.name })
-                self.state = .success
-            } catch let error {
-                state = .failure(error)
-            }
-        }
-    }
-    
-    func joinTeam(_ team: OSTeam) {
-        state = .loading
+        
+        // build our request join team request
+        let request = OSJoinTeamRequest(
+            teamId: team.id,
+            playerId: OSAccount.current.userId,
+            password: password
+        )
         
         Task {
             do {
-                // TODO: ...
+                let team = try await api.joinTeam(request: request)
+                state = .success(team)
             } catch let error {
                 state = .failure(error)
             }

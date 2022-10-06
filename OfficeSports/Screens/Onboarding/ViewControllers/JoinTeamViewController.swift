@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 private let kBackgroundMaxFade: CGFloat = 0.6
 private let kBackgroundMinFade: CGFloat = 0
@@ -36,7 +37,13 @@ final class JoinTeamViewController: UIViewController {
     }()
     
     private lazy var codeInputView: CodeInputView = {
-        return CodeInputView()
+        return CodeInputView(delegate: self)
+    }()
+    
+    private lazy var joinButton: OSButton = {
+        let button = OSButton("Join", type: .primaryInverted, state: .disabled)
+        button.addTarget(self, action: #selector(joinButtonTapped), for: .touchUpInside)
+        return button
     }()
     
     private lazy var dialogBottomConstraint: NSLayoutConstraint = {
@@ -54,6 +61,7 @@ final class JoinTeamViewController: UIViewController {
     
     private let viewModel: JoinTeamViewModel
     private let team: OSTeam
+    private var subscribers = Set<AnyCancellable>()
     
     init(viewModel: JoinTeamViewModel, team: OSTeam) {
         self.viewModel = viewModel
@@ -70,6 +78,7 @@ final class JoinTeamViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupKeyboardObservers()
+        setupSubscribers()
         setupChildViews()
         configureUI()
     }
@@ -77,14 +86,35 @@ final class JoinTeamViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         toggleDialog(enabled: true)
+        _ = codeInputView.becomeFirstResponder()
     }
     
+    private func setupSubscribers() {
+        viewModel.$state
+            .receive(on: DispatchQueue.main)
+            .sink { [unowned self] state in
+                switch state {
+                case .idle:
+                    self.joinButton.buttonState = .disabled
+                case .loading:
+                    joinButton.buttonState = .loading
+                case .success(let team):
+                    self.joinButton.buttonState = .normal
+                    let message = OSMessage("Successfully joined \(team.name)! 🥳", .success)
+                    Coordinator.global.send(message)
+                case .failure(let error):
+                    self.joinButton.buttonState = .disabled
+                    Coordinator.global.send(error)
+                }
+            }.store(in: &subscribers)
+    }
     private func setupChildViews() {
         NSLayoutConstraint.pinToView(view, shadowView)
         
         view.addSubview(contentWrap)
         contentWrap.addSubview(titleLabel)
         contentWrap.addSubview(codeInputView)
+        contentWrap.addSubview(joinButton)
         
         NSLayoutConstraint.activate([
             contentWrap.leftAnchor.constraint(equalTo: view.leftAnchor),
@@ -96,8 +126,12 @@ final class JoinTeamViewController: UIViewController {
             codeInputView.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 16),
             codeInputView.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -16),
             codeInputView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 22),
-            codeInputView.bottomAnchor.constraint(equalTo: contentWrap.safeAreaLayoutGuide.bottomAnchor, constant: -32),
-            codeInputView.heightAnchor.constraint(equalToConstant: 60)
+            codeInputView.heightAnchor.constraint(equalToConstant: 60),
+            joinButton.leftAnchor.constraint(equalTo: contentWrap.leftAnchor, constant: 64),
+            joinButton.rightAnchor.constraint(equalTo: contentWrap.rightAnchor, constant: -64),
+            joinButton.topAnchor.constraint(equalTo: codeInputView.bottomAnchor, constant: 32),
+            joinButton.bottomAnchor.constraint(equalTo: contentWrap.safeAreaLayoutGuide.bottomAnchor, constant: -32),
+            joinButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     
@@ -122,6 +156,21 @@ final class JoinTeamViewController: UIViewController {
     
     @objc private func shadowViewTapped() {
         toggleDialog(enabled: false)
+    }
+    
+    @objc private func joinButtonTapped(_ sender: OSButton) {
+        viewModel.joinTeam(team, password: codeInputView.text)
+    }
+}
+
+// MARK: - Code Input Delegate
+
+extension JoinTeamViewController: CodeInputDelegate {
+    
+    func didType(input: String, finished: Bool) {
+        if finished {
+            viewModel.joinTeam(team, password: input)
+        }
     }
 }
 

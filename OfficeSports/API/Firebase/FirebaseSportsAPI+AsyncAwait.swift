@@ -9,17 +9,17 @@ import UIKit
 
 extension FirebaseSportsAPI {
     
-    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam) async throws -> OSPlayer {
+    func getPlayerProfile() async throws -> OSPlayer {
         return try await withCheckedThrowingContinuation({ continuation in
-            createOrUpdatePlayerProfile(nickname: nickname, emoji: emoji, team: team) { result in
+            getPlayerProfile { result in
                 continuation.resume(with: result)
             }
         })
     }
     
-    func getPlayerProfile() async throws -> OSPlayer {
+    func createOrUpdateProfile(nickname: String, emoji: String) async throws -> OSPlayer {
         return try await withCheckedThrowingContinuation({ continuation in
-            getPlayerProfile { result in
+            createOrUpdateProfile(nickname: nickname, emoji: emoji) { result in
                 continuation.resume(with: result)
             }
         })
@@ -89,7 +89,7 @@ extension FirebaseSportsAPI {
         })
     }
     
-    func joinTeam(request: OSTeamRequest) async throws -> OSTeam {
+    func joinTeam(request: OSJoinTeamRequest) async throws -> OSTeam {
         return try await withCheckedThrowingContinuation({ continuation in
             joinTeam(request) { result in
                 continuation.resume(with: result)

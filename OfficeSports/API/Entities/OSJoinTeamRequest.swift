@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct OSTeamRequest: Codable {
+struct OSJoinTeamRequest: Codable {
     
-    var teamId: String
+    var teamId: String?
     
-    var playerId: String
+    var playerId: String?
     
-    var password: String
+    var password: String?
 }

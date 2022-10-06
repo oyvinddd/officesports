@@ -8,12 +8,7 @@
 import UIKit
 import Combine
 
-protocol TeamSelectionDelegate: AnyObject {
-    
-    func didSelectTeam(_ team: OSTeam)
-}
-
-final class TeamPickerViewController: UIViewController {
+final class TeamListViewController: UIViewController {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel.createLabel(.white, alignment: .center, text: "Join a team! 🌈")
@@ -40,21 +35,12 @@ final class TeamPickerViewController: UIViewController {
         return UIView.createView(UIColor.OS.General.main)
     }()
     
-    private lazy var closeButton: OSButton = {
-        let button = OSButton("Close", type: .secondary, state: .normal)
-        button.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
     private let viewModel: TeamsViewModel
     private var subscribers = Set<AnyCancellable>()
-    private var currentTeam: OSTeam? = OSAccount.current.player?.team
+    private var currentTeamId: String? = OSAccount.current.player?.teamId
     
-    weak var delegate: TeamSelectionDelegate?
-    
-    init(viewModel: TeamsViewModel, delegate: TeamSelectionDelegate?) {
+    init(viewModel: TeamsViewModel) {
         self.viewModel = viewModel
-        self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -94,7 +80,6 @@ final class TeamPickerViewController: UIViewController {
         view.addSubview(informationLabel)
         view.addSubview(tableView)
         view.addSubview(bottomWrap)
-        bottomWrap.addSubview(closeButton)
         
         NSLayoutConstraint.activate([
             titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
@@ -106,29 +91,18 @@ final class TeamPickerViewController: UIViewController {
             informationLabel.bottomAnchor.constraint(equalTo: tableView.topAnchor, constant: -32),
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            bottomWrap.leftAnchor.constraint(equalTo: view.leftAnchor),
-            bottomWrap.rightAnchor.constraint(equalTo: view.rightAnchor),
-            bottomWrap.topAnchor.constraint(equalTo: tableView.bottomAnchor),
-            bottomWrap.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            closeButton.leftAnchor.constraint(equalTo: bottomWrap.leftAnchor, constant: 16),
-            closeButton.rightAnchor.constraint(equalTo: bottomWrap.rightAnchor, constant: -16),
-            closeButton.topAnchor.constraint(equalTo: bottomWrap.topAnchor, constant: 16),
-            closeButton.bottomAnchor.constraint(equalTo: bottomWrap.safeAreaLayoutGuide.bottomAnchor, constant: -16),
-            closeButton.heightAnchor.constraint(equalToConstant: 50)
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
     private func configureUI() {
         view.backgroundColor = UIColor.OS.General.main
     }
-    
-    @objc private func closeButtonTapped(_ sender: UIButton) {
-    }
 }
 
 // MARK: - Table View Data Source
 
-extension TeamPickerViewController: UITableViewDataSource {
+extension TeamListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.teams.count
@@ -139,14 +113,15 @@ extension TeamPickerViewController: UITableViewDataSource {
         let team = viewModel.teams[indexPath.row]
         let firstElement = indexPath.row == 0
         let lastElement = indexPath.row == viewModel.teams.count - 1
-        cell.configure(with: team, enabled: team == currentTeam, isFirstElement: firstElement, isLastElement: lastElement)
+        let isPartOfTeam = currentTeamId == team.id
+        cell.configure(with: team, enabled: isPartOfTeam, isFirstElement: firstElement, isLastElement: lastElement)
         return cell
     }
 }
 
 // MARK: - Table View Delegate
 
-extension TeamPickerViewController: UITableViewDelegate {
+extension TeamListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let team = viewModel.teams[indexPath.row]

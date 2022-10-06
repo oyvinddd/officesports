@@ -10,6 +10,7 @@ import UIKit
 private let maxCharacters: Int = 6
 
 protocol CodeInputDelegate: AnyObject {
+    
     func didType(input: String, finished: Bool)
 }
 
@@ -36,7 +37,8 @@ final class CodeInputView: UIView {
         return inputFields.reduce("") { $0 + $1.text! }
     }
     
-    init() {
+    init(delegate: CodeInputDelegate?) {
+        self.delegate = delegate
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         setupChildViews()
@@ -77,11 +79,6 @@ final class CodeInputView: UIView {
 extension CodeInputView: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        /*
-        guard isValidInput(string) else {
-            return false
-        }
-        */
         guard let inputField = textField as? CodeInputField else {
             return false
         }

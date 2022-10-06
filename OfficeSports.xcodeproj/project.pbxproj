@@ -45,7 +45,7 @@
 		8E3F337F286531430061CD6B /* QRCodeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D9A7E282BEF66007BCDE0 /* QRCodeGenerator.swift */; };
 		8E40716128ED795800C0DCC9 /* URLSession+Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E40716028ED795800C0DCC9 /* URLSession+Decodable.swift */; };
 		8E40716428ED7BDF00C0DCC9 /* URLRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E40716328ED7BDF00C0DCC9 /* URLRequestBuilder.swift */; };
-		8E40716628ED7D5700C0DCC9 /* OSTeamRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E40716528ED7D5700C0DCC9 /* OSTeamRequest.swift */; };
+		8E40716628ED7D5700C0DCC9 /* OSJoinTeamRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E40716528ED7D5700C0DCC9 /* OSJoinTeamRequest.swift */; };
 		8E43DEFF286E296E00D9B50D /* OSSeasonStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E43DEFE286E296E00D9B50D /* OSSeasonStats.swift */; };
 		8E43DF01286EE3C800D9B50D /* SeasonsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E43DF00286EE3C800D9B50D /* SeasonsViewController.swift */; };
 		8E43DF03286EE5F500D9B50D /* SeasonsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E43DF02286EE5F500D9B50D /* SeasonsViewModel.swift */; };
@@ -98,6 +98,7 @@
 		8E9C728B283AB93C00974DAA /* fastlane in Resources */ = {isa = PBXBuildFile; fileRef = 8E9C728A283AB93C00974DAA /* fastlane */; };
 		8EA21271283EF18A00B37315 /* OSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA21270283EF18A00B37315 /* OSButton.swift */; };
 		8EAB6DA6282BE4B500FA1362 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAB6DA5282BE4B500FA1362 /* Coordinator.swift */; };
+		8EC37F0C287D6318000D7A14 /* TeamListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC37F0B287D6318000D7A14 /* TeamListViewController.swift */; };
 		8EBDAA3C2962E3A700543E40 /* AuthUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBDAA3B2962E3A700543E40 /* AuthUtils.swift */; };
 		8EC37F0C287D6318000D7A14 /* TeamPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC37F0B287D6318000D7A14 /* TeamPickerViewController.swift */; };
 		8EC84E8E282BD5B10093C9A0 /* PlayerProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC84E8D282BD5B10093C9A0 /* PlayerProfileViewController.swift */; };
@@ -184,7 +185,7 @@
 		8E3F337A28651F340061CD6B /* UserDefaults+CodeWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+CodeWidget.swift"; sourceTree = "<group>"; };
 		8E40716028ED795800C0DCC9 /* URLSession+Decodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Decodable.swift"; sourceTree = "<group>"; };
 		8E40716328ED7BDF00C0DCC9 /* URLRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestBuilder.swift; sourceTree = "<group>"; };
-		8E40716528ED7D5700C0DCC9 /* OSTeamRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSTeamRequest.swift; sourceTree = "<group>"; };
+		8E40716528ED7D5700C0DCC9 /* OSJoinTeamRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSJoinTeamRequest.swift; sourceTree = "<group>"; };
 		8E43DEFE286E296E00D9B50D /* OSSeasonStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSSeasonStats.swift; sourceTree = "<group>"; };
 		8E43DF00286EE3C800D9B50D /* SeasonsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonsViewController.swift; sourceTree = "<group>"; };
 		8E43DF02286EE5F500D9B50D /* SeasonsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonsViewModel.swift; sourceTree = "<group>"; };
@@ -238,8 +239,7 @@
 		8E9C728A283AB93C00974DAA /* fastlane */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fastlane; sourceTree = "<group>"; };
 		8EA21270283EF18A00B37315 /* OSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSButton.swift; sourceTree = "<group>"; };
 		8EAB6DA5282BE4B500FA1362 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
-		8EBDAA3B2962E3A700543E40 /* AuthUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUtils.swift; sourceTree = "<group>"; };
-		8EC37F0B287D6318000D7A14 /* TeamPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamPickerViewController.swift; sourceTree = "<group>"; };
+		8EC37F0B287D6318000D7A14 /* TeamListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamListViewController.swift; sourceTree = "<group>"; };
 		8EC84E8D282BD5B10093C9A0 /* PlayerProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerProfileViewController.swift; sourceTree = "<group>"; };
 		8EC8C3D128E73E1700392E06 /* CodeInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeInputView.swift; sourceTree = "<group>"; };
 		8EC8C3D328E7415800392E06 /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
@@ -325,7 +325,7 @@
 				8EC84E8D282BD5B10093C9A0 /* PlayerProfileViewController.swift */,
 				8E70C137282AEE2F009A9452 /* WelcomeViewController.swift */,
 				8E230888282D788D00AF60EB /* EmojiPickerViewController.swift */,
-				8EC37F0B287D6318000D7A14 /* TeamPickerViewController.swift */,
+				8EC37F0B287D6318000D7A14 /* TeamListViewController.swift */,
 				8ED1876128E609C200F2C080 /* JoinTeamViewController.swift */,
 			);
 			path = ViewControllers;
@@ -516,7 +516,7 @@
 				8EE558342847B0B400199CC6 /* OSSport.swift */,
 				8E43DEFE286E296E00D9B50D /* OSSeasonStats.swift */,
 				8E8121EB28D491B200C048CA /* OSRank.swift */,
-				8E40716528ED7D5700C0DCC9 /* OSTeamRequest.swift */,
+				8E40716528ED7D5700C0DCC9 /* OSJoinTeamRequest.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -952,8 +952,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8EC37F0C287D6318000D7A14 /* TeamPickerViewController.swift in Sources */,
-				8EBDAA3C2962E3A700543E40 /* AuthUtils.swift in Sources */,
+				8EC37F0C287D6318000D7A14 /* TeamListViewController.swift in Sources */,
 				8E38B57E283C3D01009E0387 /* AchievementsViewController.swift in Sources */,
 				8E52845028C9294100CD415D /* PlayerStatsView.swift in Sources */,
 				8E8121F228D4B2D600C048CA /* SingleDuoView.swift in Sources */,
@@ -1017,7 +1016,7 @@
 				8EF9DD47285DE32900088A60 /* RegisterMatchViewController.swift in Sources */,
 				8E70C132282AD1F0009A9452 /* SportViewModel.swift in Sources */,
 				8E6B33E028426DFB00E73EDD /* ScannerFrameLinesView.swift in Sources */,
-				8E40716628ED7D5700C0DCC9 /* OSTeamRequest.swift in Sources */,
+				8E40716628ED7D5700C0DCC9 /* OSJoinTeamRequest.swift in Sources */,
 				8E230887282D575D00AF60EB /* AuthViewModel.swift in Sources */,
 				8E2D0CC1284FB374006FDE2E /* UIStackView+Convenience.swift in Sources */,
 				8E70C136282ADF7A009A9452 /* OSAccount.swift in Sources */,

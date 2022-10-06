@@ -20,7 +20,7 @@ final class FirebaseAuthAPI: AuthAPI {
         // Create Google Sign In configuration object.
         let config = GIDConfiguration(clientID: clientID)
         
-        // Start the sign in flow!
+        // Start the sign in flow
         GIDSignIn.sharedInstance.signIn(with: config, presenting: viewController) { (user, error) in
             if let error = error {
                 result(.failure(error))
