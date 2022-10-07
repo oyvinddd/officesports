@@ -42,8 +42,8 @@ const parseBody = async ({
   const player = await getPlayer(playerId ?? "");
   if (!player) {
     errors.push({
-      errorCode: ErrorCodes.TeamNotFound,
-      message: `Team with id '${teamId} was not found'`,
+      errorCode: ErrorCodes.PlayerNotFound,
+      message: `Player with id '${playerId} was not found'`,
     });
   }
 
@@ -63,49 +63,52 @@ export const joinTeam = functions
   .runWith({
     secrets: ["TEAM_PASSWORD_KEY"],
   })
-  .https.onRequest(async (request, response): Promise<void> => {
-    functions.logger.info("Joining team", request.body);
+  .https.onRequest(
+    async (request, response: functions.Response<Team>): Promise<void> => {
+      functions.logger.info("Joining team", request.body);
 
-    const bodyErrors = validateJoinTeamBody(request.body);
-    const hasBodyErrors = bodyErrors.length > 0;
-    if (hasBodyErrors) {
-      sendErrorStatus(response, HttpStatus.BAD_REQUEST, bodyErrors);
-      return;
-    }
-
-    const parseResult = await parseBody(request.body);
-    if (isErrorWithMessage(parseResult)) {
-      sendErrorStatus(response, HttpStatus.BAD_REQUEST, parseResult);
-      return;
-    }
-
-    functions.logger.info("Body was successfully parsed", parseResult);
-
-    const { teamId } = request.body;
-    const { player, password } = parseResult;
-    const teamPasswordHash = (await getTeamPassword(teamId))?.passwordHash;
-
-    const hasPassword = !!teamPasswordHash;
-    if (hasPassword) {
-      const inputPasswordHash = hash(password ?? "");
-
-      const passwordIsCorrect = inputPasswordHash === teamPasswordHash;
-      if (!passwordIsCorrect) {
-        sendErrorStatus(response, HttpStatus.UNAUTHORIZED, [
-          {
-            errorCode: ErrorCodes.InvalidTeamPassword,
-            message: "Invalid team password",
-          },
-        ]);
-
+      const bodyErrors = validateJoinTeamBody(request.body);
+      const hasBodyErrors = bodyErrors.length > 0;
+      if (hasBodyErrors) {
+        sendErrorStatus(response, HttpStatus.BAD_REQUEST, bodyErrors);
         return;
       }
-    }
 
-    player.teamId = teamId;
-    await updatePlayer(player);
+      const parseResult = await parseBody(request.body);
+      if (isErrorWithMessage(parseResult)) {
+        sendErrorStatus(response, HttpStatus.BAD_REQUEST, parseResult);
+        return;
+      }
 
-    functions.logger.info("Player is updated", { player });
+      functions.logger.info("Body was successfully parsed", parseResult);
 
-    response.send(player);
-  });
+      const { teamId } = request.body;
+      const { player, password, team } = parseResult;
+
+      const teamPasswordHash = (await getTeamPassword(teamId))?.passwordHash;
+
+      const hasPassword = !!teamPasswordHash;
+      if (hasPassword) {
+        const inputPasswordHash = hash(password ?? "");
+
+        const passwordIsCorrect = inputPasswordHash === teamPasswordHash;
+        if (!passwordIsCorrect) {
+          sendErrorStatus(response, HttpStatus.UNAUTHORIZED, [
+            {
+              errorCode: ErrorCodes.InvalidTeamPassword,
+              message: "Invalid team password",
+            },
+          ]);
+
+          return;
+        }
+      }
+
+      player.teamId = teamId;
+      await updatePlayer(player);
+
+      functions.logger.info("Player is updated", { player });
+
+      response.send(team);
+    },
+  );
