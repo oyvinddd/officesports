@@ -59,8 +59,11 @@ const parseBody = async ({
   };
 };
 
-export const joinTeam = functions.https.onRequest(
-  async (request, response): Promise<void> => {
+export const joinTeam = functions
+  .runWith({
+    secrets: ["TEAM_PASSWORD_KEY"],
+  })
+  .https.onRequest(async (request, response): Promise<void> => {
     functions.logger.info("Joining team", request.body);
 
     const bodyErrors = validateJoinTeamBody(request.body);
@@ -105,5 +108,4 @@ export const joinTeam = functions.https.onRequest(
     functions.logger.info("Player is updated", { player });
 
     response.send(player);
-  },
-);
+  });
