@@ -16,4 +16,5 @@ export enum ErrorCodes {
   InvalidPassword = "ERROR0015",
   TeamNotFound = "ERROR0016",
   InvalidTeamPassword = "ERROR0017",
+  PlayerNotFound = "ERROR0018",
 }
