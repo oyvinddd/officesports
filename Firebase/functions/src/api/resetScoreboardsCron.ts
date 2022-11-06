@@ -39,12 +39,17 @@ const resetScoreboardsFunction = async () => {
   for (const team of teams) {
     const teamId = team.id;
     if (!teamId) {
+      console.log("TeamId is undefiend");
       continue;
     }
 
     for (const sport of sports) {
+      console.log("Calculating seasonal winner");
       const seasonWinner = await getLeader(sport, teamId);
       if (!seasonWinner) {
+        console.log(
+          `No seasonal winner found for ${team.name}, sport: ${sport}`,
+        );
         continue;
       }
 
