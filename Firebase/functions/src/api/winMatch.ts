@@ -47,7 +47,7 @@ export const winMatch = functions.https.onRequest(
       sport,
     }: WinMatchBody = request.body;
 
-    console.log({ body: request.body });
+    functions.logger.info({ body: request.body }, { structuredData: true });
 
     const winnerIds = [...new Set([winnerId ?? wIds![0], ...(wIds ?? [])])];
     const loserIds = [...new Set([loserId ?? lIds![0], ...(lIds ?? [])])];
@@ -55,7 +55,10 @@ export const winMatch = functions.https.onRequest(
     const winners = await Promise.all(winnerIds.map(getPlayer));
     const losers = await Promise.all(loserIds.map(getPlayer));
 
-    console.log({ winnerId, loserId: loserId, sport, winners, losers });
+    functions.logger.info(
+      { winnerId, loserId: loserId, sport, winners, losers },
+      { structuredData: true },
+    );
 
     const someWinnersCouldNotBeFound = !winners.every(isDefined);
     const someLosersCouldNotBeFound = !losers.every(isDefined);
@@ -121,15 +124,15 @@ export const winMatch = functions.https.onRequest(
       loserStats.reduce((sum, { score }) => (sum += score ?? initialScore), 0) /
       losers.length;
 
-    // const oldWinnerScore = winnerStats.score ?? initialScore;
-    // const oldLoserScore = loserStats.score ?? initialScore;
-
     const { playerRating: newWinnerScore, opponentRating: newLoserScore } =
       EloRating.calculate(averageWinnerScore, averageLoserScore);
 
     const delta = newWinnerScore - averageWinnerScore;
 
-    console.log({ newWinnerScore, newLoserScore });
+    functions.logger.info(
+      { newWinnerScore, newLoserScore },
+      { structuredData: true },
+    );
 
     const now = new firebase.firestore.Timestamp(
       Math.floor(Date.now() / 1000),
@@ -191,7 +194,7 @@ export const winMatch = functions.https.onRequest(
       });
     }
 
-    console.log({ match });
+    functions.logger.info({ match }, { structuredData: true });
 
     response.send(match);
   },

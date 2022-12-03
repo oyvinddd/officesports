@@ -13,6 +13,7 @@ export type Player = {
   /** @deprecated Use stats instead */
   poolStats?: Stats;
   stats: Array<Stats>;
+  totalStats: Array<Stats>; // TODO: Make optional
   /** @deprecated Use teamId instead */
   team: Team;
   teamId?: string | null;
