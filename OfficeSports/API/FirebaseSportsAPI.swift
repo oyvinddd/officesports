@@ -5,6 +5,7 @@
 //  Created by Øyvind Hauge on 19/05/2022.
 //
 
+import Foundation
 import CryptoKit
 import AuthenticationServices
 import FirebaseCore
@@ -28,14 +29,15 @@ private let maxResultsInScoreboard = 200
 private let maxResultsInRecentMatches = 300
 private let maxResultsInLatestMatches = 10
 
-final class FirebaseSportsAPI: SportsAPI {
+// swiftlint:disable file_length type_body_length force_cast
+final class FirebaseSportsAPI: NSObject, SportsAPI {
     
     private let database = Firestore.firestore()
     
     private var playersCollection: CollectionReference {
         database.collection(fbPlayersCollection)
     }
-                                                                    
+    
     private var matchesCollection: CollectionReference {
         database.collection(fbMatchesCollection)
     }
@@ -85,21 +87,18 @@ final class FirebaseSportsAPI: SportsAPI {
         }
     }
     
-    // https://firebase.google.com/docs/auth/ios/apple?authuser=0&hl=en
     func signInWithApple(from viewController: UIViewController, result: @escaping ((Result<Bool, Error>) -> Void)) {
-        /*
         let nonce = randomNonceString()
         currentNonce = nonce
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let request = appleIDProvider.createRequest()
-        request.requestedScopes = [.fullName, .email]
+        request.requestedScopes = [.email]
         request.nonce = sha256(nonce)
         
         let authorizationController = ASAuthorizationController(authorizationRequests: [request])
         authorizationController.delegate = self
-        authorizationController.presentationContextProvider = self
+        authorizationController.presentationContextProvider = viewController as! any ASAuthorizationControllerPresentationContextProviding
         authorizationController.performRequests()
-         */
     }
     
     func signOut() -> Error? {
@@ -416,7 +415,6 @@ final class FirebaseSportsAPI: SportsAPI {
     }
 }
 
-/*
 extension FirebaseSportsAPI: ASAuthorizationControllerDelegate {
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
@@ -502,4 +500,3 @@ extension FirebaseSportsAPI: ASAuthorizationControllerDelegate {
         return hashString
     }
 }
-*/

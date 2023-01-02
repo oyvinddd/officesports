@@ -653,8 +653,8 @@
 			isa = PBXGroup;
 			children = (
 				8E3F33772864F8600061CD6B /* CodeWidgetExtension.entitlements */,
-				8EE32D66283E8D66009AD89C /* Scripts */,
 				8E70C13B282BAF51009A9452 /* README.md */,
+				8EE32D66283E8D66009AD89C /* Scripts */,
 				8E9C728A283AB93C00974DAA /* fastlane */,
 				8EE61FED282AB79C00C01289 /* OfficeSports */,
 				8E3F33622864E1720061CD6B /* CodeWidget */,

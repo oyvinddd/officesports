@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import AuthenticationServices
 
 final class WelcomeViewController: UIViewController {
     
@@ -134,5 +135,12 @@ final class WelcomeViewController: UIViewController {
     
     @objc private func appleButtonTapped(_ sender: UIButton) {
         viewModel.signInWithApple(from: self)
+    }
+}
+
+extension WelcomeViewController: ASAuthorizationControllerPresentationContextProviding {
+    
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        view.window!
     }
 }

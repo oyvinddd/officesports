@@ -51,6 +51,10 @@ final class AuthViewModel {
     
     func signInWithApple(from viewController: UIViewController) {
         state = .loading
+        
+        Task {
+            try await api.signInWithApple(from: viewController)
+        }
     }
     
     func signOut() {
