@@ -161,22 +161,22 @@ extension WelcomeViewController: ASAuthorizationControllerDelegate {
                                                       rawNonce: nonce)
             // Sign in with Firebase.
             Auth.auth().signIn(with: credential) { (authResult, error) in
+                print(authResult ?? "Auth result is nil")
                 guard let error = error else {
-                    // Error. If error.code == .MissingOrInvalidNonce, make sure
-                    // you're sending the SHA256-hashed nonce as a hex string with
-                    // your request to Apple.
-                    print(error)
+                    // User is signed in to Firebase with Apple.
+                    // UI stuff is handled in the `setupSubscribers()` method
                     return
                 }
-                // User is signed in to Firebase with Apple.
-                // ...
+                // Error. If error.code == .MissingOrInvalidNonce, make sure
+                // you're sending the SHA256-hashed nonce as a hex string with
+                // your request to Apple.
+                Coordinator.global.send(OSMessage(error.localizedDescription, .failure))
             }
         }
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        // Handle error.
-        print("Sign in with Apple errored: \(error)")
+        Coordinator.global.send(OSMessage(error.localizedDescription, .failure))
     }
 }
 
