@@ -16,7 +16,7 @@ final class SeasonWinnerTableViewCell: UITableViewCell {
     
     private static var dateFormatter: DateFormatter {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMMM, yyyy"
+        dateFormatter.dateFormat = "MMM, yyyy"
         return dateFormatter
     }
     

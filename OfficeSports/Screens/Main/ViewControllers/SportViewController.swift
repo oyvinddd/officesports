@@ -31,8 +31,10 @@ final class SportViewController: UIViewController {
         tableView.allowsMultipleSelection = false
         tableView.delegate = self
         tableView.delaysContentTouches = false
-        tableView.sectionHeaderHeight = 8
-        tableView.sectionFooterHeight = 8
+        
+        //tableView.sectionHeaderTopPadding = 8
+        tableView.sectionHeaderHeight = 0
+        tableView.sectionFooterHeight = 0
         return tableView
     }()
     
@@ -161,7 +163,6 @@ extension SportViewController: UITableViewDataSource {
         }
         
         if indexPath.section == 1 {
-            let isFirstElement = indexPath.row == 0
             let isLastElement = indexPath.row == (showScoreboard ? viewModel.scoreboard.count - 1 : viewModel.recentMatches.count - 1)
             
             if showScoreboard {
@@ -170,11 +171,11 @@ extension SportViewController: UITableViewDataSource {
                 let isBoring = player == viewModel.boring
                 let cell = tableView.dequeueReusableCell(for: PlacementTableViewCell.self, for: indexPath)
                 
-                cell.configure(with: player, viewModel.sport, indexPath.row, isFanatic, isBoring, isFirstElement, isLastElement)
+                cell.configure(with: player, viewModel.sport, indexPath.row, isFanatic, isBoring, false, isLastElement)
                 return cell
             }
             let cell = tableView.dequeueReusableCell(for: MatchTableViewCell.self, for: indexPath)
-            cell.applyCornerRadius(isFirstElement: isFirstElement, isLastElement: isLastElement)
+            cell.applyCornerRadius(isFirstElement: false, isLastElement: isLastElement)
             cell.match = viewModel.recentMatches[indexPath.row]
             return cell
         }
@@ -183,6 +184,10 @@ extension SportViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(for: PlacementTableViewCell.self, for: indexPath)
         cell.configure(with: player, viewModel.sport, indexPath.row == 0, indexPath.row == viewModel.idlePlayers.count - 1)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return section == 0 ? 0 : 16
     }
 }
 

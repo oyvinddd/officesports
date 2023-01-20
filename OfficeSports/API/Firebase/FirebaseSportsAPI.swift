@@ -6,8 +6,6 @@
 //
 
 import Foundation
-import CryptoKit
-import AuthenticationServices
 import FirebaseCore
 import GoogleSignIn
 import FirebaseAuth
@@ -15,9 +13,9 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 private let fbCloudFuncBaseUrl = "https://us-central1-officesports-5d7ac.cloudfunctions.net"
-private let fbCloudFuncRegisterMatchUrl = "/winMatch"
-private let fbCloudFuncCreateOrUpdatePlayer = "/upsertPlayer"
-private let fbCloudFuncJoinTeam = "/joinTeam"
+private let fbCloudFuncRegisterMatchUrl = "\(fbCloudFuncBaseUrl)/winMatch"
+private let fbCloudFuncCreateOrUpdatePlayerUrl = "\(fbCloudFuncBaseUrl)/upsertPlayer"
+private let fbCloudFuncJoinTeamUrl = "\(fbCloudFuncBaseUrl)/joinTeam"
 
 private let fbPlayersCollection = "players"
 private let fbMatchesCollection = "matches"
@@ -29,7 +27,7 @@ private let maxResultsInScoreboard = 200
 private let maxResultsInRecentMatches = 300
 private let maxResultsInLatestMatches = 10
 
-// swiftlint:disable file_length type_body_length
+// swiftlint:disable type_body_length
 final class FirebaseSportsAPI: NSObject, SportsAPI {
     
     private let database = Firestore.firestore()
@@ -54,89 +52,23 @@ final class FirebaseSportsAPI: NSObject, SportsAPI {
         database.collection(fbTeamsCollection)
     }
     
-    private var currentNonce: String?
-    
-    func signInWithGoogle(from viewController: UIViewController, result: @escaping (Result<Bool, Error>) -> Void) {
-        guard let clientID = FirebaseApp.app()?.options.clientID else {
-            return
-        }
-        
-        // Create Google Sign In configuration object.
-        let config = GIDConfiguration(clientID: clientID)
-        
-        // Start the sign in flow!
-        GIDSignIn.sharedInstance.signIn(with: config, presenting: viewController) { (user, error) in
-            if let error = error {
-                result(.failure(error))
-                return
-            }
-            
-            guard let authentication = user?.authentication, let idToken = authentication.idToken else {
-                result(.failure(OSError.missingToken))
-                return
-            }
-            let credentials = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: authentication.accessToken)
-            
-            Auth.auth().signIn(with: credentials) { (_, error) in
-                if let error = error {
-                    result(.failure(error))
-                } else {
-                    result(.success(true))
-                }
-            }
-        }
-    }
-    
-    func signInWithApple(from viewController: UIViewController, result: @escaping ((Result<Bool, Error>) -> Void)) {
-        let nonce = AuthUtils.randomNonceString()
-        currentNonce = nonce
-        let appleIDProvider = ASAuthorizationAppleIDProvider()
-        let request = appleIDProvider.createRequest()
-        request.requestedScopes = [.email]
-        request.nonce = AuthUtils.sha256(nonce)
-        
-        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
-        authorizationController.delegate = viewController as? any ASAuthorizationControllerDelegate
-        authorizationController.presentationContextProvider = viewController as? any ASAuthorizationControllerPresentationContextProviding
-        authorizationController.performRequests()
-    }
-    
-    func signOut() -> Error? {
-        do {
-            try Auth.auth().signOut()
-        } catch let error {
-            return error
-        }
-        return nil
-    }
-    
     func deleteAccount(result: @escaping ((Error?) -> Void)) {
         fatalError("Delete account endpoint has not been implementet yet!")
     }
     
-    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam, result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
-        guard let uid = OSAccount.current.userId else {
-            result(.failure(OSError.unauthorized))
-            return
+    func createOrUpdateProfile(nickname: String, emoji: String, result: @escaping OSResultBlock<OSPlayer>) {
+        var player: OSPlayer?
+        
+        if let currentPlayer = OSAccount.current.player {
+            player = currentPlayer
+        } else {
+            player = OSPlayer(nickname: nickname, emoji: emoji)
         }
         
-        let fields = ["nickname", "emoji", "team"]
-        var data: [String: Any] = ["nickname": nickname, "emoji": emoji]
-        do {
-            data["team"] = try Firestore.Encoder().encode(team)
-        } catch let error {
-            print(error)
-        }
+        let data = try? JSONEncoder().encode(player)
+        let request = URLRequestBuilder("POST", fbCloudFuncCreateOrUpdatePlayerUrl).set(body: data).build()
         
-        let player = OSPlayer(id: uid, nickname: nickname, emoji: emoji, team: team)
-        
-        playersCollection.document(uid).setData(data, mergeFields: fields) { error in
-            guard let error = error else {
-                result(.success(player))
-                return
-            }
-            result(.failure(error))
-        }
+        URLSession.shared.dataTask(with: request, decodable: OSPlayer.self, result: result).resume()
     }
     
     func getPlayerProfile(result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
@@ -160,9 +92,9 @@ final class FirebaseSportsAPI: NSObject, SportsAPI {
             .order(by: fieldPathForSport(sport), descending: true)
             .limit(to: maxResultsInScoreboard)
         
-        // if player has chosen a team, only show scoreboard of players that has joined the same team
-        if let currentTeamId = OSAccount.current.player?.team?.id {
-            query = query.whereField("team.id", isEqualTo: currentTeamId)
+        // only show scoreboard of players that is part of the same team
+        if let teamId = OSAccount.current.player?.teamId {
+            query = query.whereField("team.id", isEqualTo: teamId)
         }
         
         query.getDocuments { (snapshot, error) in
@@ -228,35 +160,11 @@ final class FirebaseSportsAPI: NSObject, SportsAPI {
             return
         }
         
-        // build http request
-        var request = URLRequest(url: URL(string: "\(fbCloudFuncBaseUrl)\(fbCloudFuncRegisterMatchUrl)")!)
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpMethod = "POST"
-        request.httpBody = try? JSONEncoder().encode(registration)
+        // build request
+        let request = URLRequestBuilder("POST", fbCloudFuncRegisterMatchUrl).set(body: try? JSONEncoder().encode(registration)).build()
         
-        // execute request
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            if let error = error {
-                result(.failure(error))
-                return
-            }
-            guard let urlResponse = response as? HTTPURLResponse, let data = data else {
-                result(.failure(OSError.unknown))
-                return
-            }
-            guard 200 ..< 300 ~= urlResponse.statusCode else {
-                result(.failure(OSError.unknown))
-                return
-            }
-            
-            do {
-                let match = try JSONDecoder().decode(OSMatch.self, from: data)
-                result(.success(match))
-            } catch let error {
-                result(.failure(error))
-            }
-        }
-        task.resume()
+        // send request
+        URLSession.shared.dataTask(with: request, decodable: OSMatch.self, result: result).resume()
     }
     
     func invitePlayer(_ player: OSPlayer, sport: OSSport, result: @escaping ((Result<OSInvite, Error>) -> Void)) {
@@ -362,6 +270,17 @@ final class FirebaseSportsAPI: NSObject, SportsAPI {
             }
             result(.success(teams))
         }
+    }
+    
+    func joinTeam(_ request: OSJoinTeamRequest, result: @escaping OSResultBlock<OSTeam>) {
+        // encode data
+        let data = try? JSONEncoder().encode(request)
+        
+        // build reqquest
+        let request = URLRequestBuilder("POST", fbCloudFuncJoinTeamUrl).set(body: data).build()
+        
+        // send request
+        URLSession.shared.dataTask(with: request, decodable: OSTeam.self, result: result).resume()
     }
     
     // ##################################

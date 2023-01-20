@@ -39,7 +39,9 @@ final class Coordinator {
     }()
     
     private lazy var welcomeViewController: WelcomeViewController = {
-        let viewModel = AuthViewModel(api: FirebaseSportsAPI())
+        let authApi = FirebaseAuthAPI()
+        let sportsApi = FirebaseSportsAPI()
+        let viewModel = AuthViewModel(authApi: authApi, sportsApi: sportsApi)
         return WelcomeViewController(viewModel: viewModel)
     }()
     
@@ -52,9 +54,9 @@ final class Coordinator {
         return PlayerProfileViewController(viewModel: viewModel)
     }()
     
-    private lazy var teamPickerViewController: TeamPickerViewController = {
+    private lazy var teamPickerViewController: TeamListViewController = {
         let viewModel = TeamsViewModel(api: FirebaseSportsAPI())
-        return TeamPickerViewController(viewModel: viewModel, delegate: nil)
+        return TeamListViewController(viewModel: viewModel)
     }()
     
     init(account: OSAccount, window: UIWindow?) {

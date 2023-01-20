@@ -79,7 +79,7 @@ final class PlayerProfileViewController: UIViewController {
     private var centerYConstraint: NSLayoutConstraint?
     private var subscribers = Set<AnyCancellable>()
     
-    var selectedTeam: OSTeam?
+    var selectedTeamId: String?
     var selectedEmoji: String {
         didSet {
             emojiField.text = selectedEmoji
@@ -88,7 +88,7 @@ final class PlayerProfileViewController: UIViewController {
     
     init(viewModel: PlayerProfileViewModel) {
         self.viewModel = viewModel
-        self.selectedTeam = OSAccount.current.player?.team
+        self.selectedTeamId = OSAccount.current.player?.teamId
         self.selectedEmoji = OSAccount.current.emoji ?? viewModel.randomEmoji
         super.init(nibName: nil, bundle: nil)
     }
@@ -169,7 +169,7 @@ final class PlayerProfileViewController: UIViewController {
             titleLabel.text = "Update profile"
             emojiField.text = player.emoji
             nicknameField.text = player.nickname
-            teamField.text = player.team?.name
+            teamField.text = player.teamId
             continueButton.setTitle("Update", for: .normal)
         } else {
             closeButton.isHidden = true
@@ -205,13 +205,9 @@ final class PlayerProfileViewController: UIViewController {
     }
     
     @objc private func continueButtonTapped(_ sender: UIButton) {
-        guard let team = selectedTeam else {
-            Coordinator.global.send(OSError.noTeamSelected)
-            return
-        }
         do {
             let nickname = try viewModel.processAndValidateNickname(nicknameField.text)
-            viewModel.registerPlayerProfile(nickname: nickname, emoji: selectedEmoji, team: team)
+            viewModel.registerPlayerProfile(nickname: nickname, emoji: selectedEmoji)
         } catch let error {
             Coordinator.global.send(error)
         }
@@ -238,27 +234,8 @@ extension PlayerProfileViewController: UITextFieldDelegate {
     
     private func presentTeamPickerSheet() {
         let viewModel = TeamsViewModel(api: FirebaseSportsAPI())
-        let viewController = TeamPickerViewController(viewModel: viewModel, delegate: self)
-        
-        if let sheet = viewController.sheetPresentationController {
-            sheet.detents = [.large()]
-            sheet.largestUndimmedDetentIdentifier = .none
-            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-            sheet.prefersEdgeAttachedInCompactHeight = true
-            sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
-            sheet.prefersGrabberVisible = true
-        }
+        let viewController = TeamListViewController(viewModel: viewModel)
         present(viewController, animated: true, completion: nil)
-    }
-}
-
-// MARK: - Team Selection Delegate
-
-extension PlayerProfileViewController: TeamSelectionDelegate {
-    
-    func didSelectTeam(_ team: OSTeam) {
-        teamField.text = team.name
-        selectedTeam = team
     }
 }
 

@@ -7,20 +7,14 @@
 
 import UIKit
 
+typealias OSResultBlock<T: Codable> = (Result<T, Error>) -> Void
+
 protocol SportsAPI {
-    
-    @available(*, renamed: "signInWithGoogle(viewController:)")
-    func signInWithGoogle(from viewController: UIViewController, result: @escaping ((Result<Bool, Error>) -> Void))
-    
-    @available(*, renamed: "signInWithApple(viewController:)")
-    func signInWithApple(from viewController: UIViewController, result: @escaping ((Result<Bool, Error>) -> Void))
-    
-    func signOut() -> Error?
     
     func deleteAccount(result: @escaping ((Error?) -> Void))
     
-    @available(*, renamed: "createOrUpdatePlayerProfile(nickname:emoji:team:)")
-    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam, result: @escaping ((Result<OSPlayer, Error>) -> Void))
+    @available(*, renamed: "createOrUpdateProfile(player:emoji:)")
+    func createOrUpdateProfile(nickname: String, emoji: String, result: @escaping OSResultBlock<OSPlayer>)
     
     @available(*, renamed: "getPlayerProfile()")
     func getPlayerProfile(result: @escaping ((Result<OSPlayer, Error>) -> Void))
@@ -49,13 +43,12 @@ protocol SportsAPI {
     @available(*, renamed: "getTeams()")
     func getTeams(result: @escaping ((Result<[OSTeam], Error>) -> Void))
     
+    @available(*, renamed: "joinTeam(request:)")
+    func joinTeam(_ request: OSJoinTeamRequest, result: @escaping OSResultBlock<OSTeam>)
+    
     // MARK: - Async/await API
     
-    func signInWithGoogle(from viewController: UIViewController) async throws -> Bool
-    
-    func signInWithApple(from viewController: UIViewController) async throws -> Bool
-    
-    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam) async throws -> OSPlayer
+    func createOrUpdateProfile(nickname: String, emoji: String) async throws -> OSPlayer
     
     func getPlayerProfile() async throws -> OSPlayer
     
@@ -74,4 +67,6 @@ protocol SportsAPI {
     func getSeasonStats() async throws -> [OSSeasonStats]
     
     func getTeams() async throws -> [OSTeam]
+    
+    func joinTeam(request: OSJoinTeamRequest) async throws -> OSTeam
 }

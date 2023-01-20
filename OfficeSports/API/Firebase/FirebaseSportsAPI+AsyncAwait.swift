@@ -9,33 +9,17 @@ import UIKit
 
 extension FirebaseSportsAPI {
     
-    func signInWithGoogle(from viewController: UIViewController) async throws -> Bool {
-        return try await withCheckedThrowingContinuation({ continuation in
-            signInWithGoogle(from: viewController) { result in
-                continuation.resume(with: result)
-            }
-        })
-    }
-    
-    func signInWithApple(from viewController: UIViewController) async throws -> Bool {
-        return try await withCheckedThrowingContinuation({ continuation in
-            signInWithApple(from: viewController) { result in
-                continuation.resume(with: result)
-            }
-        })
-    }
-    
-    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam) async throws -> OSPlayer {
-        return try await withCheckedThrowingContinuation({ continuation in
-            createOrUpdatePlayerProfile(nickname: nickname, emoji: emoji, team: team) { result in
-                continuation.resume(with: result)
-            }
-        })
-    }
-    
     func getPlayerProfile() async throws -> OSPlayer {
         return try await withCheckedThrowingContinuation({ continuation in
             getPlayerProfile { result in
+                continuation.resume(with: result)
+            }
+        })
+    }
+    
+    func createOrUpdateProfile(nickname: String, emoji: String) async throws -> OSPlayer {
+        return try await withCheckedThrowingContinuation({ continuation in
+            createOrUpdateProfile(nickname: nickname, emoji: emoji) { result in
                 continuation.resume(with: result)
             }
         })
@@ -100,6 +84,14 @@ extension FirebaseSportsAPI {
     func getTeams() async throws -> [OSTeam] {
         return try await withCheckedThrowingContinuation({ continuation in
             getTeams { result in
+                continuation.resume(with: result)
+            }
+        })
+    }
+    
+    func joinTeam(request: OSJoinTeamRequest) async throws -> OSTeam {
+        return try await withCheckedThrowingContinuation({ continuation in
+            joinTeam(request) { result in
                 continuation.resume(with: result)
             }
         })

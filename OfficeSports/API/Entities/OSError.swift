@@ -7,78 +7,63 @@
 
 import Foundation
 
-enum OSError: LocalizedError {
+struct OSError: LocalizedError, Decodable {
     
-    case unknown
+    private let errorCode: String
     
-    case unauthorized
+    private let message: String
     
-    case missingToken
+    init(_ code: String, _ message: String) {
+        self.message = message
+        self.errorCode = code
+    }
     
-    case nicknameTaken
+    static let unknown = OSError("", "Something went wrong")
     
-    case missingPlayer
+    static let unauthorized = OSError("", "Unauthorized")
     
-    case invalidQrCode
+    static let missingToken = OSError("", "Missing ID token")
     
-    case invalidOpponent
+    static let nicknameTaken = OSError("", "Nickname already taken")
     
-    case nicknameMissing
+    static let missingPlayer = OSError("", "Unauthorized. Missing player details.")
     
-    case nicknameTooShort
+    static let invalidQrCode = OSError("", "The QR code is not valid")
     
-    case nicknameTooLong
+    static let invalidOpponent = OSError("", "You cannot register a match result against yourself dumbass! 🤦🏻‍♂️")
     
-    case invalidNickname
+    static let nicknameMissing = OSError("", "Nickname is missing")
     
-    case invalidInvite
+    static let nicknameTooShort = OSError("", "Nickname is too short")
     
-    case inviteNotAllowed
+    static let nicknameTooLong = OSError("", "Nickname is too long")
     
-    case identicalUserIds
+    static let invalidNickname = OSError("", "Nickname cannot contain spaces")
     
-    case invalidPlayerCombo
+    static let invalidInvite = OSError("", "You cannot invite yourself to a match dumbass! 🤦🏻‍♂️")
     
-    case noTeamSelected
+    static let inviteNotAllowed = OSError("", "You need to wait 15 minutes between every time you invite someone to a match 🕑")
     
-    case noWeekendRegistrations
+    static let identicalUserIds = OSError("", "User IDs are identical")
+    
+    static let invalidPlayerCombo = OSError("", "Player combination is invalid")
+    
+    static let noTeamSelected = OSError("", "You need to be a part of a team")
+    
+    static let noWeekendRegistrations = OSError("", "Not allowed to register matches during the weekend 🍺")
+    
+    static let decodingFailed = OSError("", "Decoding failed")
     
     var errorDescription: String? {
-        switch self {
-        case .unknown:
-            return "Something went wrong"
-        case .unauthorized:
-            return "Unauthorized"
-        case .missingToken:
-            return "Missing ID token"
-        case .nicknameTaken:
-            return "Nickname already taken"
-        case .missingPlayer:
-            return "Unauthorized. Missing player details."
-        case .invalidQrCode:
-            return "The QR code is not valid"
-        case .invalidOpponent:
-            return "You cannot register a match result against yourself dumbass! 🤦🏻‍♂️"
-        case .nicknameMissing:
-            return "Nickname is missing"
-        case .nicknameTooShort:
-            return "Nickname is too short"
-        case .nicknameTooLong:
-            return "Nickname is too long"
-        case .invalidNickname:
-            return "Nickname cannot contain spaces"
-        case .invalidInvite:
-            return "You cannot invite yourself to a match dumbass! 🤦🏻‍♂️"
-        case .inviteNotAllowed:
-            return "You need to wait 15 minutes between every time you invite someone to a match 🕑"
-        case .identicalUserIds:
-            return "User IDs are identical"
-        case .invalidPlayerCombo:
-            return "Player combination is invalid"
-        case .noTeamSelected:
-            return "You need to be a part of a team"
-        case .noWeekendRegistrations:
-            return "Not allowed to register matches during the weekend 🍺"
-        }
+        return message
+    }
+}
+
+struct OSErrorContainer: Decodable {
+    
+    var errors: [OSError]
+    
+    var firstError: OSError {
+        return errors.first ?? OSError.unknown
     }
 }

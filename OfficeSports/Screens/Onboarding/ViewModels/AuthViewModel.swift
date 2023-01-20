@@ -21,10 +21,12 @@ final class AuthViewModel {
     
     @Published private(set) var state: State = .idle
     
-    private let api: SportsAPI
+    private let authApi: AuthAPI
+    private let sportsApi: SportsAPI
     
-    init(api: SportsAPI) {
-        self.api = api
+    init(authApi: AuthAPI, sportsApi: SportsAPI) {
+        self.authApi = authApi
+        self.sportsApi = sportsApi
     }
     
     func signInWithGoogle(from viewController: UIViewController) {
@@ -32,9 +34,9 @@ final class AuthViewModel {
         
         Task {
             do {
-                _ = try await api.signInWithGoogle(from: viewController)
+                _ = try await authApi.signInWithGoogle(from: viewController)
                 do {
-                    let player = try await api.getPlayerProfile()
+                    let player = try await sportsApi.getPlayerProfile()
                     savePlayerLocally(player)
                 } catch {
                     // this just means that the user hasn't registered a player profile yet, so just move along
@@ -51,9 +53,9 @@ final class AuthViewModel {
         
         Task {
             do {
-                _ = try await api.signInWithApple(from: viewController)
+                _ = try await authApi.signInWithApple(from: viewController)
                 do {
-                    let player = try await api.getPlayerProfile()
+                    let player = try await sportsApi.getPlayerProfile()
                     savePlayerLocally(player)
                 } catch {
                     // this just means that the user hasn't registered a player profile yet, so just move along
@@ -66,7 +68,7 @@ final class AuthViewModel {
     }
     
     func signOut() {
-        guard let error = api.signOut() else {
+        guard let error = authApi.signOut() else {
             state = .signOutSuccess
             return
         }

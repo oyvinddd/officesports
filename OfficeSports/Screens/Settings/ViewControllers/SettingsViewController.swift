@@ -72,7 +72,9 @@ final class SettingsViewController: UIViewController {
     }()
     
     private lazy var viewModel: AuthViewModel = {
-        return AuthViewModel(api: FirebaseSportsAPI())
+        let authApi = FirebaseAuthAPI()
+        let sportsApi = FirebaseSportsAPI()
+        return AuthViewModel(authApi: authApi, sportsApi: sportsApi)
     }()
     
     private let dialogHideConstant: CGFloat = 0

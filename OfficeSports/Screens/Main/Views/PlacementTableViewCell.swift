@@ -89,7 +89,7 @@ final class PlacementTableViewCell: UITableViewCell {
     
     // swiftlint:disable function_parameter_count
     func configure(with player: OSPlayer, _ sport: OSSport, _ placement: Int, _ isFanatical: Bool, _ isMostBoring: Bool, _ isFirst: Bool, _ isLast: Bool) {
-        applyCornerRadius(isLastElement: isLast)
+        applyCornerRadius(isFirstElement: isFirst, isLastElement: isLast)
         configurePlacementLabel(placement, isLast: isLast)
         configureSpecialLabel(isFanatical, isMostBoring)
         configureActiveStatus(player: player)
@@ -106,14 +106,24 @@ final class PlacementTableViewCell: UITableViewCell {
         placementLabel.text = ""
     }
     
-    private func applyCornerRadius(isLastElement: Bool) {
-        guard isLastElement else {
+    private func applyCornerRadius(isFirstElement: Bool, isLastElement: Bool) {
+        guard isFirstElement || isLastElement else {
             contentWrap.layer.maskedCorners = []
             return
         }
+        
         var mask = CACornerMask()
-        mask.insert(.layerMinXMaxYCorner)
-        mask.insert(.layerMaxXMaxYCorner)
+        
+        if isFirstElement {
+            mask.insert(.layerMinXMinYCorner)
+            mask.insert(.layerMaxXMinYCorner)
+        }
+        
+        if isLastElement {
+            mask.insert(.layerMinXMaxYCorner)
+            mask.insert(.layerMaxXMaxYCorner)
+        }
+        
         contentWrap.layer.cornerRadius = 15
         contentWrap.layer.maskedCorners = mask
     }

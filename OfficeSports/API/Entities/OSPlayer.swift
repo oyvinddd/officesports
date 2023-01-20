@@ -13,7 +13,7 @@ private let defaultPoints: Int = 1200
 struct OSPlayer: Identifiable, Codable, Equatable {
     
     enum CodingKeys: String, CodingKey {
-        case id, userId, nickname, emoji, teamId, foosballStats, tableTennisStats, poolStats, team, lastActive
+        case id, userId, nickname, emoji, teamId, foosballStats, tableTennisStats, poolStats, lastActive
     }
     
     @DocumentID public var id: String?
@@ -30,8 +30,6 @@ struct OSPlayer: Identifiable, Codable, Equatable {
     
     var poolStats: OSStats?
     
-    var team: OSTeam?
-    
     var lastActive: Date?
     
     var wasRecentlyActive: Bool {
@@ -47,14 +45,13 @@ struct OSPlayer: Identifiable, Codable, Equatable {
         return (twoHoursAgo...now).contains(date)
     }
     
-    init(id: String? = nil, nickname: String, emoji: String, team: OSTeam, foosballStats: OSStats? = nil, tableTennisStats: OSStats? = nil, poolStats: OSStats? = nil, lastActive: Date? = nil) {
+    init(id: String? = nil, nickname: String, emoji: String, foosballStats: OSStats? = nil, tableTennisStats: OSStats? = nil, poolStats: OSStats? = nil, lastActive: Date? = nil) {
         self.id = id
         self.nickname = nickname
         self.emoji = emoji
         self.foosballStats = foosballStats
         self.tableTennisStats = tableTennisStats
         self.poolStats = poolStats
-        self.team = team
     }
     
     func encode(to encoder: Encoder) throws {
@@ -65,7 +62,6 @@ struct OSPlayer: Identifiable, Codable, Equatable {
             try container.encode(foosballStats, forKey: .foosballStats)
             try container.encode(tableTennisStats, forKey: .tableTennisStats)
             try container.encode(poolStats, forKey: .poolStats)
-            try container.encode(team, forKey: .team)
             try? container.encode(teamId, forKey: .teamId)
             try? container.encode(lastActive, forKey: .lastActive)
         } catch let error {
@@ -81,7 +77,6 @@ struct OSPlayer: Identifiable, Codable, Equatable {
         foosballStats = try? container.decode(OSStats.self, forKey: .foosballStats)
         tableTennisStats = try? container.decode(OSStats.self, forKey: .tableTennisStats)
         poolStats = try? container.decode(OSStats.self, forKey: .poolStats)
-        team = try? container.decode(OSTeam.self, forKey: .team)
         teamId = try? container.decodeIfPresent(String.self, forKey: .teamId)
         lastActive = try? container.decodeIfPresent(Date.self, forKey: .lastActive)
     }

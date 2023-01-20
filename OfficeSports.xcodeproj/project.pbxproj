@@ -43,6 +43,9 @@
 		8E3F337D2865203F0061CD6B /* OSSport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE558342847B0B400199CC6 /* OSSport.swift */; };
 		8E3F337E2865210C0061CD6B /* UserDefaults+CodeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3F337A28651F340061CD6B /* UserDefaults+CodeWidget.swift */; };
 		8E3F337F286531430061CD6B /* QRCodeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7D9A7E282BEF66007BCDE0 /* QRCodeGenerator.swift */; };
+		8E40716128ED795800C0DCC9 /* URLSession+Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E40716028ED795800C0DCC9 /* URLSession+Decodable.swift */; };
+		8E40716428ED7BDF00C0DCC9 /* URLRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E40716328ED7BDF00C0DCC9 /* URLRequestBuilder.swift */; };
+		8E40716628ED7D5700C0DCC9 /* OSJoinTeamRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E40716528ED7D5700C0DCC9 /* OSJoinTeamRequest.swift */; };
 		8E43DEFF286E296E00D9B50D /* OSSeasonStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E43DEFE286E296E00D9B50D /* OSSeasonStats.swift */; };
 		8E43DF01286EE3C800D9B50D /* SeasonsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E43DF00286EE3C800D9B50D /* SeasonsViewController.swift */; };
 		8E43DF03286EE5F500D9B50D /* SeasonsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E43DF02286EE5F500D9B50D /* SeasonsViewModel.swift */; };
@@ -95,9 +98,12 @@
 		8E9C728B283AB93C00974DAA /* fastlane in Resources */ = {isa = PBXBuildFile; fileRef = 8E9C728A283AB93C00974DAA /* fastlane */; };
 		8EA21271283EF18A00B37315 /* OSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA21270283EF18A00B37315 /* OSButton.swift */; };
 		8EAB6DA6282BE4B500FA1362 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAB6DA5282BE4B500FA1362 /* Coordinator.swift */; };
-		8EBDAA3C2962E3A700543E40 /* AuthUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBDAA3B2962E3A700543E40 /* AuthUtils.swift */; };
-		8EC37F0C287D6318000D7A14 /* TeamPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC37F0B287D6318000D7A14 /* TeamPickerViewController.swift */; };
+		8EAF10F2297AD24900BAAA5E /* AuthUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAF10F1297AD24900BAAA5E /* AuthUtils.swift */; };
+		8EC37F0C287D6318000D7A14 /* TeamListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC37F0B287D6318000D7A14 /* TeamListViewController.swift */; };
 		8EC84E8E282BD5B10093C9A0 /* PlayerProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC84E8D282BD5B10093C9A0 /* PlayerProfileViewController.swift */; };
+		8EC8C3D228E73E1700392E06 /* CodeInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC8C3D128E73E1700392E06 /* CodeInputView.swift */; };
+		8EC8C3D428E7415800392E06 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC8C3D328E7415800392E06 /* AuthAPI.swift */; };
+		8EC8C3D628E741F300392E06 /* FirebaseAuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC8C3D528E741F300392E06 /* FirebaseAuthAPI.swift */; };
 		8ECB86312875AAAD007C9FA5 /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECB86302875AAAD007C9FA5 /* QRCodeView.swift */; };
 		8ECF58DF28D9BD470054A468 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8ECF58DE28D9BD470054A468 /* FirebaseCrashlytics */; };
 		8ED1876228E609C200F2C080 /* JoinTeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED1876128E609C200F2C080 /* JoinTeamViewController.swift */; };
@@ -176,6 +182,9 @@
 		8E3F33672864E1730061CD6B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E3F33772864F8600061CD6B /* CodeWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CodeWidgetExtension.entitlements; sourceTree = "<group>"; };
 		8E3F337A28651F340061CD6B /* UserDefaults+CodeWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+CodeWidget.swift"; sourceTree = "<group>"; };
+		8E40716028ED795800C0DCC9 /* URLSession+Decodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Decodable.swift"; sourceTree = "<group>"; };
+		8E40716328ED7BDF00C0DCC9 /* URLRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestBuilder.swift; sourceTree = "<group>"; };
+		8E40716528ED7D5700C0DCC9 /* OSJoinTeamRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSJoinTeamRequest.swift; sourceTree = "<group>"; };
 		8E43DEFE286E296E00D9B50D /* OSSeasonStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSSeasonStats.swift; sourceTree = "<group>"; };
 		8E43DF00286EE3C800D9B50D /* SeasonsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonsViewController.swift; sourceTree = "<group>"; };
 		8E43DF02286EE5F500D9B50D /* SeasonsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonsViewModel.swift; sourceTree = "<group>"; };
@@ -229,9 +238,12 @@
 		8E9C728A283AB93C00974DAA /* fastlane */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fastlane; sourceTree = "<group>"; };
 		8EA21270283EF18A00B37315 /* OSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSButton.swift; sourceTree = "<group>"; };
 		8EAB6DA5282BE4B500FA1362 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
-		8EBDAA3B2962E3A700543E40 /* AuthUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUtils.swift; sourceTree = "<group>"; };
-		8EC37F0B287D6318000D7A14 /* TeamPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamPickerViewController.swift; sourceTree = "<group>"; };
+		8EAF10F1297AD24900BAAA5E /* AuthUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthUtils.swift; sourceTree = "<group>"; };
+		8EC37F0B287D6318000D7A14 /* TeamListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamListViewController.swift; sourceTree = "<group>"; };
 		8EC84E8D282BD5B10093C9A0 /* PlayerProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerProfileViewController.swift; sourceTree = "<group>"; };
+		8EC8C3D128E73E1700392E06 /* CodeInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeInputView.swift; sourceTree = "<group>"; };
+		8EC8C3D328E7415800392E06 /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
+		8EC8C3D528E741F300392E06 /* FirebaseAuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthAPI.swift; sourceTree = "<group>"; };
 		8ECB86302875AAAD007C9FA5 /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
 		8ED1876128E609C200F2C080 /* JoinTeamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinTeamViewController.swift; sourceTree = "<group>"; };
 		8ED1876328E60C0500F2C080 /* JoinTeamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinTeamViewModel.swift; sourceTree = "<group>"; };
@@ -313,7 +325,7 @@
 				8EC84E8D282BD5B10093C9A0 /* PlayerProfileViewController.swift */,
 				8E70C137282AEE2F009A9452 /* WelcomeViewController.swift */,
 				8E230888282D788D00AF60EB /* EmojiPickerViewController.swift */,
-				8EC37F0B287D6318000D7A14 /* TeamPickerViewController.swift */,
+				8EC37F0B287D6318000D7A14 /* TeamListViewController.swift */,
 				8ED1876128E609C200F2C080 /* JoinTeamViewController.swift */,
 			);
 			path = ViewControllers;
@@ -428,6 +440,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		8E40716228ED7BCF00C0DCC9 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				8E40716328ED7BDF00C0DCC9 /* URLRequestBuilder.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
 		8E5D566A28C77F5700F67B14 /* Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -456,6 +476,7 @@
 				8E3F337A28651F340061CD6B /* UserDefaults+CodeWidget.swift */,
 				8E88E4B928C62BB700807667 /* UILabel+Visuals.swift */,
 				8ED1876528E6348D00F2C080 /* UIViewController+Sheet.swift */,
+				8E40716028ED795800C0DCC9 /* URLSession+Decodable.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -495,6 +516,7 @@
 				8EE558342847B0B400199CC6 /* OSSport.swift */,
 				8E43DEFE286E296E00D9B50D /* OSSeasonStats.swift */,
 				8E8121EB28D491B200C048CA /* OSRank.swift */,
+				8E40716528ED7D5700C0DCC9 /* OSJoinTeamRequest.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -502,9 +524,11 @@
 		8E70C127282ACD10009A9452 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				8E80D1E0297AD04D00B1E870 /* Firebase */,
+				8E40716228ED7BCF00C0DCC9 /* Request */,
+				8EC8C3D728E7420200392E06 /* Firebase */,
 				8E70C11D282AC424009A9452 /* Entities */,
 				8E70C139282AEE7E009A9452 /* SportsAPI.swift */,
+				8EC8C3D328E7415800392E06 /* AuthAPI.swift */,
 				8EF13878283791AE001D8DA6 /* MockSportsAPI.swift */,
 			);
 			path = API;
@@ -531,11 +555,11 @@
 		8E7D9A7D282BEF4F007BCDE0 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				8EAF10F1297AD24900BAAA5E /* AuthUtils.swift */,
 				8E7D9A7E282BEF66007BCDE0 /* QRCodeGenerator.swift */,
 				8E38B57B283C39A2009E0387 /* UserDefaultsHelper.swift */,
 				8E6995D42844E0CE001355D2 /* LocalNotificationManager.swift */,
 				8E457B932860C03D00F9D133 /* ConfettiView.swift */,
-				8EBDAA3B2962E3A700543E40 /* AuthUtils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -547,15 +571,6 @@
 				8E7F45BE2862948100473557 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		8E80D1E0297AD04D00B1E870 /* Firebase */ = {
-			isa = PBXGroup;
-			children = (
-				8E2EE76A2836783C0096659D /* FirebaseSportsAPI.swift */,
-				8E678F0128A298FE00B22690 /* FirebaseSportsAPI+AsyncAwait.swift */,
-			);
-			path = Firebase;
 			sourceTree = "<group>";
 		};
 		8E8121ED28D4B1EB00C048CA /* Scanner */ = {
@@ -643,11 +658,22 @@
 			path = Coordinators;
 			sourceTree = "<group>";
 		};
+		8EC8C3D728E7420200392E06 /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				8E678F0128A298FE00B22690 /* FirebaseSportsAPI+AsyncAwait.swift */,
+				8EC8C3D528E741F300392E06 /* FirebaseAuthAPI.swift */,
+				8E2EE76A2836783C0096659D /* FirebaseSportsAPI.swift */,
+			);
+			path = Firebase;
+			sourceTree = "<group>";
+		};
 		8EDFA361282E416B00A51292 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				8EDFA362282E418000A51292 /* CompoundField.swift */,
 				8E7D0AC42838D5C0006D6DF7 /* EmojiCollectionViewCell.swift */,
+				8EC8C3D128E73E1700392E06 /* CodeInputView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -917,17 +943,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8EC37F0C287D6318000D7A14 /* TeamPickerViewController.swift in Sources */,
-				8EBDAA3C2962E3A700543E40 /* AuthUtils.swift in Sources */,
+				8EC37F0C287D6318000D7A14 /* TeamListViewController.swift in Sources */,
+				8EAF10F2297AD24900BAAA5E /* AuthUtils.swift in Sources */,
 				8E38B57E283C3D01009E0387 /* AchievementsViewController.swift in Sources */,
 				8E52845028C9294100CD415D /* PlayerStatsView.swift in Sources */,
 				8E8121F228D4B2D600C048CA /* SingleDuoView.swift in Sources */,
 				8E7D9A7F282BEF66007BCDE0 /* QRCodeGenerator.swift in Sources */,
+				8EC8C3D628E741F300392E06 /* FirebaseAuthAPI.swift in Sources */,
 				8EF13879283791AE001D8DA6 /* MockSportsAPI.swift in Sources */,
 				8E70C11F282AC499009A9452 /* OSMatch.swift in Sources */,
 				8E88E4BA28C62BB700807667 /* UILabel+Visuals.swift in Sources */,
 				8E457B942860C03D00F9D133 /* ConfettiView.swift in Sources */,
 				8E3293E4283D8E8800B7CCDC /* PlayerDetailsViewController.swift in Sources */,
+				8E40716428ED7BDF00C0DCC9 /* URLRequestBuilder.swift in Sources */,
 				8E8121F428D4BC7900C048CA /* DuoProgressView.swift in Sources */,
 				8E5D567628C7AF3400F67B14 /* MatchHistoryView.swift in Sources */,
 				8E287F56283B1013005BBE28 /* UIButton+Loading.swift in Sources */,
@@ -960,6 +988,7 @@
 				8E24F4592834A75900BC808B /* MessageWindow.swift in Sources */,
 				8E8121EC28D491B200C048CA /* OSRank.swift in Sources */,
 				8EF418A4283CFF39005CAE09 /* AboutViewController.swift in Sources */,
+				8EC8C3D228E73E1700392E06 /* CodeInputView.swift in Sources */,
 				8E2EE76B2836783C0096659D /* FirebaseSportsAPI.swift in Sources */,
 				8E25B0F8283CD3F100FE2FB3 /* OSStats.swift in Sources */,
 				8EE011AE287776250015D67B /* TeamsViewModel.swift in Sources */,
@@ -979,6 +1008,7 @@
 				8EF9DD47285DE32900088A60 /* RegisterMatchViewController.swift in Sources */,
 				8E70C132282AD1F0009A9452 /* SportViewModel.swift in Sources */,
 				8E6B33E028426DFB00E73EDD /* ScannerFrameLinesView.swift in Sources */,
+				8E40716628ED7D5700C0DCC9 /* OSJoinTeamRequest.swift in Sources */,
 				8E230887282D575D00AF60EB /* AuthViewModel.swift in Sources */,
 				8E2D0CC1284FB374006FDE2E /* UIStackView+Convenience.swift in Sources */,
 				8E70C136282ADF7A009A9452 /* OSAccount.swift in Sources */,
@@ -987,8 +1017,10 @@
 				8E230889282D788D00AF60EB /* EmojiPickerViewController.swift in Sources */,
 				8E70C126282ACCB5009A9452 /* ProfileView.swift in Sources */,
 				8ED1876628E6348D00F2C080 /* UIViewController+Sheet.swift in Sources */,
+				8EC8C3D428E7415800392E06 /* AuthAPI.swift in Sources */,
 				8EAB6DA6282BE4B500FA1362 /* Coordinator.swift in Sources */,
 				8E678F0228A298FF00B22690 /* FirebaseSportsAPI+AsyncAwait.swift in Sources */,
+				8E40716128ED795800C0DCC9 /* URLSession+Decodable.swift in Sources */,
 				8E9C7289283AB3C800974DAA /* OSTeam.swift in Sources */,
 				8E70C13A282AEE7E009A9452 /* SportsAPI.swift in Sources */,
 				8E38B57C283C39A2009E0387 /* UserDefaultsHelper.swift in Sources */,
@@ -1239,7 +1271,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mthirtyone.officesports;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development com.tietoevry.officesports";
@@ -1279,7 +1311,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mthirtyone.officesports;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development com.tietoevry.officesports";

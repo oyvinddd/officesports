@@ -36,14 +36,14 @@ final class MockSportsAPI: SportsAPI {
     private let players = [
         OSAccount.current.player!,
         
-        OSPlayer(nickname: "heimegut", emoji: "💩", team: OSTeam(id: "id#123", name: "Ekornes AS"), foosballStats: fst[1], tableTennisStats: tst[1]),
-        OSPlayer(nickname: "salmaaan", emoji: "🧐", team: OSTeam(id: "id#123", name: "Ekornes AS"), foosballStats: fst[2], tableTennisStats: tst[2]),
-        OSPlayer(nickname: "patidati", emoji: "👻", team: OSTeam(id: "id#123", name: "Ekornes AS"), foosballStats: fst[3], tableTennisStats: tst[3]),
-        OSPlayer(nickname: "sekse", emoji: "🤖", team: OSTeam(id: "id#123", name: "Ekornes AS"), foosballStats: fst[4], tableTennisStats: tst[4]),
-        OSPlayer(nickname: "dimling", emoji: "👨🏻‍🎨", team: OSTeam(id: "id#123", name: "Ekornes AS"), foosballStats: fst[5], tableTennisStats: tst[5]),
-        OSPlayer(nickname: "konstant", emoji: "☀️", team: OSTeam(id: "id#123", name: "Ekornes AS"), foosballStats: fst[6], tableTennisStats: tst[6]),
-        OSPlayer(nickname: "eirik", emoji: "👑", team: OSTeam(id: "id#123", name: "Ekornes AS"), foosballStats: fst[7], tableTennisStats: tst[7]),
-        OSPlayer(nickname: "panzertax", emoji: "🐹", team: OSTeam(id: "id#123", name: "Ekornes AS"), foosballStats: fst[8], tableTennisStats: tst[8])
+        OSPlayer(nickname: "heimegut", emoji: "💩", foosballStats: fst[1], tableTennisStats: tst[1]),
+        OSPlayer(nickname: "salmaaan", emoji: "🧐", foosballStats: fst[2], tableTennisStats: tst[2]),
+        OSPlayer(nickname: "patidati", emoji: "👻", foosballStats: fst[3], tableTennisStats: tst[3]),
+        OSPlayer(nickname: "sekse", emoji: "🤖", foosballStats: fst[4], tableTennisStats: tst[4]),
+        OSPlayer(nickname: "dimling", emoji: "👨🏻‍🎨", foosballStats: fst[5], tableTennisStats: tst[5]),
+        OSPlayer(nickname: "konstant", emoji: "☀️", foosballStats: fst[6], tableTennisStats: tst[6]),
+        OSPlayer(nickname: "eirik", emoji: "👑", foosballStats: fst[7], tableTennisStats: tst[7]),
+        OSPlayer(nickname: "panzertax", emoji: "🐹", foosballStats: fst[8], tableTennisStats: tst[8])
     ]
     
     private lazy var scoreboard: [OSPlayer] = {
@@ -81,11 +81,8 @@ final class MockSportsAPI: SportsAPI {
         result(nil)
     }
     
-    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam, result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
-        let foosballStats = OSStats(sport: .foosball, score: 0, matchesPlayed: 0, matchesWon: 0, seasonWins: 0)
-        let tableTennisStats = OSStats(sport: .tableTennis, score: 0, matchesPlayed: 0, matchesWon: 0, seasonWins: 0)
-        let player = OSPlayer(id: "id#1337", nickname: nickname, emoji: emoji, team: team, foosballStats: foosballStats, tableTennisStats: tableTennisStats)
-        result(.success(player))
+    func createOrUpdateProfile(nickname: String, emoji: String, result: @escaping OSResultBlock<OSPlayer>) {
+        result(.success(OSPlayer(nickname: nickname, emoji: emoji)))
     }
     
     func getPlayerProfile(result: @escaping ((Result<OSPlayer, Error>) -> Void)) {
@@ -122,8 +119,8 @@ final class MockSportsAPI: SportsAPI {
     }
     
     func getLatestMatches(sport: OSSport, winnerId: String, loserId: String, result: @escaping ((Result<[OSMatch], Error>) -> Void)) {
-        let player1 = OSPlayer(nickname: "oyvinddd", emoji: "🙂", team: OSTeam(id: "id#1", name: "DNB"))
-        let player2 = OSPlayer(nickname: "salmaaan", emoji: "😞", team: OSTeam(id: "id#2", name: "Miles"))
+        let player1 = OSPlayer(nickname: "oyvinddd", emoji: "🙂")
+        let player2 = OSPlayer(nickname: "salmaaan", emoji: "😞")
         let match1 = OSMatch(sport: sport, winner: player1, loser: player2, winnerDt: 12, loserDt: 12)
         let match2 = OSMatch(sport: sport, winner: player1, loser: player2, winnerDt: 8, loserDt: 8)
         let match3 = OSMatch(sport: sport, winner: player1, loser: player2, winnerDt: 4, loserDt: 4)
@@ -151,6 +148,10 @@ final class MockSportsAPI: SportsAPI {
         let team2 = OSTeam(id: "id321", name: "Tietoevry Banking - Bergen")
         result(.success([team1, team2]))
     }
+    
+    func joinTeam(_ request: OSJoinTeamRequest, result: @escaping OSResultBlock<OSTeam>) {
+        result(.success(OSTeam(id: "id#123", name: "Apple Inc.")))
+    }
 }
 
 // MARK: - Conform to the async/await versions of the API methods
@@ -173,9 +174,9 @@ extension MockSportsAPI {
         })
     }
     
-    func createOrUpdatePlayerProfile(nickname: String, emoji: String, team: OSTeam) async throws -> OSPlayer {
+    func createOrUpdateProfile(nickname: String, emoji: String) async throws -> OSPlayer {
         return try await withCheckedThrowingContinuation({ continuation in
-            createOrUpdatePlayerProfile(nickname: nickname, emoji: emoji, team: team) { result in
+            createOrUpdateProfile(nickname: nickname, emoji: emoji) { result in
                 continuation.resume(with: result)
             }
         })
@@ -248,6 +249,14 @@ extension MockSportsAPI {
     func getTeams() async throws -> [OSTeam] {
         return try await withCheckedThrowingContinuation({ continuation in
             getTeams { result in
+                continuation.resume(with: result)
+            }
+        })
+    }
+    
+    func joinTeam(request: OSJoinTeamRequest) async throws -> OSTeam {
+        return try await withCheckedThrowingContinuation({ continuation in
+            joinTeam(request) { result in
                 continuation.resume(with: result)
             }
         })
