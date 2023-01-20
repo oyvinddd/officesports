@@ -502,11 +502,10 @@
 		8E70C127282ACD10009A9452 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				8E80D1E0297AD04D00B1E870 /* Firebase */,
 				8E70C11D282AC424009A9452 /* Entities */,
 				8E70C139282AEE7E009A9452 /* SportsAPI.swift */,
-				8E2EE76A2836783C0096659D /* FirebaseSportsAPI.swift */,
 				8EF13878283791AE001D8DA6 /* MockSportsAPI.swift */,
-				8E678F0128A298FE00B22690 /* FirebaseSportsAPI+AsyncAwait.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -548,6 +547,15 @@
 				8E7F45BE2862948100473557 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8E80D1E0297AD04D00B1E870 /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				8E2EE76A2836783C0096659D /* FirebaseSportsAPI.swift */,
+				8E678F0128A298FE00B22690 /* FirebaseSportsAPI+AsyncAwait.swift */,
+			);
+			path = Firebase;
 			sourceTree = "<group>";
 		};
 		8E8121ED28D4B1EB00C048CA /* Scanner */ = {
