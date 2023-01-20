@@ -99,8 +99,6 @@
 		8EA21271283EF18A00B37315 /* OSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA21270283EF18A00B37315 /* OSButton.swift */; };
 		8EAB6DA6282BE4B500FA1362 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAB6DA5282BE4B500FA1362 /* Coordinator.swift */; };
 		8EC37F0C287D6318000D7A14 /* TeamListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC37F0B287D6318000D7A14 /* TeamListViewController.swift */; };
-		8EBDAA3C2962E3A700543E40 /* AuthUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBDAA3B2962E3A700543E40 /* AuthUtils.swift */; };
-		8EC37F0C287D6318000D7A14 /* TeamPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC37F0B287D6318000D7A14 /* TeamPickerViewController.swift */; };
 		8EC84E8E282BD5B10093C9A0 /* PlayerProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC84E8D282BD5B10093C9A0 /* PlayerProfileViewController.swift */; };
 		8EC8C3D228E73E1700392E06 /* CodeInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC8C3D128E73E1700392E06 /* CodeInputView.swift */; };
 		8EC8C3D428E7415800392E06 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC8C3D328E7415800392E06 /* AuthAPI.swift */; };
@@ -559,7 +557,6 @@
 				8E38B57B283C39A2009E0387 /* UserDefaultsHelper.swift */,
 				8E6995D42844E0CE001355D2 /* LocalNotificationManager.swift */,
 				8E457B932860C03D00F9D133 /* ConfettiView.swift */,
-				8EBDAA3B2962E3A700543E40 /* AuthUtils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -571,15 +568,6 @@
 				8E7F45BE2862948100473557 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		8E80D1E0297AD04D00B1E870 /* Firebase */ = {
-			isa = PBXGroup;
-			children = (
-				8E2EE76A2836783C0096659D /* FirebaseSportsAPI.swift */,
-				8E678F0128A298FE00B22690 /* FirebaseSportsAPI+AsyncAwait.swift */,
-			);
-			path = Firebase;
 			sourceTree = "<group>";
 		};
 		8E8121ED28D4B1EB00C048CA /* Scanner */ = {
@@ -1279,7 +1267,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mthirtyone.officesports;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development com.tietoevry.officesports";
@@ -1319,7 +1307,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mthirtyone.officesports;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development com.tietoevry.officesports";
