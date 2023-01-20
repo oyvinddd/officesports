@@ -34,9 +34,9 @@ final class AuthViewModel {
         
         Task {
             do {
-                _ = try await api.signInWithGoogle(from: viewController)
+                _ = try await authApi.signInWithGoogle(from: viewController)
                 do {
-                    let player = try await api.getPlayerProfile()
+                    let player = try await sportsApi.getPlayerProfile()
                     savePlayerLocally(player)
                 } catch {
                     // this just means that the user hasn't registered a player profile yet, so just move along
@@ -53,9 +53,9 @@ final class AuthViewModel {
         
         Task {
             do {
-                _ = try await api.signInWithApple(from: viewController)
+                _ = try await authApi.signInWithApple(from: viewController)
                 do {
-                    let player = try await api.getPlayerProfile()
+                    let player = try await sportsApi.getPlayerProfile()
                     savePlayerLocally(player)
                 } catch {
                     // this just means that the user hasn't registered a player profile yet, so just move along

@@ -6,8 +6,6 @@
 //
 
 import Foundation
-import CryptoKit
-import AuthenticationServices
 import FirebaseCore
 import GoogleSignIn
 import FirebaseAuth
@@ -29,7 +27,7 @@ private let maxResultsInScoreboard = 200
 private let maxResultsInRecentMatches = 300
 private let maxResultsInLatestMatches = 10
 
-// swiftlint:disable file_length type_body_length
+// swiftlint:disable type_body_length
 final class FirebaseSportsAPI: NSObject, SportsAPI {
     
     private let database = Firestore.firestore()
@@ -52,62 +50,6 @@ final class FirebaseSportsAPI: NSObject, SportsAPI {
     
     private var teamsCollection: CollectionReference {
         database.collection(fbTeamsCollection)
-    }
-    
-    private var currentNonce: String?
-    
-    func signInWithGoogle(from viewController: UIViewController, result: @escaping (Result<Bool, Error>) -> Void) {
-        guard let clientID = FirebaseApp.app()?.options.clientID else {
-            return
-        }
-        
-        // Create Google Sign In configuration object.
-        let config = GIDConfiguration(clientID: clientID)
-        
-        // Start the sign in flow!
-        GIDSignIn.sharedInstance.signIn(with: config, presenting: viewController) { (user, error) in
-            if let error = error {
-                result(.failure(error))
-                return
-            }
-            
-            guard let authentication = user?.authentication, let idToken = authentication.idToken else {
-                result(.failure(OSError.missingToken))
-                return
-            }
-            let credentials = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: authentication.accessToken)
-            
-            Auth.auth().signIn(with: credentials) { (_, error) in
-                if let error = error {
-                    result(.failure(error))
-                } else {
-                    result(.success(true))
-                }
-            }
-        }
-    }
-    
-    func signInWithApple(from viewController: UIViewController, result: @escaping ((Result<Bool, Error>) -> Void)) {
-        let nonce = AuthUtils.randomNonceString()
-        currentNonce = nonce
-        let appleIDProvider = ASAuthorizationAppleIDProvider()
-        let request = appleIDProvider.createRequest()
-        request.requestedScopes = [.email]
-        request.nonce = AuthUtils.sha256(nonce)
-        
-        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
-        authorizationController.delegate = viewController as? any ASAuthorizationControllerDelegate
-        authorizationController.presentationContextProvider = viewController as? any ASAuthorizationControllerPresentationContextProviding
-        authorizationController.performRequests()
-    }
-    
-    func signOut() -> Error? {
-        do {
-            try Auth.auth().signOut()
-        } catch let error {
-            return error
-        }
-        return nil
     }
     
     func deleteAccount(result: @escaping ((Error?) -> Void)) {

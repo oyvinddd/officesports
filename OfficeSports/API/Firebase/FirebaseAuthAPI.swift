@@ -6,11 +6,14 @@
 //
 
 import UIKit
+import AuthenticationServices
 import FirebaseCore
 import GoogleSignIn
 import FirebaseAuth
 
-final class FirebaseAuthAPI: AuthAPI {
+final class FirebaseAuthAPI: NSObject, AuthAPI {
+    
+    private var currentNonce: String?
     
     func signInWithGoogle(from viewController: UIViewController, result: @escaping (Result<Bool, Error>) -> Void) {
         guard let clientID = FirebaseApp.app()?.options.clientID else {
@@ -45,19 +48,17 @@ final class FirebaseAuthAPI: AuthAPI {
     
     // https://firebase.google.com/docs/auth/ios/apple?authuser=0&hl=en
     func signInWithApple(from viewController: UIViewController, result: @escaping ((Result<Bool, Error>) -> Void)) {
-        /*
-        let nonce = randomNonceString()
+        let nonce = AuthUtils.randomNonceString()
         currentNonce = nonce
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let request = appleIDProvider.createRequest()
-        request.requestedScopes = [.fullName, .email]
-        request.nonce = sha256(nonce)
+        request.requestedScopes = [.email]
+        request.nonce = AuthUtils.sha256(nonce)
         
         let authorizationController = ASAuthorizationController(authorizationRequests: [request])
-        authorizationController.delegate = self
-        authorizationController.presentationContextProvider = self
+        authorizationController.delegate = viewController as? any ASAuthorizationControllerDelegate
+        authorizationController.presentationContextProvider = viewController as? any ASAuthorizationControllerPresentationContextProviding
         authorizationController.performRequests()
-         */
     }
     
     func signOut() -> Error? {
