@@ -828,7 +828,6 @@
 			packageReferences = (
 				8E23087C282D530300AF60EB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				8E230882282D567D00AF60EB /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
-				8E6DF2972834CEB20009ACA1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 8EE61FEC282AB79C00C01289 /* Products */;
 			projectDirPath = "";
@@ -1245,10 +1244,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = OfficeSports/Resources/OfficeSports.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 2SMFLM66R9;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 2SMFLM66R9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OfficeSports/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Office Sports";
@@ -1269,6 +1270,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mthirtyone.officesports;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Office Sports Development Profile 2";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1283,9 +1285,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = OfficeSports/Resources/OfficeSports.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2SMFLM66R9;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 2SMFLM66R9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OfficeSports/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Office Sports";
@@ -1306,6 +1310,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mthirtyone.officesports;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Office Sports Development Profile 2";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1350,7 +1355,7 @@
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 9.0.0;
+				minimumVersion = 10.0.0;
 			};
 		};
 		8E230882282D567D00AF60EB /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
@@ -1359,14 +1364,6 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 6.0.0;
-			};
-		};
-		8E6DF2972834CEB20009ACA1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 9.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
