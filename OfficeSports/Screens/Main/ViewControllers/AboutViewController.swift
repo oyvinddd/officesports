@@ -69,8 +69,6 @@ final class AboutViewController: UIViewController {
     }
     
     private func setupGravity() {
-        let viewWidth = view.frame.width
-        
         let oyvindView = DeveloperView(image: UIImage(named: "oyvind-profile-picure.png"), role: "Design • iOS")
         oyvindView.frame = CGRect(x: 75, y: -300, width: 150, height: 170)
         
