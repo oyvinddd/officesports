@@ -33,6 +33,7 @@ export const getEmptyPlayer = (): Omit<Player, "userId"> => {
       getEmptyStats(Sport.TableTennis),
       getEmptyStats(Sport.Pool),
     ],
+    totalStats: [],
     winStreak: 0,
     lastActive: null,
     teamId: null,

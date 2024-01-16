@@ -20,6 +20,7 @@ const playerConverter: admin.firestore.FirestoreDataConverter<Player> = {
       team: snapshot.get("team"),
       teamId: snapshot.get("teamId") ?? snapshot.get("team").id,
       stats: snapshot.get("stats") ?? [snapshot.get("foosballStats")],
+      totalStats: snapshot.get("totalStats") ?? [],
       lastActive: snapshot.get("lastActive"),
       winStreak: snapshot.get("winStreak") ?? 0,
     };
@@ -76,6 +77,7 @@ export const updatePlayer = async (player: Player): Promise<void> => {
       player.tableTennisStats ?? getEmptyStats(Sport.TableTennis),
       player.poolStats ?? getEmptyStats(Sport.Pool),
     ],
+    totalStats: player.totalStats ?? [],
     team: player.team,
     teamId: player.teamId ?? player.team.id ?? undefined,
     lastActive: player.lastActive,
